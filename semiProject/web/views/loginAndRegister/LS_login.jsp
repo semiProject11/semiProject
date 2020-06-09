@@ -46,20 +46,20 @@
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
             
-                <form role="form" action="home.html" method="post" onsubmit="return validate();">
+                <form role="form" id= 'loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br><br>
                     <label for="userId">아이디</label>
-                    <input type="text" class="form-control" name="id" id="id" autofocus>
+                    <input type="text" class="form-control" name="userId" id="userId" autofocus>
                 </div>
                     <div class="form-group">
                         <label for="userPwd">비밀번호</label>
-                        <input type="password" class="form-control" name="password" id="password" >
+                        <input type="password" class="form-control" name="userPwd" id="userPwd" >
                     </div>
                     <div class="row">
                         <div class="col"></div>
                         <div class="col">
                             <br><br>
-                         <div class="form-group"><input type="submit" value="로그인" class="btn btn-primary btn-block"></div>
+                         <div class="form-group" id="loginBtn"><input type="submit" value="로그인" class="btn btn-primary btn-block"></div>
                         <br><br>
                         </div>
                         <div class="col"></div>
@@ -100,22 +100,22 @@
             
             function validate(){
             // 로그인 처리 함수
-            if($("#id").val().trim().length == 0 && $("#password").val().trim().length == 0)
+            if($("#userId").val().trim().length == 0 && $("#userPwd").val().trim().length == 0)
             {
             alert("아이디와 비밀번호를 입력해주세요");
-            $("#id").focus();
+            $("#userId").focus();
             return false;
             }
-            else if($("#id").val().trim().length == 0)
+            else if($("#userId").val().trim().length == 0)
             {
             alert("아이디를 입력해주세요");
-            $("#id").focus();
+            $("#userId").focus();
             return false;
             }
-            else if($("#password").val().trim().length == 0) 
+            else if($("#userPwd").val().trim().length == 0) 
             {
             alert('비밀번호를 입력하세요');
-            $("#password").focus();
+            $("#userPwd").focus();
             return false;
             }
             else{
