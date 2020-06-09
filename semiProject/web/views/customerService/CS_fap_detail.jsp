@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%!int page11 = 2;%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +54,7 @@
   </style>
 </head>
 <body>
-
-	<%@ include file="../../views/common/menubar3.jsp"%>
+	<jsp:include page="../common/menubar3.jsp" />
 	  <!--contents-->
 
 
