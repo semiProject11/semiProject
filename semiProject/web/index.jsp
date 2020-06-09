@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%! 
-int page11 = 0;
-// 현제는 1로 지정되어 있기 때문에 메인페이지 카테고리로 나오지만 2로 수정한뒤 실행시켜보면 마이페이지 카테고리가 나온다.
-// 고객센터와 관리자 페이지도 각각 2, 3으로 지정해 주고 메뉴바에 else if문으로 해당 번호일때 나타나야 하는 서브매뉴 코드를 작성해주면 된다.
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
