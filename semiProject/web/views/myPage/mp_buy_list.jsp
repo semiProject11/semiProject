@@ -95,7 +95,7 @@
   </style>
 </head>
 <body>
-	<%@ include file="../../views/common/menubar2.jsp" %>
+	<jsp:include page="../common/menubar2.jsp" />
 	<!-- <div id="page-content-wrapper"> -->
     <div id="layoutSidenav_content">
 

@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%! 
-int page11 = 1;
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +33,7 @@ int page11 = 1;
    </style>
 </head>
 <body>
-<%@ include file="../../views/common/menubar.jsp" %>
+	<jsp:include page="../common/menubar.jsp" />
 
  <div id="layoutSidenav_content">
     
