@@ -102,7 +102,12 @@
   </style>
 </head>
 <body>
+<<<<<<< HEAD
 	<jsp:include page="../common/menubar2.jsp" />
+=======
+	<jsp:include page="../common/menubar.jsp" />
+	
+>>>>>>> refs/remotes/origin/master
 	<!-- <div id="page-content-wrapper"> -->
     <div id="layoutSidenav_content">
 
