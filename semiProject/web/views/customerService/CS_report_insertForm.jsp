@@ -69,7 +69,7 @@
     </style>
 </head>
 <body>
-	<jsp:include page="../../views/common/menubar.jsp" />
+		<jsp:include page="../common/menubar.jsp" />
 	  <!--contents-->
             <header class="container mt-5">
                 <h2>신고하기</h2>
