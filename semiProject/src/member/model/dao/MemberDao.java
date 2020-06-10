@@ -54,8 +54,8 @@ public class MemberDao {
 		return loginUser;
 	}
 
-<<<<<<< HEAD
-	public int idCheck(Connection conn, String userId, String userPwd) {
+
+	public int loginCheck(Connection conn, String userId, String userPwd) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -83,7 +83,8 @@ public class MemberDao {
 		}
 		
 		return result;
-=======
+}
+
 	public Member selectMember(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -181,7 +182,83 @@ public class MemberDao {
 		
 		
 		return buyCount;
->>>>>>> refs/remotes/origin/master
 	}
+
+
+	public int findIdCheck(Connection conn, String userName, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_NAME = ? AND EMAIL=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+	
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+
+	public Member findId(Connection conn, String userName, String email) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member member = null;
+		
+		String query = "SELECT * FROM MEMBER WHERE USER_NAME=? AND EMAIL=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				member = new Member(rset.getInt("USER_NO"),
+										rset.getString("USER_ID"),
+										rset.getString("USER_PWD"),
+										rset.getString("USER_NAME"),
+										rset.getInt("BIRTH"),
+										rset.getString("PHONE"),
+										rset.getString("EMAIL"),
+										rset.getInt("POINT"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getDate("DROP_DATE"),
+										rset.getString("STATUS"),
+										rset.getString("GRADE"),
+										rset.getInt("GRADE_TOT"),
+										rset.getString("PROFILE"),
+										rset.getString("SELL_YN"),
+										rset.getString("REVIEW_YN"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return member;
+	}
+	
 
 }

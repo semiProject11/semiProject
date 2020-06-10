@@ -20,18 +20,18 @@ public class MemberService {
 		return loginUser;
 	}
 
-<<<<<<< HEAD
+
 	public int loginCheck(String userId, String userPwd) {
 		
 		Connection conn = getConnection();
 		
-		int result = new MemberDao().idCheck(conn, userId, userPwd);
+		int result = new MemberDao().loginCheck(conn, userId, userPwd);
 		
 		close(conn);
 		
 		return result;
 	}
-=======
+
 	public Member selectMember(String userId) {
 		Connection conn = null;
 		conn = getConnection();
@@ -59,7 +59,30 @@ public class MemberService {
 		return count;
 	}
 
+
+	public int findIdCheck(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().findIdCheck(conn, userName, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public Member findId(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		Member member = new MemberDao().findId(conn, userName, email);
+		
+		close(conn);
+		
+		return member;
+	}
+
 	
->>>>>>> refs/remotes/origin/master
 
 }

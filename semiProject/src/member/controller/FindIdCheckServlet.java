@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import member.model.service.MemberService;
 
 /**
- * Servlet implementation class loginCheckServlet
+ * Servlet implementation class FindIdCheckServlet
  */
-@WebServlet("/loginCheck.me")
-public class loginCheckServlet extends HttpServlet {
+@WebServlet("/findId_a.me")
+public class FindIdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public loginCheckServlet() {
+    public FindIdCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,13 +30,13 @@ public class loginCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
+		String userName = request.getParameter("userName");
+		String email = request.getParameter("email");
 		
 		
-		int result = new MemberService().loginCheck(userId, userPwd);
+		int result = new MemberService().findIdCheck(userName, email);
 		PrintWriter out = response.getWriter();
-//		out.println("잘 나오낭??");
+
 		if(result == 1) {
 			out.print("success");
 		}else {
@@ -45,7 +45,8 @@ public class loginCheckServlet extends HttpServlet {
 		
 		out.flush();
 		out.close();
-	}
+	}	
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
