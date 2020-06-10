@@ -27,7 +27,7 @@ public class MemberService {
 		
 		Connection conn = getConnection();
 		
-		int result = new MemberDao().idCheck(conn, userId, userPwd);
+		int result = new MemberDao().loginCheck(conn, userId, userPwd);
 		
 		close(conn);
 		
@@ -61,24 +61,33 @@ public class MemberService {
 		return count;
 	}
 
-	public ArrayList<Member> selectGradeList() { //관리자 회원 권한관리 페이지에 뿌릴 리스트1
-		
-		Connection conn=getConnection();
-		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
-		
-		close(conn);
-		return gradeList;
-	}
-
-	public ArrayList<Seller> selectSellerList() {
-		Connection conn=getConnection();
-		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
-		close(conn);
-		return sellerList;
-	
-	}
-
 	
 
+
+
+	public int findIdCheck(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().findIdCheck(conn, userName, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public Member findId(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		Member member = new MemberDao().findId(conn, userName, email);
+		
+		close(conn);
+		
+		return member;
+	}
+
+	
 
 }
