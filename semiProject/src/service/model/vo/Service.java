@@ -12,7 +12,7 @@ public class Service implements Serializable{
 	private static final long serialVersionUID = 718624158012136231L;
 	
 	private int serviceNo;
-	private int s_user_no;
+	private int s_user_no;			// 판매자 번호
 	private String sale_info;
 	private String available_area;
 	private Date contactTime;
