@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
 	    	response.sendRedirect("index.jsp");
 	    }else {
 	    	request.setAttribute("alert", "아이디 또는 비밀번호가 일치하지 않습니다.");
-
+	    	
 //	    	RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
 //			// 사용자에게 보여질 페이지를 RequestDisppatcher 객체로 만든다.
 //			
