@@ -95,9 +95,9 @@
   </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
+	<jsp:include page="../common/menubar2.jsp" />
 	
-	
+	<!--메인사이드바 시작-->
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -177,6 +177,9 @@
         </div>
       </nav>
     </div>
+    
+    
+    
 	<!-- <div id="page-content-wrapper"> -->
     <div id="layoutSidenav_content">
 
