@@ -44,15 +44,13 @@ public class FindIdServlet extends HttpServlet {
 		
 		
 		if(member != null) {
-//			response.sendRedirect("views/loginAndRegister/LS_findId2.jsp");
-				
 			view = request.getRequestDispatcher("views/loginAndRegister/LS_findId2.jsp");
 			request.setAttribute("member",member);
 		}else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "내 아이디 조회에 실패하였습니다.");
 		}
-	
+		view.forward(request,response);
 	}
 
 	/**
