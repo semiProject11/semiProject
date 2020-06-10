@@ -69,7 +69,7 @@
     </style>
 </head>
 <body>
-	<jsp:include page="../../views/common/menubar.jsp" />
+	<jsp:include page="../common/menubar.jsp" />
 	   <!--contents-->
 
       <div class="container">

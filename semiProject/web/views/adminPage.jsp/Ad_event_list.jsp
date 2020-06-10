@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<%@ include file="../../views/common/menubar.jsp"%>
+<jsp:include page="../common/menubar.jsp" />
 	 <style>
         #jin {
             background: black;

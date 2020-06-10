@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%	
+	// Object형이라 다운캐스팅, Member import
+	Member loginUser = (Member)session.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,17 +46,18 @@
         <div class="col-3"></div>
         <div class="col-6">
               <br>
+              <!-- 로고 클릭 시 메인 인덱스로 돌아가게 함 -->
             <div class="page-header" align='center'>
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
-            
-                <form role="form" id= 'loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
+            	<!-- 로그인 폼, 로그인 버튼을 누르면 login.me 서블릿으로 입력한 아이디, 패스워드값이 이동하여 로그인 유무를 판단 -->          
+               <form role="form" id= 'loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br><br>
-                    <label for="userId">아이디</label>
+                    <label>아이디</label>
                     <input type="text" class="form-control" name="userId" id="userId" autofocus>
                 </div>
                     <div class="form-group">
-                        <label for="userPwd">비밀번호</label>
+                        <label>비밀번호</label>
                         <input type="password" class="form-control" name="userPwd" id="userPwd" >
                     </div>
                     <div class="row">
@@ -66,6 +71,8 @@
                         </div>
                 </form>
 
+					
+					<!-- 아이디찾기, 비밀번호 찾기, 회원가입 창으로 이동할 수 있는 링크 -->
                     <div class="find_info">
                         <a id="idinquiry" href="LS_findId1.jsp">아이디 찾기</a>
                         <span>|</span> <a id="pwdinquiry" href="LS_findPwd.jsp">비밀번호 찾기</a>
@@ -97,7 +104,7 @@
       
              
         <script>
-            
+            // 로그인 시 아이디, 패스워드 칸에 입력을 안했을 시 띄울 alert메세지
             function validate(){
             // 로그인 처리 함수
             if($("#userId").val().trim().length == 0 && $("#userPwd").val().trim().length == 0)

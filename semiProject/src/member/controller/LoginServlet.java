@@ -7,7 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
@@ -37,7 +39,31 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(request.getParameter("userId"));
 	    System.out.println(pwd);
 		
-	
+	    // MemberService로 이동
+	    Member loginUser = new MemberService().loginMember(member);
+	    
+	    System.out.println("로그인 이후 Servlet에서 확인하기 : " + loginUser);
+	    
+	    if(loginUser != null) {
+	    	// 로그인 가능한 사용자 이면
+	    	HttpSession session = request.getSession();
+	    	
+	    	// 지정한 시간이나 열어둔 시간까지 유지
+	    	session.setAttribute("loginUser", loginUser);
+	    	
+	    	// 로그인 성공하면 메인 페이지로 이동
+	    	response.sendRedirect("index.jsp");
+	    }else {
+	    	request.setAttribute("alert", "아이디 또는 비밀번호가 일치하지 않습니다.");
+
+//	    	RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
+//			// 사용자에게 보여질 페이지를 RequestDisppatcher 객체로 만든다.
+//			
+//			view.forward(request, response);
+	    }
+	    
+	    
+	    
 	}
 
 	/**

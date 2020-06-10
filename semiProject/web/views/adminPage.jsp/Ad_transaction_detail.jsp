@@ -83,7 +83,7 @@ int page11 = 3;
 </style>
 </head>
 <body>
-<%@ include file="../../views/common/menubar.jsp" %>
+<jsp:include page="../common/menubar.jsp" />
             <div class="container mt-5">
 
                 <head>

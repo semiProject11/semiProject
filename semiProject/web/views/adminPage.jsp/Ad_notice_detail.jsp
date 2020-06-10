@@ -85,7 +85,7 @@
 <body>
 
 
-<%@ include file="../../views/common/menubar.jsp"%>
+<jsp:include page="../common/menubar.jsp" />
    <!--contents-->
             <div class="container mt-5">
 
