@@ -57,7 +57,7 @@
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
             <div>
-                <form role="form"  action ="<%=request.getContextPath() %>/findId.me" method="post" onsubmit="return validate();">
+                <form role="form" id='loginFindForm' action ="<%=request.getContextPath() %>/findId.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br>
                     <label>아이디 찾기</label><hr>
                     <label >이름</label>
@@ -105,8 +105,8 @@
             function validate(){
             	
 	            var flag = false;
-		        var userName = $("#loginForm input[name='userName']");
-	            var email = $("#loginForm input[name='email']");
+		        var userName = $("#loginFindForm input[name='userName']");
+	            var email = $("#loginFindForm input[name='email']");
 	           
 	            // 아이디 찾기 처리 함수
 	            var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	Member member = (Member)request.getAttribute("member");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,9 +64,9 @@
                 <div class="form-group"><br><br>
                     <label class="LS_findId">아이디 찾기</label><hr><br><br>
                     <div class="row">
-                        <div class="col-4">회원님의 아이디는</div>
-                        <div class="col-6" for="inputId">
-                            <h1>00000000</h1>
+                        <div class="col-4" id="userName">[<%=member.getUserName()%>]님의 아이디는</div>
+                        <div class="col-6" for="inputId" id="userId">
+                            [<%=member.getUserId()%>] 입니다.
                         </div>
                         <div class="col-2">입니다.</div>
                     </div>
