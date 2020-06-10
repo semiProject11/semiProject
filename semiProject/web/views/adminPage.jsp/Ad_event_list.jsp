@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="board.model.vo.*,java.util.ArrayList"%>
 <%
     ArrayList list=(ArrayList)request.getAttribute("list");
 	int currentPage=1;
@@ -102,7 +102,7 @@ th, tr, td {
 		<div id="layoutSidenav_nav">
 			<nav class="sb-sidenav accordion sb-sidenav-light"
 				id="sidenavAccordion">
-				<!--클릭할때 글자색상이 파란색이라 color바꿔줌-->
+			
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">
@@ -227,10 +227,11 @@ th, tr, td {
 			<!--contents-->
 			<div class="container mt-5">
 
-				<head>
+				<header>
+			
 <h2>이벤트 관리</h2>
 <hr>
-				</head>
+				</header>
 
 				<div class="container my-4">
 
@@ -268,7 +269,7 @@ th, tr, td {
 					<!--이벤트 리스트-->
 					<div class="table-responsive mt-3">
 						<table class="table table-striped table-bordered table-hover"
-							id="listArea">
+							id="eListArea">
 							<thead>
 								<tr>
 									<th><input type="checkbox" class="form-check-input"
@@ -276,42 +277,39 @@ th, tr, td {
 									<th>No</th>
 									<th>제목</th>
 									<th>작성일자</th>
-
 								</tr>
 							</thead>
-							<%if(list.isEmpty()){ %>
-							<tr>
-								<td clospan="4">조회된 결과가 없습니다.</td>
-							</tr>
-							<%}else{ %>
-							<%for(int=0;i<list.size();i++){ %>
 							<tbody>
+							<%-- <%if(list.isEmpty()){ %> --%>
+							<tr>
+								<td colspan="4">조회된 결과가 없습니다.</td>
+							</tr>
+					<%-- 	<%}else{ %>
+							<%for(int i=0; i<list.size(); i++){ %>
 								<tr>
-
+								
+								<input type="hidden" value="<%=((Board)list.get(i)).getBoard_no()%>"> 
 									<td>
-										<div class="form-check form-check-inline">
-											<input type="checkbox" class="form-check-input" id="checkall"
+									<input type="checkbox" class="form-check-input" id="gradeCheck"
 												style="width: 18px; height: 18px;">
-
-										</div>
 									</td>
 									<!-- 게시글 번호 -->
-									<td><% %></td>
+									<td><%((Board)list.get(i)).getBoard_no();%></td>
 									<!-- 게시글 제목 -->
-									<td><% %></td>
+									<td><%((Board)list.get(i)).getTitle(); %></td>
 									<!-- 게시글 작성일자 -->
-									<td><% %></td>
+									<td><%((Board)list.get(i)).getWrite_date(); %></td>
 
 								</tr>
 
-								<%} %>
-								<%} %>
-
-
-
-
+								<%} %> 
+								<%} %> --%>
+						
 							</tbody>
+							
 						</table>
+						
+						
 					</div>
 				</div>
 

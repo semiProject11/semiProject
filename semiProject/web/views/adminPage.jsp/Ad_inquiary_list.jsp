@@ -290,7 +290,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                <input type="hidden" value="<%=((Board)noticeList.get(i)).getBoard_no()%>">
+                          
                                     <td>
                                         <div class="form-check form-check-inline">
                                             <input type="checkbox" class="form-check-input" id="checkall"

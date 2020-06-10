@@ -1,11 +1,14 @@
 package member.model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import member.model.vo.Member;
+import member.model.vo.Seller;
 
 import static common.JDBCTemplate.*;
 
@@ -54,7 +57,7 @@ public class MemberDao {
 		return loginUser;
 	}
 
-<<<<<<< HEAD
+
 	public int idCheck(Connection conn, String userId, String userPwd) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -83,7 +86,7 @@ public class MemberDao {
 		}
 		
 		return result;
-=======
+
 	public Member selectMember(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -181,7 +184,88 @@ public class MemberDao {
 		
 		
 		return buyCount;
->>>>>>> refs/remotes/origin/master
+
 	}
 
+
+	public ArrayList<Member> selectGradeList(Connection conn) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="SELECT * FROM MEMBER";
+		ArrayList<Member> gradeList=new ArrayList<Member>();
+		
+		pstmt=conn.prepareStatement(query);
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+			
+			Member m=new Member(rset.getInt("userNo"),
+								rset.getString("userId"),
+								rset.getString("userPwd"),
+								rset.getString("userName"),
+								rset.getInt("userBirth"),
+								rset.getString("phone"),
+								rset.getString("email"),
+								rset.getInt("point"),
+								rset.getDate("enrollDate"),
+								rset.getDate("dropDate"),
+								rset.getString("status"),
+								rset.getString("grade"),
+								rset.getInt("gradeTot"),
+								rset.getString("profile"),
+								rset.getString("sellYN"),
+								rset.getString("ReviewYN")
+					
+					);
+			gradeList.add(m);
+		
+		}
+		
+		
+		return gradeList;
+	}
+
+
+	public ArrayList<Seller> selectSellerList(Connection conn) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="SELECT * FROM SELLER";
+		ArrayList<Seller> sellerList=new ArrayList<>();
+		
+		pstmt=conn.prepareStatement(query);
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+			
+			Seller s=new Seller(rset.getInt("userNo"),
+								rset.getInt("reportNum"),
+								rset.getInt("sellCount")
+								
+					
+					);
+			sellerList.add(s);
+		
+		}
+		
+		
+		return sellerList;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

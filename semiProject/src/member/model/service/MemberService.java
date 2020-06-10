@@ -4,9 +4,11 @@ import static common.JDBCTemplate.*;
 import static common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
+import member.model.vo.Seller;
 
 public class MemberService {
 
@@ -20,7 +22,7 @@ public class MemberService {
 		return loginUser;
 	}
 
-<<<<<<< HEAD
+
 	public int loginCheck(String userId, String userPwd) {
 		
 		Connection conn = getConnection();
@@ -31,7 +33,7 @@ public class MemberService {
 		
 		return result;
 	}
-=======
+
 	public Member selectMember(String userId) {
 		Connection conn = null;
 		conn = getConnection();
@@ -59,7 +61,24 @@ public class MemberService {
 		return count;
 	}
 
+	public ArrayList<Member> selectGradeList() { //관리자 회원 권한관리 페이지에 뿌릴 리스트1
+		
+		Connection conn=getConnection();
+		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
+		
+		close(conn);
+		return gradeList;
+	}
+
+	public ArrayList<Seller> selectSellerList() {
+		Connection conn=getConnection();
+		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
+		close(conn);
+		return sellerList;
 	
->>>>>>> refs/remotes/origin/master
+	}
+
+	
+
 
 }
