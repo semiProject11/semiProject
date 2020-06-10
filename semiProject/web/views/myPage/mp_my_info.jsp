@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member member = (Member)request.getAttribute("member");
+	String userId = member.getUserId();
+	String userName = member.getUserName();
+	String email = member.getEmail();
+	int buyCount = (int)request.getAttribute("buyCount");
+	int sellCount = (int)request.getAttribute("sellCount");
+	int gradeTot = member.getGradeTot();
+	String grade = member.getGrade();
+	int point = member.getPoint();		
+%>
 
 <!DOCTYPE html>
 <html>
@@ -208,7 +219,7 @@
                   <div class="card" id="profile">
                     
                     <div class="card-header" align="center">프로필 사진</div>
-                    <div class="card-body" align="center"><img src="image/images.jfif" alt=""
+                    <div class="card-body" align="center" style="width: 150px; height:150px;"><img src="image/images.jfif" alt=""
                       style="width: 100px; height: 100px;"><br>                    
                     </div>
                     <div class="card-footer">
@@ -222,34 +233,38 @@
 
                       <tr>
                         <td style="text-align: left;">아이디 : </td>
-                        <td><label id="info_name">피닉스</label></td>
+                        <td><label id="info_name"><%=userId%></label></td>
                       </tr>
                       <tr>
                         <td style="text-align: left;">이름 : </td>
-                        <td><label id="info_id">타올라라</label></td>
+                        <td><label id="info_id"><%=userName%></label></td>
                       </tr>
                       <tr>
                         <td style="text-align: left;"><label>이메일 : </label></td>
-                        <td> <label id="info_email">fire@naver.com</label></td>
+                        <td> <label id="info_email"><%=email%></label></td>
                       </tr>
                       <tr>
                         <td><label>구매횟수 : </label></td>
-                        <td><label id="info_buy_count">5</label></td>
+                        <td><label id="info_buy_count"><%=buyCount%></label></td>
                       </tr>
                       <tr>
                         <td><label>판매횟수 : </label></td>
-                        <td><label id="info_sell_count">10</label></td>
+                        <td><label id="info_sell_count"><%=sellCount%></label></td>
                       </tr>
                       <tr>
                         <td><label>등급 : </label></td>
-                        <td><label id="info_level_point">250 / &nbsp;<img src="image/images.jfif" alt=""
+                        <td><label id="info_level_point"><%=gradeTot%> / &nbsp;</label><label><img src="image/images.jfif" alt=""
                               style="width: 20px; height: 20px;"></label></td>
                       </tr>
                       <tr>
                         <td><label>포인트 : </label></td>
-                        <td><label id="info_point">300,000 point</label></td>
-                        <td><button><a href="mp_point_charge.html">포인트 충전</a></button></td>
-                        <td><button>출금하기</button></td>
+                        <td><label id="info_point"><%=point%> point</label></td>
+                        <td> <a href="home.html">
+            <button type="button" class="btn" style="background:black; color:white; width:110px;">포인트충전</button>
+          </a></td>
+                        <td> <a href="home.html">
+            <button type="button" class="btn" style="background:black; color:white; width:110px;">출금하기</button>
+          </a></td>
                       </tr>
 
                     </table>
