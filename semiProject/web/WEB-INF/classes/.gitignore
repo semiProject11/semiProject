@@ -1,5 +1,3 @@
-/common/
-/filter/
-/semiProject/
 /service/
-/sql/
+/board/
+/controller/
