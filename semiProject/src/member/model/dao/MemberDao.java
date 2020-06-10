@@ -16,7 +16,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		Member loginUser = null;
 		
-		String query = "SELECT * FROM MEMBER WHERE USER_ID=? AND USER_PWD=? AND STATUS = 'N'";
+		String query = "SELECT * FROM MEMBER WHERE USER_ID=? AND USER_PWD=? AND STATUS = 'Y'";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -52,6 +52,36 @@ public class MemberDao {
 		}
 		
 		return loginUser;
+	}
+
+	public int idCheck(Connection conn, String userId, String userPwd) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ? AND USER_PWD=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,userId);
+			pstmt.setString(2, userPwd);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+	
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
 	}
 
 }

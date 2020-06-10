@@ -20,4 +20,15 @@ public class MemberService {
 		return loginUser;
 	}
 
+	public int loginCheck(String userId, String userPwd) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId, userPwd);
+		
+		close(conn);
+		
+		return result;
+	}
+
 }

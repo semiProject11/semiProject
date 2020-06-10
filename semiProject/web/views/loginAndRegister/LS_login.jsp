@@ -51,7 +51,7 @@
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
             	<!-- 로그인 폼, 로그인 버튼을 누르면 login.me 서블릿으로 입력한 아이디, 패스워드값이 이동하여 로그인 유무를 판단 -->          
-               <form role="form" id= 'loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
+               <form role="form" id='loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br><br>
                     <label>아이디</label>
                     <input type="text" class="form-control" name="userId" id="userId" autofocus>
@@ -106,29 +106,59 @@
         <script>
             // 로그인 시 아이디, 패스워드 칸에 입력을 안했을 시 띄울 alert메세지
             function validate(){
-            // 로그인 처리 함수
-            if($("#userId").val().trim().length == 0 && $("#userPwd").val().trim().length == 0)
-            {
-            alert("아이디와 비밀번호를 입력해주세요");
-            $("#userId").focus();
-            return false;
+            	
+            	var flag = false;
+	           	var userId = $("#loginForm input[name='userId']");
+            	var userPwd = $("#loginForm input[name='userPwd']");
+
+	           	
+                if($("#userId").val().trim().length == 0 && $("#userPwd").val().trim().length == 0)
+                {
+                alert("아이디와 비밀번호를 입력해주세요");
+                $("#userId").focus();
+                return false;
+                }
+                else if($("#userId").val().trim().length == 0)
+                {
+                alert("아이디를 입력해주세요");
+                $("#userId").focus();
+                return false;
+                }
+                else if($("#userPwd").val().trim().length == 0) 
+                {
+                alert('비밀번호를 입력하세요');
+                $("#userPwd").focus();
+                return false;
+                }
+                else {
+            	
+                $.ajax({
+					url:"<%=request.getContextPath()%>/loginCheck.me",
+					type:"post",
+					data:{userId:userId.val(), userPwd:userPwd.val()},
+					async: false,
+					success:function(data){
+						if(data=="success"){
+							flag = true;
+							}
+						else{
+							alert("아이디나 비밀번호가 일치하지 않습니다.");
+							flag = false;
+						}
+					},
+					error:function(request,status,error){
+					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						flag = false;
+					}
+				});
+                return flag;
             }
-            else if($("#userId").val().trim().length == 0)
-            {
-            alert("아이디를 입력해주세요");
-            $("#userId").focus();
-            return false;
             }
-            else if($("#userPwd").val().trim().length == 0) 
-            {
-            alert('비밀번호를 입력하세요');
-            $("#userPwd").focus();
-            return false;
-            }
-            else{
-                return true;
-            }
-            }
+                
+                
+            
+            
+            
            </script>
 
 </body>
