@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -7,40 +7,58 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-#jin {
-	background: black;
-	border: none;
-}
+    #jin {
+      background: black;
+      border: none;
+    }
 
-#young {
-	font-family: "돋움";
-	color: black;
-	font: bold;
-}
+    #young {
+      font-family: "돋움";
+      color: black;
+      font: bold;
+    }
 
-input, textarea {
-	/* border: 1px solid #dee2e6; */
-	border: 1px solid #495057;
-	height: 80%;
-	margin: 0;
-}
 
-/*보여주기용 임시*/
-#wh, #wh:hover, #wh:focus {
-	text-decoration: none;
-	color: white;
-}
 
-#bk, #bk:hover, #bk:focus {
-	text-decoration: none;
-	color: black;
-}
-</style>
+
+
+
+
+    input,
+    textarea {
+      /* border: 1px solid #dee2e6; */
+      border: 1px solid #495057;
+      height: 80%;
+      margin: 0;
+
+
+    }
+
+    /*보여주기용 임시*/
+    #wh,
+    #wh:hover,
+    #wh:focus {
+      text-decoration: none;
+      color: white;
+    }
+
+    #bk,
+    #bk:hover,
+    #bk:focus {
+      text-decoration: none;
+      color: black;
+
+    }
+
+
+  </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar2.jsp" />
-	  <!--contents-->
+	  
+	
 
+	
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -55,7 +73,7 @@ input, textarea {
                   clip-rule="evenodd" />
               </svg>
               고객센터</div>
-            <a class="nav-link" href="cs_notice.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.notice">
               <div class="sb-nav-link-icon">
                 <svg class="bi bi-bell" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +86,7 @@ input, textarea {
               공지사항
 
             </a>
-            <a class="nav-link" href="cs_faq.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.faq">
               <div class="sb-nav-link-icon"><svg class="bi bi-question-circle" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
@@ -78,7 +96,7 @@ input, textarea {
                 </svg></div>
               FAQ
             </a>
-            <a class="nav-link" href="cs_inquiry.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -90,7 +108,7 @@ input, textarea {
                 </svg></i></div>
               1:1 문의
             </a>
-            <a class="nav-link" href="cs_report.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -99,7 +117,7 @@ input, textarea {
                 </svg></div>
               신고하기
             </a>
-            <a class="nav-link" href="cs_law.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_policy_list.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -123,114 +141,65 @@ input, textarea {
     </div>
     
     <div id="layoutSidenav_content">
-	   <!--contents-->
 
-      <div class="container my-3">
-        <div class="table-responsive mt-3">
-          <header class="mt-5">
-            <h2>자주묻는 질문</h2>
 
-          </header>
-          <table class="table table-hover mt-4">
 
-            <tbody id="titleArea">
-              <tr>
-                <input type="hidden" value="">
-                <td><a href="cs_faq_into.html" name="faqTitle" id="bk">
-                    [회원정보] 개명 후 인증이 안돼요.</a>
-                </td>
 
-              </tr>
-              <tr>
-                <td>
-                  [회원정보] 사업자 정보를 변경하고 싶어요.
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [전문가 등급제도] 신규 전문가 등급제도는 무엇인가요?
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [서비스구매] 방금 결제한 서비스는 어디서 확인하나요?
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [포트폴리오] 포트폴리오가 무엇인가요?
-                </td>
 
-              </tr>
-              <tr>
-                <td>
-                  [회원정보] 사업자 정보를 변경하고 싶어요.
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [전문가 등급제도] 신규 전문가 등급제도는 무엇인가요?
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  [서비스구매] 방금 결제한 서비스는 어디서 확인하나요?
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<!-- contents -->
+      <div class="container mt-5">
+        <div class="container my-5">
+          <form class="form-group">
+            <div class="row">
+
+              <div class="col-md-12">
+                <header>
+                  <h2>자주묻는 질문</h2>
+                  <hr>
+                  <h4 class="mt-5" name="faqTitle">[회원정보] 개명 후 인증이 안돼요.</h4>
+                </header>
+              </div>
+            </div>
+
+
+            <div class="mt-2">
+              <textarea class="form-control" name="faqContent"
+                style="margin:30px; padding:20px; width:100%; height:500px; border:none; resize:none; align-items:left; background-color:white;" readonly>
+개명을 하신 경우 실명확인 등록기관에 개명하신 성함으로 실명등록을 모두 새롭게 해주셔야 합니다.
+
+[실명확인 등록기관안내]
+                
+- 코리아크레딧뷰로(KCB) ☞ 바로가기   / ☎ 고객센터: 02-708-1000
+- SIREN24 ☞ 바로가기
+                
+                
+기관을 통해 변경된 실명 정보를 등록하실 경우, 인증 시간이 소요될 수 있는 점 참고해주시기를 바랍니다.
+                
+                
+                      </textarea>
+
+            </div>
+            <div class="row mt-3">
+              <div class="col"></div>
+              <div class="col text-center"><button type="button" class="btn" style="background:gold; color:black" onclick="goFaqList();">
+                목록으로 가기</button>
+
+
+              </div>
+              <div class="col"></div>
+            </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-        <!--페이징처리-->
-        <div class="page-center">
-          <ul class="pagination-t">
-
-            <!-- disabled: 페이지 비활성화 -->
-            <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
-
-            <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-            <!-- disabled: 해당 버튼 활성화 -->
-            <li class="page-item-t active-t" aria-current="page-t">
-              <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-            <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-          </ul>
-
-        </div>
-
-
-
+        </form>
       </div>
+
       <!--container end-->
 
 
+
       <script>
-        $(function () {
-
-          $("#titleArea td").click(function () {
-            var boarder_no = $(this).parent().children("input").val();
-
-            if (loginUser != null) {
-
-              location.href = "<%=request.getContextPath()%>/Detail.bo?bid=" + boarder_no;
-
-            } else {
-              alert("로그인 해야만 상세보기가 가능합니다.")
-            }
-            
-          })
-        })
+        function goFaqList(){
+          location.href="<%=request.getContextPath()%>/faqList.cs";
+        }
 
       </script>
 
@@ -240,17 +209,19 @@ input, textarea {
       <!--footer-->
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid">
-          <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; Your Website 2019</div>
-            <div>
-              <a href="#">Privacy Policy</a>
-              &middot;
-              <a href="#">Terms &amp; Conditions</a>
+            <div class="d-flex align-items-center justify-content-between small">
+                <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                <div>
+                    <a href="#">Privacy Policy</a>
+                    &middot;
+                    <a href="#">Terms &amp; Conditions</a>
+                </div>
             </div>
-          </div>
         </div>
-      </footer>
-      </div>
-      </div>
+    </footer>
+	</div>
+	</div>
+	
+	
 </body>
 </html>

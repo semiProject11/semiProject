@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%!int page11 = 3;%>	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,6 +82,9 @@
         }
     </style>
 </head>
+
+
+
 <body>
 <jsp:include page="../common/menubar2.jsp" />	
 	
@@ -198,6 +201,11 @@
 	
 		<div id="layoutSidenav_content">
 
+
+
+
+
+
             <!--contents-->
             <div class="container mt-5">
 
@@ -208,11 +216,13 @@
                 <div class="container my-4">
                     <div class="container mt-5" id="post">
                         <div class="container my-5">
-                            <form class="form-group">
+                            <form class="form-group" action="<%=request.getContextPath()%>/insert.notice" method="post"
+			encType="multipart/form-data">
+			<input type="hidden" name="board_code" value="20">
                                 <div class="row">
-                                    <div class="col-md-2"><label>제목</label></div>
-                                    <div class="col-md-10"><input type="text" class="form-control"
-                                            style="width:100%; text-align:left;" placeholder="제목을 입력하세요."></div>
+                                    <div class="col-md-2"><label for="title">제목</label></div>
+                                    <div class="col-md-10"><input type="text" class="form-control" name="title"
+                                            style="width:100%; text-align:left;" placeholder="제목을 입력하세요." id="title"></div>
                                 </div>
 
 
@@ -220,7 +230,7 @@
                                     <div>
                                         <!--편집 API 알아보고 찾으면 넣기-->
                                     </div>
-                                    <textarea class="form-control"
+                                    <textarea class="form-control" name="content"
                                         style="width:100%; height:500px; resize:none; align-items:left;"></textarea>
 
                                 </div>
@@ -230,10 +240,10 @@
                                     <div class="col-md-2 text-center"><label for="find_file01">파일첨부</label></div>
                                     <div class="col-md-10 form-group form_file" style="position: relative;">
 
-                                        <input type="text" id="fileName" class="form-control form_point_color01"
+                                        <input type="text"  id="fileName" class="form-control form_point_color01"
                                             style="position: absolute; width:97%" readonly
                                             placeholder="파일첨부 클릭 또는 파일을 여기로 드래그하세요">
-                                        <input type="file" class="form-control" id="find_file01"
+                                        <input type="file" name="fileName" class="form-control" id="find_file01"
                                             style="position: absolute; opacity: 0;"
                                             onchange="javascript: document.getElementById('fileName').value = this.value">
 
@@ -244,8 +254,10 @@
                                 <div class="row mt-3">
                                     <div class="col"></div>
                                     <div class="col text-center">
-                                        <button type="button" class="btn" style="background:black; color:white"
+                                        <button type="submit" class="btn" style="background:black; color:white"
                                             onclick="alert('등록완료'); location.href='admin_notice.html'">작성 완료</button>
+                                             <button type="reset" class="btn" style="background:black; color:white"
+                                            onclick="alert('등록완료'); location.href='admin_notice.html'">취소</button>
 
 
                                     </div>
@@ -256,32 +268,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
