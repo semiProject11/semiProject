@@ -180,7 +180,7 @@ public class MemberService {
 		
 	}
 
-<<<<<<< HEAD
+
 
 	public int chargeMoney(int userNo, int chMoney) {
 		Connection conn = getConnection();
@@ -212,9 +212,5 @@ public class MemberService {
 	}
 
 
-	
-=======
-	
->>>>>>> refs/remotes/origin/master
 
 }
