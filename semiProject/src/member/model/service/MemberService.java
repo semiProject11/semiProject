@@ -180,7 +180,6 @@ public class MemberService {
 		
 	}
 
-<<<<<<< HEAD
 
 	public Member memberLogin(String userId) {
 		Connection conn = getConnection();
@@ -214,9 +213,6 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-=======
-
-
 	public int chargeMoney(int userNo, int chMoney) {
 		Connection conn = getConnection();
 		
@@ -247,7 +243,6 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
->>>>>>> refs/remotes/origin/master
 
 }
 

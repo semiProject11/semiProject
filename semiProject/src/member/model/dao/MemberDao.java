@@ -412,7 +412,6 @@ public class MemberDao {
 
 
 
-<<<<<<< HEAD
 	public Member memberLogin(Connection conn, String userId) {
 		
 		PreparedStatement pstmt = null;
@@ -526,7 +525,6 @@ public class MemberDao {
 
 
 
-=======
 	
 	public int profileEt(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
@@ -641,9 +639,6 @@ public class MemberDao {
 		}
 		
 		return result;
+
 	}
->>>>>>> refs/remotes/origin/master
-
-	
-
 }

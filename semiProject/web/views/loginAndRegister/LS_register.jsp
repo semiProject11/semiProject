@@ -305,12 +305,6 @@
                     
               }
             
-       
-             
-            
-			
-
-            
 
             
             // 제약 조건식
@@ -351,9 +345,9 @@
     					}
     					else{
     						$("#duCheck").html("사용 가능한 아이디입니다 ").css("color", "green");
-    						if(("#userId").val('')){
+    						/* if(("#userId").val('')){
     							$("#duCheck").hide();
-    						}
+    						} */
     					
     					}
     					
