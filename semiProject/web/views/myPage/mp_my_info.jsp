@@ -265,7 +265,7 @@
             <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
           </a></td>
                         <td> <a href="home.html">
-            <button type="button" class="btn" style="background:black; color:white; width:110px;">출금하기</button>
+            <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">출금하기</button>
           </a></td>
                       </tr>
 
