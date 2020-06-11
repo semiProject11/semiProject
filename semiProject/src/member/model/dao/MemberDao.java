@@ -1,12 +1,17 @@
 package member.model.dao;
 
+
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import member.model.vo.Member;
 import member.model.vo.Profile;
+import member.model.vo.Seller;
 
 import static common.JDBCTemplate.*;
 
@@ -17,7 +22,7 @@ public class MemberDao {
 		ResultSet rset = null;
 		Member loginUser = null;
 		
-		String query = "SELECT * FROM MEMBER WHERE USER_ID=? AND USER_PWD=? AND STATUS = 'N'";
+		String query = "SELECT * FROM MEMBER WHERE USER_ID=? AND USER_PWD=? AND STATUS = 'Y'";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -54,6 +59,43 @@ public class MemberDao {
 		
 		return loginUser;
 	}
+
+
+	
+
+	public int loginCheck(Connection conn, String userId, String userPwd) {
+
+	
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ? AND USER_PWD=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,userId);
+			pstmt.setString(2, userPwd);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+	
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+
+
+}
 
 	public Member selectMember(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
@@ -152,6 +194,149 @@ public class MemberDao {
 		
 		
 		return buyCount;
+
+	}
+	
+
+	public int findIdCheck(Connection conn, String userName, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_NAME = ? AND EMAIL=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+	
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+
+	public Member findId(Connection conn, String userName, String email) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member member = null;
+		
+		String query = "SELECT * FROM MEMBER WHERE USER_NAME=? AND EMAIL=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				member = new Member(rset.getInt("USER_NO"),
+										rset.getString("USER_ID"),
+										rset.getString("USER_PWD"),
+										rset.getString("USER_NAME"),
+										rset.getInt("BIRTH"),
+										rset.getString("PHONE"),
+										rset.getString("EMAIL"),
+										rset.getInt("POINT"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getDate("DROP_DATE"),
+										rset.getString("STATUS"),
+										rset.getString("GRADE"),
+										rset.getInt("GRADE_TOT"),
+										rset.getString("PROFILE"),
+										rset.getString("SELL_YN"),
+										rset.getString("REVIEW_YN"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return member;
+	}
+
+
+	public ArrayList<Member> selectGradeList(Connection conn) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="SELECT * FROM MEMBER";
+		ArrayList<Member> gradeList=new ArrayList<Member>();
+		
+		pstmt=conn.prepareStatement(query);
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+			
+			Member m=new Member(rset.getInt("userNo"),
+								rset.getString("userId"),
+								rset.getString("userPwd"),
+								rset.getString("userName"),
+								rset.getInt("userBirth"),
+								rset.getString("phone"),
+								rset.getString("email"),
+								rset.getInt("point"),
+								rset.getDate("enrollDate"),
+								rset.getDate("dropDate"),
+								rset.getString("status"),
+								rset.getString("grade"),
+								rset.getInt("gradeTot"),
+								rset.getString("profile"),
+								rset.getString("sellYN"),
+								rset.getString("ReviewYN")
+					
+					);
+			gradeList.add(m);
+		
+		}
+		
+		
+		return gradeList;
+	}
+
+
+	public ArrayList<Seller> selectSellerList(Connection conn) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="SELECT * FROM SELLER";
+		ArrayList<Seller> sellerList=new ArrayList<>();
+		
+		pstmt=conn.prepareStatement(query);
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+			
+			Seller s=new Seller(rset.getInt("userNo"),
+								rset.getInt("reportNum"),
+								rset.getInt("sellCount")
+								
+					
+					);
+			sellerList.add(s);
+		
+		}
+		
+		
+		return sellerList;
 	}
 
 	public int insertProfile(Connection conn, Profile pf, String userNo) {

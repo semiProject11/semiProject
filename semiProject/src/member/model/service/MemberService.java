@@ -4,10 +4,12 @@ import static common.JDBCTemplate.*;
 import static common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
 import member.model.vo.Profile;
+import member.model.vo.Seller;
 
 public class MemberService {
 
@@ -19,6 +21,18 @@ public class MemberService {
 		close(conn);
 		
 		return loginUser;
+	}
+
+
+	public int loginCheck(String userId, String userPwd) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().loginCheck(conn, userId, userPwd);
+		
+		close(conn);
+		
+		return result;
 	}
 
 	public Member selectMember(String userId) {
@@ -89,6 +103,33 @@ public class MemberService {
 		close(conn);
 		
 		return fileName;
+	}
+
+	
+
+
+
+	public int findIdCheck(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().findIdCheck(conn, userName, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public Member findId(String userName, String email) {
+		
+		Connection conn = getConnection();
+		
+		Member member = new MemberDao().findId(conn, userName, email);
+		
+		close(conn);
+		
+		return member;
 	}
 
 	

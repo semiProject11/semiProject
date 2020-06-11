@@ -83,7 +83,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="../common/menubar4.jsp" />	
+<jsp:include page="../common/menubar2.jsp" />	
 	
 	<div id="layoutSidenav">
         <div id="layoutSidenav_nav">

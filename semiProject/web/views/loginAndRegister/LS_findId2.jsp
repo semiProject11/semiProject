@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member member = (Member)request.getAttribute("member");
+
+	String userId = member.getUserId();
+	String userName = member.getUserName();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,26 +61,24 @@
             <div class="page-header" align='center'>
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
-            <div class>
+            <div>
                 <form role="form" method="post">
                 <div class="form-group"><br><br>
-                    <label class="LS_findId">아이디 찾기</label><hr><br><br>
-                    <div class="row">
-                        <div class="col-4">회원님의 아이디는</div>
-                        <div class="col-6" for="inputId">
-                            <h1>00000000</h1>
+                    <label>아이디 찾기</label><hr><br><br>
+                    <div align="center">
+                    <label> [<%=userName%>]님의 아이디는 "<%=userId%>" 입니다.</label>
                         </div>
-                        <div class="col-2">입니다.</div>
-                    </div>
+                      
+                    
                 </div>
                 <br><br><br>
                 <div class="row">
-                    <div class="col-3"></div>
-                    <div class="col-3">
-                        <div class="form-group"><a class="btn btn-primary btn-block" href="LS_login.jsp">로그인</a></div>
+                    <div class="col-2"></div>
+                    <div class="col-4">
+                        <div class="form-group"><a class="btn btn-primary btn-block" href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp">로그인</a></div>
                     </div>
                     <div class="col-4">
-                        <div class="form-group"><a class="btn btn-primary btn-block" href="LS_findPwd.jsp">비밀번호 찾기</a></div>
+                        <div class="form-group"><a class="btn btn-primary btn-block" href="<%=request.getContextPath()%>/views/loginAndRegister/LS_findPwd.jsp">비밀번호 찾기</a></div>
                     </div>
                 </div>
                     

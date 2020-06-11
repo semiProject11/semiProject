@@ -69,7 +69,7 @@
     </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar3.jsp" />
+	<jsp:include page="../common/menubar2.jsp" />
 	  <!--contents-->
 
 	<div id="layoutSidenav">

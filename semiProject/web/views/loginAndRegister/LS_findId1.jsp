@@ -56,15 +56,15 @@
             <div class="page-header" align='center'>
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
-            <div class>
-                <form role="form"  action="LS_findId2.jsp" method="post" onsubmit="return validate();">
+            <div>
+                <form role="form" id='loginFindForm' action ="<%=request.getContextPath() %>/findId.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br>
-                    <label class="findId">아이디 찾기</label><hr>
-                    <label for="userName">이름</label>
+                    <label>아이디 찾기</label><hr>
+                    <label >이름</label>
                     <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해 주세요">
                     </div>
                     <div class="form-group">
-                        <label for="email">이메일</label>
+                        <label>이메일</label>
                         <input type="text" class="form-control" id="email" name="email" placeholder="이메일 주소를 입력해주세요" >
                     </div>
                     <div class="row">
@@ -103,38 +103,63 @@
 
       <script>
             function validate(){
-           
-            // 아이디 찾기 처리 함수
-            var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-            if($("#userName").val().trim().length == 0 && $("#email").val().trim().length == 0)
-            {
-                alert("이름과 이메일을 입력해주세요");
-                $("#userName").focus();
-                return false;
-            }
-            if($("#userName").val().trim().length==0)
-            {
-            alert("이름을 입력해주세요");
-            $("#userName").focus();
-            return false;
-            }
-            if($("#email").val().trim().length==0)
-            {
-            alert('이메일을 입력하세요');
-            $("#email").focus();
-            return false;
-            }
-            if(reg.test($("#email").val()) == false) 
-            {
-            alert('이메일 양식을 확인 해주세요');
-            $("#email").focus();
-            return false;
-            }
-            else{
-                return true;
-            }
-        }
+            	
+	            var flag = false;
+		        var userName = $("#loginFindForm input[name='userName']");
+	            var email = $("#loginFindForm input[name='email']");
+	           
+	            // 아이디 찾기 처리 함수
+	            var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	
+	            if($("#userName").val().trim().length == 0 && $("#email").val().trim().length == 0)
+	            {
+	                alert("이름과 이메일을 입력해주세요");
+	                $("#userName").focus();
+	                return false;
+	            }
+	            if($("#userName").val().trim().length==0)
+	            {
+	            alert("이름을 입력해주세요");
+	            $("#userName").focus();
+	            return false;
+	            }
+	            if($("#email").val().trim().length==0)
+	            {
+	            alert('이메일을 입력하세요');
+	            $("#email").focus();
+	            return false;
+	            }
+	            if(reg.test($("#email").val()) == false) 
+	            {
+	            alert('이메일 양식을 확인 해주세요');
+	            $("#email").focus();
+	            return false;
+	            }
+	            else{
+	            	$.ajax({
+						url:"<%=request.getContextPath()%>/findId_a.me",
+						type:"post",
+						data:{userName:userName.val(), email:email.val()},
+						async: false,
+						success:function(data){
+							if(data=="success"){
+								flag = true;
+								}
+							else{
+								alert("없는 회원정보 이거나 이름 또는 이메일이 일치하지 않습니다.");
+								flag = false;
+							}
+						},
+						error:function(request,status,error){
+						    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							flag = false;
+						}
+					});
+	            	
+	            	
+	                return flag;
+	            }
+	        }
         </script> 
       
 </body>
