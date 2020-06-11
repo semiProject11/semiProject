@@ -1,5 +1,7 @@
 package member.model.dao;
 
+
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import member.model.vo.Member;
+import member.model.vo.Profile;
 import member.model.vo.Seller;
 
 import static common.JDBCTemplate.*;
@@ -98,7 +101,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		Member member = null;
-		
+		System.out.println(userId);
 		String query = "SELECT * FROM MEMBER WHERE USER_ID=?";
 		
 		try {
@@ -352,19 +355,60 @@ public class MemberDao {
 		return sellerList;
 	}
 
+	public int insertProfile(Connection conn, Profile pf, String userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		int userNo2 = Integer.valueOf(userNo); 
+		System.out.println(userNo);
+		
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_FID.NEXTVAL, ?,?,?,?,SYSDATE,DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo2);
+			pstmt.setString(2, pf.getOrigin_name());
+			pstmt.setString(3, pf.getChange_name());
+			pstmt.setString(4, pf.getFile_path());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			
+		}
+		
+			
+		
+		return result;
+	}
+
+	public String selectFileName(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String fileName = "";
+		String query = "SELECT CHANGE_NAME FROM MEMBER M JOIN PROFILE_FILES P ON(P.USER_NO = M.USER_NO) WHERE M.USER_ID = ?"; 
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				fileName = rset.getString("CHANGE_NAME");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return fileName;
+	}
+
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

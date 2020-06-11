@@ -34,84 +34,124 @@ public class Board implements Serializable {
 	public Board() {
 		super();
 	}
-	
-	
-	public Board(int board_no, String title, String content, int user_name, Date write_date, int read_num, int board_code,
-			String board_status) {
+
+
+	public Board(int board_no, String title, String content, int user_no, Date write_date, int read_num, int board_code,
+			String board_status, String user_name) {
 		super();
 		this.board_no = board_no;
 		this.title = title;
 		this.content = content;
-		this.user_name = user_name;
+		this.user_no = user_no;
 		this.write_date = write_date;
 		this.read_num = read_num;
 		this.board_code = board_code;
 		this.board_status = board_status;
+		this.user_name = user_name;
 	}
-	
-	
-	
+
+
 	public int getBoard_no() {
 		return board_no;
 	}
+
+
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
+
+
 	public String getTitle() {
 		return title;
 	}
+
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+
 	public String getContent() {
 		return content;
 	}
+
+
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getuser_name() {
-		return user_name;
+
+
+	public int getUser_no() {
+		return user_no;
 	}
-	public void setuser_name(int user_name) {
-		this.user_name = user_name;
+
+
+	public void setUser_no(int user_no) {
+		this.user_no = user_no;
 	}
+
+
 	public Date getWrite_date() {
 		return write_date;
 	}
+
+
 	public void setWrite_date(Date write_date) {
 		this.write_date = write_date;
 	}
+
+
 	public int getRead_num() {
 		return read_num;
 	}
+
+
 	public void setRead_num(int read_num) {
 		this.read_num = read_num;
 	}
+
+
 	public int getBoard_code() {
 		return board_code;
 	}
+
+
 	public void setBoard_code(int board_code) {
 		this.board_code = board_code;
 	}
+
+
 	public String getBoard_status() {
 		return board_status;
 	}
+
+
 	public void setBoard_status(String board_status) {
 		this.board_status = board_status;
 	}
+
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
 	@Override
 	public String toString() {
-		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_name=" + user_name
+		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_no=" + user_no
 				+ ", write_date=" + write_date + ", read_num=" + read_num + ", board_code=" + board_code
-				+ ", board_status=" + board_status + "]";
+				+ ", board_status=" + board_status + ", user_name=" + user_name + "]";
 	}
 	
 	
-	
-	
-
-
 }
