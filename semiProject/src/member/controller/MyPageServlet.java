@@ -41,6 +41,7 @@ public class MyPageServlet extends HttpServlet {
 		int buyCount = new MemberService().selectCount(1, userId);
 		int sellCount = new MemberService().selectCount(2, userId);
 		
+		String fileName = new MemberService().selectFileName(userId);
 		
 		RequestDispatcher view = null;
 
@@ -49,6 +50,7 @@ public class MyPageServlet extends HttpServlet {
 			request.setAttribute("member", member);
 			request.setAttribute("buyCount", buyCount);
 			request.setAttribute("sellCount", sellCount);
+			request.setAttribute("fileName", fileName);
 		} else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "내 정보 조회에 실패했습니다.");

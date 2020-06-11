@@ -9,7 +9,8 @@
 	int sellCount = (int)request.getAttribute("sellCount");
 	int gradeTot = member.getGradeTot();
 	String grade = member.getGrade();
-	int point = member.getPoint();		
+	int point = member.getPoint();
+	String fileName = (String)request.getAttribute("fileName");
 %>
 
 <!DOCTYPE html>
@@ -189,7 +190,7 @@
 
           </div>
         </div>
-
+		
         <div class="sb-sidenav-footer">
           <div class="small">Logged in as:</div>
           Start Bootstrap
@@ -202,7 +203,7 @@
     <div id="layoutSidenav_content">
 
       <!--main-->
-
+ <form action="<%=request.getContextPath() %>/insert.pf" method="post" encType="multipart/form-data">
       <div class="container mt-5">
         <h2>내정보</h2>
         <ol class="breadcrumb mb-4">
@@ -215,20 +216,20 @@
             <div class="table-responsive mt-3">
               <div class="container">
                 <div class="row">
+                
                 <div class="col-4">
-                  <div class="card" id="profile">
-                    
+                  <div class="card" id="profile">                    
                     <div class="card-header" align="center">프로필 사진</div>
-                    <div class="card-body" align="center" style="width: 150px; height:150px;"><img src="image/images.jfif" alt=""
-                      style="width: 100px; height: 100px;"><br>                    
+                    <div class="card-body" align="center" id="imgArea"><img id="titleImg" src="profile_imgFiles/<%=fileName%>" alt="" 
+                     style="width: 140px; height: 140px; cursor:pointer;"><br>                    
                     </div>
-                    <div class="card-footer">
-                      <input type="file">
+                    <div class="card-footer" align="center">
+                      <button align="center" type="submit" class="btn" style="background:black; color:white; width:120px;">프로필 변경</button>
                     </div>
                   </div>
                 </div>
                 <div class="col-8">
-                  <form>
+                 
                     <table id="my_info" style="margin-left: 30px;">
 
                       <tr>
@@ -267,19 +268,52 @@
           </a></td>
                       </tr>
 
+                  
                     </table>
 
-
-                  </form>
+				
+                <div id="fileArea">
+				<input type="file" id="profileImg" name="profileImg" onchange="LoadImg(this)">
+				<input type="text" name="userNo" value="<%=member.getUserNo()%>">	
+				</div>
                 </div>
+                
                 </div>
+                
               </div>
             </div>
 
           </div>
         </div>
       </div>
-
+      </form>
+      
+	<script>
+	$(function(){
+		 $("#fileArea").hide(); 		
+			
+		 $("#imgArea").click(function(){
+				$("#profileImg").click();
+			});
+	})
+	
+	
+	function LoadImg(value){
+					if(value.files[0].size >= (1024 * 1024 *10)){
+						alert("파일용량이 너무 큽니다.");
+					}else{											
+						
+						if(value.files && value.files[0]){
+							var reader = new FileReader();							
+							reader.onload = function(e){
+								$("#titleImg").attr("src",e.target.result);									
+								
+							}
+							reader.readAsDataURL(value.files[0]);
+						}
+					}
+		}
+	</script>
 
 
       <!--footer-->
