@@ -180,6 +180,37 @@ public class MemberService {
 		
 	}
 
+
+	public int chargeMoney(int userNo, int chMoney) {
+		Connection conn = getConnection();
+		
+		
+		int result = new MemberDao().chargeMoney(conn, userNo, chMoney);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int selectMemberPoint(int userNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().selectMemberPoint(conn, userNo);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 	
 
 }

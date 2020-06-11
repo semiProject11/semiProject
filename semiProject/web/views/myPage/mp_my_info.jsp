@@ -225,7 +225,7 @@
                      style="width: 140px; height: 140px; cursor:pointer;"><br>                    
                     </div>
                     <div class="card-footer" align="center">
-                      <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled="true">프로필 변경</button>
+                      <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled>프로필 변경</button>
                     </div>
                   </div>
                 </div>
@@ -262,7 +262,7 @@
                         <td><label>포인트 : </label></td>
                         <td><label id="info_point"><%=point%> point</label></td>
                         <td> <a href="home.html">
-            <button type="button" class="btn" style="background:black; color:white; width:110px;">포인트충전</button>
+            <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
           </a></td>
                         <td> <a href="home.html">
             <button type="button" class="btn" style="background:black; color:white; width:110px;">출금하기</button>
@@ -289,7 +289,8 @@
       </div>
       </form>
       
-	<script>
+	<script>	
+	
 	$(function(){
 		 $("#fileArea").hide(); 		
 			

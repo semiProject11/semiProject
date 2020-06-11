@@ -189,114 +189,92 @@
 <!-- <div id="page-content-wrapper"> -->
       <div id="layoutSidenav_content">
 
-        <!--main-->
-  
-        <div class="container mt-5">
-          <h2>1:1 상담내역</h2>
-          <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item"><a href="test.html">마이페이지</a></li>
-            <li class="breadcrumb-item active">1:1 상담내역</li>
-          </ol>
-          
-          <div class="card mb-4">
-            <div class="card-header"><i class="fas fa-table mr-1"></i>1:1 상담내역</div>
-            <div class="card-body">
-              <div class="table-responsive mt-3">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>No</th>
-                            <th>진행상황</th>
-                            <th>날짜</th>
-                            <th>구분</th>
-                            <th>내용</th>
-  
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="form-check form-check-inline">
-                                    <input type="checkbox" class="form-check-input" id="checkall"
-                                        style="width:18px; height:18px;">
-  
-                                </div>
-                            </td>
-                            <td>1</td>
-                            <td>처리완료</td>
-                            <td>2020-05-14</td>
-                            <td>신고</td>
-                            <td>판매자가 이상해요</td>
-  
-                        </tr>
-  
-  
-                        <tr>
-                          <td>
-                              <div class="form-check form-check-inline">
-                                  <input type="checkbox" class="form-check-input" id="checkall"
-                                      style="width:18px; height:18px;">
-  
-                              </div>
-                          </td>
-                          <td>2</td>
-                          <td>처리중</td>
-                          <td>2020-05-15</td>
-                          <td>신고</td>
-                          <td>구매자가 이상해요</td>
-  
-                      </tr>
-  
-  
-                    </tbody>
+      <!--main-->
+
+      <div class="container mt-5">
+        <h2>포인트 충전</h2>
+        <ol class="breadcrumb mb-4">
+          <li class="breadcrumb-item"><a href="mp_my_info.html">마이페이지</a></li>
+          <li class="breadcrumb-item active">포인트충전</li>
+        </ol>
+
+        <form action="<%=request.getContextPath() %>/chargeMoney.me" method="post">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div>
+            <p style="display: inline;">충전 금액을 선택하세요</p><p style="float: right;">1회 최대 충전 금액 200만원</p3>
+              <hr>
+            </div>
+              <div class="container">
+                <table  align="center" style="margin-bottom: 50px; margin-top: 50px;">
+                  <tr id="monyeBt" align="center">                    
+                    <td><button type="button" class="btn mr-3" value="100000" style="background:black; color:white; width:95px; font-size: small;">10만원</button></td>
+                    <td><button type="button" class="btn mr-3" value="300000" style="background:black; color:white; width:95px; font-size: small;">30만원</button></td>
+                    <td><button type="button" class="btn mr-3" value="500000" style="background:black; color:white; width:95px; font-size: small;">50만원</button></td>
+                    <td><button type="button" class="btn mr-3" value="1000000" style="background:black; color:white; width:95px; font-size: small;">100만원</button></td>
+                    <td><button type="button" class="btn mr-3" value="1500000" style="background:black; color:white; width:95px; font-size: small;">150만원</button></td>
+                  </tr>
                 </table>
-            </div>            
-            <button type="button" class="btn float-right mr-3" style="background:black; color:white; width:100px; font-size: small;">1:1문의 등록</button>
-            <button type="button" class="btn float-right mr-3" style="background:black; color:white; width:95px; font-size: small;">문의 수정</button>
+                <div align="center">
+                  <label>충전 하려는 금액 : &nbsp;&nbsp;</label><input type="text" id="result" name="chargeMoney" >
+
+
+                </div>
+                
+              </div>
+              
+
+              <div class="mt-5" style="margin-left: 10px;">
+                <p>결제 수단</p>
+                <hr>
+                <table>
+                  <tr>
+                    <td style="padding-left: 20px;"><input type="radio" id="신용카드"name="pay">&nbsp;<label for="신용카드">신용카드</label></td>
+                    <td style="padding-left: 20px;"><input type="radio" id="핸드폰"name="pay">&nbsp;<label for="핸드폰">핸드폰</label></td>
+                    <td style="padding-left: 20px;"><input type="radio" id="무통장입금"name="pay">&nbsp;<label for="무통장입금">무통장입금</label></td>
+                  </tr>
+                </table>
+                <button type="submit" class="btn float-right mr-5" style="background:black; color:white; width:95px;">충전하기</button>
+                <!-- chargeMonyeServlet으로 가자 ! -->
+              </div>
+
+
+          </div>
+        </div>
+          </form>
+        
+      </div>
+
+
+		<script>
+                $(function(){
+                  $("#monyeBt button").click(function(){                   
+
+                    $("#result").val($(this).val());
+                  })
+                })
+        </script>
+
+
+
+
+
+
+      <!--footer-->
+      <footer class="py-4 bg-light mt-auto">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+            <div>
+              <a href="#">Privacy Policy</a>
+              &middot;
+              <a href="#">Terms &amp; Conditions</a>
             </div>
           </div>
         </div>
-  
-        <!------페이징 처리----->
-        <div class="page-center">
-          <ul class="pagination-t">
-  
-              <!-- disabled: 페이지 비활성화 -->
-              <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
-  
-              <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-  
-              <!-- disabled: 해당 버튼 활성화 -->
-              <li class="page-item-t active-t" aria-current="page-t">
-                  <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-              <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-          </ul>
-  
-      </div>
-  
-  
-  
-  
-  
-  
-  
-        <!--footer-->
-        <footer class="py-4 bg-light mt-auto">
-          <div class="container-fluid">
-            <div class="d-flex align-items-center justify-content-between small">
-              <div class="text-muted">Copyright &copy; Your Website 2019</div>
-              <div>
-                <a href="#">Privacy Policy</a>
-                &middot;
-                <a href="#">Terms &amp; Conditions</a>
-              </div>
-            </div>
-          </div>
-        </footer>
-  		</div>
+      </footer>
+
+    </div>
       </div>
 </body>
 </html>

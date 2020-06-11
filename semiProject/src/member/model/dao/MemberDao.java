@@ -471,6 +471,63 @@ public class MemberDao {
 		return result;
 	}
 
+
+
+
+	public int chargeMoney(Connection conn, int userNo, int chMoney) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO =?";
+				
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, chMoney);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int selectMemberPoint(Connection conn, int userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT POINT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("POINT");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
 	
 
 }
