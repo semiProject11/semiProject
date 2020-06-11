@@ -14,7 +14,7 @@
     crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
     crossorigin="anonymous"></script>
-     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
         .btn{

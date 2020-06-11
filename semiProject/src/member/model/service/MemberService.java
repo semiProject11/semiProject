@@ -133,6 +133,37 @@ public class MemberService {
 	}
 
 
+	public int profileEt(String userNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().profileEt(conn, userNo);
+		
+		close(conn);
+		
+		
+		
+		return result;
+	}
+
+
+	public int changeProfile(Profile pf, String userNo) {
+		Connection conn = getConnection();
+		
+		
+		int result = new MemberDao().changeProfile(conn, pf, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);			
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 	public ArrayList<Member> selectGradeList() {
 		Connection conn=getConnection();
 		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
@@ -149,6 +180,73 @@ public class MemberService {
 		
 	}
 
-	
+
+	public Member memberLogin(String userId) {
+		Connection conn = getConnection();
+		
+		Member mem = new MemberDao().memberLogin(conn, userId);
+		
+		close(conn);
+		return mem;
+	}
+
+
+	public int findPwdCheck(String userId, String userName, String email) {
+Connection conn = getConnection();
+		
+int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int idCheck(String userId) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int chargeMoney(int userNo, int chMoney) {
+		Connection conn = getConnection();
+		
+		
+		int result = new MemberDao().chargeMoney(conn, userNo, chMoney);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int selectMemberPoint(int userNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().selectMemberPoint(conn, userNo);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 
 }
+
+
+	
+
+
