@@ -133,6 +133,37 @@ public class MemberService {
 	}
 
 
+	public int profileEt(String userNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().profileEt(conn, userNo);
+		
+		close(conn);
+		
+		
+		
+		return result;
+	}
+
+
+	public int changeProfile(Profile pf, String userNo) {
+		Connection conn = getConnection();
+		
+		
+		int result = new MemberDao().changeProfile(conn, pf, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);			
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 	public ArrayList<Member> selectGradeList() {
 		Connection conn=getConnection();
 		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
