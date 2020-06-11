@@ -333,30 +333,34 @@
                 // 아이디 중복확인 ajax
                 
     			$("#userId").change(function(){	
-    			$.ajax({
-    				url : "<%=request.getContextPath()%>/idCheck.me",
-    				type : 'post',
-    				data:{userId:userId.val()},
-    				success : function(data) {
-    					if (data == "fail") {
-    						$("#duCheck").html("이미 존재하는 아이디입니다 ").css("color", "red");
-    						$("#userId").val('');
-                            $("#userId").focus();
-    					}
-    					else{
-    						$("#duCheck").html("사용 가능한 아이디입니다 ").css("color", "green");
-    						/* if(("#userId").val('')){
-    							$("#duCheck").hide();
-    						} */
-    					
-    					}
-    					
+    				if(userId.val().length<4){
+    					$("#duCheck").html("").css("color", "white");
     				}
-    				, error : function(request,status,error){
-    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-    				}
-    				});
-    			});
+    				else{
+    			
+    					$.ajax({
+		    				url : "<%=request.getContextPath()%>/idCheck.me",
+		    				type : 'post',
+		    				data:{userId:userId.val()},
+		    				success : function(data) {
+		    					if (data == "fail") {
+		    						$("#duCheck").html("이미 존재하는 아이디입니다 ").css("color", "red");
+		    						$("#userId").val('');
+		                            $("#userId").focus();
+		    					}
+		    					else{
+		    						$("#duCheck").html("사용 가능한 아이디입니다 ").css("color", "green");
+		    						
+		    					
+		    					}
+		    					
+		    				}
+		    				, error : function(request,status,error){
+		    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    				}
+		    				});
+		    			}
+		    			});
             	
             	
             	
