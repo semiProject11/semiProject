@@ -231,6 +231,10 @@ public class Member implements Serializable {
 				+ ", gradeTot=" + gradeTot + ", profile=" + profile + ", sellYN=" + sellYN + ", ReviewYN=" + ReviewYN
 				+ "]";
 	}
+
+
+
+
 	
 	
 	

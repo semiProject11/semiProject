@@ -4,9 +4,12 @@ import static common.JDBCTemplate.*;
 import static common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
+import member.model.vo.Profile;
+import member.model.vo.Seller;
 
 public class MemberService {
 
@@ -37,6 +40,8 @@ public class MemberService {
 		conn = getConnection();
 
 		Member member = new MemberDao().selectMember(conn, userId);
+		
+		
 
 		close(conn);
 		
@@ -54,10 +59,54 @@ public class MemberService {
 			count =  new MemberDao().selectSCount(conn, userId);
 		}
 		
+		
+		if(count > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);			
+		}
+		
+		
 		close(conn);
 		
 		return count;
 	}
+
+	public int insertProfile(Profile pf, String userNo) {
+		Connection conn = getConnection();
+		
+		
+		int result = new MemberDao().insertProfile(conn, pf, userNo);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);			
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public String selectFileName(String userId) {
+		Connection conn = getConnection();
+		
+		String fileName = new MemberDao().selectFileName(conn, userId);
+		
+		if(fileName.isEmpty()) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return fileName;
+	}
+
+	
+
 
 
 	public int findIdCheck(String userName, String email) {
@@ -81,6 +130,23 @@ public class MemberService {
 		close(conn);
 		
 		return member;
+	}
+
+
+	public ArrayList<Member> selectGradeList() {
+		Connection conn=getConnection();
+		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
+		close(conn);
+		return gradeList;
+	}
+
+
+	public ArrayList<Seller> selectSellerList() {
+		Connection conn=getConnection();
+		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
+		close(conn);
+		return sellerList;
+		
 	}
 
 	
