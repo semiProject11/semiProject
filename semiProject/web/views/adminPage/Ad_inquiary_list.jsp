@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*, java.util.ArrayList"%>
+    
+    <% 
+    ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
+    ArrayList<Inquiary> InquiaryList=(ArrayList<Inquiary>)request.getAttribute("InquiaryList");
+    
+    %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -278,7 +284,13 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th><td>
+                                        <div class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" id="checkall"
+                                                style="width:18px; height:18px;">
+
+                                        </div>
+                                    </td></th>
                                     <th>No</th>
                                     <th>문의 유형</th>
                                     <th>제목</th>
@@ -289,8 +301,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <%if(bList.isEmpty()){ %>
+                            <tr>
+                            <td clospan="7">작성된 게시글이 없습니다.</td>
+                            </tr>
+                            <%}else{ %>
+                                <%for(int i=0;i<bList.size();i++){ %>
+                                
                                 <tr>
-                          
+                          			<input type="hidden" value="<%(bList.get(i)).getBoard_no() %>">
                                     <td>
                                         <div class="form-check form-check-inline">
                                             <input type="checkbox" class="form-check-input" id="checkall"
@@ -298,15 +317,17 @@
 
                                         </div>
                                     </td>
-                                    <td>1</td>
-                                    <td>이용문의</td>
-                                    <td><a href="admin_inquiry_into.html" id="bk">진짜 손흥민 만들 수 있는 건가요?</a></td>
-                                    <td>2020-05-14</td>
-                                    <td>톳흐넘</td>
+                                    
+                                    <td><%(bList.get(i)).getBoard_no() %></td>
+                                    <td><%(InquiaryList.get(i)).getBoard_type() %></td>
+                                    <td><%(bList.get(i)).getTitle() %></td>
+                                    <td><%(bList.get(i)).getWrite_date() %></td>
+                                    <td><%(bList.get(i)).get %></td>
                                     <td>X</td>
 
                                 </tr>
-                            
+                            <%} %>
+                            <%} %>
                             </tbody>
                         </table>
                     </div>

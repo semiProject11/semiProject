@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 /board/
-=======
+/common/
+/filter/
 /member/
 /service/
->>>>>>> refs/remotes/origin/master
-/filter/

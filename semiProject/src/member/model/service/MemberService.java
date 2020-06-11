@@ -163,6 +163,23 @@ public class MemberService {
 		return result;
 	}
 
+
+	public ArrayList<Member> selectGradeList() {
+		Connection conn=getConnection();
+		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
+		close(conn);
+		return gradeList;
+	}
+
+
+	public ArrayList<Seller> selectSellerList() {
+		Connection conn=getConnection();
+		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
+		close(conn);
+		return sellerList;
+		
+	}
+
 	
 
 }
