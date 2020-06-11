@@ -40,7 +40,7 @@
                   <a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a>
                   </div>
               </div>
-              <div class>
+              <div>
                   <form role="form" action="LS_login.html" method="get" onsubmit="return validate();">
                       <div class="form-group"><br><br>
                           <label>아이디</label>
@@ -213,6 +213,7 @@
             </div>
             <div class="col">
                 
+            </div>
             </div>
     
         </article>
