@@ -149,6 +149,43 @@ public class MemberService {
 		
 	}
 
-	
+
+	public Member memberLogin(String userId) {
+		Connection conn = getConnection();
+		
+		Member mem = new MemberDao().memberLogin(conn, userId);
+		
+		close(conn);
+		return mem;
+	}
+
+
+	public int findPwdCheck(String userId, String userName, String email) {
+Connection conn = getConnection();
+		
+int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int idCheck(String userId) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 
 }
+
+
+	
+
+

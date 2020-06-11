@@ -409,6 +409,123 @@ public class MemberDao {
 		return fileName;
 	}
 
+
+
+
+	public Member memberLogin(Connection conn, String userId) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member mem = null;
+		
+		String query = "SELECT * FROM MEMBER WHERE USER_ID=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				mem = new Member(rset.getInt("USER_NO"),
+										rset.getString("USER_ID"),
+										rset.getString("USER_PWD"),
+										rset.getString("USER_NAME"),
+										rset.getInt("BIRTH"),
+										rset.getString("PHONE"),
+										rset.getString("EMAIL"),
+										rset.getInt("POINT"),
+										rset.getDate("ENROLL_DATE"),
+										rset.getDate("DROP_DATE"),
+										rset.getString("STATUS"),
+										rset.getString("GRADE"),
+										rset.getInt("GRADE_TOT"),
+										rset.getString("PROFILE"),
+										rset.getString("SELL_YN"),
+										rset.getString("REVIEW_YN"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return mem;
+		
+	}
+
+
+
+
+	public int findPwdCheck(Connection conn, String userId, String userName, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID=? AND USER_NAME = ? AND EMAIL=? ";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+	
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+
+
+
+	public int idCheck(Connection conn, String userId) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,userId);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+
+
+
+
+
+
 	
 
 }
