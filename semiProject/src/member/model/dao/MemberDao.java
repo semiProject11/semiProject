@@ -359,7 +359,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		int userNo2 = Integer.valueOf(userNo); 
-		System.out.println(userNo);
+		
 		
 		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_FID.NEXTVAL, ?,?,?,?,SYSDATE,DEFAULT)";
 		
@@ -412,6 +412,7 @@ public class MemberDao {
 
 
 
+<<<<<<< HEAD
 	public Member memberLogin(Connection conn, String userId) {
 		
 		PreparedStatement pstmt = null;
@@ -525,6 +526,123 @@ public class MemberDao {
 
 
 
+=======
+	
+	public int profileEt(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT count(*) c FROM MEMBER M JOIN PROFILE_FILES P ON(P.USER_NO = M.USER_NO) WHERE M.USER_NO = ?";
+		int userNo2 = Integer.valueOf(userNo); 
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo2);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("c");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int changeProfile(Connection conn, Profile pf, String userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		int userNo2 = Integer.valueOf(userNo); 
+		
+		
+		String query = "UPDATE PROFILE_FILES SET ORIGIN_NAME=?, CHANGE_NAME=?, FILE_PATH=?, UPLOAD_DATE=SYSDATE WHERE USER_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, pf.getOrigin_name());
+			pstmt.setString(2, pf.getChange_name());
+			pstmt.setString(3, pf.getFile_path());
+			pstmt.setInt(4, userNo2);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			
+		}
+		
+			
+		
+		return result;
+	}
+
+
+
+
+	public int chargeMoney(Connection conn, int userNo, int chMoney) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO =?";
+				
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, chMoney);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int selectMemberPoint(Connection conn, int userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT POINT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("POINT");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return result;
+	}
+>>>>>>> refs/remotes/origin/master
 
 	
 

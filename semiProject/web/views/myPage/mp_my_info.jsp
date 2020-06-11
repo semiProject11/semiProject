@@ -11,6 +11,7 @@
 	String grade = member.getGrade();
 	int point = member.getPoint();
 	String fileName = (String)request.getAttribute("fileName");
+	String gradeIcon = member.getGrade();
 %>
 
 <!DOCTYPE html>
@@ -203,7 +204,7 @@
     <div id="layoutSidenav_content">
 
       <!--main-->
- <form action="<%=request.getContextPath() %>/insert.pf" method="post" encType="multipart/form-data">
+ <form action="<%=request.getContextPath() %>/insert.pf" method="post" encType="multipart/form-data" onsubmit="">
       <div class="container mt-5">
         <h2>내정보</h2>
         <ol class="breadcrumb mb-4">
@@ -224,7 +225,7 @@
                      style="width: 140px; height: 140px; cursor:pointer;"><br>                    
                     </div>
                     <div class="card-footer" align="center">
-                      <button align="center" type="submit" class="btn" style="background:black; color:white; width:120px;">프로필 변경</button>
+                      <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled>프로필 변경</button>
                     </div>
                   </div>
                 </div>
@@ -254,14 +255,14 @@
                       </tr>
                       <tr>
                         <td><label>등급 : </label></td>
-                        <td><label id="info_level_point"><%=gradeTot%> / &nbsp;</label><label><img src="image/images.jfif" alt=""
+                        <td><label id="info_level_point"><%=gradeTot%> / &nbsp;</label><label><img src="gradeIcon/<%=gradeIcon%>.png" alt=""
                               style="width: 20px; height: 20px;"></label></td>
                       </tr>
                       <tr>
                         <td><label>포인트 : </label></td>
                         <td><label id="info_point"><%=point%> point</label></td>
                         <td> <a href="home.html">
-            <button type="button" class="btn" style="background:black; color:white; width:110px;">포인트충전</button>
+            <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
           </a></td>
                         <td> <a href="home.html">
             <button type="button" class="btn" style="background:black; color:white; width:110px;">출금하기</button>
@@ -288,13 +289,17 @@
       </div>
       </form>
       
-	<script>
+	<script>	
+	
 	$(function(){
 		 $("#fileArea").hide(); 		
 			
 		 $("#imgArea").click(function(){
-				$("#profileImg").click();
+				$("#profileImg").click();				
+				
+			 $('#button_joinus').attr('disabled', false); 
 			});
+
 	})
 	
 	

@@ -1,2 +1,7 @@
 /member/
+<<<<<<< HEAD
 /sendEmail/
+=======
+/service/
+/sql/
+>>>>>>> refs/remotes/origin/master
