@@ -37,6 +37,7 @@ public class InsertFrofileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		
 		int maxSize = 1024 * 1024 *10; // 전송 용량
 		
 		String root = request.getSession().getServletContext().getRealPath("/");	// web/
@@ -70,11 +71,20 @@ public class InsertFrofileServlet extends HttpServlet {
 		pf.setOrigin_name(originFiles);
 		pf.setChange_name(saveFiles);
 		pf.setFile_path(savePath);
+		int result1 = new MemberService().profileEt(userNo);
+		int result = 0;
+		if(result1 == 0) {
+			result = new MemberService().insertProfile(pf, userNo);			
+		}else {
+			result = new MemberService().changeProfile(pf, userNo);
+		}
 		
-		int result = new MemberService().insertProfile(pf, userNo);
 		
 		if(result>0) {
-			
+			response.sendRedirect("myPage.me");
+		}else {
+			request.setAttribute("msg", "프로필 변경실패");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		
 		
