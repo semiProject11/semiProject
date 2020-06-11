@@ -278,31 +278,38 @@ public class MemberDao {
 		String query="SELECT * FROM MEMBER";
 		ArrayList<Member> gradeList=new ArrayList<Member>();
 		
-		pstmt=conn.prepareStatement(query);
-		rset=pstmt.executeQuery();
-		
-		while(rset.next()) {
+		try {
+			pstmt=conn.prepareStatement(query);
+			rset=pstmt.executeQuery();
 			
-			Member m=new Member(rset.getInt("userNo"),
-								rset.getString("userId"),
-								rset.getString("userPwd"),
-								rset.getString("userName"),
-								rset.getInt("userBirth"),
-								rset.getString("phone"),
-								rset.getString("email"),
-								rset.getInt("point"),
-								rset.getDate("enrollDate"),
-								rset.getDate("dropDate"),
-								rset.getString("status"),
-								rset.getString("grade"),
-								rset.getInt("gradeTot"),
-								rset.getString("profile"),
-								rset.getString("sellYN"),
-								rset.getString("ReviewYN")
-					
-					);
-			gradeList.add(m);
-		
+			while(rset.next()) {
+				
+				Member m=new Member(rset.getInt("user_No"),
+						rset.getString("user_Id"),
+						rset.getString("user_Pwd"),
+						rset.getString("user_Name"),
+						rset.getInt("Birth"),
+						rset.getString("phone"),
+						rset.getString("email"),
+						rset.getInt("point"),
+						rset.getDate("enroll_Date"),
+						rset.getDate("drop_Date"),
+						rset.getString("status"),
+						rset.getString("grade"),
+						rset.getInt("grade_Tot"),
+						rset.getString("profile"),
+						rset.getString("sell_YN"),
+						rset.getString("Review_YN")
+						
+						);
+				gradeList.add(m);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
 		}
 		
 		
@@ -317,19 +324,28 @@ public class MemberDao {
 		String query="SELECT * FROM SELLER";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
-		pstmt=conn.prepareStatement(query);
-		rset=pstmt.executeQuery();
-		
-		while(rset.next()) {
+		try {
+			pstmt=conn.prepareStatement(query);
+			rset=pstmt.executeQuery();
 			
-			Seller s=new Seller(rset.getInt("userNo"),
-								rset.getInt("reportNum"),
-								rset.getInt("sellCount")
-								
-					
-					);
-			sellerList.add(s);
-		
+			while(rset.next()) {
+				
+				Seller s=new Seller(rset.getInt("s_user_No"),
+									rset.getInt("report_Num"),
+									rset.getInt("sell_Count")
+									
+						
+						);
+				sellerList.add(s);
+			
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
 		}
 		
 		

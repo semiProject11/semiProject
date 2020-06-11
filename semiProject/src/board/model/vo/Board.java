@@ -13,11 +13,12 @@ public class Board implements Serializable {
 	private int board_no;			//게시글 번호
 	private String title;			//제목
 	private String content;			//내용
-	private int user_no;			//게시물 작성자
+	private int user_no;			//작성자 회원번호
 	private Date write_date;		//작성일자
 	private int read_num;			//조회수
 	private int board_code;			//게시물 코드
 	private String board_status;	//삭제여부
+	private String user_name;		//게시글 작성자명
 	
 	
 	
@@ -35,13 +36,13 @@ public class Board implements Serializable {
 	}
 	
 	
-	public Board(int board_no, String title, String content, int user_no, Date write_date, int read_num, int board_code,
+	public Board(int board_no, String title, String content, int user_name, Date write_date, int read_num, int board_code,
 			String board_status) {
 		super();
 		this.board_no = board_no;
 		this.title = title;
 		this.content = content;
-		this.user_no = user_no;
+		this.user_name = user_name;
 		this.write_date = write_date;
 		this.read_num = read_num;
 		this.board_code = board_code;
@@ -68,11 +69,11 @@ public class Board implements Serializable {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public int getUser_no() {
-		return user_no;
+	public int getuser_name() {
+		return user_name;
 	}
-	public void setUser_no(int user_no) {
-		this.user_no = user_no;
+	public void setuser_name(int user_name) {
+		this.user_name = user_name;
 	}
 	public Date getWrite_date() {
 		return write_date;
@@ -103,7 +104,7 @@ public class Board implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_no=" + user_no
+		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_name=" + user_name
 				+ ", write_date=" + write_date + ", read_num=" + read_num + ", board_code=" + board_code
 				+ ", board_status=" + board_status + "]";
 	}

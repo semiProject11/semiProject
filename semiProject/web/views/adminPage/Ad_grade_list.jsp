@@ -95,13 +95,12 @@ th, tr, td {
 </head>
 <body>
 
-<%=gradeList %>
-<%=sellerList %>
 
 
 	<jsp:include page="../common/menubar2.jsp" />
 	<!--side nav start-->
 	<div id="layoutSidenav">
+
 		<div id="layoutSidenav_nav">
 			<nav class="sb-sidenav accordion sb-sidenav-light"
 				id="sidenavAccordion">
@@ -232,6 +231,8 @@ th, tr, td {
 			<div class="container mt-5">
 
 				<header>
+				<%=gradeList %>
+				<%=sellerList %>
 					<h2>사용자 등급 관리</h2>
 					<hr>
 				</header>
@@ -287,7 +288,9 @@ th, tr, td {
 							</thead>
 
 							<tbody>
-								<%if(gradeList.isEmpty()){ %> 
+							
+							
+							<%if(gradeList.isEmpty()){ %> 
 								<tr>
 									<td colspan="7">조회된 결과가 없습니다.</td>
 								</tr>
@@ -295,7 +298,7 @@ th, tr, td {
 								<%for(int i=0;i<gradeList.size();i++){ %>
 
 			 						<tr>
-									<input type="hidden" value="<%=((Member)gradeList.get(i)).getUserNo()%>">
+									<input type="hidden" value="<%=(gradeList.get(i)).getUserNo()%>">
 									<td>
 										<div class="form-check form-check-inline">
 											<input type="checkbox" class="form-check-input"
@@ -304,7 +307,7 @@ th, tr, td {
 											<label class="form-check-label" for="checkall"></label>
 										</div>
 									</td>
-									<!-- 게시물번호 -->
+									<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
 									<td><%=(gradeList.get(i)).getUserNo()%></td>
 									<!-- 유저아이디 -->
 									<td><%=(gradeList.get(i)).getUserId()%></td>
@@ -314,8 +317,11 @@ th, tr, td {
 									<td><%=(sellerList.get(i)).getReportNum()%></td>
 									<!-- 현재 등급 -->
 									<td><%=(gradeList.get(i)).getGrade()%></td>
-									<!-- 변경될 등급 -->
-									<td>
+									<!-- 변경될 등급 --> 
+									
+			
+									
+						<td>
 										<div class="dropdown">
 											<button class="btn btn-default dropdown-toggle" type="button"
 												data-toggle="dropdown">등급 선택</button>
@@ -325,12 +331,12 @@ th, tr, td {
 													class="dropdown-item" href="#">DIAMOND</a>
 											</div>
 										</div>
-									</td>
+									</td> 
 
 								</tr>
 								
 								<%} %>
-				<%} %>
+				<%} %> 
 							
 
 							</tbody>

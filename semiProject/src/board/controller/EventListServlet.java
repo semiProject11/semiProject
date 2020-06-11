@@ -17,13 +17,13 @@ import board.model.service.BoardService;
  * Servlet implementation class eventListServlet
  */
 @WebServlet("/eventList.Service")
-public class eventListServlet extends HttpServlet {
+public class EventListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public eventListServlet() {
+    public EventListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -74,7 +74,7 @@ public class eventListServlet extends HttpServlet {
 //			request.setAttribute("pn", pn);
 		}else {
 			view=request.getRequestDispatcher("views/common/errorPage.jsp");
-			request.setAttribute("msg", "게시글 조회실패");
+		
 		}
 		
 		view.forward(request, response);
