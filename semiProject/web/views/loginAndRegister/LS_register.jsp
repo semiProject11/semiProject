@@ -220,16 +220,36 @@
       <!-- onsubmit validate() 함수-->
 
         <script>
-            function validate(){
             	var flag = false;
             	
+            	var userId = $("#registerForm input[name='userId']");
+				// 아이디 영대,소문자 숫자로만 4~15자
+				var regI = /^[a-zA-z0-9]{4,15}$/;
+
+				// 한글 최소 2자 이상 영어 2자 2자 이상 
+				var regHE = /^[가-힣]{2,}|[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/;
+				
+				// 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자
+				var regP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
+                
+				// 생년월일 8자 숫자만
+				var regB = /^[0-9]{8,8}$/;
+				
+				// 핸드폰 중간자리 3~4 끝자리 4, 숫자만
+				var regP2 = /^[0-9]{3,4}$/;
+                var regP3 = /^[0-9]{4,4}$/;
+                // 계좌번호 8자이상, 숫자만
+                var regA = /^[0-9]{8,20}$/;
+            function validate(){
 	           	
-                
-                
-                
                 
     			if($("#userId").val().trim().length == 0){
                     alert("아이디를 입력하세요");
+                    $("#userId").focus();
+                    return false;
+                }
+    			if(!regI.test($("#userId").val())){
+            		alert("아이디조건을 확인하세요"); 
                     $("#userId").focus();
                     return false;
                 }
@@ -238,8 +258,18 @@
                     $("#userPwd").focus();
                     return false;
                 }
+                if(!regP.test($("#userPwd").val())){
+                    alert("비밀번호 조건을 확인하세요");
+                    $("#userPwd").focus();
+                    return false;
+                }
                 if($("#userPwdCheck").val().trim().length == 0){
                     alert("비밀번호 확인을 입력하세요");
+                    $("#userPwdCheck").focus();
+                    return false;
+                }
+                if($("#userPwd").val() != $("#userPwdCheck").val() ){
+                    alert("비밀번호가 같은지 확인해주세요");
                     $("#userPwdCheck").focus();
                     return false;
                 }
@@ -248,8 +278,18 @@
                     $("#userName").focus();
                     return false;
                 }
+                if(!regHE.test($("#userName").val())){
+                	alert("이름을 조건에 맞게 입력하세요");
+                    $("#userName").focus();
+                    return false;
+                }
                 if($("#userBirthday").val().trim().length == 0){
                     alert("생년월일을 입력하세요");
+                    $("#userBirthday").focus();
+                    return false;
+                }
+                if(!regB.test($("#userBirthday").val())){
+                	alert("생일을 조건에 맞게 입력하세요");
                     $("#userBirthday").focus();
                     return false;
                 }
@@ -263,8 +303,18 @@
                     $("#phone2").focus();
                     return false;
                 }
+                if(!regP2.test($("#phone2").val())){
+                	alert("번호 3~4자리를 입력하세요");
+                    $("#phone2").focus();
+                    return false;
+                }
                 if($("#phone3").val().trim().length == 0){
                     alert("휴대폰 번호를 입력하세요");
+                    $("#phone3").focus();
+                    return false;
+                }
+                if(!regP3.test($("#phone3").val())){
+                	alert("번호 4자리를 입력하세요");
                     $("#phone3").focus();
                     return false;
                 }
@@ -273,16 +323,15 @@
                     $("#emailId").focus();
                     return false;
                 }
-                if($("#userEmail").val().trim().length == 0){
-                    alert("이메일 주소를 입력하세요");
-                    $("#userEmail").focus();
-                    return false;
-                }
+                
+                
                 if($("#emailNum").val().trim().length == 0){
                     alert("인증번호를 입력하세요");
                     $("#emailNum").focus();
                     return false;
                 }
+                
+                
                 if($("#Bank").val().trim().length == 0){
                     alert("계좌은행을 입력하세요");
                     $("#Bank").focus();
@@ -295,6 +344,11 @@
                 }
                 if($("#bankNo").val().trim().length == 0){
                     alert("계좌번호를 입력하세요");
+                    $("#bankNo").focus();
+                    return false;
+                }
+                if(!regA.test($("#bankNo").val())){
+                	alert("계좌번호를 조건에 맞게 입력하세요");
                     $("#bankNo").focus();
                     return false;
                 }
@@ -311,25 +365,7 @@
 
             $(document).ready(function(){
     
-				var userId = $("#registerForm input[name='userId']");
-				// 아이디 영대,소문자 숫자로만 4~15자
-				var regI = /^[a-zA-z0-9]{4,15}$/;
-
-				// 한글 최소 2자 이상 영어 2자 2자 이상 
-				var regHE = /^[가-힣]{2,}|[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/;
 				
-				// 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자
-				var reg = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
-                
-				// 생년월일 8자 숫자만
-				var regB = /^[0-9]{8,8}$/;
-				
-				// 핸드폰 중간자리 3~4 끝자리 4, 숫자만
-				var regP2 = /^[0-9]{3,4}$/;
-                var regP3 = /^[0-9]{4,4}$/;
-                // 계좌번호 8자이상, 숫자만
-                var regA = /^[0-9]{8,20}$/;
-      
                 // 아이디 중복확인 ajax
                 
     			$("#userId").change(function(){	
@@ -345,7 +381,7 @@
 		    				success : function(data) {
 		    					if (data == "fail") {
 		    						$("#duCheck").html("이미 존재하는 아이디입니다 ").css("color", "red");
-		    						$("#userId").val('');
+		    						
 		                            $("#userId").focus();
 		    					}
 		    					else{
@@ -373,7 +409,6 @@
                     $("#userId").change(function(){
                     if(!regI.test($(this).val())){
                         $("#idcondition").html("아이디는 영문 대소문자와 숫자만으로  4~12자리로 입력해야합니다.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     }
                     
@@ -383,26 +418,10 @@
                     }
                     });
 
-                    
-                    // 회원 가입 처리 : 이름, 비밀번호, 비밀번호 확인
-                     $("#userName").change(function(){
-                    	 if(!regHE.test($(this).val())){
-                        $("#nameresult").html("한글로 2자 이상 또는 영어 이름을 입력하세요 (ex Son HeungMin)").css("color","red");
-                        $(this).val('');
-                        $(this).focus();
-                    }
-                    
-                    else{
-                        $("#nameresult").html("").css('color','green');
-                        $(this).focus().css("background",'white');
-                    }
-                    });
-
                 
                     $("#userPwd").change(function(){
-                    if(!reg.test($(this).val())) {
-                    $("#pwdresultcondition").html("비밀번호는 8자 이상 16자 이하 이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.").css("color","red");
-                        $(this).val('');
+                    if(!regP.test($(this).val())) {
+                    $("#pwdresultcondition").html("비밀번호는 8자 이상 16자 이하 이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.").css("color","red");                       
                         $(this).focus();
                     }
                     else {
@@ -415,7 +434,6 @@
                     $("#userPwdCheck").change(function(){
                     if($("#userPwd").val() != $(this).val() || $(this).val().length==0){
                         $("#pwdresult").html("비밀번호가 일치하지 않습니다.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     
                     }else{
@@ -433,11 +451,23 @@
                     });
             
 
+                 // 회원 가입 처리 : 이름, 비밀번호, 비밀번호 확인
+                    $("#userName").change(function(){
+                   	 if(!regHE.test($(this).val())){
+                       $("#nameresult").html("한글로 2자 이상 또는 영어 이름을 입력하세요 (ex Son HeungMin)").css("color","red");
+                       $(this).focus();
+                   }
+                   
+                   else{
+                       $("#nameresult").html("").css('color','green');
+                       $(this).focus().css("background",'white');
+                   }
+                   });
+                    
                     // 생년월일 : 20200202
                     $("#userBirthday").change(function(){
                     if(!regB.test($(this).val())) {
                     $("#Birthdayresult").html("생년월일 8자리를 입력하세요.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     }else {
                     $("#Birthdayresult").html('').css("color","green");
@@ -448,7 +478,6 @@
                     $("#phone2").change(function(){
                     if(!regP2.test($(this).val())) {
                     $("#p2result").html("번호 3~4자리를 입력하세요.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     }else {
                     $("#p2result").html('').css("color","green");
@@ -457,7 +486,6 @@
                     $("#phone3").change(function(){    
                     if(!regP3.test($(this).val())) {
                     $("#p3result").html("번호 4자리를 입력하세요.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     }else {
                     $("#p3result").html('').css("color","green");
@@ -469,7 +497,6 @@
                     $("#bankNo").change(function(){
                     if(!regA.test($(this).val())) {
                     $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color","red");
-                        $(this).val('');
                         $(this).focus();
                     }else {
                     $("#noresult").html('').css("color","green");
