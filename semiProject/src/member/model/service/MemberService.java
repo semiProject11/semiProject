@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import member.model.dao.MemberDao;
+import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
@@ -240,6 +241,18 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 		
 		return result;
+	}
+
+
+	public Account selectAccount(int userNo) {
+		Connection conn = getConnection();
+		
+		Account account = new MemberDao().selectAccount(conn, userNo);
+		
+	
+		close(conn);
+		
+		return account;
 	}
 
 

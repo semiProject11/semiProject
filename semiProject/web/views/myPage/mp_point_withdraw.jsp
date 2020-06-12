@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member member = (Member)request.getAttribute("member");
+	
+	String userName = member.getUserName();
+	String email = member.getEmail();
+	int buyCount = (int)request.getAttribute("buyCount");
+	int sellCount = (int)request.getAttribute("sellCount");
+	int gradeTot = member.getGradeTot();
+	String grade = member.getGrade();
+	int point = member.getPoint();
+	String fileName = (String)request.getAttribute("fileName");
+	String gradeIcon = member.getGrade();
+%>
 <!DOCTYPE html>
 <html>
 <head>

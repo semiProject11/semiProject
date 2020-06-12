@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
@@ -640,5 +641,29 @@ public class MemberDao {
 		
 		return result;
 
+	}
+
+
+
+
+	public Account selectAccount(Connection conn, int userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		Account ac = null;
+		String query = "SELECT * FROM ACCOUNT WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return null;
 	}
 }
