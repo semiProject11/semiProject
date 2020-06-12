@@ -81,16 +81,12 @@ public class RegisterUserServlet extends HttpServlet {
 				int result = new MemberService().registerMember(member, Account);
 			
 				// 4. 반환 결과에 따른 if~else 처리
-				String page = "";
+				
 				if(result > 0) {	// 회원가입이 되었다면
-					page = "views/common/successPage.jsp";
-					request.setAttribute("msg", "회원 가입 성공!!!");
+					response.sendRedirect("index.jsp");
 				}else{				// 회원가입이 실패했다면
-					page = "views/common/errorPage.jsp";
-					request.setAttribute("msg", "회원 가입 실패");
+					
 				}
-				RequestDispatcher view = request.getRequestDispatcher(page);
-				view.forward(request,response);
 		
 	}
 

@@ -247,15 +247,12 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-<<<<<<< HEAD
-=======
-
 	public int registerMember(Member member, Account account) {
 		Connection conn = getConnection();
-		BoardDao bDao = new BoardDao();
+		MemberDao mDao = new MemberDao();
 		
-		int result = bDao.registerMember(conn, member);
-		int result2 = bDao.registerMember(conn, account);
+		int result = mDao.registerMember(conn, member);
+		int result2 = mDao.registerMember(conn, account);
 		
 		if(result>0 && result2>0) {
 			commit(conn);	
@@ -280,8 +277,6 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 	}
 
-
->>>>>>> refs/remotes/origin/master
 
 }
 

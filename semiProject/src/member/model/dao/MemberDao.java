@@ -666,4 +666,56 @@ public class MemberDao {
 		
 		return null;
 	}
+
+	public int registerMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserId());
+			pstmt.setString(2, member.getUserPwd());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setString(4, member.getUserBirth());
+			pstmt.setString(5, member.getPhone());
+			pstmt.setString(6, member.getEmail());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int registerMember(Connection conn, Account Account) {
+		PreparedStatement pstmt = null;
+		int result2 = 0;
+		
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, Account.getAccount());
+			pstmt.setString(2, Account.getBank());
+			pstmt.setString(3, Account.getAccount_hold());
+			
+			
+			result2 = pstmt.executeUpdate();
+			System.out.println("Dao에서 ACCOUNT 작성 후 반환 값은 : " + result2);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result2;
+	}
+
 }

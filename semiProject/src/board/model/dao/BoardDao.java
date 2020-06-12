@@ -288,14 +288,5 @@ public class BoardDao {
 		return list;
 	}
 
-	public int registerMember(Connection conn, Member member) {
-		SEQ_ME.NEXTVAL
-		return 0;
-	}
-
-	public int registerMember(Connection conn, Account account) {
-		SEQ_ME.CURRVAL
-		return 0;
-	}
-
+	
 }
