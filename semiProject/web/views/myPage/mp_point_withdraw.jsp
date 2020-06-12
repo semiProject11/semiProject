@@ -1,18 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member"%>
-<%
-	Member member = (Member)request.getAttribute("member");
-	String userId = member.getUserId();
-	String userName = member.getUserName();
-	String email = member.getEmail();
-	int buyCount = (int)request.getAttribute("buyCount");
-	int sellCount = (int)request.getAttribute("sellCount");
-	int gradeTot = member.getGradeTot();
-	String grade = member.getGrade();
-	int point = member.getPoint();
-	String fileName = (String)request.getAttribute("fileName");
-	String gradeIcon = member.getGrade();
-%>
+    pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -115,8 +102,8 @@
   </style>
 </head>
 <body>
-
 	<jsp:include page="../common/menubar2.jsp" />
+
 
 	<!--메인사이드바 시작-->
 	<div id="layoutSidenav">
@@ -191,7 +178,7 @@
 
           </div>
         </div>
-		
+
         <div class="sb-sidenav-footer">
           <div class="small">Logged in as:</div>
           Start Bootstrap
@@ -199,126 +186,164 @@
       </nav>
     </div>
 
-
-	<!-- <div id="page-content-wrapper"> -->
+<<!-- <div id="page-content-wrapper"> -->
     <div id="layoutSidenav_content">
 
       <!--main-->
- <form action="<%=request.getContextPath() %>/insert.pf" method="post" encType="multipart/form-data" onsubmit="">
+
       <div class="container mt-5">
-        <h2>내정보</h2>
+        <h2>출금 하기</h2>
         <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item"><a href="mp_my_info.html">마이페이지</a></li>
-          <li class="breadcrumb-item active">내정보</li>
+          <li class="breadcrumb-item"><a href="">마이페이지</a></li>
+          <li class="breadcrumb-item active">출금 하기</li>
         </ol>
 
         <div class="card mb-4">
           <div class="card-body">
-            <div class="table-responsive mt-3">
-              <div class="container">
-                <div class="row">
-                
-                <div class="col-4">
-                  <div class="card" id="profile">                    
-                    <div class="card-header" align="center">프로필 사진</div>
-                    <div class="card-body" align="center" id="imgArea"><img id="titleImg" src="profile_imgFiles/<%=fileName%>" alt="" 
-                     style="width: 140px; height: 140px; cursor:pointer;"><br>                    
-                    </div>
-                    <div class="card-footer" align="center">
-                      <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled>프로필 변경</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-8">
-                 
-                    <table id="my_info" style="margin-left: 30px;">
+            <form action="" onsubmit="return validate();">
+            <div class="container">
+              <p>포인트 정보</p>
+              <hr>
+              <table align="center">
+                <tr>
+                  <td><label>잔여 포인트 : &nbsp;&nbsp;</label></td>
+                  <td><input type="text" id="myPoint"name="myPoint" value="300000" readonly></td>
 
-                      <tr>
-                        <td style="text-align: left;">아이디 : </td>
-                        <td><label id="info_name"><%=userId%></label></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left;">이름 : </td>
-                        <td><label id="info_id"><%=userName%></label></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left;"><label>이메일 : </label></td>
-                        <td> <label id="info_email"><%=email%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>구매횟수 : </label></td>
-                        <td><label id="info_buy_count"><%=buyCount%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>판매횟수 : </label></td>
-                        <td><label id="info_sell_count"><%=sellCount%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>등급 : </label></td>
-                        <td><label id="info_level_point"><%=gradeTot%> / &nbsp;</label><label><img src="gradeIcon/<%=gradeIcon%>.png" alt=""
-                              style="width: 20px; height: 20px;"></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>포인트 : </label></td>
-                        <td><label id="info_point"><%=point%> point</label></td>
-                        <td>
-                        	<button type="button" class="btn" onclick="location.href='views/myPage/mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
-                        </td>
-                        <td>
-				            <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">출금하기</button>
-				         </td>
-                      </tr>
-
-                  
-                    </table>
-
-				
-                <div id="fileArea">
-				<input type="file" id="profileImg" name="profileImg" onchange="LoadImg(this)">
-				<input type="text" name="userNo" value="<%=member.getUserNo()%>">	
-				</div>
-                </div>
-                
-                </div>
-                
-              </div>
+                </tr>
+                <tr>
+                  <td><label>출금 금액 : &nbsp;&nbsp;</label></td>
+                  <td><input type="text" id="result" name="withdraw"></td>
+                </tr>
+              </table>
             </div>
+
+            <div class="container">
+              <p>출금계좌 입력</p>
+              <hr>
+              <table>
+                <tr>
+                  <td style="padding-left: 20px;"><input type="radio" name="pay" id="my">&nbsp;<label>내 계좌</label></td>
+                  <td style="padding-left: 20px;"><input type="radio" name="pay" id="self">&nbsp;<label>직접 입력</label></td>
+                </tr>                
+              </table>
+
+              
+              <div class="container" id="myCI1" style="display: none; width: 80%; margin-top: 20px;">                
+
+                <div class="form-group">
+                  <label>계좌</label>
+
+               <div class="row">
+
+                   <div class="col">
+                   <input type="text" name="Bank" list="bank" id="Bank" style="width:240px; height:38px;"  placeholder="은행 명을 입력해주세요" >
+                   <datalist id="bank" name="Bank"> 
+                   <option value="국민은행">국민은행</option>
+                   <option value="신한은행">신한은행</option>
+                   <option value="IBK은행">IBK은행</option>
+                   <option value="하나은행">하나은행</option>
+                   <option value="우리은행">우리은행</option>
+                   </datalist>
+                   </div>
+
+                   <div class="col">
+                   <input type="text" class="form-control" name="bankUser" id="bankUser" placeholder="예금주 명" >
+                   </div>
+
+               </div>
+
+               <br>
+
+               <div class="row">
+                   <div class="col-0"></div>
+                   <div class="col-12">
+                       <input type="text" class="form-control" name="bankNo" id="bankNo" placeholder="계좌번호를 '-'없이 입력 해주세요" >
+                   </div>
+                   <div class="col-0">
+                   </div>
+               </div>
+               <label id="noresult"></label>
+
+           </div>
+
+              </div>
+             
+              <button type="submit" class="btn float-right mr-5"
+                style="background:black; color:white; width:95px;">출금하기</button>
+              </div>
+              
+            </form>
 
           </div>
         </div>
       </div>
-      </form>
-      
-	<script>	
-	
-	$(function(){
-		 $("#fileArea").hide(); 		
-			
-		 $("#imgArea").click(function(){
-				$("#profileImg").click();				
-				
-			 $('#button_joinus').attr('disabled', false); 
-			});
 
-	})
-	
-	
-	function LoadImg(value){
-					if(value.files[0].size >= (1024 * 1024 *10)){
-						alert("파일용량이 너무 큽니다.");
-					}else{											
-						
-						if(value.files && value.files[0]){
-							var reader = new FileReader();							
-							reader.onload = function(e){
-								$("#titleImg").attr("src",e.target.result);									
-								
-							}
-							reader.readAsDataURL(value.files[0]);
-						}
-					}
-		}
-	</script>
+      <script>
+        $(function(){
+          $("#self").click(function(){
+            $("#myCI1").css("display","block")
+            $("#Bank").val("").attr("readonly" ,false);
+            $("#bankUser").val("").attr("readonly", false);
+            $("#bankNo").val("").attr("readonly", false);
+          })
+
+          $("#my").click(function(){
+            $("#myCI1").css("display","block")
+            $("#Bank").val("내정보").attr("readonly" ,true);
+            $("#bankUser").val("내정보").attr("readonly" ,true);
+            $("#bankNo").val("내정보").attr("readonly", true);          
+          })
+
+          $("#result").change(function(){
+                    var regI = /^[0-9]{1,}$/;                    
+
+                    if(!regI.test($(this).val())){
+                        alert("숫자만 입력가능합니다.");
+                        $(this).val('');
+                        $(this).focus();
+                    }
+                    });
+        })
+
+        function validate(){
+          if($("#result").val().trim().length == 0){
+                    alert("출금금액을 입력하세요");
+                    $("#result").focus();
+                    return false;
+                }
+          if($("#result").val() > $("#myPoint").val()){
+            alert("보유하신 포인트 보다 작은 값만 출금할 수 있습니다.");
+            $("#result").focus();
+                    return false;
+          }
+
+
+          if($("#Bank").val().trim().length == 0){
+                    alert("계좌은행을 입력하세요");
+                    $("#Bank").focus();
+                    return false;
+                }
+                if($("#bankUser").val().trim().length == 0){
+                    alert("예금주 명을 입력하세요");
+                    $("#bankUser").focus();
+                    return false;
+                }
+                if($("#bankNo").val().trim().length == 0){
+                    alert("계좌번호를 입력하세요");
+                    $("#bankNo").focus();
+                    return false;
+                }
+                else{
+                  return true;
+                }
+
+        }
+        
+      </script>
+
+
+
+
 
 
       <!--footer-->
@@ -334,7 +359,8 @@
           </div>
         </div>
       </footer>
-	</div>
+
     </div>
+      </div>
 </body>
 </html>
