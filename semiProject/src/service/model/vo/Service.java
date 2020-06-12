@@ -11,12 +11,12 @@ public class Service implements Serializable{
 	 */
 	private static final long serialVersionUID = 718624158012136231L;
 	
-	private int serviceNo;
+	private int serviceNo;			// 서비스 번호
 	private int s_user_no;			// 판매자 번호
-	private String sale_info;
-	private String available_area;
-	private Date contactTime;
-	private String image;
+	private String sale_info;		// 판매자 정보
+	private String available_area;  // 가능지역
+	private Date contactTime;		// 조회수
+	private String image;			
 	private int readCount;
 	private int file_count;
 	private String file_YN;
@@ -25,9 +25,9 @@ public class Service implements Serializable{
 	private Date deadline;
 	private int price_bidding;
 	private int price_sale;
-	private String subject;
-	private String category_code;
-	private String file_level;
+	private String subject;			// 관련주제
+	private String category_code;	// 카테고리 코드
+	private String file_level;		// 
 	private String division;
 	
 	public Service() {
