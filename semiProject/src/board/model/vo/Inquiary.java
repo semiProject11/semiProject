@@ -1,6 +1,7 @@
 package board.model.vo;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class Inquiary implements Serializable{
 	
@@ -14,13 +15,15 @@ public class Inquiary implements Serializable{
 	private String board_type;		//문의유형
 	private String inquiry_content;	//답변내용
 	private String inquiry_yn;		//답변여부
-	private String inquiry_date;	//답변날짜
+	private Date inquiry_date;	//답변날짜
 	
 	
 	public Inquiary() {
 		super();
 	}
-	public Inquiary(int board_no, String board_type, String inquiry_content, String inquiry_yn, String inquiry_date) {
+
+
+	public Inquiary(int board_no, String board_type, String inquiry_content, String inquiry_yn, Date inquiry_date) {
 		super();
 		this.board_no = board_no;
 		this.board_type = board_type;
@@ -28,45 +31,71 @@ public class Inquiary implements Serializable{
 		this.inquiry_yn = inquiry_yn;
 		this.inquiry_date = inquiry_date;
 	}
+
+
 	public int getBoard_no() {
 		return board_no;
 	}
+
+
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
+
+
 	public String getBoard_type() {
 		return board_type;
 	}
+
+
 	public void setBoard_type(String board_type) {
 		this.board_type = board_type;
 	}
+
+
 	public String getInquiry_content() {
 		return inquiry_content;
 	}
+
+
 	public void setInquiry_content(String inquiry_content) {
 		this.inquiry_content = inquiry_content;
 	}
+
+
 	public String getInquiry_yn() {
 		return inquiry_yn;
 	}
+
+
 	public void setInquiry_yn(String inquiry_yn) {
 		this.inquiry_yn = inquiry_yn;
 	}
-	public String getInquiry_date() {
+
+
+	public Date getInquiry_date() {
 		return inquiry_date;
 	}
-	public void setInquiry_date(String inquiry_date) {
+
+
+	public void setInquiry_date(Date inquiry_date) {
 		this.inquiry_date = inquiry_date;
 	}
+
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+
 	@Override
 	public String toString() {
 		return "Inquiary [board_no=" + board_no + ", board_type=" + board_type + ", inquiry_content=" + inquiry_content
 				+ ", inquiry_yn=" + inquiry_yn + ", inquiry_date=" + inquiry_date + "]";
 	}
-	
-	
+
 
 }
+	
+	
+	

@@ -3,7 +3,7 @@
     
     <% 
     ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
-    ArrayList<Inquiary> InquiaryList=(ArrayList<Inquiary>)request.getAttribute("InquiaryList");
+    ArrayList<Inquiary> inquiaryList=(ArrayList<Inquiary>)request.getAttribute("inquiaryList");
     
     %>
 
@@ -281,16 +281,20 @@
 
                     <!--유저 리스트-->
                     <div class="table-responsive mt-3">
+                    <%=bList %>
+                    <%=inquiaryList %>
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th><td>
+                                    <th>
+                                   
                                         <div class="form-check form-check-inline">
                                             <input type="checkbox" class="form-check-input" id="checkall"
                                                 style="width:18px; height:18px;">
 
                                         </div>
-                                    </td></th>
+                                    
+                                    </th>
                                     <th>No</th>
                                     <th>문의 유형</th>
                                     <th>제목</th>
@@ -309,21 +313,20 @@
                                 <%for(int i=0;i<bList.size();i++){ %>
                                 
                                 <tr>
-                          			<input type="hidden" value="<%(bList.get(i)).getBoard_no() %>">
+                          			<input type="hidden" value="<%(bList.get(i)).getBoard_no();%>">
                                     <td>
                                         <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
+                                            <input type="checkbox" class="form-check-input" id="check"
                                                 style="width:18px; height:18px;">
-
                                         </div>
                                     </td>
                                     
-                                    <td><%(bList.get(i)).getBoard_no() %></td>
-                                    <td><%(InquiaryList.get(i)).getBoard_type() %></td>
-                                    <td><%(bList.get(i)).getTitle() %></td>
-                                    <td><%(bList.get(i)).getWrite_date() %></td>
-                                    <td><%(bList.get(i)).get %></td>
-                                    <td>X</td>
+                                    <td><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td><%=(inquiaryList.get(i)).getBoard_type()%></td>
+                                    <td><%=(bList.get(i)).getTitle()%></td>
+                                    <td><%=(bList.get(i)).getWrite_date()%></td>
+                                    <td><%=(bList.get(i)).getUser_name()%></td>
+                                    <td><%=(bList.get(i)).getBoard_status()%></td>
 
                                 </tr>
                             <%} %>

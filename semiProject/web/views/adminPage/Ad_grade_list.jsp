@@ -98,6 +98,7 @@ th, tr, td {
 
 
 	<jsp:include page="../common/menubar2.jsp" />
+	
 	<!--side nav start-->
 	<div id="layoutSidenav">
 

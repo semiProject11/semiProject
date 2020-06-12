@@ -1,24 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <% int Page=10; %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <style>
-        #jin {
-            background: black;
-            border: none;
-        }
-
-        #young {
-            font-family: "돋움";
-            color: black;
-            font: bold;
-        }
-
-
-
+   
 
 
 
@@ -70,8 +59,9 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar2.jsp" />
-	  <!--contents-->
 
+	
+	
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -86,7 +76,7 @@
                   clip-rule="evenodd" />
               </svg>
               고객센터</div>
-            <a class="nav-link" href="cs_notice.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.notice">
               <div class="sb-nav-link-icon">
                 <svg class="bi bi-bell" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +89,7 @@
               공지사항
 
             </a>
-            <a class="nav-link" href="cs_faq.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.faq">
               <div class="sb-nav-link-icon"><svg class="bi bi-question-circle" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
@@ -109,7 +99,7 @@
                 </svg></div>
               FAQ
             </a>
-            <a class="nav-link" href="cs_inquiry.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -121,7 +111,7 @@
                 </svg></i></div>
               1:1 문의
             </a>
-            <a class="nav-link" href="cs_report.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -130,7 +120,7 @@
                 </svg></div>
               신고하기
             </a>
-            <a class="nav-link" href="cs_law.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_policy_list.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -154,6 +144,12 @@
     </div>
     
     <div id="layoutSidenav_content">
+
+
+
+
+
+
             <!--contents-->
             <header class="container mt-5">
                 <h2>1:1 문의 등록</h2>
@@ -163,45 +159,51 @@
 
             <div class="container my-3" id="post">
                 <div class="container my-3">
-                    <form class="form-group my-3">
+                    <form class="form-group my-3" action="<%=request.getContextPath()%>/insert.inquiary" method="post" encType="multipart/form-data">
                         <div class="row">
-                            <div class="col-md-2 text-center"><label>상담유형</label></div>
-                            <div class="col-md-4"><select class="form-control" style="width:80%">
-                                    <option selected>이용문의</option>
-                                    <option>고객의 소리</option>
-                                    <option>제휴</option>
+                            <div class="col-md-2 text-center"><label>상담 유형</label></div>
+                            <div class="col-md-4">
+                            <select class="form-control" style="width:80%" name="inquiaryName">
+                                    <option value="question" selected >이용문의</option>
+                                    <option value="opinion">고객의 소리</option>
+                                    <option value="alliance">제휴</option>
                                 </select></div>
-
-
-
-
                         </div>
 
                         <div class="row mt-2">
-                            <div class="col-md-2 text-center"><label>제목</label></div>
-                            <div class="col-md-10"><input type="text" class="form-control"
-                                    style="width:100%; text-align:left;"></div>
+                            <div class="col-md-2 text-center"><label for="inquiaryTitle">제목</label></div>
+                            <div class="col-md-10"><input type="text" name="inquiaryTitle" class="form-control" style="width:100%; text-align:left;"></div>
                         </div>
                         <div class="mt-2">
-                            <textarea class="form-control"
-                                style="width:100%; height:400px; resize:none; text-align:left;"></textarea>
+                            <textarea class="form-control" name="inquiaryContent" style="width:100%; height:400px; resize:none; text-align:left;"></textarea>
 
                         </div>
 
                         <!--파일첨부-->
-                        <div class="row mt-2">
-                            <div class="col-md-2 text-center"><label for="find_file01">파일첨부</label></div>
+                        <div class="row mt-2" id="inq_fileArea">
+                            <div class="col-md-2 text-center"><label for="find_file01">파일 첨부 1</label></div>
                             <div class="col-md-10 form-group form_file" style="position: relative;">
 
-                                <input type="text" id="fileName" class="form-control form_point_color01"
-                                    style="position: absolute; width:97%" readonly
-                                    placeholder="파일첨부 클릭 또는 파일을 여기로 드래그하세요">
-                                <input type="file" class="form-control" id="find_file01"
-                                    style="position: absolute; opacity: 0;"
-                                    onchange="javascript: document.getElementById('fileName').value = this.value">
-
+                                <input type="text" name="fileName1" id="fileName1" class="form-control form_point_color01" style="position: absolute; width:98%" readonly
+                                    placeholder="파일첨부 클릭 또는 파일을 드래그하세요">
+                             
+                                    <input type="file"  class="form-control" id="find_file01" style="position: absolute; opacity: 0;"
+                                    onchange="javascript: document.getElementById('fileName1').value = this.value"> 
+                                  
+                                    
 
                             </div>
+                                   <div class="col-md-2 text-center"><label for="find_file02">파일 첨부 2</label></div>
+                            <div class="col-md-10 form-group form_file" style="position: relative;">
+
+                                <input type="text" name="fileName2" id="fileName2" class="form-control form_point_color01" style="position: absolute; width:98%" readonly
+                                    placeholder="파일첨부 클릭 또는 파일을 드래그하세요">
+                             
+                                    <input type="file"  class="form-control" id="find_file02" style="position: absolute; opacity: 0;"
+                                    onchange="javascript: document.getElementById('fileName2').value = this.value"> 
+                                  
+                            </div>
+                            
                         </div>
                         <!--파일첨부 끝-->
 
@@ -214,8 +216,8 @@
 
                                 <!--row나 col에서 text-center로 가운데 정렬 가능-->
 
-                                <button type="button" class="btn" style="background:black; color:white"
-                                    onclick="alert('등록완료'); location.href='cs_notice.html'">작성 완료</button>
+                                <button type="submit" class="btn" style="background:black; color:white">작성 완료</button>
+                                <button type="reset" class="btn" style="background:black; color:white">취소</button>
 
 
                             </div>
@@ -226,11 +228,6 @@
                 </div>
                 </form>
             </div>
-
-
-
-
-
 
 
 
@@ -249,5 +246,10 @@
             </footer>
             </div>
             </div>
+            
+            
+            
+            
+            
 </body>
 </html>

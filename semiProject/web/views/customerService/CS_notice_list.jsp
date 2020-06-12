@@ -1,37 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="board.model.vo.*,java.util.ArrayList"%>
+    
+    <%
+    
+    
+    
+    
+  /*  	Pagination pn=(Pagination)request.getAttribute("pn"); */
+    ArrayList<Board> list=(ArrayList<Board>)request.getAttribute("list");
+  
+    
+/*     int listCount=pn.getListCount();
+    int currentPage=pn.getCurrentPage();
+    int maxPage=pn.getMaxPage();
+    int startPage=pn.getStartPage();
+    int endPage=pn.getEndPage(); */
+   
+    %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <style>
-        #jin {
-            background: black;
-            border: none;
+     
+ 
+        .pagination-t {
+            display: flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
         }
 
-        #young {
-            font-family: "돋움";
+        .page-link-t {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
             color: black;
-            font: bold;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        .page-link-t:hover {
+            z-index: 2;
+            color: #0056b3;
+            text-decoration: none;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .page-link-t:focus {
+            z-index: 3;
+            outline: 0;
+        }
+
+        .page-item-t:first-child .page-link-t {
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .page-item-t:last-child .page-link-t {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .page-item-t.active-t .page-link-t {
+            z-index: 3;
+            color: #fff;
+            background-color: gold;
+            border-color: gold;
+        }
+
+        .page-item-t.disabled-t .page-link-t {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
         }
 
 
-
-
-
-
-
-        input,
-        textarea {
-            /* border: 1px solid #dee2e6; */
-            border: 1px solid #495057;
-            height: 80%;
-            margin: 0;
-
-
+        .sr-only-t {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
+
+        .page-center {
+            display: flex;
+            justify-content: center;
+            /*가운데 정렬*/
+            align-items: center;
+        }
+        
+        
 
         /*보여주기용 임시*/
         #wh,
@@ -49,28 +119,13 @@
 
         }
 
-        #file-button {
-            opacity: 0;
-            position: absolute;
-        }
-
-        label {
-            vertical-align: middle !important;
-            padding: 5px;
-
-        }
-
-        .btn:focus,
-        .btn:hover {
-            background: gold !important;
-            color: black !important;
-            font-weight: bold;
-        }
+      
     </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar2.jsp" />
-	  <!--contents-->
+
+
 
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -86,7 +141,7 @@
                   clip-rule="evenodd" />
               </svg>
               고객센터</div>
-            <a class="nav-link" href="cs_notice.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.notice">
               <div class="sb-nav-link-icon">
                 <svg class="bi bi-bell" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +154,7 @@
               공지사항
 
             </a>
-            <a class="nav-link" href="cs_faq.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.faq">
               <div class="sb-nav-link-icon"><svg class="bi bi-question-circle" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
@@ -109,7 +164,7 @@
                 </svg></div>
               FAQ
             </a>
-            <a class="nav-link" href="cs_inquiry.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -121,7 +176,7 @@
                 </svg></i></div>
               1:1 문의
             </a>
-            <a class="nav-link" href="cs_report.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -130,7 +185,7 @@
                 </svg></div>
               신고하기
             </a>
-            <a class="nav-link" href="cs_law.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_policy_list.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -155,68 +210,35 @@
     
     <div id="layoutSidenav_content">
 
-	  <!--2번째 예-->
 
-          <div class="container my-3">
+
+	  <!--CONTENTS-->
+
+            <div class="container my-3">
             <div class="table-responsive mt-3">
               <header class="mt-5">
+
                 <h2>공지사항</h2>
                
               </header>
-              <table class="table table-hover mt-4">
-    
-                  <tbody>
+              <table class="table table-hover mt-4" id="listArea">
+              
+      			<%if(list.isEmpty()){ %> 
+                  <tr>
+                  <td colspan="2">등록된 게시글이 없습니다</td>
+                  </tr>
+            <%}else{ %>
+                  <%for(int i=0;i<list.size();i++){ %>
                       <tr>
-                          <td style="width:80%"><a href="cs_notice_into.html" id="bk">
-                            5월 고객센터 휴무안내(4/30~5/5)</a>
-                          </td>
-                          <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
+                     	 <input type="hidden" value="<%=((Board)list.get(i)).getBoard_no()%>">
+                          <td><%=((Board)list.get(i)).getTitle() %></td>
+                          <td class="text-center" style="width:20%"><%=((Board)list.get(i)).getWrite_date()%></td>
   
                       </tr>
-                      <tr>
-                        <td>
-                          구매후기 작성에 대한 안내
-                        </td>
-                        <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          설 연휴 기간 휴무 안내
-                        </td>
-                        <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          고객센터 운영 시간 안내
-                        </td>
-                        <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          5월 고객센터 휴무안내(4/30~5/5)
-                        </td>
-                        <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-
-                    </tr>
-                    <tr>
-                      <td>
-                        구매후기 작성에 대한 안내
-                      </td>
-                      <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        설 연휴 기간 휴무 안내
-                      </td>
-                      <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                    </tr>
-                    <tr>
-                      <td>
-                        고객센터 운영 시간 안내
-                      </td>
-                      <td class="text-center" style="width:20%"><label>2020-04-29</label></td>
-                    </tr>
-                  </tbody>
+                      <%} %>
+                      <%} %> 
+                   
+                 
               </table>
             </div>
 
@@ -268,7 +290,33 @@
               </div>
             </div>
           </footer>
-          </div>
-          </div>
+
+        </div>
+      </div>
+
+
+	<script>
+	
+		$(function(){
+			$("#listArea td").mouseenter(function(){
+				$(this).parent().css({"cursor":"pointer"});
+			})
+			
+			
+			.mouseout(function(){
+				$(this).parent().css({"background":"black"});
+			})
+			
+			
+			.click(function(){
+				var bid=$(this).parent().children("input").val();
+				
+				
+			});
+	
+	</script>
+
+
+
 </body>
 </html>
