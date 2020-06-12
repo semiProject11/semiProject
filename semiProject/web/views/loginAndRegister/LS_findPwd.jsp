@@ -10,7 +10,7 @@
     crossorigin="anonymous" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
     crossorigin="anonymous"></script>
-     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
         .btn{
@@ -58,18 +58,18 @@
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
             <div class>
-                <form role="form" action="LS_login.jsp" method="post" onsubmit="return validate();">
+                <form role="form" id='PwdFindForm' action="<%=request.getContextPath() %>/send.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br>
-                    <label class="findPwd">비밀번호 찾기</label><hr>
+                    <label>비밀번호 찾기</label><hr>
                     <div class="form-group">
-                        <label for="userId">아이디</label>
+                        <label>아이디</label>
                         <input type="text" class="form-control" id="userId" name="userId" placeholder="아이디를 입력해 주세요" >
                     </div>
-                    <label for="userName">이름</label>
+                    <label>이름</label>
                     <input type="text" class="form-control" id="userName" name="userName" placeholder="이름을 입력해 주세요">
                     </div>
                     <div class="form-group">
-                        <label for="email">이메일</label>
+                        <label>이메일</label>
                         <input type="text" class="form-control" id="email" name="email" placeholder="이메일 주소를 입력해주세요" >
                     </div>
                     <div class="row">
@@ -108,6 +108,10 @@
             
       <script>
             function validate(){
+            	var flag = false;
+	            var userId = $("#PwdFindForm input[name='userId']");
+		        var userName = $("#PwdFindForm input[name='userName']");
+	            var email = $("#PwdFindForm input[name='email']");
                 var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
@@ -143,9 +147,29 @@
             $("#email").focus();
             return false;
             }
-            else {
-                alert('임시 비밀번호를 이메일로 전송하였습니다');
-                return true;
+            else{
+            	$.ajax({
+					url:"<%=request.getContextPath()%>/findPwd.me",
+					type:"post",
+					data:{userId:userId.val(), userName:userName.val(), email:email.val()},
+					async: false,
+					success:function(data){
+						if(data=="success"){
+							flag = true;
+							}
+						else{
+							alert("없는 회원정보 이거나 이름, 아이디 또는 이메일이 일치하지 않습니다.");
+							flag = false;
+						}
+					},
+					error:function(request,status,error){
+					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						flag = false;
+					}
+				});
+            	
+            	
+                return flag;
             }
             }
            </script>

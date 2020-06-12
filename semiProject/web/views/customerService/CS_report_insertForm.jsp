@@ -70,7 +70,8 @@
 </head>
 <body>
 	<jsp:include page="../common/menubar2.jsp" />
-	  <!--contents-->
+	
+
 
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -86,7 +87,7 @@
                   clip-rule="evenodd" />
               </svg>
               고객센터</div>
-            <a class="nav-link" href="cs_notice.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.notice">
               <div class="sb-nav-link-icon">
                 <svg class="bi bi-bell" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg">
@@ -99,7 +100,7 @@
               공지사항
 
             </a>
-            <a class="nav-link" href="cs_faq.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/list.faq">
               <div class="sb-nav-link-icon"><svg class="bi bi-question-circle" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M8 15A7 7 0 108 1a7 7 0 000 14zm0 1A8 8 0 108 0a8 8 0 000 16z"
@@ -109,7 +110,7 @@
                 </svg></div>
               FAQ
             </a>
-            <a class="nav-link" href="cs_inquiry.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -121,7 +122,7 @@
                 </svg></i></div>
               1:1 문의
             </a>
-            <a class="nav-link" href="cs_report.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -130,7 +131,7 @@
                 </svg></div>
               신고하기
             </a>
-            <a class="nav-link" href="cs_law.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_policy_list.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -154,6 +155,11 @@
     </div>
     
     <div id="layoutSidenav_content">
+
+
+
+
+
 	  <!--contents-->
             <header class="container mt-5">
                 <h2>신고하기</h2>

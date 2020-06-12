@@ -30,7 +30,7 @@ public class Member implements Serializable {
 	public Member() {
 	}
 	
-	
+
 
 
 	public Member(String userId, String userPwd) {
