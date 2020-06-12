@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+  
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+ 
 <style>
         #form-control{
             width: 100px;
@@ -36,13 +40,14 @@
 	<jsp:include page="../common/menubar.jsp" />
 
  <div id="layoutSidenav_content">
+ <%-- <form class="unn" id="insertForm" style="margin-left:262px" action="<%=request.getContextPath() %>/register.service" method="post"  onsubmit="return validate();"> --%>
     
         <br>
         <br>
         <br>
         <br>
         <div class="container">  
-          <form class="form-inline" id="insertForm" style="margin-left: 262px;" action="<%=request.getContextPath() %>/register.service" method="post">
+          <form class="form-inline" id="insertForm" name="insertForm" style="margin-left: 262px;" action="<%=request.getContextPath() %>/register.service" method="post" onsubmit="return fromCheck();">
               <div class="category">
            <label for="category1" class="category1">카테고리</label>
               </div>
@@ -64,7 +69,8 @@
           </form>
           <br>
        
-          <form class="form-inline" id="insertForm" style="margin-left: 262px;"  action="<%=request.getContextPath() %>/register.service" method="post">
+          <form class="form-inline" id="insertForm" name="insertForm" style="margin-left: 262px;"  action="<%=request.getContextPath() %>/register.service" method="post"
+          onsubmit="return fromCheck();">
               <div class="title">
            <label for="title1">&nbsp;&nbsp;&nbsp;제목</label>
            </div>
@@ -188,13 +194,15 @@
          <br>
 
       <div class="form-group">
-     <input type="button" value="등록" id="registration" class="btn btn-primary" onclick="register_complete();" style="width: 100px; margin-left: 750px;">
+     <input type="submit" value="등록" id="registration" class="btn btn-primary" onclick="register_complete();" style="width: 100px; margin-left: 750px;">
     </div>
        </div>
+      
 
      <br>
      <br>
-
+	
+	
 
      <script>
       function showDiv(){
@@ -212,8 +220,30 @@
   }
 </script>
 
+<script>
+function fromCheck(){
+	var title = document.forms[0].title.value;
+	
+	if(title == null || title=""){
+		alter('제목을 입력하세요');
+		document.forms[0].writer.focus();
+		return false
+	}
+	
+	if(!form.title.value){
+		alert("제목을 입력하세요");
+		from.name.focus();
+		return;
+	}
+	form.submit();
+}else{
+	
+}
+	
+</script> 
 
-    
+
+ 
     <script>
       function register_complete(){
         	var result = confirm("등록하시겠습니까?")
@@ -230,6 +260,7 @@
       //ServiceInsertServlet만들러 간다 ! 
   
    </script>
+   
 
      
    <div id="layoutAuthentication_footer">

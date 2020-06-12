@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%	
+	// Object형이라 다운캐스팅, Member import
+	Member loginUser = (Member)session.getAttribute("loginUser");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,30 +46,33 @@
         <div class="col-3"></div>
         <div class="col-6">
               <br>
+              <!-- 로고 클릭 시 메인 인덱스로 돌아가게 함 -->
             <div class="page-header" align='center'>
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
-            
-                <form role="form" action="home.html" method="post" onsubmit="return validate();">
+            	<!-- 로그인 폼, 로그인 버튼을 누르면 login.me 서블릿으로 입력한 아이디, 패스워드값이 이동하여 로그인 유무를 판단 -->          
+               <form role="form" id='loginForm' action ="<%=request.getContextPath() %>/login.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br><br>
-                    <label for="userId">아이디</label>
-                    <input type="text" class="form-control" name="id" id="id" autofocus>
+                    <label>아이디</label>
+                    <input type="text" class="form-control" name="userId" id="userId" autofocus>
                 </div>
                     <div class="form-group">
-                        <label for="userPwd">비밀번호</label>
-                        <input type="password" class="form-control" name="password" id="password" >
+                        <label>비밀번호</label>
+                        <input type="password" class="form-control" name="userPwd" id="userPwd" >
                     </div>
                     <div class="row">
                         <div class="col"></div>
                         <div class="col">
                             <br><br>
-                         <div class="form-group"><input type="submit" value="로그인" class="btn btn-primary btn-block"></div>
+                         <div class="form-group" id="loginBtn"><input type="submit" value="로그인" class="btn btn-primary btn-block"></div>
                         <br><br>
                         </div>
                         <div class="col"></div>
                         </div>
                 </form>
 
+					
+					<!-- 아이디찾기, 비밀번호 찾기, 회원가입 창으로 이동할 수 있는 링크 -->
                     <div class="find_info">
                         <a id="idinquiry" href="LS_findId1.jsp">아이디 찾기</a>
                         <span>|</span> <a id="pwdinquiry" href="LS_findPwd.jsp">비밀번호 찾기</a>
@@ -97,31 +104,61 @@
       
              
         <script>
-            
+            // 로그인 시 아이디, 패스워드 칸에 입력을 안했을 시 띄울 alert메세지
             function validate(){
-            // 로그인 처리 함수
-            if($("#id").val().trim().length == 0 && $("#password").val().trim().length == 0)
-            {
-            alert("아이디와 비밀번호를 입력해주세요");
-            $("#id").focus();
-            return false;
+            	
+            	var flag = false;
+	           	var userId = $("#loginForm input[name='userId']");
+            	var userPwd = $("#loginForm input[name='userPwd']");
+
+	           	
+                if($("#userId").val().trim().length == 0 && $("#userPwd").val().trim().length == 0)
+                {
+                alert("아이디와 비밀번호를 입력해주세요");
+                $("#userId").focus();
+                return false;
+                }
+                else if($("#userId").val().trim().length == 0)
+                {
+                alert("아이디를 입력해주세요");
+                $("#userId").focus();
+                return false;
+                }
+                else if($("#userPwd").val().trim().length == 0) 
+                {
+                alert('비밀번호를 입력하세요');
+                $("#userPwd").focus();
+                return false;
+                }
+                else {
+            	
+                $.ajax({
+					url:"<%=request.getContextPath()%>/loginCheck.me",
+					type:"post",
+					data:{userId:userId.val(), userPwd:userPwd.val()},
+					async: false,
+					success:function(data){
+						if(data=="success"){
+							flag = true;
+							}
+						else{
+							alert("없는 아이디 이거나 아이디 또는 비밀번호가 일치하지 않습니다.");
+							flag = false;
+						}
+					},
+					error:function(request,status,error){
+					    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						flag = false;
+					}
+				});
+                return flag;
             }
-            else if($("#id").val().trim().length == 0)
-            {
-            alert("아이디를 입력해주세요");
-            $("#id").focus();
-            return false;
             }
-            else if($("#password").val().trim().length == 0) 
-            {
-            alert('비밀번호를 입력하세요');
-            $("#password").focus();
-            return false;
-            }
-            else{
-                return true;
-            }
-            }
+                
+                
+            
+            
+            
            </script>
 
 </body>
