@@ -5,6 +5,7 @@ public class Account {
 	private String account_hold;	// 예금주
 	private String account;			// 계좌번호
 	private String userNo;			// 회원번호
+
 	public Account() {
 		super();
 	}

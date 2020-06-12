@@ -41,7 +41,7 @@
                   </div>
               </div>
               <div>
-                  <form role="form" id='registerForm' action="LS_login.html" method="post" onsubmit="return validate();">
+                  <form role="form" id='registerForm' action="<%=request.getContextPath() %>/register.me" method="post" onsubmit="return validate();">
                       <div class="form-group"><br><br>
                           <label>아이디</label>
                           
@@ -84,7 +84,7 @@
                     <div class="row">
 
                             <div class="col">
-                            <select type="phone" id="phone1" class="form-control" name="phone1">
+                            <select type="phone" id="phone1" class="form-control" name="phone">
                             <option value="010" selected>010</option>
                             <option value="011">011</option>
                             <option value="016">016 </option>
@@ -95,12 +95,12 @@
                             </div>-
 
                         <div class="col">
-                        <input type="text" id="phone2" class="form-control" name="phone2" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone2" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p2result"></label>
                         </div>-
 
                         <div class="col">
-                        <input type="text" id="phone3" class="form-control" name="phone3" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone3" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p3result"></label>
                         </div>
 
@@ -113,12 +113,12 @@
                         
                     <div class="row">
                        <div class="col-6">
-                            <input type="text" class="form-control" id="emailId" name="emailId" placeholder="이메일 아이디를 입력 해주세요" >
+                            <input type="text" class="form-control" id="emailId" name="email" placeholder="이메일 아이디를 입력 해주세요" >
                             </div>
 
                             <div class="col-6">
-                            <input type="text" name="userEmail" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
-                            <datalist id="email" name="userEmail"> 
+                            <input type="text" name="email" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
+                            <datalist id="email" name="emailId"> 
                                 <option value="@naver.com">@naver.com</option> 
                                 <option value="@hanmail.net">@hanmail.net</option> 
                                 <option value="@daum.net">@daum.net</option>

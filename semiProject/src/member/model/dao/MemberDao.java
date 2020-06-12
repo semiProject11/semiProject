@@ -33,11 +33,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				loginUser = new Member(rset.getInt("USER_NO"),
+				loginUser = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -111,11 +111,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 						rset.getString("USER_ID"),
 						rset.getString("USER_PWD"),
 						rset.getString("USER_NAME"),
-						rset.getInt("BIRTH"),
+						rset.getString("BIRTH"),
 						rset.getString("PHONE"),
 						rset.getString("EMAIL"),
 						rset.getInt("POINT"),
@@ -246,11 +246,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -288,11 +288,11 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				
-				Member m=new Member(rset.getInt("user_No"),
+				Member m=new Member(rset.getString("user_No"),
 						rset.getString("user_Id"),
 						rset.getString("user_Pwd"),
 						rset.getString("user_Name"),
-						rset.getInt("Birth"),
+						rset.getString("Birth"),
 						rset.getString("phone"),
 						rset.getString("email"),
 						rset.getInt("point"),
@@ -428,11 +428,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				mem = new Member(rset.getInt("USER_NO"),
+				mem = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),

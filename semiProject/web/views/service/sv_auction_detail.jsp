@@ -348,7 +348,12 @@
         var now = new Date(); // 현재 시간
         var open = new Date(now.getFullYear(),now.getMonth(),now.getDate(),now); // 시작 시간
         
-        var end = new Date(2020,05,15,18,39,00); // 끝나는 시간
+        var end = new Date(now.getFullYear(),05,15,18,39,00); // 끝나는 시간
+        // (년, 월, 일, 시, 분, 초)
+        // 2020-05-15 15:39:00
+       	
+        
+        
         // var end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),48,42,00); // 끝나는 시간
         
         // var timeLeft = '357611';
@@ -360,7 +365,7 @@
         // now.getDate() = 현재 일
 
         var outputString = ""; // 출력 변수
-        var exputString = "";
+        // var exputString = "";
 
 
         var nt = now.getTime(); // 현재 시간 getTime() = msec(1/1000)
@@ -371,8 +376,8 @@
         // 1min = 60sec
         // 1hour = 3600sec
         // 1day = 86400sec
-        
-        exp = Math.floor(result/3600)/60;
+      
+        // exp = Math.floor(result/3600)/60;
         // exp = nt;
         sec = parseInt(et - nt) / 1000; // 끝나는 시간 - 현재 시간
         day  = parseInt(sec/60/60/24);
@@ -406,8 +411,8 @@
 		// timeSinceLast += 1;
         document.getElementById("time").innerHTML = outputString;
         
-        exputString = exp;
-        document.getElementById("ex").innerHTML = exputString;
+        // exputString = exp;
+        // document.getElementById("ex").innerHTML = exputString;
 
        
         // $("#timeout").css("display","none"); 
