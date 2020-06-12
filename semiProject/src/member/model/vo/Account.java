@@ -4,11 +4,8 @@ public class Account {
 	private String bank;			// 은행명
 	private String account_hold;	// 예금주
 	private String account;			// 계좌번호
-<<<<<<< HEAD
-	
-=======
 	private String userNo;			// 회원번호
->>>>>>> refs/remotes/origin/master
+
 	public Account() {
 		super();
 	}

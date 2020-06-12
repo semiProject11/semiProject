@@ -44,7 +44,7 @@ public class RegisterUserServlet extends HttpServlet {
 				String bank = request.getParameter("bank");
 				String account_hold = request.getParameter("account_hold");
 				String account = request.getParameter("account");		
-				
+				String userNo = request.getParameter("userNo");
 				
 				
 				// getParameterValues메소드를 이용해야 한다.
@@ -76,7 +76,7 @@ public class RegisterUserServlet extends HttpServlet {
 				
 				Member member = new Member(userId, userPwd, userName, userBirth, phone, email);
 				
-				Account Account = new Account(bank, account_hold, account);
+				Account Account = new Account(bank, account_hold, account, userNo);
 				// 3. DB까지 출발하고 반환값 받기
 				int result = new MemberService().registerMember(member, Account);
 			

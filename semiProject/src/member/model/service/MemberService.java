@@ -247,7 +247,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-<<<<<<< HEAD
+
 	public int registerMember(Member member, Account account) {
 		Connection conn = getConnection();
 		BoardDao bDao = new BoardDao();
@@ -264,7 +264,8 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 		
 		return result;
-=======
+	}
+
 	public Account selectAccount(int userNo) {
 		Connection conn = getConnection();
 		
@@ -274,7 +275,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 		
 		return account;
->>>>>>> refs/remotes/origin/master
+
 	}
 
 
