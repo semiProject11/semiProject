@@ -33,12 +33,14 @@ public class MyPageServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 //		HttpSession session = request.getSession();
 //		
 //		Member loginUser = (Member)session.getAttribute("loginUser");
 //		
 //		String userId =loginUser.getUserId();
 		String userId = "admin";
+
 		
 
 		Member member = new MemberService().selectMember(userId);

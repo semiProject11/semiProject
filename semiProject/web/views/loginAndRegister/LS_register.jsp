@@ -41,7 +41,7 @@
                   </div>
               </div>
               <div>
-                  <form role="form" id='registerForm' action="LS_login.html" method="post" onsubmit="return validate();">
+                  <form role="form" id='registerForm' action="<%=request.getContextPath() %>/register.me" method="post" onsubmit="return validate();">
                       <div class="form-group"><br><br>
                           <label>아이디</label>
                           
@@ -73,7 +73,7 @@
 
                     <div class="form-group">
                       <label>생년월일</label>
-                      <input type="text" class="form-control" id="userBirthday" name="userBirthday" placeholder="생년월일 8자리를 입력 해주세요 ex) 19900101" size="8" maxlength="8" >
+                      <input type="text" class="form-control" id="userBirth" name="userBirth" placeholder="생년월일 8자리를 입력 해주세요 ex) 19900101" size="8" maxlength="8" >
                       <label id="Birthdayresult"></label>
                     </div>
 
@@ -84,7 +84,7 @@
                     <div class="row">
 
                             <div class="col">
-                            <select type="phone" id="phone1" class="form-control" name="phone1">
+                            <select type="phone" id="phone1" class="form-control" name="phone">
                             <option value="010" selected>010</option>
                             <option value="011">011</option>
                             <option value="016">016 </option>
@@ -95,12 +95,12 @@
                             </div>-
 
                         <div class="col">
-                        <input type="text" id="phone2" class="form-control" name="phone2" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone2" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p2result"></label>
                         </div>-
 
                         <div class="col">
-                        <input type="text" id="phone3" class="form-control" name="phone3" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone3" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p3result"></label>
                         </div>
 
@@ -113,12 +113,12 @@
                         
                     <div class="row">
                        <div class="col-6">
-                            <input type="text" class="form-control" id="emailId" name="emailId" placeholder="이메일 아이디를 입력 해주세요" >
+                            <input type="text" class="form-control" id="emailId" name="email" placeholder="이메일 아이디를 입력 해주세요" >
                             </div>
 
                             <div class="col-6">
-                            <input type="text" name="userEmail" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
-                            <datalist id="email" name="userEmail"> 
+                            <input type="text" name="email" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
+                            <datalist id="email"> 
                                 <option value="@naver.com">@naver.com</option> 
                                 <option value="@hanmail.net">@hanmail.net</option> 
                                 <option value="@daum.net">@daum.net</option>
@@ -140,8 +140,8 @@
                         <div class="row">
 
                             <div class="col">
-                            <input type="text" name="Bank" list="bank" id="Bank" style="width:240px; height:38px;"  placeholder="은행 명을 입력해주세요" >
-                            <datalist id="bank" name="Bank"> 
+                            <input type="text" name="bank" list="bank1" id="bank" style="width:240px; height:38px;"  placeholder="은행 명을 입력해주세요" >
+                            <datalist id="bank1"> 
                             <option value="국민은행">국민은행</option>
                             <option value="신한은행">신한은행</option>
                             <option value="IBK은행">IBK은행</option>
@@ -151,7 +151,7 @@
                             </div>
 
                             <div class="col">
-                            <input type="text" class="form-control" name="bankUser" id="bankUser" placeholder="예금주 명" >
+                            <input type="text" class="form-control" name="account_hold" id="account_hold" placeholder="예금주 명" >
                             </div>
 
                         </div>
@@ -166,7 +166,7 @@
                         <div class="row">
                             <div class="col-0"></div>
                             <div class="col-12">
-                                <input type="text" class="form-control" name="bankNo" id="bankNo" placeholder="계좌번호를 '-'없이 입력 해주세요" >
+                                <input type="text" class="form-control" name="account" id="account" placeholder="계좌번호를 '-'없이 입력 해주세요" >
                             </div>
                             <div class="col-0">
                             </div>
@@ -289,14 +289,14 @@
                     $("#userName").focus();
                     flag = false;
                 }
-                else if($("#userBirthday").val().trim().length == 0){
+                else if($("#userBirth").val().trim().length == 0){
                     alert("생년월일을 입력하세요");
-                    $("#userBirthday").focus();
+                    $("#userBirth").focus();
                     flag = false;
                 }
-                else if(!regB.test($("#userBirthday").val())){
+                else if(!regB.test($("#userBirth").val())){
                 	alert("생일을 조건에 맞게 입력하세요");
-                    $("#userBirthday").focus();
+                    $("#userBirth").focus();
                     flag = false;
                 }
                 else if($("#phone1").val().trim().length == 0){
@@ -336,29 +336,29 @@
                     flag = false;
                 }
                 
-                else if($("#Bank").val().trim().length == 0){
+                else if($("#bank").val().trim().length == 0){
                     alert("계좌은행을 입력하세요");
-                    $("#Bank").focus();
+                    $("#bank").focus();
                     flag = false;
                 }
-                else if($("#bankUser").val().trim().length == 0){
+                else if($("#account_hold").val().trim().length == 0){
                     alert("예금주 명을 입력하세요");
-                    $("#bankUser").focus();
+                    $("#account_hold").focus();
                     flag = false;
                 }
-                else if(!regHE.test($("#bankUser").val())){
+                else if(!regHE.test($("#account_hold").val())){
                     alert("예금주 명을 조건에 맞게 입력하세요");
-                    $("#bankUser").focus();
+                    $("#account_hold").focus();
                     flag = false;
                 }	
-                else if($("#bankNo").val().trim().length == 0){
+                else if($("#account").val().trim().length == 0){
                     alert("계좌번호를 입력하세요");
-                    $("#bankNo").focus();
+                    $("#account").focus();
                     flag = false;
                 }
-                else if(!regA.test($("#bankNo").val())){
+                else if(!regA.test($("#account").val())){
                 	alert("계좌번호를 조건에 맞게 입력하세요");
-                    $("#bankNo").focus();
+                    $("#account").focus();
                     flag = false;
                 }
                 
@@ -477,7 +477,7 @@
                    });
                     
                     // 생년월일 : 20200202
-                    $("#userBirthday").change(function(){
+                    $("#userBirth").change(function(){
                     if(!regB.test($(this).val())) {
                     $("#Birthdayresult").html("생년월일 8자리를 입력하세요.").css("color","red");
                         $(this).focus();
@@ -517,7 +517,7 @@
                     	
                     // 은행	
                     
-                    $("#bankUser").change(function(){
+                    $("#account_hold").change(function(){
                    	 if(!regHE.test($(this).val())){
                        $("#BuCheck").html("한글로 2자 이상 6자 이하로 입력해주세요.").css("color","red");
                        $(this).focus();
@@ -527,7 +527,7 @@
                     }
                     });
 
-                    $("#bankNo").change(function(){
+                    $("#account").change(function(){
                     if(!regA.test($(this).val())) {
                     $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color","red");
                         $(this).focus();

@@ -33,11 +33,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				loginUser = new Member(rset.getInt("USER_NO"),
+				loginUser = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -111,11 +111,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 						rset.getString("USER_ID"),
 						rset.getString("USER_PWD"),
 						rset.getString("USER_NAME"),
-						rset.getInt("BIRTH"),
+						rset.getString("BIRTH"),
 						rset.getString("PHONE"),
 						rset.getString("EMAIL"),
 						rset.getInt("POINT"),
@@ -246,11 +246,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -288,11 +288,11 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				
-				Member m=new Member(rset.getInt("user_No"),
+				Member m=new Member(rset.getString("user_No"),
 						rset.getString("user_Id"),
 						rset.getString("user_Pwd"),
 						rset.getString("user_Name"),
-						rset.getInt("Birth"),
+						rset.getString("Birth"),
 						rset.getString("phone"),
 						rset.getString("email"),
 						rset.getInt("point"),
@@ -428,11 +428,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				mem = new Member(rset.getInt("USER_NO"),
+				mem = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -666,4 +666,56 @@ public class MemberDao {
 		
 		return null;
 	}
+
+	public int registerMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserId());
+			pstmt.setString(2, member.getUserPwd());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setString(4, member.getUserBirth());
+			pstmt.setString(5, member.getPhone());
+			pstmt.setString(6, member.getEmail());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int registerMember(Connection conn, Account Account) {
+		PreparedStatement pstmt = null;
+		int result2 = 0;
+		
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, Account.getAccount());
+			pstmt.setString(2, Account.getBank());
+			pstmt.setString(3, Account.getAccount_hold());
+			
+			
+			result2 = pstmt.executeUpdate();
+			System.out.println("Dao에서 ACCOUNT 작성 후 반환 값은 : " + result2);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result2;
+	}
+
 }
