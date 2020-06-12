@@ -1,12 +1,16 @@
 package member.model.service;
 
 import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.commit;
 import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import board.model.dao.BoardDao;
 import member.model.dao.MemberDao;
+import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
@@ -236,6 +240,25 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		Connection conn = getConnection();
 		
 		int result = new MemberDao().selectMemberPoint(conn, userNo);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int registerMember(Member member, Account account) {
+		Connection conn = getConnection();
+		BoardDao bDao = new BoardDao();
+		
+		int result = bDao.registerMember(conn, member);
+		int result2 = bDao.registerMember(conn, account);
+		
+		if(result>0 && result2>0) {
+			commit(conn);	
+		}else {
+			rollback(conn);
+		}
 		
 		close(conn);
 		

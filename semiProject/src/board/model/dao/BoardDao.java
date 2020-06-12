@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
+import member.model.vo.Account;
+import member.model.vo.Member;
 
 public class BoardDao {
 
@@ -279,12 +281,21 @@ public class BoardDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
 		}
 		return list;
+	}
+
+	public int registerMember(Connection conn, Member member) {
+		SEQ_ME.NEXTVAL
+		return 0;
+	}
+
+	public int registerMember(Connection conn, Account account) {
+		SEQ_ME.CURRVAL
+		return 0;
 	}
 
 }
