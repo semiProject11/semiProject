@@ -41,7 +41,7 @@
                   </div>
               </div>
               <div>
-                  <form role="form" id='registerForm' action="LS_login.html" method="post" onsubmit="return validate();">
+                  <form role="form" id='registerForm' action="<%=request.getContextPath() %>/register.me" method="post" onsubmit="return validate();">
                       <div class="form-group"><br><br>
                           <label>아이디</label>
                           
@@ -84,7 +84,7 @@
                     <div class="row">
 
                             <div class="col">
-                            <select type="phone" id="phone1" class="form-control" name="phone1">
+                            <select type="phone" id="phone1" class="form-control" name="phone">
                             <option value="010" selected>010</option>
                             <option value="011">011</option>
                             <option value="016">016 </option>
@@ -95,12 +95,12 @@
                             </div>-
 
                         <div class="col">
-                        <input type="text" id="phone2" class="form-control" name="phone2" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone2" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p2result"></label>
                         </div>-
 
                         <div class="col">
-                        <input type="text" id="phone3" class="form-control" name="phone3" type="text" size="4" maxlength="4">
+                        <input type="text" id="phone3" class="form-control" name="phone" type="text" size="4" maxlength="4">
                         <label id="p3result"></label>
                         </div>
 
@@ -112,33 +112,26 @@
                         <label>이메일 주소</label>
                         
                     <div class="row">
-                            <div class="col-9">
-                            <input type="text" class="form-control" id="emailId" name="emailId" placeholder="네이버 이메일 아이디를입력 해주세요" >
+                       <div class="col-6">
+                            <input type="text" class="form-control" id="emailId" name="email" placeholder="이메일 아이디를 입력 해주세요" >
                             </div>
 
-                        <div class="col-3">
-                            <div class="form-group"><input type="button" value="확인하기" id="emailcheck" class="btn btn-primary"></div>
-                        </div>
+                            <div class="col-6">
+                            <input type="text" name="email" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
+                            <datalist id="email" name="emailId"> 
+                                <option value="@naver.com">@naver.com</option> 
+                                <option value="@hanmail.net">@hanmail.net</option> 
+                                <option value="@daum.net">@daum.net</option>
+                                <option value="@nate.com">@nate.com</option>
+                                <option value="@yahoo.co.kr">@yahoo.co.kr</option>
+                                <option value="@gmail.com">@gmail.com</option>
+                            </datalist>
+                            </div>
+
 
                     </div>
+                     <label id="emailresult"></label>
 
-
-                        <label id="emailresult"></label>
-                        <div class="form-group">
-
-                        <div class="row">
-                                <div class="col-0"></div>
-
-                                <div class="col-9">
-                                <input type="text" class="form-control" id="emailNum" name="emailNum" placeholder="인증번호를 입력 해주세요" >
-                                </div>
-
-                                <div class="col-3">
-                                    <div class="form-group"><input type="button" value="인증하기" id="emailNocheck" class="btn btn-primary"></div>
-                                </div>
-
-                        </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
@@ -162,8 +155,13 @@
                             </div>
 
                         </div>
+                        <div class="row">
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                        <label id="BuCheck"></label>
+                        </div>
+                        </div>
 
-                        <br>
 
                         <div class="row">
                             <div class="col-0"></div>
@@ -220,20 +218,23 @@
       <!-- onsubmit validate() 함수-->
 
         <script>
-            	var flag = false;
+            	var flag = true;
             	
             	var userId = $("#registerForm input[name='userId']");
 				// 아이디 영대,소문자 숫자로만 4~15자
 				var regI = /^[a-zA-z0-9]{4,15}$/;
 
-				// 한글 최소 2자 이상 영어 2자 2자 이상 
-				var regHE = /^[가-힣]{2,}|[a-zA-Z]{2,}\s[a-zA-Z]{2,}$/;
+				// 한글 최소 2자 이상 6자 이하
+				var regHE = /^[가-힣]{2,6}$/;
 				
 				// 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자
 				var regP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
                 
 				// 생년월일 8자 숫자만
 				var regB = /^[0-9]{8,8}$/;
+				
+				// 이메일 양식
+				var regE = /^@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 				
 				// 핸드폰 중간자리 3~4 끝자리 4, 숫자만
 				var regP2 = /^[0-9]{3,4}$/;
@@ -246,117 +247,126 @@
     			if($("#userId").val().trim().length == 0){
                     alert("아이디를 입력하세요");
                     $("#userId").focus();
-                    return false;
+                    flag = false;
                 }
-    			if(!regI.test($("#userId").val())){
+    			else if(!regI.test($("#userId").val())){
             		alert("아이디조건을 확인하세요"); 
                     $("#userId").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#userPwd").val().trim().length == 0){
+    			else if($("#duCheck").html()=="이미 존재하는 아이디입니다"){
+					alert("중복된 아이디 입니다"); 
+                    $("#userId").focus();
+                    
+                }
+                else if($("#userPwd").val().trim().length == 0){
                     alert("비밀번호를 입력하세요");
                     $("#userPwd").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regP.test($("#userPwd").val())){
+                else if(!regP.test($("#userPwd").val())){
                     alert("비밀번호 조건을 확인하세요");
                     $("#userPwd").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#userPwdCheck").val().trim().length == 0){
+                else if($("#userPwdCheck").val().trim().length == 0){
                     alert("비밀번호 확인을 입력하세요");
                     $("#userPwdCheck").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#userPwd").val() != $("#userPwdCheck").val() ){
+                else if($("#userPwd").val() != $("#userPwdCheck").val() ){
                     alert("비밀번호가 같은지 확인해주세요");
                     $("#userPwdCheck").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#userName").val().trim().length == 0){
+                else if($("#userName").val().trim().length == 0){
                     alert("이름을 입력하세요");
                     $("#userName").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regHE.test($("#userName").val())){
+                else if(!regHE.test($("#userName").val())){
                 	alert("이름을 조건에 맞게 입력하세요");
                     $("#userName").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#userBirthday").val().trim().length == 0){
+                else if($("#userBirthday").val().trim().length == 0){
                     alert("생년월일을 입력하세요");
                     $("#userBirthday").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regB.test($("#userBirthday").val())){
+                else if(!regB.test($("#userBirthday").val())){
                 	alert("생일을 조건에 맞게 입력하세요");
                     $("#userBirthday").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#phone1").val().trim().length == 0){
+                else if($("#phone1").val().trim().length == 0){
                     alert("휴대폰 번호를 입력하세요");
                     $("#phone1").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#phone2").val().trim().length == 0){
+                else if($("#phone2").val().trim().length == 0){
                     alert("휴대폰 번호를 입력하세요");
                     $("#phone2").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regP2.test($("#phone2").val())){
+                else if(!regP2.test($("#phone2").val())){
                 	alert("번호 3~4자리를 입력하세요");
                     $("#phone2").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#phone3").val().trim().length == 0){
+                else if($("#phone3").val().trim().length == 0){
                     alert("휴대폰 번호를 입력하세요");
                     $("#phone3").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regP3.test($("#phone3").val())){
+                else if(!regP3.test($("#phone3").val())){
                 	alert("번호 4자리를 입력하세요");
                     $("#phone3").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#emailId").val().trim().length == 0){
+                else if($("#emailId").val().trim().length == 0){
                     alert("이메일 아이디를 입력하세요");
                     $("#emailId").focus();
-                    return false;
+                    flag = false;
                 }
                 
-                
-                if($("#emailNum").val().trim().length == 0){
-                    alert("인증번호를 입력하세요");
-                    $("#emailNum").focus();
-                    return false;
+                else if($("#userEmail").val().trim().length == 0){
+                    alert("이메일 주소를 입력하세요");
+                    $("#userEmail").focus();
+                    flag = false;
                 }
                 
-                
-                if($("#Bank").val().trim().length == 0){
+                else if($("#Bank").val().trim().length == 0){
                     alert("계좌은행을 입력하세요");
                     $("#Bank").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#bankUser").val().trim().length == 0){
+                else if($("#bankUser").val().trim().length == 0){
                     alert("예금주 명을 입력하세요");
                     $("#bankUser").focus();
-                    return false;
+                    flag = false;
                 }
-                if($("#bankNo").val().trim().length == 0){
+                else if(!regHE.test($("#bankUser").val())){
+                    alert("예금주 명을 조건에 맞게 입력하세요");
+                    $("#bankUser").focus();
+                    flag = false;
+                }	
+                else if($("#bankNo").val().trim().length == 0){
                     alert("계좌번호를 입력하세요");
                     $("#bankNo").focus();
-                    return false;
+                    flag = false;
                 }
-                if(!regA.test($("#bankNo").val())){
+                else if(!regA.test($("#bankNo").val())){
                 	alert("계좌번호를 조건에 맞게 입력하세요");
                     $("#bankNo").focus();
-                    return false;
+                    flag = false;
                 }
+                
                 else{
-                	 return confirm("회원가입에 성공하였습니다!! \nTimeSeller의 회원이 되신 것을 축하합니다!!");
+                	flag = confirm("회원가입에 성공하였습니다!! \nTimeSeller의 회원이 되신 것을 축하합니다!!");
 
                  }
-                    
+                   return flag;
               }
             
 
@@ -367,10 +377,10 @@
     
 				
                 // 아이디 중복확인 ajax
-                
     			$("#userId").change(function(){	
     				if(userId.val().length<4){
     					$("#duCheck").html("").css("color", "white");
+    					flag = false;
     				}
     				else{
     			
@@ -380,24 +390,26 @@
 		    				data:{userId:userId.val()},
 		    				success : function(data) {
 		    					if (data == "fail") {
-		    						$("#duCheck").html("이미 존재하는 아이디입니다 ").css("color", "red");
-		    						
+		    						$("#duCheck").html("이미 존재하는 아이디입니다").css("color", "red");
 		                            $("#userId").focus();
+		    						flag = false;
 		    					}
 		    					else{
 		    						$("#duCheck").html("사용 가능한 아이디입니다 ").css("color", "green");
-		    						
+		    						flag = true;
 		    					
 		    					}
 		    					
 		    				}
 		    				, error : function(request,status,error){
 		    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    				    flag = false;
 		    				}
 		    				});
-		    			}
+    					return flag;
+		    			} 
 		    			});
-            	
+                
             	
             	
             	
@@ -454,7 +466,7 @@
                  // 회원 가입 처리 : 이름, 비밀번호, 비밀번호 확인
                     $("#userName").change(function(){
                    	 if(!regHE.test($(this).val())){
-                       $("#nameresult").html("한글로 2자 이상 또는 영어 이름을 입력하세요 (ex Son HeungMin)").css("color","red");
+                       $("#nameresult").html("한글로 2자 이상 6자 이하로 입력해주세요.").css("color","red");
                        $(this).focus();
                    }
                    
@@ -491,8 +503,29 @@
                     $("#p3result").html('').css("color","green");
                     }
                     });
-                    // 이메일 api :
+                    
+                    // 이메일 
+                    $("#userEmail").change(function(){
+                    if(!regE.test($(this).val())) {
+                    $("#emailresult").html("이메일 형식을 @와 . 을 사용 해주세요").css("color","red");
+                    $(this).focus();
+                    }else {
+                    $("#emailresult").html('').css("color","green");
+                    }
+                    });
                   
+                    	
+                    // 은행	
+                    
+                    $("#bankUser").change(function(){
+                   	 if(!regHE.test($(this).val())){
+                       $("#BuCheck").html("한글로 2자 이상 6자 이하로 입력해주세요.").css("color","red");
+                       $(this).focus();
+                    }else{
+                    	 $("#BuCheck").html("").css('color','green');
+                         $(this).focus().css("background",'white');
+                    }
+                    });
 
                     $("#bankNo").change(function(){
                     if(!regA.test($(this).val())) {

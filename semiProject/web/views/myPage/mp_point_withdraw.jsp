@@ -1,6 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+<%
+	Member member = (Member)request.getAttribute("member");
+	
+	String userName = member.getUserName();
+	String email = member.getEmail();
+	int buyCount = (int)request.getAttribute("buyCount");
+	int sellCount = (int)request.getAttribute("sellCount");
+	int gradeTot = member.getGradeTot();
+	String grade = member.getGrade();
+	int point = member.getPoint();
+	String fileName = (String)request.getAttribute("fileName");
+	String gradeIcon = member.getGrade();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -186,99 +198,160 @@
       </nav>
     </div>
 
-<!-- <div id="page-content-wrapper"> -->
-      <div id="layoutSidenav_content">
+<<!-- <div id="page-content-wrapper"> -->
+    <div id="layoutSidenav_content">
 
       <!--main-->
 
       <div class="container mt-5">
-        <h2>포인트 충전</h2>
+        <h2>출금 하기</h2>
         <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item"><a href="mp_my_info.html">마이페이지</a></li>
-          <li class="breadcrumb-item active">포인트충전</li>
+          <li class="breadcrumb-item"><a href="">마이페이지</a></li>
+          <li class="breadcrumb-item active">출금 하기</li>
         </ol>
 
-        <form action="<%=request.getContextPath() %>/chargeMoney.me" onsubmit="return validate();" method="post">
         <div class="card mb-4">
           <div class="card-body">
-            <div>
-            <p style="display: inline;">충전 금액을 선택하세요</p><p style="float: right;">1회 최대 충전 금액 200만원</p3>
+            <form action="" onsubmit="return validate();">
+            <div class="container">
+              <p>포인트 정보</p>
               <hr>
+              <table align="center">
+                <tr>
+                  <td><label>잔여 포인트 : &nbsp;&nbsp;</label></td>
+                  <td><input type="text" id="myPoint"name="myPoint" value="300000" readonly></td>
+
+                </tr>
+                <tr>
+                  <td><label>출금 금액 : &nbsp;&nbsp;</label></td>
+                  <td><input type="text" id="result" name="withdraw"></td>
+                </tr>
+              </table>
             </div>
-              <div class="container">
-                <table  align="center" style="margin-bottom: 50px; margin-top: 50px;">
-                  <tr id="monyeBt" align="center">                    
-                    <td><button type="button" class="btn mr-3" value="100000" style="background:black; color:white; width:95px; font-size: small;">10만원</button></td>
-                    <td><button type="button" class="btn mr-3" value="300000" style="background:black; color:white; width:95px; font-size: small;">30만원</button></td>
-                    <td><button type="button" class="btn mr-3" value="500000" style="background:black; color:white; width:95px; font-size: small;">50만원</button></td>
-                    <td><button type="button" class="btn mr-3" value="1000000" style="background:black; color:white; width:95px; font-size: small;">100만원</button></td>
-                    <td><button type="button" class="btn mr-3" value="1500000" style="background:black; color:white; width:95px; font-size: small;">150만원</button></td>
-                  </tr>
-                </table>
-                <div align="center">
-                  <label>충전 하려는 금액 : &nbsp;&nbsp;</label><input type="text" id="result" name="chargeMoney" >
 
+            <div class="container">
+              <p>출금계좌 입력</p>
+              <hr>
+              <table>
+                <tr>
+                  <td style="padding-left: 20px;"><input type="radio" name="pay" id="my">&nbsp;<label>내 계좌</label></td>
+                  <td style="padding-left: 20px;"><input type="radio" name="pay" id="self">&nbsp;<label>직접 입력</label></td>
+                </tr>                
+              </table>
 
-                </div>
-                
+              
+              <div class="container" id="myCI1" style="display: none; width: 80%; margin-top: 20px;">                
+
+                <div class="form-group">
+                  <label>계좌</label>
+
+               <div class="row">
+
+                   <div class="col">
+                   <input type="text" name="Bank" list="bank" id="Bank" style="width:240px; height:38px;"  placeholder="은행 명을 입력해주세요" >
+                   <datalist id="bank" name="Bank"> 
+                   <option value="국민은행">국민은행</option>
+                   <option value="신한은행">신한은행</option>
+                   <option value="IBK은행">IBK은행</option>
+                   <option value="하나은행">하나은행</option>
+                   <option value="우리은행">우리은행</option>
+                   </datalist>
+                   </div>
+
+                   <div class="col">
+                   <input type="text" class="form-control" name="bankUser" id="bankUser" placeholder="예금주 명" >
+                   </div>
+
+               </div>
+
+               <br>
+
+               <div class="row">
+                   <div class="col-0"></div>
+                   <div class="col-12">
+                       <input type="text" class="form-control" name="bankNo" id="bankNo" placeholder="계좌번호를 '-'없이 입력 해주세요" >
+                   </div>
+                   <div class="col-0">
+                   </div>
+               </div>
+               <label id="noresult"></label>
+
+           </div>
+
+              </div>
+             
+              <button type="submit" class="btn float-right mr-5"
+                style="background:black; color:white; width:95px;">출금하기</button>
               </div>
               
-
-              <div class="mt-5" style="margin-left: 10px;">
-                <p>결제 수단</p>
-                <hr>
-                <table>
-                  <tr>
-                    <td style="padding-left: 20px;"><input type="radio" id="신용카드"name="pay">&nbsp;<label for="신용카드">신용카드</label></td>
-                    <td style="padding-left: 20px;"><input type="radio" id="핸드폰"name="pay">&nbsp;<label for="핸드폰">핸드폰</label></td>
-                    <td style="padding-left: 20px;"><input type="radio" id="무통장입금"name="pay">&nbsp;<label for="무통장입금">무통장입금</label></td>
-                  </tr>
-                </table>
-                <button type="submit" class="btn float-right mr-5" style="background:black; color:white; width:95px;">충전하기</button>
-                <!-- chargeMonyeServlet으로 가자 ! -->
-              </div>
-
+            </form>
 
           </div>
         </div>
-          </form>
-        
       </div>
 
+      <script>
+        $(function(){
+          $("#self").click(function(){
+            $("#myCI1").css("display","block")
+            $("#Bank").val("").attr("readonly" ,false);
+            $("#bankUser").val("").attr("readonly", false);
+            $("#bankNo").val("").attr("readonly", false);
+          })
 
-		<script>
-                $(function(){
-                  $("#monyeBt button").click(function(){                   
+          $("#my").click(function(){
+            $("#myCI1").css("display","block")
+            $("#Bank").val("내정보").attr("readonly" ,true);
+            $("#bankUser").val("내정보").attr("readonly" ,true);
+            $("#bankNo").val("내정보").attr("readonly", true);          
+          })
 
-                    $("#result").val($(this).val());
-                  })
-                  
-                  $("#result").change(function(){
-                      var regI = /^[0-9]{1,}$/;                    
+          $("#result").change(function(){
+                    var regI = /^[0-9]{1,}$/;                    
 
-                      if(!regI.test($(this).val())){
-                          alert("숫자만 입력가능합니다.");
-                          $(this).val('');
-                          $(this).focus();
-                      }
-                      });
-                })
-                
-                function validate(){
-                	if($("#result").val().trim().length == 0){
-                        alert("충전금액을 입력하세요");
-                        $("#result").focus();
-                        return false;
+                    if(!regI.test($(this).val())){
+                        alert("숫자만 입력가능합니다.");
+                        $(this).val('');
+                        $(this).focus();
                     }
-                	if($("#신용카드").is(":checked") == false && $("#핸드폰").is(":checked") == false && $("#무통장입금").is(":checked") == false){
-                		alert("결제 방식을 선택하세요");
-                		return false;
-                	}
-                	
+                    });
+        })
+
+        function validate(){
+          if($("#result").val().trim().length == 0){
+                    alert("출금금액을 입력하세요");
+                    $("#result").focus();
+                    return false;
                 }
-                
-                
-        </script>
+          if($("#result").val() > $("#myPoint").val()){
+            alert("보유하신 포인트 보다 작은 값만 출금할 수 있습니다.");
+            $("#result").focus();
+                    return false;
+          }
+
+
+          if($("#Bank").val().trim().length == 0){
+                    alert("계좌은행을 입력하세요");
+                    $("#Bank").focus();
+                    return false;
+                }
+                if($("#bankUser").val().trim().length == 0){
+                    alert("예금주 명을 입력하세요");
+                    $("#bankUser").focus();
+                    return false;
+                }
+                if($("#bankNo").val().trim().length == 0){
+                    alert("계좌번호를 입력하세요");
+                    $("#bankNo").focus();
+                    return false;
+                }
+                else{
+                  return true;
+                }
+
+        }
+        
+      </script>
 
 
 

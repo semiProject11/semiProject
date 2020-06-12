@@ -1,11 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+  
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+ 
 <style>
         #form-control{
             width: 100px;
@@ -36,13 +40,14 @@
 	<jsp:include page="../common/menubar.jsp" />
 
  <div id="layoutSidenav_content">
+ <%-- <form class="unn" id="insertForm" style="margin-left:262px" action="<%=request.getContextPath() %>/register.service" method="post"  onsubmit="return validate();"> --%>
     
         <br>
         <br>
         <br>
         <br>
         <div class="container">  
-          <form class="form-inline" style="margin-left: 262px;" onsubmit="return register_complete();">
+          <form class="form-inline" id="insertForm" name="insertForm" style="margin-left: 262px;" action="<%=request.getContextPath() %>/register.service" method="post" onsubmit="return fromCheck();">
               <div class="category">
            <label for="category1" class="category1">카테고리</label>
               </div>
@@ -64,7 +69,8 @@
           </form>
           <br>
        
-          <form class="form-inline" style="margin-left: 262px;" >
+          <form class="form-inline" id="insertForm" name="insertForm" style="margin-left: 262px;"  action="<%=request.getContextPath() %>/register.service" method="post"
+          onsubmit="return fromCheck();">
               <div class="title">
            <label for="title1">&nbsp;&nbsp;&nbsp;제목</label>
            </div>
@@ -73,43 +79,43 @@
            </div>
           </form>
           <br>
-          <form>
+          <form id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
           <div class="form-check"  style="margin-left: 243px;">
          <label for="method">판매방식</label>
-              <input class="form-check-input" type="radio" name="choice" id="choice_general" value="general" style="margin-left: 30px;" onclick = "showDiv();">
+              <input class="form-check-input" type="radio" name="saleMethod" id="choice_general" value="general" style="margin-left: 30px;" onclick = "showDiv();">
               <label class="form-check-label" for="exampleRadios" style="margin-left : 50px;">일반</label>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <input class="form-check-input" type="radio" name="choice" id="choice_auction" value="auction" style="margin-right: 150px;"  onclick = "showDiv();">
+             <input class="form-check-input" type="radio" name="saleMethod" id="choice_auction" value="auction" style="margin-right: 150px;"  onclick = "showDiv();">
              <label class="form-check-label" for="exampleRadios" style="margin-right:100px;">경매</label>
            </div>
            </form>
            <br>
            <div id="price" class="change">
-           <form class="form-inline">
+           <form class="form-inline" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
                <div class="price">
             <label for="sale" style="margin-left: 262px;">판매가격</label>
             </div>
             <div class="price">
-                <input type="text" class="form-control" id="saleprice" name="saleprice" style="width: 250px; height: 33px; margin-left: 15px;" placeholder="금액을 입력하세요">
+                <input type="text" class="form-control" id="salePrice" name="salePrice" style="width: 250px; height: 33px; margin-left: 15px;" placeholder="금액을 입력하세요">
             </div>
            </form>
          </div>
          
    
          <div id="bidding" class="change">
-           <form class="form-inline">
+           <form class="form-inline" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
              <div class="aution">
                <label for="bidprice" style="margin-left: 262px;">입찰가격</label>
              </div>
              <div class="">
-               <input type="text" class="form-control" id="bidprice" name="bidprice" style="width:250px; height: 33px; margin-left: 15px;" placeholder="최소금액을 입력하세요">
+               <input type="text" class="form-control" id="biddingPrice" name="biddingPrice" style="width:250px; height: 33px; margin-left: 15px;" placeholder="최소금액을 입력하세요">
              </div>
              
              <div class="auction2">
                <label for="deadline" style="margin-left: 10px;">마감시간</label>
              </div>
              <div class="auction2">
-               <input type="time" class="form-control" id="deadline" name="deadline" style="width: 140px; height: 33px; margin-left: 10px;">
+               <input type="datetime-local" class="form-control" id="deadline" name="deadline" style="width: 140px; height: 33px; margin-left: 10px;">
              </div>
            </form>
          </div>
@@ -117,7 +123,7 @@
           
          <br>
    
-           <form class="form-inline" style="margin-left:262px;">
+           <form class="form-inline" style="margin-left:262px;" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
              <div class="subject">
           <label for="subject">관련주제</label>
           </div>
@@ -128,20 +134,20 @@
          <br>
          <br>
       
-   
+   		<form id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
          <label class="textarea_text" style="margin-left : 263px;">서비스 설명</label>
          <div class="form-group" style="width: 600px; margin-left: 262px; margin-top: -20px;" >
            <label for="exampleFormControlTextarea1"></label>
-           <textarea class="form-control" name="serviceExplain" id="serviceExplain" style="resize:none" placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="13"></textarea>
+           <textarea class="form-control" name="detailContent" id="detailContent" style="resize:none" placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="13"></textarea>
          </div>
          <label class="textarea_text" style="margin-left : 262px;">판매자 정보</label>
          <div class="form-group" style="width: 600px; margin-left: 262px; margin-top: -20px;" >
            <label for="exampleFormControlTextarea1"></label>
            <textarea class="form-control" style="resize:none" name="sellerInfo" id="sellerInfo" placeholder="판매자의 정보를 입력하세요&#13;&#10;ex)경력사항, 스펙" rows="13"></textarea>
          </div>
+   			</form>
    
-   
-         <form class="form-inline" style="margin-left: 262px;">
+         <form class="form-inline" style="margin-left: 262px;" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
            <div class="area">
         <label for="title1" class="title1">가능지역</label>
         </div>
@@ -150,22 +156,22 @@
         </div>
          </form>
          <br>
-        <form class="form-inline" style="margin-left: 262px;">
+        <form class="form-inline" style="margin-left: 262px;" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
            <div class="form-check form-check-inline">
              <label >가능요일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <input class="form-check-input" type="checkbox" id="Monday" name="Monday" value="Monday">
+               <input class="form-check-input" type="checkbox" id="monday" name="monday" value="Monday">
                <label>월&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Tuesday" name="Tuesday" value="Tuesday">
+               <input class="form-check-input" type="checkbox" id="tuesday" name="tuesday" value="Tuesday">
                <label>화&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Wednesday" name="Wednesday" value="Wednesday2">
+               <input class="form-check-input" type="checkbox" id="wednesday" name="wednesday" value="Wednesday2">
                <label>수&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Thursday" name="Thursday" value="Thursday">
+               <input class="form-check-input" type="checkbox" id="thursday" name="thursday" value="Thursday">
                <label>목&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Friday" name="Friday" value="Friday">
+               <input class="form-check-input" type="checkbox" id="friday" name="friday" value="Friday">
                <label>금&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Saturday" name="Saturday" value="Saturday">
+               <input class="form-check-input" type="checkbox" id="saturday" name="saturday" value="Saturday">
                <label>토&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Sunday" name="Sunday" value="Sunday">
+               <input class="form-check-input" type="checkbox" id="sunday" name="sunday" value="Sunday">
                <label>일</label>
    
              </label>
@@ -173,7 +179,7 @@
          </form>
          <br>
          
-         <form class="form-inline">
+         <form class="form-inline" id="insertForm" action="<%=request.getContextPath() %>/register.service" method="post">
            <div class="contact">
              <label for="time" style="margin-left: 262px;">연락가능 시간</label>
            </div>
@@ -188,19 +194,15 @@
          <br>
 
       <div class="form-group">
-     <input type="button" value="등록" id="registration" class="btn btn-primary" onclick="register_complete();" style="width: 100px; margin-left: 750px;">
+     <input type="submit" value="등록" id="registration" class="btn btn-primary" onclick="register_complete();" style="width: 100px; margin-left: 750px;">
     </div>
        </div>
-
-
-
+      
 
      <br>
      <br>
-
-
-
-
+	
+	
 
      <script>
       function showDiv(){
@@ -218,17 +220,47 @@
   }
 </script>
 
+<script>
+function fromCheck(){
+	var title = document.forms[0].title.value;
+	
+	if(title == null || title=""){
+		alter('제목을 입력하세요');
+		document.forms[0].writer.focus();
+		return false
+	}
+	
+	if(!form.title.value){
+		alert("제목을 입력하세요");
+		from.name.focus();
+		return;
+	}
+	form.submit();
+}else{
+	
+}
+	
+</script> 
 
 
-
-
-    
+ 
     <script>
       function register_complete(){
-        confirm("등록이 완료되었습니다.")
+        	var result = confirm("등록하시겠습니까?")
+        	console.log(result);
+        	
+        	if(result){
+        		 /* $("#insertForm").submit();  */
+        		location.href="service_register_success.jsp"; 
+        	}
+        	
+        	/* <button onclick="location.href="views/board/boardInsertForm.jsp">작성하기</button> */
       }
+      
+      //ServiceInsertServlet만들러 간다 ! 
   
    </script>
+   
 
      
    <div id="layoutAuthentication_footer">
