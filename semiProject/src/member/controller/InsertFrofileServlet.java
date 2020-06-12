@@ -46,6 +46,7 @@ public class InsertFrofileServlet extends HttpServlet {
 		MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 		
 		String userNo = multiRequest.getParameter("userNo");
+		// 텍스트에 담아서 보냈기 때문에 String 형이다.
 		String saveFiles = null;
 		
 		String originFiles = null;
@@ -72,13 +73,14 @@ public class InsertFrofileServlet extends HttpServlet {
 		pf.setChange_name(saveFiles);
 		pf.setFile_path(savePath);
 		int result1 = new MemberService().profileEt(userNo);
+
+		System.out.println("프로필 파일 갯수" +result1);
 		int result = 0;
 		if(result1 == 0) {
 			result = new MemberService().insertProfile(pf, userNo);			
 		}else {
 			result = new MemberService().changeProfile(pf, userNo);
 		}
-		
 		
 		if(result>0) {
 			response.sendRedirect("myPage.me");

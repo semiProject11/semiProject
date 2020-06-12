@@ -12,6 +12,7 @@
 	int point = member.getPoint();
 	String fileName = (String)request.getAttribute("fileName");
 	String gradeIcon = member.getGrade();
+	int userNo = member.getUserNo();
 %>
 
 <!DOCTYPE html>
@@ -276,7 +277,7 @@
 				
                 <div id="fileArea">
 				<input type="file" id="profileImg" name="profileImg" onchange="LoadImg(this)">
-				<input type="text" name="userNo" value="<%=member.getUserNo()%>">	
+				<input type="text" name="userNo" value="<%=userNo%>">
 				</div>
                 </div>
                 
