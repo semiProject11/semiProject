@@ -107,7 +107,7 @@
             // 로그인 시 아이디, 패스워드 칸에 입력을 안했을 시 띄울 alert메세지
             function validate(){
             	
-            	var flag = false;
+            	var flag = true;
 	           	var userId = $("#loginForm input[name='userId']");
             	var userPwd = $("#loginForm input[name='userPwd']");
 
@@ -116,19 +116,19 @@
                 {
                 alert("아이디와 비밀번호를 입력해주세요");
                 $("#userId").focus();
-                return false;
+                flag = false;
                 }
                 else if($("#userId").val().trim().length == 0)
                 {
                 alert("아이디를 입력해주세요");
                 $("#userId").focus();
-                return false;
+                flag = false;
                 }
                 else if($("#userPwd").val().trim().length == 0) 
                 {
                 alert('비밀번호를 입력하세요');
                 $("#userPwd").focus();
-                return false;
+                flag = false;
                 }
                 else {
             	
