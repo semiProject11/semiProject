@@ -291,25 +291,7 @@
 			<!--container end-->
 
 
-			<script>
-        $(function () {
 
-          $("#titleArea td").click(function () {
-            var boarder_no = $(this).parent().children("input").val();
-
-            if (loginUser != null) {
-
-              location.href = "<%=request.getContextPath()%>
-				/Detail.bo?bid="
-													+ boarder_no;
-
-										} else {
-											alert("로그인 해야만 상세보기가 가능합니다.")
-										}
-
-									})
-				})
-			</script>
 
 
 
@@ -329,5 +311,22 @@
 			</footer>
 		</div>
 	</div>
+	
+				<script>
+        $(function () {
+
+          $("#titleArea td").mouseenter(function(){
+				$(this).parent().css({"cursor":"pointer"});
+			}).click(function () {
+            var boarder_no = $(this).parent().children("input").val();
+
+           
+
+              location.href = "<%=request.getContextPath()%>/detail.faq?boarder_no="+ boarder_no;
+
+
+									});
+				});
+			</script>
 </body>
 </html>

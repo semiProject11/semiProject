@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <% int Page=10; %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -159,7 +159,8 @@
 
             <div class="container my-3" id="post">
                 <div class="container my-3">
-                    <form class="form-group my-3" action="<%=request.getContextPath()%>/insert.inquiary" method="post" encType="multipart/form-data">
+                    <form class="form-group my-3" action="<%=request.getContextPath()%>/insert.inquiary" method="post" encType="multipart/form-data" onsubmit="return validate();">
+                        <input type="hidden" name="board_code" value="10">
                         <div class="row">
                             <div class="col-md-2 text-center"><label>상담 유형</label></div>
                             <div class="col-md-4">
@@ -172,10 +173,10 @@
 
                         <div class="row mt-2">
                             <div class="col-md-2 text-center"><label for="inquiaryTitle">제목</label></div>
-                            <div class="col-md-10"><input type="text" name="inquiaryTitle" class="form-control" style="width:100%; text-align:left;"></div>
+                            <div class="col-md-10"><input type="text" name="inquiaryTitle" id="inquiaryTitle" class="form-control" style="width:100%; text-align:left;"></div>
                         </div>
                         <div class="mt-2">
-                            <textarea class="form-control" name="inquiaryContent" style="width:100%; height:400px; resize:none; text-align:left;"></textarea>
+                            <textarea class="form-control" name="inquiaryContent" id="inquiaryContent" style="width:100%; height:400px; resize:none; text-align:left;"></textarea>
 
                         </div>
 
@@ -187,19 +188,19 @@
                                 <input type="text" name="fileName1" id="fileName1" class="form-control form_point_color01" style="position: absolute; width:98%" readonly
                                     placeholder="파일첨부 클릭 또는 파일을 드래그하세요">
                              
-                                    <input type="file"  class="form-control" id="find_file01" style="position: absolute; opacity: 0;"
+                                    <input type="file" name="fileName1" class="form-control" id="find_file01" style="position: absolute; opacity: 0;"
                                     onchange="javascript: document.getElementById('fileName1').value = this.value"> 
                                   
                                     
 
                             </div>
-                                   <div class="col-md-2 text-center"><label for="find_file02">파일 첨부 2</label></div>
+                            <div class="col-md-2 text-center"><label for="find_file02">파일 첨부 2</label></div>
                             <div class="col-md-10 form-group form_file" style="position: relative;">
 
                                 <input type="text" name="fileName2" id="fileName2" class="form-control form_point_color01" style="position: absolute; width:98%" readonly
                                     placeholder="파일첨부 클릭 또는 파일을 드래그하세요">
                              
-                                    <input type="file"  class="form-control" id="find_file02" style="position: absolute; opacity: 0;"
+                                    <input type="file" name="fileName2"  class="form-control" id="find_file02" style="position: absolute; opacity: 0;"
                                     onchange="javascript: document.getElementById('fileName2').value = this.value"> 
                                   
                             </div>
@@ -225,8 +226,8 @@
                         </div>
 
 
-                </div>
                 </form>
+                </div>
             </div>
 
 
@@ -247,6 +248,32 @@
             </div>
             </div>
             
+            <script>
+            
+            function validate(){
+            
+            	if($("#inquiaryTitle").val().trim().length==0){
+            		alert('제목을 입력해주세요.');
+            		$("#inquiaryTitle").focus();
+            		return false;
+            		
+            	}else if($("#inquiaryContent").val().trim().length==0){
+            		alert('내용을 입력해주세요.');
+            		$("#inquiaryContent").focus();
+            		return false;
+            		
+            	}else{
+            		alert('문의하신 글이 등록되었습니다.');
+            		return true;
+            		 location.href='<%=request.getContextPath() %>/list.notice'
+            	}
+            	
+            	
+            };
+            
+            
+            
+            </script>
             
             
             

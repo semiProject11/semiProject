@@ -45,7 +45,6 @@ public class NoticeInsertServlet extends HttpServlet {
 		
 		
 		String root=request.getSession().getServletContext().getRealPath("/");
-		System.out.println(root);
 		String savePath=root+"board_uploadFiles/";
 		
 		MultipartRequest multiRequest=new MultipartRequest(request,savePath,maxSize,"UTF-8",new DefaultFileRenamePolicy());

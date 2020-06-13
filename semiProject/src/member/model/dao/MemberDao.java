@@ -309,7 +309,7 @@ public class MemberDao {
 				gradeList.add(m);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -336,7 +336,7 @@ public class MemberDao {
 				
 				Seller s=new Seller(rset.getInt("s_user_No"),
 									rset.getInt("report_Num"),
-									rset.getInt("sell_Count")
+									rset.getInt("sellCount")
 									
 						
 						);
@@ -345,7 +345,7 @@ public class MemberDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+	
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -355,6 +355,7 @@ public class MemberDao {
 		
 		return sellerList;
 	}
+	
 
 	public int insertProfile(Connection conn, Profile pf, String userNo) {
 		PreparedStatement pstmt = null;
@@ -642,6 +643,7 @@ public class MemberDao {
 		return result;
 
 	}
+
 
 
 

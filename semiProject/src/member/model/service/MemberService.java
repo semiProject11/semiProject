@@ -1,6 +1,7 @@
+
 package member.model.service;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
 import static common.JDBCTemplate.commit;
 import static common.JDBCTemplate.getConnection;
 import static common.JDBCTemplate.rollback;
@@ -8,7 +9,6 @@ import static common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import board.model.dao.BoardDao;
 import member.model.dao.MemberDao;
 import member.model.vo.Account;
 import member.model.vo.Member;
@@ -16,6 +16,7 @@ import member.model.vo.Profile;
 import member.model.vo.Seller;
 
 public class MemberService {
+
 
 	public Member loginMember(Member member) {
 		Connection conn = getConnection();
@@ -161,7 +162,9 @@ public class MemberService {
 		Connection conn=getConnection();
 		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
 		close(conn);
+		System.out.println("gradelist서비스에서:"+gradeList);
 		return gradeList;
+		
 	}
 
 
@@ -169,7 +172,9 @@ public class MemberService {
 		Connection conn=getConnection();
 		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
 		close(conn);
+		System.out.println("sellerlist서비스에서:"+sellerList);
 		return sellerList;
+		
 		
 	}
 

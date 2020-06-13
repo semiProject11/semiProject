@@ -32,7 +32,6 @@ public class Member implements Serializable {
 	
 
 
-
 	public Member(String userId, String userPwd, String userName, String userBirth, String phone, String email) {
 		this.userId = userId;
 		this.userPwd = userPwd;

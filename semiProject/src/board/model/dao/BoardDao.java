@@ -3,7 +3,6 @@ package board.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,11 @@ import java.util.ArrayList;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
+
+import board.model.vo.Report;
+
 import member.model.vo.Account;
+
 import member.model.vo.Member;
 
 public class BoardDao {
@@ -123,66 +126,13 @@ public class BoardDao {
 		return inquiaryList;
 	}
 
-	public int insertInquiary(Connection conn, Board b) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-		String query = "INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL,?,?,?,SYSDATE,0,10,'N')";
-		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, b.getTitle());
-			pstmt.setString(2, b.getContent());
-			pstmt.setInt(3, Integer.valueOf(b.getUser_no()));
 
-			result = pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(conn);
-		}
-
-		System.out.println("1번 실행됨");
-
-		return result;
-	}
-
-	public int insertInquiaryFiles(Connection conn, ArrayList<Files> inquiaryList) {
-		PreparedStatement pstmt = null;
-		int result = 0;
-
-		String query = "INSERT INTO FILES VALUES(SEQ_FILES.NEXTVAL,SEQ_BOARD.CURVAL,?,?,?,SYSDATE,0,0,'N'";
-		try {
-
-			for (int i = 0; i > inquiaryList.size(); i++) {
-				Files f = inquiaryList.get(i);
-
-				pstmt = conn.prepareStatement(query);
-
-				pstmt.setString(1, f.getOrigin_name());
-				pstmt.setString(2, f.getChange_name());
-				pstmt.setString(3, f.getFile_path());
-
-				result += pstmt.executeUpdate();
-
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			close(pstmt);
-		}
-
-		System.out.println("2번 실행됨");
-		return result;
-	}
 
 	public int insertInquiaryType(Connection conn, Inquiary inq) {
 
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "INSERT INTO INQUIARY_TYPE VALUES(SEQ_BOARD.CURVAL,?,DEFAULT,'N',DEFALUT)";
+		String query = "INSERT INTO INQUIARY VALUES(SEQ_BOARD.CURRVAL,'N','N',SYSDATE,?)";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -196,7 +146,6 @@ public class BoardDao {
 			close(pstmt);
 		}
 
-		System.out.println("3번 실행됨");
 		return result;
 	}
 
@@ -210,7 +159,8 @@ public class BoardDao {
 			pstmt.setString(1, b.getTitle());
 			pstmt.setString(2, b.getContent());
 			pstmt.setInt(3, b.getUser_no());
-			pstmt.setString(5, b.getUser_name());
+	
+			pstmt.setInt(4, b.getBoard_code());
 
 			result = pstmt.executeUpdate();
 
@@ -221,6 +171,9 @@ public class BoardDao {
 			close(pstmt);
 		}
 
+		System.out.println("게시물이 dao에서 등록됨");
+		System.out.println(result);
+		
 		return result;
 	}
 
@@ -228,11 +181,15 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		int result = 0;
-		String query = "INSERT INTO FILES VALUES(SEQ_FID.NEXTVAL,SEQ_BID.CURVAL,?,?,?,SYSDATE,0,0,'Y')";
+		
+		System.out.println("flist"+fList);
+		
+		String query = "INSERT INTO FILES VALUES(SEQ_FILE.NEXTVAL,SEQ_BOARD.CURRVAL,?,?,?,SYSDATE,0,0,'Y')";
+		
 		try {
 
-			for (int i = 0; i > fList.size(); i++) {
-				Files f = fList.get(i);
+			for (int i=0;i<fList.size();i++) {
+				Files f=fList.get(i);
 
 				pstmt = conn.prepareStatement(query);
 				
@@ -240,8 +197,7 @@ public class BoardDao {
 				pstmt.setString(2, f.getChange_name());
 				pstmt.setString(3, f.getFile_path());
 				
-
-				result += pstmt.executeUpdate();
+				result +=pstmt.executeUpdate();
 
 			}
 
@@ -251,10 +207,18 @@ public class BoardDao {
 		} finally {
 			close(pstmt);
 		}
+		
+		System.out.println("파일이 dao에서 등록됨");
+		System.out.println(result);
+		
 		return result;
+		
 	}
+	
+	
+	
 
-	public ArrayList<Board> selectNotice(Connection conn,int board_code) {
+	public ArrayList<Board> selectBoard(Connection conn,int board_code) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
@@ -289,4 +253,191 @@ public class BoardDao {
 	}
 
 	
+
+	
+	
+	public int updateCount(Connection conn, int board_no) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		String query="UPDATE BOARD SET READ_NUM=READ_NUM+1 WHERE BOARD_NO=?";
+		
+		try {
+		
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		
+		}
+		
+		
+		return result;
+	}
+
+	public Board selectBoardDetail(Connection conn, int board_no) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Board b=null;
+		
+		String query="SELECT * FROM BOARD WHERE BOARD_NO=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"));
+			}
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		
+		} finally {
+			close(pstmt);
+
+		}
+		
+
+		return b;
+	}
+
+	public int insertReportType(Connection conn, Report rep) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "INSERT INTO report VALUES(SEQ_BOARD.CURRVAL,'N','N',SYSDATE,?,?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rep.getService_no());
+			pstmt.setString(2, rep.getReport_type());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int checkReportS(Connection conn, String service_no) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="SELECT COUNT(*) FROM LIST WHERE SERVICE_NO=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,Integer.valueOf(service_no));
+
+			result=pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+	
+	
+	public int checkReportB(Connection conn, String service_no) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="SELECT COUNT(*) FROM LIST WHERE SERVICE_NO=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,Integer.valueOf(service_no));
+			
+			result=pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public Member checkReportSeller(Connection conn, String service_no) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Member member=null;
+		String query="SELECT USER_NAME FROM MEMBER WHERE USER_NO=(SELECT S_USER_NO FROM LIST WHERE SERVICE_NO=?);";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,Integer.valueOf(service_no));
+
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				member=new Member(service_no,rset.getString("user_name"));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return member;
+		
+	}
+
+	public Member checkReportBuyer(Connection conn, String service_no) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Member member=null;
+		String query="SELECT USER_NAME FROM MEMBER WHERE USER_NO=(SELECT B_USER_NO FROM LIST WHERE SERVICE_NO=?);";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,Integer.valueOf(service_no));
+
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				member=new Member(service_no,rset.getString("user_name"));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return member;
+	}
+
+
 }
+
+

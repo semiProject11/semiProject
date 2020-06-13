@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="board.model.vo.*"%>
+    
+    <%
+    
+    Board b = (Board) request.getAttribute("board");
+    
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,7 +179,7 @@
                 <header>
                   <h2>공지사항</h2>
                   <hr>
-                  <h4 class="mt-5">5월 고객센터 휴무안내(4/30~5/5)</h4>
+                  <h4 class="mt-5"><%=b.getTitle() %></h4>
                 </header>
               </div>
             </div>
@@ -181,18 +187,14 @@
 
             <div class="mt-2">
               <textarea class="form-control"
-                style="margin:30px; padding:20px; width:100%; height:500px; border:none; resize:none; align-items:left;">안녕하세요~ 타임셀러입니다.
-
-4월과 5월에는 석가탄신일과 근로자의 날, 전사 휴무일, 어린이날을 맞이하여
-아래와 같이 고객센터를 휴무하게 됩니다. (사이트는 정상 운영)
-휴무일에는 전화응대를 쉬며 출금신청하신 수익금이 익일 지급됩니다.
+                style="margin:30px; padding:20px; width:100%; height:500px; border:none; resize:none; align-items:left;"><%=b.getContent() %>
                       </textarea>
 
             </div>
             <div class="row mt-3">
               <div class="col"></div>
               <div class="col text-center"><button type="button" class="btn" style="background:gold; color:black"><a
-                    href="cs_notice.html" id="bk">목록으로 가기</a></button>
+                    href="<%=request.getContextPath() %>/list.notice" id="bk">목록으로 가기</button></a>
 
 
               </div>

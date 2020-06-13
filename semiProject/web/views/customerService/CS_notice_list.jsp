@@ -22,6 +22,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
     <style>
      
  
@@ -300,19 +301,13 @@
 		$(function(){
 			$("#listArea td").mouseenter(function(){
 				$(this).parent().css({"cursor":"pointer"});
-			})
-			
-			
-			.mouseout(function(){
-				$(this).parent().css({"background":"black"});
-			})
-			
-			
-			.click(function(){
-				var bid=$(this).parent().children("input").val();
-				
-				
+			}).click(function(){
+				var board_no=$(this).parent().children("input").val();
+				location.href="<%=request.getContextPath()%>/detail.notice?board_no="+board_no;
 			});
+			
+			
+		});
 	
 	</script>
 
