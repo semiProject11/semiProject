@@ -1,12 +1,16 @@
 package member.model.service;
 
 import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.commit;
 import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import board.model.dao.BoardDao;
 import member.model.dao.MemberDao;
+import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
@@ -60,12 +64,6 @@ public class MemberService {
 		}
 		
 		
-		if(count > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);			
-		}
-		
 		
 		close(conn);
 		
@@ -94,11 +92,6 @@ public class MemberService {
 		
 		String fileName = new MemberDao().selectFileName(conn, userId);
 		
-		if(fileName.isEmpty()) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
 		
 		close(conn);
 		
@@ -242,6 +235,36 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		return result;
 	}
 
+
+	public int registerMember(Member member, Account account) {
+		Connection conn = getConnection();
+		MemberDao mDao = new MemberDao();
+		
+		int result = mDao.registerMember(conn, member);
+		int result2 = mDao.registerMember(conn, account);
+		
+		if(result>0 && result2>0) {
+			commit(conn);	
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result;
+	}
+
+	public Account selectAccount(int userNo) {
+		Connection conn = getConnection();
+		
+		Account account = new MemberDao().selectAccount(conn, userNo);
+		
+	
+		close(conn);
+		
+		return account;
+
+	}
 
 
 }

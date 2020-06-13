@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+
+<%
+    Member loginUser = (Member)session.getAttribute("loginUser");
+    //String loginUser = "admin"; // if-else문 잘 되는지 확인하기위해 적은 코드
+%>
 
 <!DOCTYPE html>
 <html>
@@ -83,11 +88,11 @@
     #cd_views {
       float: right;
     }
+    
   </style>
 
 
 </head>
-
 
 <body class="sb-nav-fixed sb-sidenav-toggled">
 
@@ -105,6 +110,8 @@
 
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#" style="color:black">
       <i class="fas fa-bars"></i></button><!-- Navbar Search-->
+      
+    
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
       <div class="input-group">
 
@@ -122,37 +129,39 @@
           <option>Marketing</option>
           <option>Event</option>
         </select>
-
+		
         <input class="form-control" type="text" placeholder="제목을 입력해주세요." aria-label="Search"
           aria-describedby="basic-addon2" />
         <div class="input-group-append"></div>
         <button class="btn btn-primary" type="submit" id="jin">
           <i class="fas fa-search"></i>
-
         </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <%if(loginUser == null){ %>  
+            <button type="button" class="btn" onclick="loginPage();" style="background:black; color:white; width:95px;">Login</button>
+        <%}else{ %>  
       </div>
       </div>
     </form>
-
-    <!-- Navbar-->
-    <ul class="navbar-nav ml-auto ml-md-0">
+        <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false" style="color:black">
           <i class="fas fa-user fa-fw" style="color:blacak"></i></a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="mp_my_info.html">마이페이지</a>
-          <a class="dropdown-item" href="#">판매 등록</a>
-          <!-- <div class="dropdown-divider"></div> -->
-          <a class="dropdown-item" href="#">고객센터</a>
-          <a class="dropdown-item" href="LS_login.html">로그아웃</a>
-
+          <a class="dropdown-item" onclick="myPageinfo();">마이페이지</a>
+          <a class="dropdown-item" onclick="serviceRegister();">판매 등록</a>
+          <a class="dropdown-item" onclick="serviceCenter();">고객센터</a>
+          <%if(loginUser.getUserId().equals("admin")){ %>
+          <a class="dropdown-item" onclick="adminCenter();">관리자센터</a>
+          <% } %>
+          <a class="dropdown-item" onclick="logout();">로그아웃</a>
         </div>
       </li>
     </ul>
+    <%} %>
+    
   </nav>
-
-
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
@@ -162,4 +171,41 @@
   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>  
 </body>
+
+  <script>
+  /* 메뉴바 Login버튼 클릭시 로그인 페이지로 이동 */
+  function loginPage(){
+      location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp";
+      }
+  
+  /* 로그인 시 드롭메뉴바 마이페이지 클릭 시 마이페이지로 이동 */
+  function myPageinfo(){
+	  location.href="<%=request.getContextPath()%>/myPage.me";
+      }
+  
+  
+  /* 로그인 시 드롭메뉴바 판매등록 클릭 시 판매등록 페이지로 이동 */
+  function serviceRegister(){
+      location.href="<%=request.getContextPath()%>/views/service/service_register.jsp";
+      }
+  
+  /* 로그인 시 드롭메뉴바 고객센터 클릭 시 고객센터 페이지로 이동 */
+  function serviceCenter(){
+	  location.href="<%=request.getContextPath()%>/list.notice";
+      }
+  
+  
+  /* 로그인 시 드롭메뉴바 관리자센터 클릭 시 관리자센터 페이지로 이동 */
+  function adminCenter(){
+	  location.href="<%=request.getContextPath()%>/list.grade";
+      }
+  
+  /* 로그인 시 드롭메뉴바 로그아웃 클릭 시 비 로그인화면 으로 이동 */
+  function logout(){
+	  location.href="<%=request.getContextPath()%>/logout.me";
+      }
+  </script>
+
+
+
 </html>
