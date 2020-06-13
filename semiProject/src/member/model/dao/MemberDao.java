@@ -814,4 +814,32 @@ public class MemberDao {
 		return result;
 	}
 
+
+
+
+	public int changePwd(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET USER_PWD=? WHERE USER_ID=? AND USER_NAME=? AND EMAIL=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserPwd());
+			pstmt.setString(2, member.getUserId());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setString(4, member.getEmail());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
 }

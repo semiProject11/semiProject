@@ -320,6 +320,25 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int changePwd(Member member) {
+		Connection conn = getConnection();
+		System.out.println("member" + member);
+		int result = new MemberDao().changePwd(conn, member);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+
+	
+
+
 }
 
 
