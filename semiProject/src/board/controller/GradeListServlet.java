@@ -39,7 +39,8 @@ public class GradeListServlet extends HttpServlet {
 		ArrayList<Seller> sellerList=new MemberService().selectSellerList();
 		
 		
-		
+		System.out.println(gradeList);
+		System.out.println(sellerList);
 		
 		if(!gradeList.isEmpty()&&!sellerList.isEmpty()) {
 			request.setAttribute("gradeList", gradeList);

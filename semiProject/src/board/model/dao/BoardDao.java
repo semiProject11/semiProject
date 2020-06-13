@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
-<<<<<<< HEAD
+
 import board.model.vo.Report;
-=======
+
 import member.model.vo.Account;
->>>>>>> refs/remotes/origin/master
+
 import member.model.vo.Member;
 
 public class BoardDao {
@@ -253,7 +253,7 @@ public class BoardDao {
 	}
 
 	
-<<<<<<< HEAD
+
 	
 	
 	public int updateCount(Connection conn, int board_no) {
@@ -438,8 +438,6 @@ public class BoardDao {
 	}
 
 
-=======
->>>>>>> refs/remotes/origin/master
 }
 
 

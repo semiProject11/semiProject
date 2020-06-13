@@ -309,7 +309,7 @@ public class MemberDao {
 				gradeList.add(m);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -345,7 +345,7 @@ public class MemberDao {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+	
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
@@ -355,6 +355,7 @@ public class MemberDao {
 		
 		return sellerList;
 	}
+	
 
 	public int insertProfile(Connection conn, Profile pf, String userNo) {
 		PreparedStatement pstmt = null;
@@ -646,18 +647,7 @@ public class MemberDao {
 
 
 
-<<<<<<< HEAD
-	public int updateGrade(Connection conn, String[] gradeChange) {
-		
-		PreparedStatement pstmtPreparedStatement=null;
-		int result=0;
-	
-		
-		
-		
-		return result;
-	}
-=======
+
 	public Account selectAccount(Connection conn, int userNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -742,5 +732,5 @@ public class MemberDao {
 		return result2;
 	}
 
->>>>>>> refs/remotes/origin/master
+
 }

@@ -40,7 +40,7 @@ public class UpdateGradeServlet extends HttpServlet {
 		
 
 
-	int result=new MemberService().updateGrade(gradeChange);
+
 	
 	
 	}

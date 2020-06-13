@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="member.model.vo.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="member.model.vo.*,java.util.ArrayList"%>
 <%
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
-ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
+	ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
 %>
 
 
