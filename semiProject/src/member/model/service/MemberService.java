@@ -272,6 +272,44 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public ArrayList<Member> selectTradeListS() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> memberList = new MemberDao().selectTradeS(conn);
+		
+	
+		close(conn);
+		
+		return memberList;
+	}
+
+
+	public ArrayList<Member> selectTradeListB() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> memberList = new MemberDao().selectTradeB(conn);
+		
+	
+		close(conn);
+		
+		return memberList;
+	}
+
+
+	public Member selectSeller(int service_no) {
+		Connection conn=getConnection();
+		Member seller=new MemberDao().selectTradeSel(conn,service_no);
+		return seller;
+	}
+
+
+	public Member selectBuyer(int service_no) {
+		Connection conn=getConnection();
+		Member buyer=new MemberDao().selectTradeBuy(conn,service_no);
+		return buyer;
+	}
+
+	
 }
 
 
