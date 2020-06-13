@@ -344,7 +344,7 @@ Time Seller 및 Time Seller 관련 제반 서비스(모바일 웹/앱 포함)의
                   $(".chk").prop('checked',bool);
               });
       });
-        $(document).ready(function(){
+      /*   $(document).ready(function(){
             $("#nextBtn").click(function(){
                 if($("#checkAll").is(":checked") == true){
                     $("#terms_form").submit();
@@ -361,7 +361,7 @@ Time Seller 및 Time Seller 관련 제반 서비스(모바일 웹/앱 포함)의
             });  
             
            
-        });
+        }); */
     </script>
       
 

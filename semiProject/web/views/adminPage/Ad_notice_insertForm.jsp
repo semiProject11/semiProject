@@ -217,11 +217,20 @@
                     <div class="container mt-5" id="post">
                         <div class="container my-5">
                             <form class="form-group" action="<%=request.getContextPath()%>/insert.notice" method="post"
-			encType="multipart/form-data">
-			<input type="hidden" name="board_code" value="20">
+			encType="multipart/form-data" onsubmit="return validate();">
+		
+									 <div class="row">
+                                    <div class="col-md-2"><label for="title">공지 유형</label></div>
+                                    <div class="col-md-10"><select class="form-control" style="width: 100%"
+									name="board_code" id="report_type">
+									<option  value="20">일반 공지</option>
+									<option  value="50">자주묻는 질문</option>
+									<option  value="60">개인정보 처리 지침</option>
+								</select></div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-2"><label for="title">제목</label></div>
-                                    <div class="col-md-10"><input type="text" class="form-control" name="title"
+                                    <div class="col-md-10"><input type="text" id="noticeTitle" class="form-control" name="title"
                                             style="width:100%; text-align:left;" placeholder="제목을 입력하세요." id="title"></div>
                                 </div>
 
@@ -230,7 +239,7 @@
                                     <div>
                                         <!--편집 API 알아보고 찾으면 넣기-->
                                     </div>
-                                    <textarea class="form-control" name="content"
+                                    <textarea class="form-control" name="content" id="noticeContent"
                                         style="width:100%; height:500px; resize:none; align-items:left;"></textarea>
 
                                 </div>
@@ -255,9 +264,8 @@
                                     <div class="col"></div>
                                     <div class="col text-center">
                                         <button type="submit" class="btn" style="background:black; color:white"
-                                            onclick="alert('등록완료'); location.href='admin_notice.html'">작성 완료</button>
-                                             <button type="reset" class="btn" style="background:black; color:white"
-                                            onclick="alert('등록완료'); location.href='admin_notice.html'">취소</button>
+                                             location.href='<%=request.getContextPath()%>/views/adminPage/Ad_notice_list.jsp'">작성 완료</button>
+                                             <button type="reset" class="btn" style="background:black; color:white">취소</button>
 
 
                                     </div>
@@ -288,5 +296,28 @@
                 </div>
                 </div>
 	
+	
+	<script>
+    function validate(){
+        
+    	if($("#noticeTitle").val().trim().length==0){
+    		alert('제목을 입력해주세요.');
+    		$("#noticeTitle").focus();
+    		return false;
+    		
+    	}else if($("#noticeContent").val().trim().length==0){
+    		alert('내용을 입력해주세요.');
+    		$("#noticeContent").focus();
+    		return false;
+    		
+    	}else{
+    		alert('공지사항이 등록되었습니다.');
+    		return true;
+    	}
+    	
+    	
+    };
+	
+	</script>
 </body>
 </html>

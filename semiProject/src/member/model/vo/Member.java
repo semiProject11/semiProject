@@ -31,6 +31,17 @@ public class Member implements Serializable {
 	}
 	
 
+	
+
+
+	public Member(int userNo, String userName) {
+		super();
+		this.userNo = userNo;
+		this.userName = userName;
+	}
+
+
+
 
 
 	public Member(String userId, String userPwd) {

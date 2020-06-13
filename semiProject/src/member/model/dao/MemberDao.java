@@ -335,7 +335,7 @@ public class MemberDao {
 				
 				Seller s=new Seller(rset.getInt("s_user_No"),
 									rset.getInt("report_Num"),
-									rset.getInt("sell_Count")
+									rset.getInt("sellCount")
 									
 						
 						);
@@ -640,5 +640,19 @@ public class MemberDao {
 		
 		return result;
 
+	}
+
+
+
+
+	public int updateGrade(Connection conn, String[] gradeChange) {
+		
+		PreparedStatement pstmtPreparedStatement=null;
+		int result=0;
+	
+		
+		
+		
+		return result;
 	}
 }

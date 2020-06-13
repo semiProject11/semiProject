@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import="board.model.vo.*,java.util.ArrayList"%>
+<%
+Board b = (Board) request.getAttribute("board");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -156,7 +158,7 @@
                 <header>
                   <h2>자주묻는 질문</h2>
                   <hr>
-                  <h4 class="mt-5" name="faqTitle">[회원정보] 개명 후 인증이 안돼요.</h4>
+                  <h4 class="mt-5" name="faqTitle"><%=b.getTitle()%></h4>
                 </header>
               </div>
             </div>
@@ -164,25 +166,14 @@
 
             <div class="mt-2">
               <textarea class="form-control" name="faqContent"
-                style="margin:30px; padding:20px; width:100%; height:500px; border:none; resize:none; align-items:left; background-color:white;" readonly>
-개명을 하신 경우 실명확인 등록기관에 개명하신 성함으로 실명등록을 모두 새롭게 해주셔야 합니다.
-
-[실명확인 등록기관안내]
-                
-- 코리아크레딧뷰로(KCB) ☞ 바로가기   / ☎ 고객센터: 02-708-1000
-- SIREN24 ☞ 바로가기
-                
-                
-기관을 통해 변경된 실명 정보를 등록하실 경우, 인증 시간이 소요될 수 있는 점 참고해주시기를 바랍니다.
-                
-                
-                      </textarea>
+                style="margin:30px; padding:20px; width:100%; height:500px; border:none; resize:none; align-items:left; background-color:white;" readonly><%=b.getContent() %></textarea>
 
             </div>
             <div class="row mt-3">
               <div class="col"></div>
-              <div class="col text-center"><button type="button" class="btn" style="background:gold; color:black" onclick="goFaqList();">
-                목록으로 가기</button>
+              <div class="col text-center"><button type="button" class="btn" style="background:gold; color:black"><a
+                    href="<%=request.getContextPath() %>/list.faq" id="bk">목록으로 가기</button></a>
+          
 
 
               </div>
@@ -194,14 +185,6 @@
 
       <!--container end-->
 
-
-
-      <script>
-        function goFaqList(){
-          location.href="<%=request.getContextPath()%>/faqList.cs";
-        }
-
-      </script>
 
 
 

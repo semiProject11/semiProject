@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8" import="member.model.vo.*, java.util.ArrayList"%>
 <%
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
-	ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
+ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
 %>
 
 
@@ -98,7 +98,7 @@ th, tr, td {
 
 
 	<jsp:include page="../common/menubar2.jsp" />
-	
+
 	<!--side nav start-->
 	<div id="layoutSidenav">
 
@@ -232,119 +232,117 @@ th, tr, td {
 			<div class="container mt-5">
 
 				<header>
-				<%=gradeList %>
-				<%=sellerList %>
 					<h2>사용자 등급 관리</h2>
 					<hr>
 				</header>
+					<form>
 				<div class="container my-4">
-
-					<div>
-						<!--상단 버튼-->
-						<button type="button" class="btn"
-							style="background: black; color: white">전체 선택</button>
-						<button type="button" class="btn"
-							style="background: black; color: white" onclick="updateGrade();">등급
-							변경</button>
-						<button type="button" class="btn"
-							style="background: black; color: white">구매자 제한</button>
-						<button type="button" class="btn"
-							style="background: black; color: white">판매자 제한</button>
-						<!--상단 검색창-->
-						<form
-							class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
-							<div class="input-group">
-								<input class="form-control" type="text"
-									placeholder="Search for..." aria-label="Search"
-									aria-describedby="basic-addon2" />
-								<div class="input-group-append"></div>
-								<button class="btn btn-primary mr-0" type="button" id="jin">
-									<i class="fas fa-search"></i></i>
-								</button>
+						<div>
+							<!--상단 버튼-->
+							<button type="button" class="btn" id="checkBtn"
+								style="background: black; color: white">전체 선택</button>
+							<button type="button" class="btn"
+								style="background: black; color: white" onclick="updateGrade();">등급
+								변경</button>
+							<button type="button" class="btn"
+								style="background: black; color: white">구매자 제한</button>
+							<button type="button" class="btn"
+								style="background: black; color: white">판매자 제한</button>
+							<!--상단 검색창-->
+							<div
+								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+								<div class="input-group">
+									<input class="form-control" type="text"
+										placeholder="Search for..." aria-label="Search"
+										aria-describedby="basic-addon2" />
+									<div class="input-group-append"></div>
+									<button class="btn btn-primary mr-0" type="button" id="jin">
+										<i class="fas fa-search"></i></i>
+									</button>
+								</div>
 							</div>
-						</form>
-					</div>
+						</div>
 
 
 
-					<!--회원등급 리스트-->
-					<div class="table-responsive mt-3">
-						<table class="table table-striped table-bordered table-hover"
-							id="gListArea" method="post">
-							<thead>
-								<tr>
-									<th>
-										<div class="form-check form-check-inline">
-											<input type="checkbox" class="form-check-input" id="checkall"
-												style="width: 18px; height: 18px;">
-									</th>
-									<th>No</th>
-									<th>판매자 아이디</th>
-									<th>판매점수</th>
-									<th>신고받은 횟수</th>
-									<th>현재 등급</th>
-									<th>등급 관리</th>
+						<!--회원등급 리스트-->
+						<div class="table-responsive mt-3">
+							<table class="table table-striped table-bordered table-hover"
+								id="gListArea" method="post">
+								<thead>
+									<tr>
+										<th><input type="checkbox" class="common" id="checkAll"
+											style="width: 18px; height: 18px;"></th>
+										<th>No</th>
+										<th>판매자 아이디</th>
+										<th>판매점수</th>
+										<th>신고받은 횟수</th>
+										<th>현재 등급</th>
+										<th>등급 선택</th>
 
-								</tr>
-							</thead>
+									</tr>
+								</thead>
 
-							<tbody>
-							
-							
-							<%if(gradeList.isEmpty()){ %> 
-								<tr>
-									<td colspan="7">조회된 결과가 없습니다.</td>
-								</tr>
-								<%}else{%>
-								<%for(int i=0;i<gradeList.size();i++){ %>
+								<tbody>
 
-			 						<tr>
-									<input type="hidden" value="<%=(gradeList.get(i)).getUserNo()%>">
-									<td>
-										<div class="form-check form-check-inline">
-											<input type="checkbox" class="form-check-input"
-												id="gradeCheck" style="width: 18px; height: 18px;">
-											<!--전체선택버튼-->
-											<label class="form-check-label" for="checkall"></label>
-										</div>
-									</td>
-									<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
-									<td><%=(gradeList.get(i)).getUserNo()%></td>
-									<!-- 유저아이디 -->
-									<td><%=(gradeList.get(i)).getUserId()%></td>
-									<!-- 점수  -->
-									<td><%=(gradeList.get(i)).getGradeTot()%></td>
-									<!-- 신고받은 횟수 -->
-									<td><%=(sellerList.get(i)).getReportNum()%></td>
-									<!-- 현재 등급 -->
-									<td><%=(gradeList.get(i)).getGrade()%></td>
-									<!-- 변경될 등급 --> 
-									
-			
-									
-						<td>
-										<div class="dropdown">
-											<button class="btn btn-default dropdown-toggle" type="button"
-												data-toggle="dropdown">등급 선택</button>
-											<div class="dropdown-menu">
-												<a class="dropdown-item" href="#">BRONZE</a> <a
-													class="dropdown-item" href="#">GOLD</a> <a
-													class="dropdown-item" href="#">DIAMOND</a>
-											</div>
-										</div>
-									</td> 
 
-								</tr>
-								
-								<%} %>
-				<%} %> 
-							
+									<%
+										if (gradeList.isEmpty()) {
+									%>
+									<tr>
+										<td colspan="7">조회된 결과가 없습니다.</td>
+									</tr>
+									<%
+										} else {
+									%>
+									<%
+										for (int i = 0; i < gradeList.size(); i++) {
+									%>
 
-							</tbody>
-						</table>
-					</div>
+									<tr>
+
+										<td><input type="checkbox" class="common" id="gradeList"
+											name="rowCheck" style="width: 18px; height: 18px;"<%=(gradeList.get(i)).getUserNo()%>">
+
+
+										</td>
+										<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
+										<td><%=(gradeList.get(i)).getUserNo()%></td>
+										<!-- 유저아이디 -->
+										<td name="userId"><%=(gradeList.get(i)).getUserId()%></td>
+										<!-- 점수  -->
+										<td><%=(gradeList.get(i)).getGradeTot()%></td>
+										<!-- 신고받은 횟수 -->
+										<td><%=(sellerList.get(i)).getReportNum()%></td>
+										<!-- 현재 등급 -->
+										<td><%=(gradeList.get(i)).getGrade()%></td>
+										<!-- 변경될 등급 -->
+
+
+
+										<td><select name="grade" class="custom-select">
+												<option value="BRONZE">BRONZE</option>
+												<option value="SILVER">SILVER</option>
+												<option value="GOLD">GOLD</option>
+												<option value="PLATINUM">PLATINUM</option>
+												<option value="DIAMOND">DIAMOND</option>
+										</select></td>
+
+									</tr>
+
+									<%
+										}
+									%>
+									<%
+										}
+									%>
+
+
+								</tbody>
+							</table>
+						</div>
 				</div>
-
+				</form>
 
 
 
@@ -394,21 +392,62 @@ th, tr, td {
 
 
 	<script>
+	
+	//등급변경
     function updateGrade(){
     	
-    		
-    		var board_no=$("#gListArea td").parent().children("input").val();
-   
-    		if(board_no!=null){
-    		
-    		location.href="<%=request.getContextPath()%>/update.grade?board_no="board_no";
-
-			} else {
-
-				alert("선택한 항목이 없습니다.");
-			}
-
+		//등급 변경할 값을 arraylist에 넣어주고 서블릿에 넘기기 
+		
+		$("#gListArea").submit();
+		
+		
+		<%-- var gid=$("#gradeList").val();
+		var grade=$("#grade").val();--%>
+		
+		location.href="<%=request.getContextPath()%>/update.grade?gid=" + gid;
+		location.href="<%=request.getContextPath()%>/update.grade?grade=" + grade;
+		
+		
 		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//모두 체크
+		
+		  $(function(){
+			  $("#checkAll").hide();
+			  $("#checkBtn").click(function(){
+					$("#checkAll").click();
+				});
+			  
+			  
+          $("#checkAll").click(function(){
+                  var bool = $(this).prop("checked");
+                  $(".common").prop('checked', bool);
+              });
+      });
+           
+
 	</script>
 </body>
 </html>

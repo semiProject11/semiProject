@@ -175,6 +175,7 @@ public class MemberService {
 	public ArrayList<Seller> selectSellerList() {
 		Connection conn=getConnection();
 		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
+		
 		close(conn);
 		return sellerList;
 		
@@ -238,6 +239,20 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		int result = new MemberDao().selectMemberPoint(conn, userNo);
 		
 		close(conn);
+		
+		return result;
+	}
+
+
+
+
+
+	public int updateGrade(String[] gradeChange) {
+	
+		Connection conn=getConnection();
+		
+		int result=new MemberDao().updateGrade(conn, gradeChange);
+		
 		
 		return result;
 	}
