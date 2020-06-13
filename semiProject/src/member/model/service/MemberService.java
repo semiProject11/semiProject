@@ -64,12 +64,6 @@ public class MemberService {
 		}
 		
 		
-		if(count > 0) {
-			commit(conn);
-		}else {
-			rollback(conn);			
-		}
-		
 		
 		close(conn);
 		
@@ -98,11 +92,6 @@ public class MemberService {
 		
 		String fileName = new MemberDao().selectFileName(conn, userId);
 		
-		if(fileName.isEmpty()) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
 		
 		close(conn);
 		

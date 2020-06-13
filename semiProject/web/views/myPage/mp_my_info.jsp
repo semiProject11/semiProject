@@ -12,7 +12,7 @@
 	int point = member.getPoint();
 	String fileName = (String)request.getAttribute("fileName");
 	String gradeIcon = member.getGrade();
-	int userNo = member.getUserNo();
+	String userNo = member.getUserNo();
 %>
 
 <!DOCTYPE html>
@@ -267,7 +267,7 @@
                         	<button type="button" class="btn" onclick="location.href='views/myPage/mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
                         </td>
                         <td>
-				            <button type="button" class="btn" onclick="location.href='views/myPage/mp_point_withdraw.jsp'" style="background:black; color:white; width:110px;">출금하기</button>
+				            <button type="button" class="btn" onclick="location.href='<%=request.getContextPath()%>/select.ac'" style="background:black; color:white; width:110px;">출금하기</button>
 				         </td>
                       </tr>
 

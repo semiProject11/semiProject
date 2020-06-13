@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
 import member.model.vo.Account;
+import member.model.vo.Member;
 
 /**
  * Servlet implementation class SelectAccount
  */
 @WebServlet("/select.ac")
-public class SelectAccount extends HttpServlet {
+public class SelectAccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SelectAccount() {
+    public SelectAccountServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,11 +37,12 @@ public class SelectAccount extends HttpServlet {
 //		Member loginUser = (Member)session.getAttribute("loginUser");
 //		
 //		int userNo = Integer.valueOf(loginUser.getUserNo());
+//		String userId = loginUser.getUserId();
 		
 		int userNo = 1;
-		
+		String userId = "admin";
 
-		
+		Member member = new MemberService().selectMember(userId);
 		
 		Account account = new MemberService().selectAccount(userNo);
 		
@@ -49,6 +51,7 @@ public class SelectAccount extends HttpServlet {
 		if (account != null) {
 			view = request.getRequestDispatcher("views/myPage/mp_point_withdraw.jsp");
 			request.setAttribute("account", account);
+			request.setAttribute("member", member);
 		} else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "계좌 정보 조회에 실패했습니다.");

@@ -145,9 +145,10 @@ public class MemberDao {
 	public int selectBCount(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		int sellCount = 0;
+		int buyCount = 0;
 		
-		String query = "SELECT SELL_COUNT FROM MEMBER JOIN SELLER ON(USER_NO = S_USER_NO) WHERE USER_ID = ?";
+		String query = "SELECT BUYCOUNT FROM MEMBER JOIN BUYER ON(USER_NO = B_USER_NO) WHERE USER_ID = ?";
+		
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -155,7 +156,7 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				sellCount = rset.getInt("SELL_COUNT");				
+				buyCount = rset.getInt("BUYCOUNT");				
 				
 			}			
 			
@@ -167,15 +168,15 @@ public class MemberDao {
 		}
 		
 		
-		return sellCount;
+		return buyCount;
 	}
 
 	public int selectSCount(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		int buyCount = 0;
+		int sellCount = 0;
 		
-		String query = "SELECT BUY_COUNT FROM MEMBER JOIN BUYER ON(USER_NO = B_USER_NO) WHERE USER_ID = ?";
+		String query = "SELECT SELLCOUNT FROM MEMBER JOIN SELLER ON(USER_NO = S_USER_NO) WHERE USER_ID = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -183,9 +184,8 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				buyCount = rset.getInt("BUY_COUNT");					
+				sellCount = rset.getInt("SELLCOUNT");					
 			}			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -194,7 +194,7 @@ public class MemberDao {
 		}
 		
 		
-		return buyCount;
+		return sellCount;
 
 	}
 	
@@ -658,13 +658,25 @@ public class MemberDao {
 			pstmt.setInt(1, userNo);
 			rset = pstmt.executeQuery();
 			
+			if(rset.next()) {
+				ac = new Account(rset.getString("ACCOUNT"),
+								rset.getString("BANK"),
+								rset.getString("ACCOUNT_HOLD"),
+								rset.getString("USER_NO"));
+				}
+			
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
 		}
 		
 		
 		
-		return null;
+		return ac;
 	}
 
 	public int registerMember(Connection conn, Member member) {

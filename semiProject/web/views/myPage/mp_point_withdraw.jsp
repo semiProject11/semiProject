@@ -1,17 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+    pageEncoding="UTF-8" import="member.model.vo.*"%>
 <%
+	Account ac = (Account)request.getAttribute("account");
 	Member member = (Member)request.getAttribute("member");
-	
-	String userName = member.getUserName();
-	String email = member.getEmail();
-	int buyCount = (int)request.getAttribute("buyCount");
-	int sellCount = (int)request.getAttribute("sellCount");
-	int gradeTot = member.getGradeTot();
-	String grade = member.getGrade();
-	int point = member.getPoint();
-	String fileName = (String)request.getAttribute("fileName");
-	String gradeIcon = member.getGrade();
+	String account1 = ac.getAccount();
+	String bank = ac.getBank();
+	String accountHold = ac.getAccount_hold();
+	String userNo = ac.getUserNo();
 %>
 <!DOCTYPE html>
 <html>
@@ -212,14 +207,14 @@
 
         <div class="card mb-4">
           <div class="card-body">
-            <form action="" onsubmit="return validate();">
+            <form action="<%=request.getContextPath() %>/withdraw.me" onsubmit="return validate();">
             <div class="container">
               <p>포인트 정보</p>
               <hr>
               <table align="center">
                 <tr>
                   <td><label>잔여 포인트 : &nbsp;&nbsp;</label></td>
-                  <td><input type="text" id="myPoint"name="myPoint" value="300000" readonly></td>
+                  <td><label><%=member.getPoint()%> point</label></td>
 
                 </tr>
                 <tr>
@@ -298,12 +293,11 @@
             $("#bankUser").val("").attr("readonly", false);
             $("#bankNo").val("").attr("readonly", false);
           })
-
           $("#my").click(function(){
             $("#myCI1").css("display","block")
-            $("#Bank").val("내정보").attr("readonly" ,true);
-            $("#bankUser").val("내정보").attr("readonly" ,true);
-            $("#bankNo").val("내정보").attr("readonly", true);          
+            $("#Bank").val("<%=bank%>").attr("readonly" ,true);
+            $("#bankUser").val("<%=accountHold%>").attr("readonly" ,true);
+            $("#bankNo").val("<%=account1%>").attr("readonly", true);          
           })
 
           $("#result").change(function(){
@@ -323,7 +317,7 @@
                     $("#result").focus();
                     return false;
                 }
-          if($("#result").val() > $("#myPoint").val()){
+          if($("#result").val() > <%=member.getPoint()%>){
             alert("보유하신 포인트 보다 작은 값만 출금할 수 있습니다.");
             $("#result").focus();
                     return false;
