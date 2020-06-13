@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%! 
-int page11 = 3;
+    pageEncoding="UTF-8" import="service.model.vo.*,member.model.vo.*"%>
+    <%
+	Service_List trade=(Service_List)request.getAttribute("trade");
+	Service_ServiceTable_oh service=(Service_ServiceTable_oh)request.getAttribute("service");
+	Service_Category category=(Service_Category)request.getAttribute("category");
+	Member seller=(Member)request.getAttribute("seller");
+	Member buyer=(Member)request.getAttribute("buyer");
 %>
 <!DOCTYPE html>
 <html>
@@ -9,17 +13,7 @@ int page11 = 3;
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-        #jin {
-            background: black;
-            border: none;
-        }
-
-        #young {
-            font-family: "돋움";
-            color: black;
-            font: bold;
-        }
-
+    
         th,
         tr,
         td {
@@ -205,48 +199,48 @@ int page11 = 3;
                 </head>
                 <div class="container mt-4" id="post">
                     <div class="container my-3">
-                        <form class="form-group">
+                        <form class="form-group" id="tradeArea">
                             <div class="row">
+                           
                                 <div class="col-md-2"><label>카테고리</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">IT</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=category.getCategory_name() %></label></div>
                                 <div class="col-md-2"><label>구매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">빽다</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=buyer.getUserName() %></label></div>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">15-458</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=service.getServiceNo() %></label></div>
                                 <div class="col-md-2"><label>판매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">소통소통</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=seller.getUserName() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>거래일시</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">2020-05-01</label>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=trade.getTrade_date() %></label>
                                 </div>
-                                <div class="col-md-2"><label>별점/가격</label></div>
-                                <div class="col-md-2"><label class="form-control" style="width:100%">확인중</label></div>
-                                <div class="col-md-2"><label class="form-control" style="width:100%">50,000</label></div>
+                                <div class="col-md-2"><label>포인트(점)</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=service.getPriceSale() %></label></div>
+                               
                             </div>
                             <div class="row">
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>
-                                <div class="col-md-10"><label style="width:100%; text-align: left;">웹프로그래밍 익히고 싶으신
-                                        분</label></div>
+                                <div class="col-md-10"><div class="form-control"
+                                    style="width:100%;"><%=service.getTitle() %></div></div>
                             </div>
                             <div class="mt-2">
-                                <textarea class="form-control"
-                                    style="width:100%; height:500px; resize:none;">웹프로그래밍쪽 진로 관련 상담 가능</textarea>
+                                <div class="form-control"
+                                    style="width:100%; height:500px; resize:none;"><%=service.getsExplain() %></div>
 
                             </div>
                             <div class="row mt-2">
                                 <div class="col"></div>
                                 <div class="col text-center">
-                                    <button type="button" class="btn" style="background:black; color:white"><a
-                                            href="admin_transaction.html" id="wh">목록</a></button>
-                                    <!--row나 col에서 text-center로 가운데 정렬 가능-->
-                                    <button type="button" class="btn" style="background:black; color:white">수정</button>
-                                    <button type="button" class="btn" style="background:black; color:white">삭제</button>
+                                    <a href="<%=request.getContextPath()%>/list.transaction">
+                                            <button type="button" class="btn" style="background:black; color:white">목록으로</button></a>
+                               
+                                   
                                 </div>
                                 <div class="col"></div>
                             </div>
@@ -298,5 +292,7 @@ int page11 = 3;
             </footer>
             </div>
             </div>
+            
+          
 </body>
 </html>
