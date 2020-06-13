@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+ 
 <style>
         #form-control{
             width: 100px;
@@ -28,179 +31,168 @@
         }
         .form-control{
           box-shadow: none !important;
+          display: inline !important;
           
+        }
+        form div *{
+        	display:inline-block;
+        }
+        form>div> .container>*{
+        	float:right !important; 
         }
    </style>
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 
- <div id="layoutSidenav_content">
+<%-- action="<%=request.getContextPath() %>/register.service" --%>
+ <!-- <div id="layoutSidenav_content"> -->
+<form class="insertForm" id="insertForm"  name="insertForm" method="post" onsubmit="return checkForm();">
     
         <br>
         <br>
         <br>
         <br>
-        <div class="container">  
-          <form class="form-inline" style="margin-left: 262px;" onsubmit="return register_complete();">
-              <div class="category">
-           <label for="category1" class="category1">카테고리</label>
+        <div class="container"> 
+              <div class="category" style="margin-left : 300px">
+           <label for="category" class="category">카테고리</label>
               </div>
-              <div class="category">
-                   <select class="form-control" name="category" style="width:160px; height: 33px; margin-left: 12px;">
-                   <option>카테고리 선택</option>
-                   <option>예술</option>
-                   <option>요식업</option>
-                   <option>의료</option>
-                   <option>스포츠</option>
-                   <option>패션</option>
-                   <option>IT</option>
-                   <option>금융</option>
-                   <option>공무원</option>
-                   <option>비즈니스(창업)</option>
-                   <option>마케팅</option>
+             &nbsp;&nbsp;&nbsp;<div class="category" style="width : 180px; height : 30px;">
+                   <select class="form-control" name="category" id="category">
+                   <option value="">카테고리 선택</option>
+                   <option value="artist">예술</option>
+                   <option value="restaurant business">요식업</option>
+                   <option value="medical treatment">의료</option>
+                   <option value="sport">스포츠</option>
+                   <option value="fashion">패션</option>
+                   <option value="IT">IT</option>
+                   <option value="finance">금융</option>
+                   <option value="publicofficial">공무원</option>
+                   <option value="business">비즈니스(창업)</option>
+                   <option value="marketing">마케팅</option>
                    </select>
               </div>
-          </form>
           <br>
-       
-          <form class="form-inline" style="margin-left: 262px;" >
-              <div class="title">
+          <br>
+              <div class="title"  style="margin-left : 300px">
            <label for="title1">&nbsp;&nbsp;&nbsp;제목</label>
            </div>
            <div class="title">
                <input type="text" class="form-control" id="title" name ="title" style="width: 480px; height: 33px; margin-left: 30px;" placeholder="제목을 입력하세요">
            </div>
-          </form>
           <br>
-          <form>
-          <div class="form-check"  style="margin-left: 243px;">
+          <br>
+ 
+          <div class="form-check"  style="margin-left: 280px;">
          <label for="method">판매방식</label>
-              <input class="form-check-input" type="radio" name="choice" id="choice_general" value="general" style="margin-left: 30px;" onclick = "showDiv();">
+              <input class="form-check-input" type="radio" name="saleMethod" id="choice_general" value="general" style="margin-left: 30px;" onclick = "showDiv();">
               <label class="form-check-label" for="exampleRadios" style="margin-left : 50px;">일반</label>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <input class="form-check-input" type="radio" name="choice" id="choice_auction" value="auction" style="margin-right: 150px;"  onclick = "showDiv();">
+             <input class="form-check-input" type="radio" name="saleMethod" id="choice_auction" value="auction" style="margin-right: 150px;"  onclick = "showDiv();">
              <label class="form-check-label" for="exampleRadios" style="margin-right:100px;">경매</label>
            </div>
-           </form>
+         
            <br>
-           <div id="price" class="change">
-           <form class="form-inline">
+           <div id="price" class="change" style="margin-left:295px">
                <div class="price">
-            <label for="sale" style="margin-left: 262px;">판매가격</label>
+            <label for="sale">판매가격</label>
             </div>
             <div class="price">
-                <input type="text" class="form-control" id="saleprice" name="saleprice" style="width: 250px; height: 33px; margin-left: 15px;" placeholder="금액을 입력하세요">
+                <input type="text" class="form-control" id="salePrice" name="salePrice" style="width: 250px; height: 33px; margin-left: 15px;" placeholder="금액을 입력하세요">
             </div>
-           </form>
+          
          </div>
-         
-   
-         <div id="bidding" class="change">
-           <form class="form-inline">
+         <div id="bidding" class="change" style="margin-left:295px">
+          
              <div class="aution">
-               <label for="bidprice" style="margin-left: 262px;">입찰가격</label>
+               <label for="bidprice">입찰가격</label>
              </div>
-             <div class="">
-               <input type="text" class="form-control" id="bidprice" name="bidprice" style="width:250px; height: 33px; margin-left: 15px;" placeholder="최소금액을 입력하세요">
+             <div class="aution">
+               <input type="text" class="form-control" id="biddingPrice" name="biddingPrice" style="width:250px; height: 33px; margin-left: 15px;" placeholder="최소금액을 입력하세요">
              </div>
              
-             <div class="auction2">
+             <div class="auction">
                <label for="deadline" style="margin-left: 10px;">마감시간</label>
              </div>
-             <div class="auction2">
-               <input type="time" class="form-control" id="deadline" name="deadline" style="width: 140px; height: 33px; margin-left: 10px;">
+             <div class="auction">
+               <input type="datetime-local" class="form-control" id="deadline" name="deadline" style="width: 140px; height: 33px; margin-left: 10px;">
              </div>
-           </form>
-         </div>
-       
-          
+         </div>      
          <br>
-   
-           <form class="form-inline" style="margin-left:262px;">
-             <div class="subject">
+
+             <div class="subject" style="margin-left:300px">
           <label for="subject">관련주제</label>
           </div>
           <div class="subject">
             <input type="text" class="form-control" id="subject" name ="subject" style="width: 480px; height: 33px; margin-left: 15px;" placeholder="제공할 서비스의 주제를 입력하세요">
           </div>
-         </form>
+      
          <br>
          <br>
       
-   
-         <label class="textarea_text" style="margin-left : 263px;">서비스 설명</label>
-         <div class="form-group" style="width: 600px; margin-left: 262px; margin-top: -20px;" >
+   		<div class="form-group" style="width: 600px; margin-left: 300px; margin-top: -20px;" >
+         <label class="textarea_text">서비스 설명</label>
+         
            <label for="exampleFormControlTextarea1"></label>
-           <textarea class="form-control" name="serviceExplain" id="serviceExplain" style="resize:none" placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="13"></textarea>
+           <textarea class="form-control" name="detailContent" id="detailContent" style="resize:none" placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="13"></textarea>
          </div>
-         <label class="textarea_text" style="margin-left : 262px;">판매자 정보</label>
-         <div class="form-group" style="width: 600px; margin-left: 262px; margin-top: -20px;" >
+         <div class="form-group" style="width: 600px; margin-left: 300px; margin-top: -20px;" >
+         <label class="textarea_text">판매자 정보</label>
            <label for="exampleFormControlTextarea1"></label>
            <textarea class="form-control" style="resize:none" name="sellerInfo" id="sellerInfo" placeholder="판매자의 정보를 입력하세요&#13;&#10;ex)경력사항, 스펙" rows="13"></textarea>
          </div>
-   
-   
-         <form class="form-inline" style="margin-left: 262px;">
-           <div class="area">
-        <label for="title1" class="title1">가능지역</label>
+   		<br>
+   		
+           <div class="area" style="margin-left : 295px">
+        <label for="title1" class="title1">&nbsp;&nbsp;가능지역</label>
         </div>
         <div class="area">
-            <input type="text" class="form-control" name="availableArea" id="availableArea" style="width: 250px; height: 33px; margin-left: 43px;" placeholder="도/시/군">
+        <input type="text" class="form-control" name="availableArea" id="availableArea" style="width: 250px; height: 33px; margin-left: 43px;" placeholder="도/시/군">
         </div>
-         </form>
-         <br>
-        <form class="form-inline" style="margin-left: 262px;">
-           <div class="form-check form-check-inline">
-             <label >가능요일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <input class="form-check-input" type="checkbox" id="Monday" name="Monday" value="Monday">
+        <br>
+           <div class="form-check-inline" style="margin-left:300px">
+             <label >가능요일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Monday">
                <label>월&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Tuesday" name="Tuesday" value="Tuesday">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Tuesday">
                <label>화&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Wednesday" name="Wednesday" value="Wednesday2">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Wednesday2">
                <label>수&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Thursday" name="Thursday" value="Thursday">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Thursday">
                <label>목&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Friday" name="Friday" value="Friday">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Friday">
                <label>금&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Saturday" name="Saturday" value="Saturday">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Saturday">
                <label>토&nbsp;&nbsp;&nbsp;</label>
-               <input class="form-check-input" type="checkbox" id="Sunday" name="Sunday" value="Sunday">
+               <input class="form-check-input" type="checkbox" id="days" name="days" value="Sunday">
                <label>일</label>
    
              </label>
+              </div>
+             <br>
+          
+           <div id ="contact" style="margin-left:295px">
+           <div class="contact">
+             <label for="time">연락가능 시간</label>
            </div>
-         </form>
+       		 <div class="contact" style="margin-left : 5px">
+             <input type="time" class="form-control" name="startTime" id="startTime" style="width: 140px; height: 33px;">부터
+           
+             <input type="time" class="form-control" name="finishTime" id="finishTime" style="width: 140px; height: 33px;">까지
+           </div>
+        	</div>
+         <br> 
          <br>
-         
-         <form class="form-inline">
-           <div class="contact">
-             <label for="time" style="margin-left: 262px;">연락가능 시간</label>
-           </div>
-           <div class="contact">
-             <input type="time" class="form-control" name="startTime" id="startTime" style="width: 140px; height: 33px; margin-left: 10px;"> 부터
-           </div>
-           <div class="contact">
-             <input type="time" class="form-control" name="finishTime" id="finishTime" style="width: 140px; height: 33px; margin-left: 10px;"> 까지
-           </div>
-         </form>
-        
-         <br>
+
 
       <div class="form-group">
-     <input type="button" value="등록" id="registration" class="btn btn-primary" onclick="register_complete();" style="width: 100px; margin-left: 750px;">
+     <input type="submit" value="등록" id="registration" class="btn btn-primary"  style="width: 100px; margin-left: 750px;">
     </div>
        </div>
-
-
-
-
+     
+   <br>
      <br>
-     <br>
-
-
-
-
+	</form>
 
      <script>
       function showDiv(){
@@ -218,38 +210,121 @@
   }
 </script>
 
+<script>
+function checkForm(){
+	
+	//카테고리 유효성 검사 
+	if($("#category").val() == ""){
+		alert("카테고리를 선택해주세요.");
+		return false;
+	}
+	
+
+	//제목 유효성 검사 
+	if($("#title").val().trim().length == 0)
+		{
+		alert("제목을 입력하세요.");
+		$("#title").focus();
+		return false;
+		}
+	
+	//판매방식 유효성검사 
+	var chk = document.insertForm;
+	var checked_items = 0;
+	for(i=0; i<chk.elements.length; i++)	
+	{
+	if((chk.elements[i].name == "saleMethod") &&
+		(chk.elements[i].checked))
+		checked_items++;
+	}
+	if(checked_items == 0){
+		alert("판매방식을 선택해주세요.")
+		return false;
+	}
+	
+	if(  document.getElementById("price").style.display = "block"){
+		if($("#salePrice").val().trim().length == 0){
+			alert("판매금액을 입력하세요.");
+			$("salePrice").focus();
+			return false;
+		}	
+	}
+	}
+	//관련주제 유효성검사
+	if($("#subject").val().trim().length == 0)
+		{
+		alert("관련주제를 입력하세요.");
+		$("#subject").focus();
+		return false;
+		}
+
+	//서비스설명 유효성검사
+	if($("#detailContent").val().trim().length == 0)
+		{
+		alert("서비스 설명을 입력하세요.");
+		$("#detailContent").focus();
+		return false;
+		}
+	//판매자정보 유효성검사
+	if($("#sellerInfo").val().trim().length == 0)
+		{
+			alert("판매자 정보를 입력하세요.");
+		$("#sellerInfo").focus();
+		return false;
+		}
+	//가능지역 유효성 검사
+	if($("#availableArea").val().trim().length ==0)
+		{
+			alert("만남이 가능한 지역을 입력하세요.");
+		$("#availableArea").focus();
+		return false;
+		}
+		//가능요일 유효성검사
+		var form = document.insertForm;
+	if(form.days[0].checked == false){
+		alert("만남이 가능한 요일을 한개 이상 체크하세요.");
+		return;
+	}
+	//연락가능시간 유효성검사 
+	if($("#startTime").val() == ""){
+		alert("연락가능한 시간대를 입력하세요.");
+		return false;
+	}
+	//연락가능시간 유효성검사 
+	if($("#finishTime").val() == ""){
+		alert("연락가능한 시간대를 입력하세요.");
+		return false;
+	
+	
+	
+
+	}
+		
+</script> 
 
 
-
-
-    
-    <script>
+ 
+   <!--  <script>
       function register_complete(){
-        confirm("등록이 완료되었습니다.")
+        	var result = confirm("등록하시겠습니까?")
+        	console.log(result);
+        	
+        	if(result){
+        		 /* $("#insertForm").submit();  */
+        		location.href="service_register_success.jsp"; 
+        	}
+        	
+        	/* <button onclick="location.href="views/board/boardInsertForm.jsp">작성하기</button> */
       }
-  
-   </script>
-
-     
-   <div id="layoutAuthentication_footer">
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-            </div>
       
-      <!--  -->
+      //ServiceInsertServlet만들러 간다 ! 
+  
+   </script> -->
+   
 
-    </body>
+ </body>
+    
 </html>
+
 
 

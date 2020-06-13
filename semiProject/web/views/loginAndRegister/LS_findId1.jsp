@@ -13,6 +13,16 @@
      <script  src="http://code.jquery.com/jquery-latest.min.js"></script>	
 </head>
 <style>
+
+  @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
+font-weight: normal; font-style: normal; }
+	p{
+		font-family : 'SeoulNamsanM';
+	}
+	div{
+		font-family : 'SeoulNamsanM';
+		font-size :medium;
+	}
         .btn{
             background: black !important;
             border-color:black !important;
@@ -104,7 +114,7 @@
       <script>
             function validate(){
             	
-	            var flag = false;
+	            var flag = true;
 		        var userName = $("#loginFindForm input[name='userName']");
 	            var email = $("#loginFindForm input[name='email']");
 	           
@@ -115,25 +125,25 @@
 	            {
 	                alert("이름과 이메일을 입력해주세요");
 	                $("#userName").focus();
-	                return false;
+	                flag = false;
 	            }
-	            if($("#userName").val().trim().length==0)
+	            else if($("#userName").val().trim().length==0)
 	            {
 	            alert("이름을 입력해주세요");
 	            $("#userName").focus();
-	            return false;
+	            flag = false;
 	            }
-	            if($("#email").val().trim().length==0)
+	            else if($("#email").val().trim().length==0)
 	            {
 	            alert('이메일을 입력하세요');
 	            $("#email").focus();
-	            return false;
+	            flag = false;
 	            }
-	            if(reg.test($("#email").val()) == false) 
+	            else if(reg.test($("#email").val()) == false) 
 	            {
 	            alert('이메일 양식을 확인 해주세요');
 	            $("#email").focus();
-	            return false;
+	            flag = false;
 	            }
 	            else{
 	            	$.ajax({

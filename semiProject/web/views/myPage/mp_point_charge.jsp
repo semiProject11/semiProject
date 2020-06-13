@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+
+
     
     th,
     tr,
@@ -198,7 +201,7 @@
           <li class="breadcrumb-item active">포인트충전</li>
         </ol>
 
-        <form action="<%=request.getContextPath() %>/chargeMoney.me" method="post">
+        <form action="<%=request.getContextPath() %>/chargeMoney.me" onsubmit="return validate();" method="post">
         <div class="card mb-4">
           <div class="card-body">
             <div>
@@ -252,7 +255,32 @@
 
                     $("#result").val($(this).val());
                   })
+                  
+                  $("#result").change(function(){
+                      var regI = /^[0-9]{1,}$/;                    
+
+                      if(!regI.test($(this).val())){
+                          alert("숫자만 입력가능합니다.");
+                          $(this).val('');
+                          $(this).focus();
+                      }
+                      });
                 })
+                
+                function validate(){
+                	if($("#result").val().trim().length == 0){
+                        alert("충전금액을 입력하세요");
+                        $("#result").focus();
+                        return false;
+                    }
+                	if($("#신용카드").is(":checked") == false && $("#핸드폰").is(":checked") == false && $("#무통장입금").is(":checked") == false){
+                		alert("결제 방식을 선택하세요");
+                		return false;
+                	}
+                	
+                }
+                
+                
         </script>
 
 

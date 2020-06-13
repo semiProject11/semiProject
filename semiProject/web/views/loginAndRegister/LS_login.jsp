@@ -9,6 +9,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+ @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
+font-weight: normal; font-style: normal; }
+	p{
+		font-family : 'SeoulNamsanM';
+	}
+	div{
+		font-family : 'SeoulNamsanM';
+		font-size :medium;
+	}
+
+</style>
 <link href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
     crossorigin="anonymous" />
@@ -107,7 +119,7 @@
             // 로그인 시 아이디, 패스워드 칸에 입력을 안했을 시 띄울 alert메세지
             function validate(){
             	
-            	var flag = false;
+            	var flag = true;
 	           	var userId = $("#loginForm input[name='userId']");
             	var userPwd = $("#loginForm input[name='userPwd']");
 
@@ -116,19 +128,19 @@
                 {
                 alert("아이디와 비밀번호를 입력해주세요");
                 $("#userId").focus();
-                return false;
+                flag = false;
                 }
                 else if($("#userId").val().trim().length == 0)
                 {
                 alert("아이디를 입력해주세요");
                 $("#userId").focus();
-                return false;
+                flag = false;
                 }
                 else if($("#userPwd").val().trim().length == 0) 
                 {
                 alert('비밀번호를 입력하세요');
                 $("#userPwd").focus();
-                return false;
+                flag = false;
                 }
                 else {
             	

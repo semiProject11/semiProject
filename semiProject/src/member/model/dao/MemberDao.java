@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
@@ -32,11 +33,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				loginUser = new Member(rset.getInt("USER_NO"),
+				loginUser = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -110,11 +111,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 						rset.getString("USER_ID"),
 						rset.getString("USER_PWD"),
 						rset.getString("USER_NAME"),
-						rset.getInt("BIRTH"),
+						rset.getString("BIRTH"),
 						rset.getString("PHONE"),
 						rset.getString("EMAIL"),
 						rset.getInt("POINT"),
@@ -144,9 +145,10 @@ public class MemberDao {
 	public int selectBCount(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		int sellCount = 0;
+		int buyCount = 0;
 		
-		String query = "SELECT SELL_COUNT FROM MEMBER JOIN SELLER ON(USER_NO = S_USER_NO) WHERE USER_ID = ?";
+		String query = "SELECT BUYCOUNT FROM MEMBER JOIN BUYER ON(USER_NO = B_USER_NO) WHERE USER_ID = ?";
+		
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -154,7 +156,7 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				sellCount = rset.getInt("SELL_COUNT");				
+				buyCount = rset.getInt("BUYCOUNT");				
 				
 			}			
 			
@@ -166,15 +168,15 @@ public class MemberDao {
 		}
 		
 		
-		return sellCount;
+		return buyCount;
 	}
 
 	public int selectSCount(Connection conn, String userId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		int buyCount = 0;
+		int sellCount = 0;
 		
-		String query = "SELECT BUY_COUNT FROM MEMBER JOIN BUYER ON(USER_NO = B_USER_NO) WHERE USER_ID = ?";
+		String query = "SELECT SELLCOUNT FROM MEMBER JOIN SELLER ON(USER_NO = S_USER_NO) WHERE USER_ID = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -182,9 +184,8 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				buyCount = rset.getInt("BUY_COUNT");					
+				sellCount = rset.getInt("SELLCOUNT");					
 			}			
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -193,7 +194,7 @@ public class MemberDao {
 		}
 		
 		
-		return buyCount;
+		return sellCount;
 
 	}
 	
@@ -245,11 +246,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member = new Member(rset.getInt("USER_NO"),
+				member = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -287,11 +288,11 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				
-				Member m=new Member(rset.getInt("user_No"),
+				Member m=new Member(rset.getString("user_No"),
 						rset.getString("user_Id"),
 						rset.getString("user_Pwd"),
 						rset.getString("user_Name"),
-						rset.getInt("Birth"),
+						rset.getString("Birth"),
 						rset.getString("phone"),
 						rset.getString("email"),
 						rset.getInt("point"),
@@ -427,11 +428,11 @@ public class MemberDao {
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				mem = new Member(rset.getInt("USER_NO"),
+				mem = new Member(rset.getString("USER_NO"),
 										rset.getString("USER_ID"),
 										rset.getString("USER_PWD"),
 										rset.getString("USER_NAME"),
-										rset.getInt("BIRTH"),
+										rset.getString("BIRTH"),
 										rset.getString("PHONE"),
 										rset.getString("EMAIL"),
 										rset.getInt("POINT"),
@@ -645,6 +646,7 @@ public class MemberDao {
 
 
 
+<<<<<<< HEAD
 	public int updateGrade(Connection conn, String[] gradeChange) {
 		
 		PreparedStatement pstmtPreparedStatement=null;
@@ -655,4 +657,90 @@ public class MemberDao {
 		
 		return result;
 	}
+=======
+	public Account selectAccount(Connection conn, int userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		Account ac = null;
+		String query = "SELECT * FROM ACCOUNT WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, userNo);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				ac = new Account(rset.getString("ACCOUNT"),
+								rset.getString("BANK"),
+								rset.getString("ACCOUNT_HOLD"),
+								rset.getString("USER_NO"));
+				}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		
+		return ac;
+	}
+
+	public int registerMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserId());
+			pstmt.setString(2, member.getUserPwd());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setString(4, member.getUserBirth());
+			pstmt.setString(5, member.getPhone());
+			pstmt.setString(6, member.getEmail());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int registerMember(Connection conn, Account Account) {
+		PreparedStatement pstmt = null;
+		int result2 = 0;
+		
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, Account.getAccount());
+			pstmt.setString(2, Account.getBank());
+			pstmt.setString(3, Account.getAccount_hold());
+			
+			
+			result2 = pstmt.executeUpdate();
+			System.out.println("Dao에서 ACCOUNT 작성 후 반환 값은 : " + result2);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result2;
+	}
+
+>>>>>>> refs/remotes/origin/master
 }

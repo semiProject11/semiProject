@@ -9,11 +9,11 @@ public class Member implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8104364992881033083L;
-	private int userNo;			// 회원번호
+	private String userNo;		// 회원번호
 	private String userId;		// 아이디
 	private String userPwd;		// 비밀번호
 	private String userName;	// 이름
-	private int userBirth;		// 생년월일
+	private String userBirth;	// 생년월일
 	private String phone;		// 전화번호
 	private String email;		// 이메일
 	private int	point;			// 포인트
@@ -44,6 +44,18 @@ public class Member implements Serializable {
 
 
 
+	public Member(String userId, String userPwd, String userName, String userBirth, String phone, String email) {
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.userBirth = userBirth;
+		this.phone = phone;
+		this.email = email;
+	}
+
+
+
+
 	public Member(String userId, String userPwd) {
 		this.userId = userId;
 		this.userPwd = userPwd;
@@ -52,7 +64,7 @@ public class Member implements Serializable {
 
 
 
-	public Member(int userNo, String userId, String userPwd, String userName, int userBirth, String phone, String email,
+	public Member(String userNo, String userId, String userPwd, String userName, String userBirth, String phone, String email,
 			int point, Date enrollDate, Date dropDate, String status, String grade, int gradeTot, String profile,
 			String sellYN, String reviewYN) {
 		this.userNo = userNo;
@@ -74,12 +86,12 @@ public class Member implements Serializable {
 	}
 
 
-	public int getUserNo() {
+	public String getUserNo() {
 		return userNo;
 	}
 
 
-	public void setUserNo(int userNo) {
+	public void setUserNo(String userNo) {
 		this.userNo = userNo;
 	}
 
@@ -114,12 +126,12 @@ public class Member implements Serializable {
 	}
 
 
-	public int getUserBirth() {
+	public String getUserBirth() {
 		return userBirth;
 	}
 
 
-	public void setUserBirth(int userBirth) {
+	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
 

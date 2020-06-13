@@ -12,6 +12,7 @@
 	int point = member.getPoint();
 	String fileName = (String)request.getAttribute("fileName");
 	String gradeIcon = member.getGrade();
+	String userNo = member.getUserNo();
 %>
 
 <!DOCTYPE html>
@@ -227,6 +228,7 @@
                     <div class="card-footer" align="center">
                       <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled>프로필 변경</button>
                     </div>
+                    
                   </div>
                 </div>
                 <div class="col-8">
@@ -261,12 +263,12 @@
                       <tr>
                         <td><label>포인트 : </label></td>
                         <td><label id="info_point"><%=point%> point</label></td>
-                        <td> <a href="home.html">
-            <button type="button" class="btn" onclick="location.href='mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
-          </a></td>
-                        <td> <a href="home.html">
-            <button type="button" class="btn" style="background:black; color:white; width:110px;">출금하기</button>
-          </a></td>
+                        <td>
+                        	<button type="button" class="btn" onclick="location.href='views/myPage/mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
+                        </td>
+                        <td>
+				            <button type="button" class="btn" onclick="location.href='<%=request.getContextPath()%>/select.ac'" style="background:black; color:white; width:110px;">출금하기</button>
+				         </td>
                       </tr>
 
                   
@@ -275,7 +277,7 @@
 				
                 <div id="fileArea">
 				<input type="file" id="profileImg" name="profileImg" onchange="LoadImg(this)">
-				<input type="text" name="userNo" value="<%=member.getUserNo()%>">	
+				<input type="text" name="userNo" value="<%=userNo%>">
 				</div>
                 </div>
                 
@@ -297,8 +299,12 @@
 		 $("#imgArea").click(function(){
 				$("#profileImg").click();				
 				
-			 $('#button_joinus').attr('disabled', false); 
+			 
+		 
 			});
+		 
+		 
+		
 
 	})
 	
@@ -311,8 +317,8 @@
 						if(value.files && value.files[0]){
 							var reader = new FileReader();							
 							reader.onload = function(e){
-								$("#titleImg").attr("src",e.target.result);									
-								
+								$("#titleImg").attr("src",e.target.result);
+								 $('#button_joinus').attr('disabled', false);
 							}
 							reader.readAsDataURL(value.files[0]);
 						}

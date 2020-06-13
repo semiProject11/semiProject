@@ -1,2 +1,10 @@
 /board/
+<<<<<<< HEAD
 /member/
+=======
+/common/
+/filter/
+/member/
+/service/
+/sql/
+>>>>>>> refs/remotes/origin/master
