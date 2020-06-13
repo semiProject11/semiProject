@@ -1,6 +1,8 @@
 package member.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,18 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import member.model.service.MemberService;
+import member.model.vo.Account;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class PointWithdraw
+ * Servlet implementation class MyPageEditServlet
  */
-@WebServlet("/withdraw.me")
-public class PointWithdraw extends HttpServlet {
+@WebServlet("/edit.me")
+public class MyPageEditServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PointWithdraw() {
+    public MyPageEditServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,26 +32,30 @@ public class PointWithdraw extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 //		HttpSession session = request.getSession();
 //		
 //		Member loginUser = (Member)session.getAttribute("loginUser");
 //		
-//		int userNo = Integer.valueOf(loginUser.getUserNo());
-		
+//		String userId =loginUser.getUserId();
+		String userId = "admin";
 		int userNo = 1;
 		
-		int originPoint = new MemberService().selectMemberPoint(userNo);
-		int chMoney = originPoint-Integer.valueOf(request.getParameter("withdraw"));
+
+		Member member = new MemberService().selectMember(userId);
+		Account account = new MemberService().selectAccount(userNo);
 		
-		int result = new MemberService().pointWithdraw(chMoney, userNo);
-		
-		if(result>0) {
-			response.sendRedirect("myPage.me");
-		}else {
-			request.setAttribute("msg", "출금 실패");
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		RequestDispatcher view = null;
+		if (member != null) {
+			view = request.getRequestDispatcher("views/myPage/mp_my_info_edit.jsp");
+			request.setAttribute("member", member);
+			request.setAttribute("account", account);
+		} else {
+			view = request.getRequestDispatcher("views/common/errorPage.jsp");
+			request.setAttribute("msg", "내 정보 조회에 실패했습니다.");
 		}
+		view.forward(request, response);
+		
+		
 	}
 
 	/**

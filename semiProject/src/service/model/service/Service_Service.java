@@ -59,6 +59,8 @@ public class Service_Service {
 		System.out.println("서비스단에서:"+category);
 		return category;
 	}
+
+
 	
 	
 	

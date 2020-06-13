@@ -734,6 +734,8 @@ public class MemberDao {
 
 
 
+
+
 	public ArrayList<Member> selectTradeS(Connection conn) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
@@ -938,5 +940,162 @@ public class MemberDao {
 
 
 
+
+	public int pointWithdraw(Connection conn, int withdraw, int userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO =?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, withdraw);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int updateMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getUserPwd());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getPhone());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getEmail());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getUserId());
+		
+		String query = "UPDATE MEMBER SET USER_PWD=?,PHONE=?,EMAIL=? WHERE USER_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserPwd());
+			pstmt.setString(2, member.getPhone());
+			pstmt.setString(3, member.getEmail());
+			pstmt.setString(4, member.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println("dao 멤버 수정후 result 값 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+
+
+	public int updateAccount(Connection conn, Account account) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE ACCOUNT SET ACCOUNT=?,BANK=?,ACCOUNT_HOLD=? WHERE USER_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, account.getAccount());
+			pstmt.setString(2, account.getBank());
+			pstmt.setString(3, account.getAccount_hold());
+			pstmt.setString(4, account.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+	public int pointWithdraw(Connection conn, int withdraw, int userNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO =?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, withdraw);
+			pstmt.setInt(2, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int updateMember(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getUserPwd());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getPhone());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getEmail());
+		System.out.println("dao에서 맴버 수정 값 : "+  member.getUserId());
+		
+		String query = "UPDATE MEMBER SET USER_PWD=?,PHONE=?,EMAIL=? WHERE USER_ID=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserPwd());
+			pstmt.setString(2, member.getPhone());
+			pstmt.setString(3, member.getEmail());
+			pstmt.setString(4, member.getUserId());
+			
+			result = pstmt.executeUpdate();
+			
+			System.out.println("dao 멤버 수정후 result 값 : " + result);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+
+
+	public int updateAccount(Connection conn, Account account) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE ACCOUNT SET ACCOUNT=?,BANK=?,ACCOUNT_HOLD=? WHERE USER_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, account.getAccount());
+			pstmt.setString(2, account.getBank());
+			pstmt.setString(3, account.getAccount_hold());
+			pstmt.setString(4, account.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
 
 }
