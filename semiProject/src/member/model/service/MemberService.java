@@ -267,6 +267,54 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int pointWithdraw(int withdraw, int userNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().pointWithdraw(conn, withdraw, userNo);
+		
+		if(result >0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+
+	public int updateMember(Member member) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().updateMember(conn, member);
+		
+		if(result >0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+
+	public int updateAccount(Account account) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().updateAccount(conn, account);
+		
+		if(result >0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		return result;
+	}
+
+
 }
 
 
