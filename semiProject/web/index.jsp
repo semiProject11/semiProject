@@ -6,10 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+
+
+
+</style>
 </head>
 <body>
+	font-family: SeoulNamsanM;
 	<jsp:include page="views/common/menubar.jsp" />
-	
 	
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">

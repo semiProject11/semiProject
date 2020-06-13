@@ -17,15 +17,24 @@
  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" ></script>
   <style>
+  @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
+font-weight: normal; font-style: normal; }
+	p{
+		font-family : 'SeoulNamsanM';
+	}
+	div{
+		font-family : 'SeoulNamsanM';
+		font-size :medium;
+	}
+
     #jin {
       background: black;
       border: none;
     }
 
     #young {
-      font-family: "돋움";
+    
       color: black;
-      font: bold;
     }
 
     .dropdown-item {
@@ -94,7 +103,8 @@
 
 </head>
 
-<body class="sb-nav-fixed sb-sidenav-toggled">
+<body class="sb-nav-fixed sb-sidenav-toggled" >
+
 
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">

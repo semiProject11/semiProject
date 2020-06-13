@@ -9,6 +9,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+ @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
+font-weight: normal; font-style: normal; }
+	p{
+		font-family : 'SeoulNamsanM';
+	}
+	div{
+		font-family : 'SeoulNamsanM';
+		font-size :medium;
+	}
+
+</style>
 <link href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
     crossorigin="anonymous" />
