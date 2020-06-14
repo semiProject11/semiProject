@@ -198,59 +198,74 @@
             <div class="table-responsive mt-3">
               <table class="table   table-hover">
                   <thead>
-                      <tr>
-                        <th></th>
+                      <tr>                        
                         <th>서비스이미지</th>
-                          <th>주문일</th>
                           <th>제목</th>
-                          <th>상태</th>
+                          <th>주문일</th>
                           <th>판매자</th>
+                          <th>연락처</th>
                           <th>가격</th>
+                          <th>평점등록</th>
 
                       </tr>
                   </thead>
-                  <tbody>
-                      <tr>                          
-                        <td>
-                          <div class="form-check form-check-inline">
-                              <input type="checkbox" class="form-check-input" id="checkall"
-                                  style="width:18px; height:18px;">
+                  <tbody>               
 
-                          </div>
-                      </td>
-                          <td >
-                              <div >
-                                <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
-                              </div>                        
-                          </td>
-                        <td>2020-05-14</td>
-                        <td>12-458264</td>
-                        <td>X</td>
-                        <td>김퍼블</td>
-                        <td>1,000,000,000</td>                      
-                      </tr>
-
-
-                      <tr>
-                        <td>
-                          <div class="form-check form-check-inline">
-                              <input type="checkbox" class="form-check-input" id="checkall"
-                                  style="width:18px; height:18px;">
-  
-                          </div>
-                      </td>
+                      <tr >                 
                         <td >
-                          <div >
-                            <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
-                          </div>                        
-                      </td>
-                    <td>2020-05-14</td>
-                    <td>12-458264</td>
-                    <td>X</td>
-                    <td>김퍼블</td>
-                    <td>1,000,000,000</td>
-
-                    </tr>
+                            <div >
+                              <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
+                            </div>                        
+                        </td>
+                        <td>12-458264</td>
+                        <td>2020-05-14</td>
+                        <td>김퍼블</td>
+                        <td>01032143214</td>
+                        <td>1,000,000,000</td>
+                        <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="상품번호" style="background:black; color:white; width:110px;">평점주기</button>
+                        </td>
+                      </tr>
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        <form>
+						          <div class="form-group">
+						            <label for="recipient-name" class="">Recipient:</label>
+						            <input type="text" class="form-control" id="recipient-name">
+						          </div>
+						          <div class="form-group">
+						            <label for="message-text" class="col-form-label">Message:</label>
+						            <textarea class="form-control" id="message-text"></textarea>
+						          </div>
+						        </form>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Send message</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>                      
+				<script>
+					function qweqwe(){
+						alert("클릭됬다.");
+					}
+					$('#exampleModal').on('show.bs.modal', function (event) {
+						  var button = $(event.relatedTarget)
+						  var recipient = button.data('whatever')
+						  var modal = $(this)
+						  modal.find('.modal-body input').val(recipient)
+						})
+				</script>
+                      
 
 
                   </tbody>
