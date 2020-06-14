@@ -437,6 +437,7 @@ public class BoardDao {
 		return member;
 	}
 
+	
 
 }
 

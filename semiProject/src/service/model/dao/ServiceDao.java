@@ -3,12 +3,12 @@ package service.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
@@ -220,6 +220,77 @@ public class ServiceDao {
 	
 		
 		return category;
+	}
+
+	public int getBuyListCount(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) C FROM SERVICE WHERE B_USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("C");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		
+		return result;
+	}
+
+	public ArrayList<ServiceBuyList> selectBuyServiceList(Connection conn, int currentPage, int limit, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<ServiceBuyList> bsList = new ArrayList<>();
+		
+		int starRow = (currentPage-1)*limit+1;
+		int endRow = currentPage * limit;
+		
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_BUY_LIST S WHERE B_USER_NO = ? ORDER BY 4 DESC) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ServiceBuyList service = 
+						new ServiceBuyList(rset.getString("CHANGE_NAME"),
+								rset.getString("TITLE"),
+								rset.getDate("TRADE_DATE"),
+								rset.getString("USER_NAME"),
+								rset.getString("PHONE"),
+								rset.getInt("SERVICE_NO"),
+								rset.getString("B_USER_NO"));
+				
+				bsList.add(service);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bsList;
 	}
 
 

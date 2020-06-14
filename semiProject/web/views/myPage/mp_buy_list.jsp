@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+    pageEncoding="UTF-8" import="service.model.vo.*, java.util.ArrayList"%>
+<%
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	ArrayList bsList = (ArrayList) request.getAttribute("bsList");
+	
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -201,31 +210,47 @@
                       <tr>                        
                         <th>서비스이미지</th>
                           <th>제목</th>
-                          <th>주문일</th>
+                          <th>구입일</th>
                           <th>판매자</th>
                           <th>연락처</th>
-                          <th>가격</th>
                           <th>평점등록</th>
 
                       </tr>
                   </thead>
                   <tbody>               
-
+						<%
+						if (bsList.isEmpty()){
+						%>
+						<tr>
+							<td colspan="6">구매 내역이 없습니다.</td>
+						</tr>
+						<%
+							} else {
+						%>
+						<%
+							for (int i = 0; i < bsList.size(); i++) {
+						%>
                       <tr >                 
-                        <td >
+                        <td class="clickme">
                             <div >
                               <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
                             </div>                        
                         </td>
-                        <td>12-458264</td>
-                        <td>2020-05-14</td>
-                        <td>김퍼블</td>
-                        <td>01032143214</td>
-                        <td>1,000,000,000</td>
+                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getTitle()%></td>
+                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getTradeDate()%></td>
+                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getsUserName()%></td>
+                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getsPhone()%></td>
                         <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="상품번호" style="background:black; color:white; width:110px;">평점주기</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<%=((ServiceBuyList) bsList.get(i)).getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
                         </td>
                       </tr>
+                        <%
+							}
+						%>
+						<%
+							}
+						%>
+                      
 						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
@@ -255,9 +280,14 @@
 						  </div>
 						</div>                      
 				<script>
-					function qweqwe(){
-						alert("클릭됬다.");
-					}
+				$(function(){
+					$(".clickme").click(function(){
+					alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");
+						
+						
+					})
+					
+				})			
 					$('#exampleModal').on('show.bs.modal', function (event) {
 						  var button = $(event.relatedTarget)
 						  var recipient = button.data('whatever')
@@ -272,25 +302,36 @@
               </table>
           </div>          
         </div>
-      </div>
-      <button type="button" class="btn float-right mr-3" style="background:black; color:white; width:95px;">구매취소</button>
-      </div>
+      
 
       <!------페이징 처리----->
       <div class="page-center">
         <ul class="pagination-t">
 
+            
             <!-- disabled: 페이지 비활성화 -->
-            <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
-
-            <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-            <!-- disabled: 해당 버튼 활성화 -->
-            <li class="page-item-t active-t" aria-current="page-t">
-                <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
+            <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=1"><<</a></li>
+            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != 1){%><%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage - 1%>
+						<%}%>">Previous</a></li>
+			<%
+				for (int p = startPage; p <= endPage; p++) {
+			%>
+			<%if(p == currentPage) {%>
+					<li class="page-item-t active-t" aria-current="page-t">
+                <a class="page-link-t" disabled><%=p %></a>
             </li>
-            <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-            <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
+				<%}else{ %>
+					<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=p %>"><%=p %></a></li>
+				<%} %>
+			<%
+				}
+			%>
+			
+            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != endPage){%>
+					<%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage + 1%>
+						<%}%>">Next</a></li>
+			<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=maxPage%>">>></a></li>
+			
         </ul>
 
     </div>
