@@ -2,8 +2,9 @@ package member.model.dao;
 
 
 
+import static common.JDBCTemplate.close;
+
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +14,6 @@ import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
-
-import static common.JDBCTemplate.*;
 
 public class MemberDao {
 
@@ -735,6 +734,212 @@ public class MemberDao {
 
 
 
+
+
+	public ArrayList<Member> selectTradeS(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Member> memberList=new ArrayList<>();
+		
+		String query="SELECT * FROM LIST L \r\n" + 
+				"JOIN MEMBER M ON(L.s_USER_NO=M.USER_NO)\r\n" + 
+				"JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO)";
+		try {
+			pstmt=conn.prepareStatement(query);
+		
+		
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+		
+		Member mem = new Member(rset.getString("S_USER_NO"),
+				rset.getString("USER_ID"),
+				rset.getString("USER_PWD"),
+				rset.getString("USER_NAME"),
+				rset.getString("BIRTH"),
+				rset.getString("PHONE"),
+				rset.getString("EMAIL"),
+				rset.getInt("POINT"),
+				rset.getDate("ENROLL_DATE"),
+				rset.getDate("DROP_DATE"),
+				rset.getString("STATUS"),
+				rset.getString("GRADE"),
+				rset.getInt("GRADE_TOT"),
+				rset.getString("PROFILE"),
+				rset.getString("SELL_YN"),
+				rset.getString("REVIEW_YN"));
+		
+		memberList.add(mem);
+		
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return memberList;
+	}
+
+
+
+
+	public ArrayList<Member> selectTradeB(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Member> memberList=new ArrayList<>();
+		
+		String query="SELECT * FROM LIST L JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) JOIN MEMBER M ON(L.B_USER_NO=M.USER_NO)";
+		try {
+			pstmt=conn.prepareStatement(query);
+		
+		
+		rset=pstmt.executeQuery();
+		
+		while(rset.next()) {
+		
+		
+		
+		Member mem = new Member(rset.getString("B_USER_NO"),
+				rset.getString("USER_ID"),
+				rset.getString("USER_PWD"),
+				rset.getString("USER_NAME"),
+				rset.getString("BIRTH"),
+				rset.getString("PHONE"),
+				rset.getString("EMAIL"),
+				rset.getInt("POINT"),
+				rset.getDate("ENROLL_DATE"),
+				rset.getDate("DROP_DATE"),
+				rset.getString("STATUS"),
+				rset.getString("GRADE"),
+				rset.getInt("GRADE_TOT"),
+				rset.getString("PROFILE"),
+				rset.getString("SELL_YN"),
+				rset.getString("REVIEW_YN"));
+		
+		memberList.add(mem);
+		
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return memberList;
+	}
+
+
+
+
+	public Member selectTradeSel(Connection conn, int service_no) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Member seller=null;
+		
+		String query="SELECT * FROM LIST L JOIN MEMBER M ON(L.S_USER_NO=M.USER_NO) JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) WHERE L.SERVICE_NO=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, service_no);
+		
+		
+		rset=pstmt.executeQuery();
+		
+		if(rset.next()) {
+		
+		seller = new Member(rset.getString("S_USER_NO"),
+				rset.getString("USER_ID"),
+				rset.getString("USER_PWD"),
+				rset.getString("USER_NAME"),
+				rset.getString("BIRTH"),
+				rset.getString("PHONE"),
+				rset.getString("EMAIL"),
+				rset.getInt("POINT"),
+				rset.getDate("ENROLL_DATE"),
+				rset.getDate("DROP_DATE"),
+				rset.getString("STATUS"),
+				rset.getString("GRADE"),
+				rset.getInt("GRADE_TOT"),
+				rset.getString("PROFILE"),
+				rset.getString("SELL_YN"),
+				rset.getString("REVIEW_YN"));
+		
+	
+		
+		}
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return seller;
+	}
+
+
+
+
+	public Member selectTradeBuy(Connection conn, int service_no) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Member seller=null;
+		
+		String query="SELECT * FROM LIST L JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) JOIN MEMBER M ON(L.B_USER_NO=M.USER_NO)  WHERE L.SERVICE_NO=?";
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, service_no);
+		
+		
+		rset=pstmt.executeQuery();
+		
+		if(rset.next()) {
+		
+		seller = new Member(rset.getString("S_USER_NO"),
+				rset.getString("USER_ID"),
+				rset.getString("USER_PWD"),
+				rset.getString("USER_NAME"),
+				rset.getString("BIRTH"),
+				rset.getString("PHONE"),
+				rset.getString("EMAIL"),
+				rset.getInt("POINT"),
+				rset.getDate("ENROLL_DATE"),
+				rset.getDate("DROP_DATE"),
+				rset.getString("STATUS"),
+				rset.getString("GRADE"),
+				rset.getInt("GRADE_TOT"),
+				rset.getString("PROFILE"),
+				rset.getString("SELL_YN"),
+				rset.getString("REVIEW_YN"));
+		
+	
+		
+		}
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return seller;
+	}
+
+
+
+
+
+
 	public int pointWithdraw(Connection conn, int withdraw, String userNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -811,6 +1016,34 @@ public class MemberDao {
 		} finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+
+
+
+	public int changePwd(Connection conn, Member member) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET USER_PWD=? WHERE USER_ID=? AND USER_NAME=? AND EMAIL=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, member.getUserPwd());
+			pstmt.setString(2, member.getUserId());
+			pstmt.setString(3, member.getUserName());
+			pstmt.setString(4, member.getEmail());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		
 		return result;
 	}
 

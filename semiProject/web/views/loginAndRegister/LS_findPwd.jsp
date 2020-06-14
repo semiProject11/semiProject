@@ -68,7 +68,7 @@ font-weight: normal; font-style: normal; }
             <div class="page-header" align='center'>
                   <div><a href="<%=request.getContextPath()%>/index.jsp"><img src="<%=request.getContextPath()%>/image/logo2.png"></a></div>
             </div>
-            <div class>
+            <div>
                 <form role="form" id='PwdFindForm' action="<%=request.getContextPath() %>/send.me" method="post" onsubmit="return validate();">
                 <div class="form-group"><br><br>
                     <label>비밀번호 찾기</label><hr>
@@ -131,32 +131,32 @@ font-weight: normal; font-style: normal; }
             {
                 alert("아이디와 이름 그리고 이메일을 입력해주세요");
                 $("#userName").focus();
-                return false;
+            flag = false;
             }
             if($("#userId").val().trim().length==0) 
             {
             alert('아이디를 입력하세요');
             $("#userId").focus();
-            return false;
+            flag = false;
             }
 
             if($("#userName").val() == '')
             {
             alert("이름을 입력해주세요");
             $("#userName").focus();
-            return false;
+            flag = false;
             }
             if($("#email").val().trim().length==0)
             {
             alert('이메일을 입력하세요');
             $("#email").focus();
-            return false;
+            flag = false;
             }
             if(reg.test($("#email").val()) == false) 
             {
             alert('이메일 양식을 확인 해주세요');
             $("#email").focus();
-            return false;
+            flag = false;
             }
             else{
             	$.ajax({
@@ -166,6 +166,7 @@ font-weight: normal; font-style: normal; }
 					async: false,
 					success:function(data){
 						if(data=="success"){
+							alert("해당 이메일로 임시 비밀번호를 보냈습니다!");
 							flag = true;
 							}
 						else{
@@ -178,8 +179,6 @@ font-weight: normal; font-style: normal; }
 						flag = false;
 					}
 				});
-            	
-            	
                 return flag;
             }
             }

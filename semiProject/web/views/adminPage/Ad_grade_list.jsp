@@ -302,7 +302,7 @@ th, tr, td {
 									<tr>
 
 										<td><input type="checkbox" class="common" id="gradeList"
-											name="rowCheck" style="width: 18px; height: 18px;"<%=(gradeList.get(i)).getUserNo()%>">
+											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>">
 
 
 										</td>
