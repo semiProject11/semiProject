@@ -589,7 +589,7 @@ public class MemberDao {
 
 
 
-	public int chargeMoney(Connection conn, int userNo, int chMoney) {
+	public int chargeMoney(Connection conn, String userNo, int chMoney) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
@@ -598,7 +598,7 @@ public class MemberDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, chMoney);
-			pstmt.setInt(2, userNo);
+			pstmt.setString(2, userNo);
 			
 			result = pstmt.executeUpdate();
 			
@@ -617,7 +617,7 @@ public class MemberDao {
 
 
 
-	public int selectMemberPoint(Connection conn, int userNo) {
+	public int selectMemberPoint(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		int result = 0;
@@ -625,7 +625,7 @@ public class MemberDao {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, userNo);
+			pstmt.setString(1, userNo);
 			
 			rset = pstmt.executeQuery();
 			
@@ -648,7 +648,7 @@ public class MemberDao {
 
 
 
-	public Account selectAccount(Connection conn, int userNo) {
+	public Account selectAccount(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		
@@ -657,14 +657,14 @@ public class MemberDao {
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, userNo);
+			pstmt.setString(1, userNo);
 			rset = pstmt.executeQuery();
 			
 			if(rset.next()) {
-				ac = new Account(rset.getString("ACCOUNT"),
-								rset.getString("BANK"),
-								rset.getString("ACCOUNT_HOLD"),
-								rset.getString("USER_NO"));
+				ac = new Account(rset.getString("BANK"),
+								rset.getString("ACCOUNT_HOLD"),								
+								rset.getString("ACCOUNT"),
+								rset.getString("USER_NO"));	
 				}
 			
 			
@@ -735,14 +735,14 @@ public class MemberDao {
 
 
 
-	public int pointWithdraw(Connection conn, int withdraw, int userNo) {
+	public int pointWithdraw(Connection conn, int withdraw, String userNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO =?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, withdraw);
-			pstmt.setInt(2, userNo);
+			pstmt.setString(2, userNo);
 			
 			result = pstmt.executeUpdate();
 			

@@ -31,13 +31,13 @@ public class ChargeMonyeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		
-//		int userNo = Integer.valueOf(loginUser.getUserNo());
+		HttpSession session = request.getSession();
 		
-		int userNo = 1;
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userNo = loginUser.getUserNo();
+		
+		
 		
 		int originPoint = new MemberService().selectMemberPoint(userNo);
 		

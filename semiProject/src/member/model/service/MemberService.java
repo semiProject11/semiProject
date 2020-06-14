@@ -211,7 +211,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public int chargeMoney(int userNo, int chMoney) {
+	public int chargeMoney(String userNo, int chMoney) {
 		Connection conn = getConnection();
 		
 		
@@ -230,7 +230,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public int selectMemberPoint(int userNo) {
+	public int selectMemberPoint(String userNo) {
 		Connection conn = getConnection();
 		
 		int result = new MemberDao().selectMemberPoint(conn, userNo);
@@ -259,7 +259,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		return result;
 	}
 
-	public Account selectAccount(int userNo) {
+	public Account selectAccount(String userNo) {
 		Connection conn = getConnection();
 		
 		Account account = new MemberDao().selectAccount(conn, userNo);
@@ -272,7 +272,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public int pointWithdraw(int withdraw, int userNo) {
+	public int pointWithdraw(int withdraw, String userNo) {
 		Connection conn = getConnection();
 		
 		int result = new MemberDao().pointWithdraw(conn, withdraw, userNo);

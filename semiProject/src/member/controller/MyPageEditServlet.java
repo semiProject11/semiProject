@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Account;
@@ -32,13 +33,13 @@ public class MyPageEditServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		
-//		String userId =loginUser.getUserId();
-		String userId = "admin";
-		int userNo = 1;
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userId =loginUser.getUserId();
+		String userNo =loginUser.getUserNo();
+		
 		
 
 		Member member = new MemberService().selectMember(userId);

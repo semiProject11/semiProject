@@ -50,7 +50,7 @@ public class InsertFrofileServlet extends HttpServlet {
 		String saveFiles = null;
 		
 		String originFiles = null;
-		System.out.println(userNo);
+		
 		Enumeration<String> files = multiRequest.getFileNames();
 		
 		while(files.hasMoreElements()) {
