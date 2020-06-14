@@ -263,8 +263,9 @@
                                 <div class="row mt-3">
                                     <div class="col"></div>
                                     <div class="col text-center">
-                                        <button type="submit" class="btn" style="background:black; color:white"
-                                             location.href='<%=request.getContextPath()%>/views/adminPage/Ad_notice_list.jsp'">작성 완료</button>
+                                 
+                                         <button type="reset" class="btn" style="background:black; color:white" onclick="goList();">목록</button>
+                                        <button type="submit" class="btn" style="background:black; color:white" >작성 완료</button>
                                              <button type="reset" class="btn" style="background:black; color:white">취소</button>
 
 
@@ -298,6 +299,18 @@
 	
 	
 	<script>
+	
+	//공지사항 목록으로 이동
+	
+	function goList(){
+	
+	  location.href="<%=request.getContextPath()%>/listAd.notice";
+	}
+	
+	
+	
+	//공지사항 작성 완료
+	
     function validate(){
         
     	if($("#noticeTitle").val().trim().length==0){
@@ -312,6 +325,7 @@
     		
     	}else{
     		alert('공지사항이 등록되었습니다.');
+    	
     		return true;
     	}
     	

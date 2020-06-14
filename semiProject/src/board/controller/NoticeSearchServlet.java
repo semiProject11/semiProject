@@ -13,16 +13,16 @@ import board.model.service.BoardService;
 import board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class NoticeSearchServlet
  */
-@WebServlet("/list.notice")
-public class NoticeListServlet extends HttpServlet {
+@WebServlet("/search.notice")
+public class NoticeSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeListServlet() {
+    public NoticeSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +31,24 @@ public class NoticeListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
+		String type=request.getParameter("search");
+		String word=request.getParameter("word");
+		
+		System.out.println(type);
+		System.out.println(word);
 		
 		
-		ArrayList<Board> list= new BoardService().selectBoardNotice();
+		ArrayList<Board> list= new BoardService().searchNotice(type,word);
+		
+		System.out.println(list);
+		
 	
-	
-		if(!list.isEmpty()) {
 			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/customerService/CS_notice_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+			request.getRequestDispatcher("views/adminPage/Ad_notice_list.jsp").forward(request, response);
+		
+		
+		
 		
 		
 	}
