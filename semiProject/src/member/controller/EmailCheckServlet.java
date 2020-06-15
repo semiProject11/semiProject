@@ -2,6 +2,7 @@ package member.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,16 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import member.model.service.MemberService;
 
 /**
- * Servlet implementation class IdCheckServlet
+ * Servlet implementation class EmailCheckServlet
  */
-@WebServlet("/idCheck.me")
-public class IdCheckServlet extends HttpServlet {
+@WebServlet("/emailCheck.me")
+public class EmailCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public IdCheckServlet() {
+    public EmailCheckServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,10 +31,23 @@ public class IdCheckServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String userId = request.getParameter("userId");
 		
+		String arrE[] = request.getParameterValues("email");
+		System.out.println(Arrays.toString(arrE));
+		
+		String email = "";
+		if(arrE != null) {	
+			for(int i=0 ; i < arrE.length ; i++) {
+				if(i != arrE.length - 1) {
+					email += arrE[i];
+				}else {
+					email += arrE[i];
+				}
+			}
+		}
 
-		int result = new MemberService().idCheck(userId);
+		System.out.println(email);
+		int result = new MemberService().emailCheck(email);
 		PrintWriter out = response.getWriter();
 
 		if(result == 0) {
@@ -45,6 +59,7 @@ public class IdCheckServlet extends HttpServlet {
 		out.flush();
 		out.close();
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
