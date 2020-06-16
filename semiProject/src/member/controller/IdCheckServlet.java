@@ -37,7 +37,7 @@ public class IdCheckServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		if(result == 0) {
-			out.print("permit");
+			out.print("success");
 		}else {
 			out.print("fail");
 		}

@@ -64,7 +64,54 @@ public class Service_Service {
 	}
 
 
+	public int getBuyListCount(String userNo) {
+		Connection conn=getConnection();
+		int result = new ServiceDao().getBuyListCount(conn, userNo);
+		
+		
+		close(conn);
+		return result;
+	}
+
+
+	public ArrayList<ServiceBuyList> selectBuyServiceList(int currentPage, int limit, String userNo) {
+		Connection conn=getConnection();
+		
+		ArrayList<ServiceBuyList> bsList = new ServiceDao().selectBuyServiceList(conn, currentPage, limit, userNo);
+		
+		close(conn);
+		
+		
+		
+		return bsList;
+	}
+
+
+	public ArrayList<Review> selectReviewList(String userNo) {
+		Connection conn=getConnection();
+		ArrayList<Review> re = new ServiceDao().selectReviewList(conn, userNo);
+		
+		close(conn);
+		return re;
+	}
+
+
 	
+	  public int insertService(Service_ServiceTable_oh st, String[] day) {
+	      Connection conn = getConnection();
+	      ServiceDao sDao = new ServiceDao();
+	      
+	      int result = sDao.inssertService(conn,st);
+	      int result2 = sDao.insertService1(conn, day);
+	      
+	      if(result>0 && result2>0 ) {
+	         commit(conn);
+	      }else {
+	         rollback(conn);
+	      }
+	      close(conn);
+	      return result;
+	   }
 	
 //  public int insertService1(Service_ServiceTable_oh st) {
 //  

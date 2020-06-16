@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import board.model.vo.Review;
+import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_DaysTable_oh;
 import service.model.vo.Service_List;
@@ -222,6 +224,9 @@ public class ServiceDao {
 		
 		return category;
 	}
+	
+	
+	
 
 	   public int inssertService(Connection conn, Service_ServiceTable_oh st) {
 		      PreparedStatement pstmt = null;
@@ -281,6 +286,214 @@ public class ServiceDao {
 		      }
 		      return result2;
 		   }
+	public int getBuyListCount(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) C FROM SERVICE WHERE B_USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("C");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		
+		return result;
+	}
+
+	public ArrayList<ServiceBuyList> selectBuyServiceList(Connection conn, int currentPage, int limit, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<ServiceBuyList> bsList = new ArrayList<>();
+		
+		int starRow = (currentPage-1)*limit+1;
+		int endRow = currentPage * limit;
+		
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_BUY_LIST S WHERE B_USER_NO = ? ORDER BY 4 DESC) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ServiceBuyList service = 
+						new ServiceBuyList(rset.getString("CHANGE_NAME"),
+								rset.getString("TITLE"),
+								rset.getDate("TRADE_DATE"),
+								rset.getString("USER_NAME"),
+								rset.getString("PHONE"),
+								rset.getInt("SERVICE_NO"),
+								rset.getString("B_USER_NO"));
+				
+				bsList.add(service);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bsList;
+	}
+
+	public ArrayList<Review> selectReviewList(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<Review> re = new ArrayList<>();
+		
+		String query = "SELECT * FROM BOARD B JOIN REVIEW R ON(B.BOARD_NO = R.BOARD_NO) WHERE USER_NO = ? AND BOARD_CODE = 10";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Review review = 
+						new Review(rset.getString("CONTENT"),
+								rset.getInt("RATING"),
+								rset.getInt("SERVICE_NO")
+								);
+				
+				re.add(review);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return re;
+	}
+
+	public String selectUserNo(Connection conn, int serviceNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String result = "";
+		String query = "SELECT S_USER_NO FROM SERVICE WHERE SERVICE_NO =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, serviceNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getString("S_USER_NO");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return result;
+	}
+	
+	
+	public int inssertService(Connection conn, Service_ServiceTable_oh st) {
+	      
+	      
+	      PreparedStatement pstmt = null;
+	      int result1 = 0;
+	      
+	 //데이터가 없어서 임의의 값 넣음 
+	   String query = "INSERT INTO SERVICE VALUES(SEQ_SERVICE.NEXTVAL,'서비스유저넘버',?,?,\r\n" + 
+	         "DEFAULT,DEFAULT,DEFAULT,'게시판유저넘버',?,?,?,TO_DATE(?,'YYYYMMDD HH24:MI'),?,?,TO_DATE(?,'HH24:MI') ,\r\n" + 
+	         "TO_DATE(?,'HH24:MI'),?,SYSDATE,?)";
+	      
+	   
+	      try {
+	         pstmt = conn.prepareStatement(query);
+	         pstmt.setString(1, st.getSaleInfo());
+	         pstmt.setString(2, st.getAvailableArea());
+	         pstmt.setString(3, st.getSaleMethod());
+	         pstmt.setString(4, st.getSubject());
+	         pstmt.setString(5,st.getCategoryCode());
+	         pstmt.setString(6, st.getDeadline());
+	         pstmt.setInt(7,Integer.valueOf(st.getPriceBidding()));
+	         pstmt.setInt(8, Integer.valueOf(st.getPriceSale()));
+	         pstmt.setString(9, st.getContactTime_start());
+	         pstmt.setString(10, st.getContactTime_finish());
+	         pstmt.setString(11, st.getTitle());
+	         pstmt.setString(12, st.getsExplain());
+	         
+	         result1 = pstmt.executeUpdate();
+	         System.out.println("반환값은 : " + result1);
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      }finally {
+	         close(pstmt);
+	      }
+	      return result1;
+	   
+	      /* 스플릿으로 잘라서 배열에 넣어줘서 배열 숫자만큼 돌려주기  */
+	      
+	      
+	   }
+
+	   public int insertService1(Connection conn, String[] day) {
+	      PreparedStatement pstmt = null;
+	         int result2 = 0;
+	         String aaa = "";
+	         
+	         
+	       //데이터 없어서 임의의 값 넣음 
+	            String query = "INSERT INTO DAYS VALUES(?,28)";
+	            //서비스번호 임시로 넣어둠 !
+	            
+	         try {
+	            for(int i=0; i < day.length; i++) {
+	            pstmt = conn.prepareStatement(query);
+	                aaa = day[i];
+	               pstmt.setString(1, aaa);
+
+	               result2 = pstmt.executeUpdate();
+
+	            System.out.println("가능 날짜 반환값은 : " + result2);
+	            
+	            }
+	         } catch (SQLException e) {
+	            e.printStackTrace();
+	         }finally {
+	            close(pstmt);
+	         }
+	         return result2;
+	      
+	      
+	      
+
+	   
+	   }
+	      
+	
+	
+
 
 
 }

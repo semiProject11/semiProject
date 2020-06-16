@@ -248,8 +248,10 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		
 		int result = mDao.registerMember(conn, member);
 		int result2 = mDao.registerMember(conn, account);
+		int result3 = mDao.registerBuyer(conn);
+		int result4 = mDao.registerSeller(conn);
 		
-		if(result>0 && result2>0) {
+		if(result>0 && result2>0 && result3>0 && result4>0) {
 			commit(conn);	
 		}else {
 			rollback(conn);
@@ -445,6 +447,67 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 
 		return sellerList;
+	}
+
+
+	public int emailCheck(String email) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().emailCheck(conn, email);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
+	public int memberWithdrawal(String userNo) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberWithdrawal(conn, userNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public String memberPwd(String userNo) {
+		Connection conn	= getConnection();
+		String pwd = new MemberDao().memberPwd(conn, userNo);
+		
+		close(conn);
+		
+		return pwd;
+	}
+
+
+	public int memberGradeTot(String sUserNo, int rating) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberGradeTot(conn, sUserNo, rating);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int selectRating(String sUserNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().selectRating(conn, sUserNo);
+		
+		close(conn);
+		return result;
 	}
 
 

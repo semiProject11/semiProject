@@ -99,36 +99,39 @@
     #profile div{
       align="center"
     }
+    #naviya div{
+			margin-bottom: 10px;
+			color : black;
+		}
   </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar2.jsp" />
+	<jsp:include page="../common/menubar3.jsp" />
 
 
 	<!--메인사이드바 시작-->
-	<div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-
-        <div class="sb-sidenav-menu">
-          <div class="nav">
-            <div class="sb-sidenav-menu-heading">
+		<div id="layoutSidenav" class="container">
+	<div class="row">
+	
+    <div id="layoutSidenav_nav" class="col-2"  >      
+		<div class="mt-5">
+        
+          <div class="nav" id="naviya">
+            <div class="sb-sidenav-menu-heading" style="font-size:23px; margin-bottom:20px;margin-top:20px;">
               <svg class="bi bi-list" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                   d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
                   clip-rule="evenodd" />
-              </svg>
-              마이페이지</div>
-            <a class="nav-link" href="mp_my_info.html">
+              </svg>&nbsp;마이페이지</div>
+            <a class="nav-link" href="<%=request.getContextPath()%>/myPage.me">
               <div class="sb-nav-link-icon"><svg class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
                     clip-rule="evenodd" />
-                </svg></div>
-              내정보
+                </svg>&nbsp;내정보</div>
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/edit.me">
               <div class="sb-nav-link-icon"><svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -137,10 +140,9 @@
                   <path fill-rule="evenodd"
                     d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              회원정보수정
+                </svg>&nbsp;회원정보수정</div>
             </a>
-            <a class="nav-link" href="mp_buy_list.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/buyList.sv">
               <div class="sb-nav-link-icon"><svg class="bi bi-list-task" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -151,8 +153,7 @@
                   <path fill-rule="evenodd"
                     d="M1.5 7a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5H2zm1 .5H2v1h1v-1z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              구매내역
+                </svg>&nbsp;구매내역</div>
             </a>
             <a class="nav-link" href="mp_sell_list.html">
               <div class="sb-nav-link-icon"><svg class="bi bi-list-ul" width="1em" height="1em" viewBox="0 0 16 16"
@@ -160,8 +161,7 @@
                   <path fill-rule="evenodd"
                     d="M5 11.5a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm0-4a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm0-4a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm-3 1a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              판매내역
+                </svg>&nbsp;판매내역</div>
             </a>
             <a class="nav-link" href="mp_consultation_history.html">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
@@ -172,22 +172,21 @@
                   <path fill-rule="evenodd"
                     d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              1:1 상담내역
+                </svg>&nbsp;1:1 상담내역</div>
             </a>
-
+			<a class="nav-link" href="<%=request.getContextPath()%>/withPage.me">
+              <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  				<path fill-rule="evenodd" d="M4 11a4 4 0 1 1 8 0 .5.5 0 0 1-.5.5h-7A.5.5 0 0 1 4 11zm4-8a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm8 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zM4.464 7.464a.5.5 0 0 1-.707 0L2.343 6.05a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/>
+				</svg>&nbsp;회원 탈퇴</div>
+            </a>
           </div>
-        </div>
-
-        <div class="sb-sidenav-footer">
-          <div class="small">Logged in as:</div>
-          Start Bootstrap
-        </div>
-      </nav>
+          </div>    
     </div>
-
-<!-- <div id="page-content-wrapper"> -->
-      <div id="layoutSidenav_content">
+    
+    
+    
+	<!-- <div id="page-content-wrapper"> -->
+    <div id="layoutSidenav_content" class="col-10">
 
         <!--main-->
   
@@ -294,5 +293,7 @@
   
       </div>
 	</div>
+	</div>
+	
 </body>
 </html>

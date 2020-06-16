@@ -9,7 +9,9 @@ import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
 import board.model.vo.Report;
+import board.model.vo.Review;
 import member.model.vo.Member;
+import service.model.dao.ServiceDao;
 
 public class BoardService {
 
@@ -189,6 +191,43 @@ public class BoardService {
 		return member;
 	}
 
+
+	public int insertReviewB(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewB(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int insertReviewR(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewR(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public String selectUserNo(int serviceNo) {
+		Connection conn = getConnection();
+		
+		String userNo = new ServiceDao().selectUserNo(conn, serviceNo);
+		
+		
+		return userNo;
+	}
+
+
 	public Board selectBoardNo(int board_no) {
 		Connection conn = getConnection();
 
@@ -213,6 +252,7 @@ public class BoardService {
 		int result = new BoardDao().updateBoard(conn, b); 
 //		System.out.println("서비스에서 fList:"+fList);
 		int result2 = new BoardDao().deleteBoardFiles(conn, fList); //status 'n'으로 바꾸기
+
 	
 		int result3 = new BoardDao().updateBoardFiles(conn, fList); //'y'로 새로 추가된 파일 넣기
 //		System.out.println("service에서 1:"+result);

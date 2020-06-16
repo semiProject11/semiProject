@@ -130,7 +130,7 @@ font-weight: normal; font-style: normal; }
 
                             <div class="col-6">
                             <input type="text" name="email" list="email" id="userEmail" style="width:255px; height:38px;"  placeholder="이메일 주소를 입력해주세요" >
-                            <datalist id="email"> 
+                            <datalist id="email" name="email"> 
                                 <option value="@naver.com">@naver.com</option> 
                                 <option value="@hanmail.net">@hanmail.net</option> 
                                 <option value="@daum.net">@daum.net</option>
@@ -142,7 +142,14 @@ font-weight: normal; font-style: normal; }
 
 
                     </div>
-                     <label id="emailresult"></label>
+                    <div class="row">
+						<div class="col-6">
+                     	<label id="dupEmailCheck"></label>
+						</div>
+						<div class="col-6">
+						<label id="emailresult"></label>
+						</div>      
+                    </div>
 
                     </div>
 
@@ -230,9 +237,9 @@ font-weight: normal; font-style: normal; }
       <!-- onsubmit validate() 함수-->
 
         <script>
-            	var flag = true;
+        		// ajax를 위한 flag
+            	var flag = true;	
             	
-            	var userId = $("#registerForm input[name='userId']");
 				// 아이디 영대,소문자 숫자로만 4~15자
 				var regI = /^[a-zA-z0-9]{4,15}$/;
 
@@ -251,11 +258,13 @@ font-weight: normal; font-style: normal; }
 				// 핸드폰 중간자리 3~4 끝자리 4, 숫자만
 				var regP2 = /^[0-9]{3,4}$/;
                 var regP3 = /^[0-9]{4,4}$/;
+                
                 // 계좌번호 8자이상, 숫자만
                 var regA = /^[0-9]{8,20}$/;
+                
             function validate(){
 	           	
-                
+                // 아이디
     			if($("#userId").val().trim().length == 0){
                     alert("아이디를 입력하세요");
                     $("#userId").focus();
@@ -269,8 +278,9 @@ font-weight: normal; font-style: normal; }
     			else if($("#duCheck").html()=="이미 존재하는 아이디입니다"){
 					alert("중복된 아이디 입니다"); 
                     $("#userId").focus();
-                    
                 }
+    			
+    			// 비밀번호
                 else if($("#userPwd").val().trim().length == 0){
                     alert("비밀번호를 입력하세요");
                     $("#userPwd").focus();
@@ -291,6 +301,8 @@ font-weight: normal; font-style: normal; }
                     $("#userPwdCheck").focus();
                     flag = false;
                 }
+    			
+    			// 이름
                 else if($("#userName").val().trim().length == 0){
                     alert("이름을 입력하세요");
                     $("#userName").focus();
@@ -301,6 +313,8 @@ font-weight: normal; font-style: normal; }
                     $("#userName").focus();
                     flag = false;
                 }
+    			
+    			// 생년월일
                 else if($("#userBirth").val().trim().length == 0){
                     alert("생년월일을 입력하세요");
                     $("#userBirth").focus();
@@ -311,6 +325,8 @@ font-weight: normal; font-style: normal; }
                     $("#userBirth").focus();
                     flag = false;
                 }
+    			
+    			// 휴대폰 번호
                 else if($("#phone1").val().trim().length == 0){
                     alert("휴대폰 번호를 입력하세요");
                     $("#phone1").focus();
@@ -336,18 +352,31 @@ font-weight: normal; font-style: normal; }
                     $("#phone3").focus();
                     flag = false;
                 }
+    			
+    			//이메일
                 else if($("#emailId").val().trim().length == 0){
                     alert("이메일 아이디를 입력하세요");
                     $("#emailId").focus();
                     flag = false;
                 }
-                
                 else if($("#userEmail").val().trim().length == 0){
                     alert("이메일 주소를 입력하세요");
                     $("#userEmail").focus();
                     flag = false;
                 }
-                
+                else if(!regE.test($("#userEmail").val())) {
+                     alert("이메일 형식을 @와 . 을 사용 해주세요");
+                     $("#userEmail").focus();
+                     flag = false;
+                }
+                else if($("#dupEmailCheck").html()=="이미 존재하는 이메일 아이디 입니다"){
+					alert("이미 존재하는 이메일 아이디 입니다"); 
+                    $("#emailId").focus();     
+                    flag = false;
+                }
+    			
+    			
+    			// 계좌
                 else if($("#bank").val().trim().length == 0){
                     alert("계좌은행을 입력하세요");
                     $("#bank").focus();
@@ -389,9 +418,11 @@ font-weight: normal; font-style: normal; }
     
 				
                 // 아이디 중복확인 ajax
+            	var userId = $("#registerForm input[name='userId']");
+                
     			$("#userId").change(function(){	
     				if(userId.val().length<4){
-    					$("#duCheck").html("").css("color", "white");
+    					$("#duCheck").html("");
     					flag = false;
     				}
     				else{
@@ -404,6 +435,9 @@ font-weight: normal; font-style: normal; }
 		    					if (data == "fail") {
 		    						$("#duCheck").html("이미 존재하는 아이디입니다").css("color", "red");
 		                            $("#userId").focus();
+		    						flag = false;
+		    					}else if(data != "fail" && !regI.test($(userId).val())){
+		    						$("#duCheck").html("");
 		    						flag = false;
 		    					}
 		    					else{
@@ -424,7 +458,99 @@ font-weight: normal; font-style: normal; }
                 
             	
             	
+                // 이메일 아이디 중복확인 ajax
+                var email = $("#registerForm input[name='email']");
+
+    			 $("#emailId").change(function(){	
+    				if(email.val().trim().length == 0){
+    					$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+    					flag = false;
+    				}
+    				else if(email.val().trim().length != 0 && $("#userEmail").val().trim().length == 0){
+    					$("#dupEmailCheck").html("이메일 주소를 입력해주세요").css("color", "red");
+    					flag = false;
+    				}
+    				else{
+    					
+    					var e = $("#registerForm input[name='email']").serialize();
+    					$.ajax({
+		    				url : "<%=request.getContextPath()%>/emailCheck.me",
+		    				type : 'post',
+		    				data:e,
+		    				success : function(data) {
+		    					if (data == "fail") {
+		    						$("#dupEmailCheck").html("이미 존재하는 이메일 아이디 입니다").css("color", "red");
+		                            $("#emailId").focus();
+		    						flag = false;
+		    					}
+		    					else if((data != "fail" && email.val().trim().length == 0)|| (data != "fail" && email.val() != 0 && !regE.test($("#userEmail").val()))){
+		    						$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+		    						flag = false;
+		    					}
+
+		    					else{
+		    						$("#dupEmailCheck").html("사용 가능한 이메일 아이디 입니다").css("color", "green");
+		    						flag = true;
+		    					
+		    					}
+		    					
+		    				}
+		    				, error : function(request,status,error){
+		    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    				    flag = false;
+		    				}
+		    				});
+    					return flag;
+		    			} 
+		    			});
             	
+    			 
+    			 // 이메일 아이디 중복확인(@이메일부분) ajax
+    			 var email = $("#registerForm input[name='email']");
+
+    			 $("#userEmail").change(function(){	
+    				if(($("#userEmail").val().trim().length == 0 && email.val().trim().length != 0 )){
+    					$("#dupEmailCheck").html("이메일을 입력해주세요").css("color","red");
+    	                $("#emailresult").focus();
+    					flag = false;
+    				}
+    				else if($("#userEmail").val().trim().length != 0 && email.val().trim().length == 0){
+    					$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+    					$("#emailresult").html("");
+    					flag = false;
+    				}
+    				else{
+    					
+    					var e = $("#registerForm input[name='email']").serialize();
+    					$.ajax({
+		    				url : "<%=request.getContextPath()%>/emailCheck.me",
+		    				type : 'post',
+		    				data:e,
+		    				success : function(data) {
+		    					if (data == "fail") {
+		    						$("#dupEmailCheck").html("이미 존재하는 이메일 입니다").css("color", "red");
+		                            $("#userEmail").focus();
+		    						flag = false;
+		    					}
+		    					else if(data != "fail" && !regE.test($("#userEmail").val())){
+		    						$("#dupEmailCheck").html("이메일 주소를 올바르게 입력해주세요").css("color", "red");
+		    						flag = false;
+		    					}
+		    					else{
+		    						$("#dupEmailCheck").html("사용 가능한 이메일 아이디 입니다").css("color", "green");
+		    						flag = true;
+		    					
+		    					}
+		    					
+		    				}
+		    				, error : function(request,status,error){
+		    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		    				    flag = false;
+		    				}
+		    				});
+    					return flag;
+		    			} 
+		    			});
             	
             	
             		
@@ -435,14 +561,14 @@ font-weight: normal; font-style: normal; }
                         $("#idcondition").html("아이디는 영문 대소문자와 숫자만으로  4~12자리로 입력해야합니다.").css("color","red");
                         $(this).focus();
                     }
-                    
                     else{
-                        $("#idcondition").html("").css('color','green');
-                        $(this).focus().css("background",'white');
+                        $("#idcondition").html("");
+                        $(this).focus();
                     }
                     });
 
-                
+                	
+    			 	// 비밀번호 제약 조건 : 영대,소문자, 특수기호, 숫자 전부 포함 8~16자리
                     $("#userPwd").change(function(){
                     if(!regP.test($(this).val())) {
                     $("#pwdresultcondition").html("비밀번호는 8자 이상 16자 이하 이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.").css("color","red");                       
@@ -454,7 +580,7 @@ font-weight: normal; font-style: normal; }
                     });
 
                 
-
+					// 패스워드 확인 change function
                     $("#userPwdCheck").change(function(){
                     if($("#userPwd").val() != $(this).val() || $(this).val().length==0){
                         $("#pwdresult").html("비밀번호가 일치하지 않습니다.").css("color","red");
@@ -475,7 +601,7 @@ font-weight: normal; font-style: normal; }
                     });
             
 
-                 // 회원 가입 처리 : 이름, 비밀번호, 비밀번호 확인
+                 	// 이름 제약조건 한글 2~6자
                     $("#userName").change(function(){
                    	 if(!regHE.test($(this).val())){
                        $("#nameresult").html("한글로 2자 이상 6자 이하로 입력해주세요.").css("color","red");
@@ -484,27 +610,27 @@ font-weight: normal; font-style: normal; }
                    
                    else{
                        $("#nameresult").html("").css('color','green');
-                       $(this).focus().css("background",'white');
+                       $(this).focus();
                    }
                    });
                     
-                    // 생년월일 : 20200202
+                    // 생년월일 8자 ex) 20200202
                     $("#userBirth").change(function(){
                     if(!regB.test($(this).val())) {
                     $("#Birthdayresult").html("생년월일 8자리를 입력하세요.").css("color","red");
                         $(this).focus();
                     }else {
-                    $("#Birthdayresult").html('').css("color","green");
+                    $("#Birthdayresult").html('');
                      }
                     });
 
-                    // 휴대폰번호 : 전부 4자리 차게? #mPhone2 #mPhone3
+                    // 휴대폰번호 : 3~4자리 4자리
                     $("#phone2").change(function(){
                     if(!regP2.test($(this).val())) {
                     $("#p2result").html("번호 3~4자리를 입력하세요.").css("color","red");
                         $(this).focus();
                     }else {
-                    $("#p2result").html('').css("color","green");
+                    $("#p2result").html('');
                     }
                     });
                     $("#phone3").change(function(){    
@@ -512,30 +638,29 @@ font-weight: normal; font-style: normal; }
                     $("#p3result").html("번호 4자리를 입력하세요.").css("color","red");
                         $(this).focus();
                     }else {
-                    $("#p3result").html('').css("color","green");
+                    $("#p3result").html('');
                     }
                     });
                     
-                    // 이메일 
-                    $("#userEmail").change(function(){
-                    if(!regE.test($(this).val())) {
-                    $("#emailresult").html("이메일 형식을 @와 . 을 사용 해주세요").css("color","red");
-                    $(this).focus();
-                    }else {
-                    $("#emailresult").html('').css("color","green");
-                    }
-                    });
-                  
-                    	
-                    // 은행	
-                    
+                    // 이메일
+                     $("#userEmail").change(function(){
+                     if(!regE.test($("#userEmail").val())){
+    					$("#emailresult").html("이메일 형식을 @와 . 을 사용 해주세요").css("color","red");
+    	                $("#emailresult").focus();
+    				 }else if($("#userEmail").val()!=0){
+    					$("#emailresult").html("");
+    				 }
+                     });
+                   
+             	
+                   // 은행 예금주명 한글 2~6자, 계자는 숫자로만
                     $("#account_hold").change(function(){
                    	 if(!regHE.test($(this).val())){
                        $("#BuCheck").html("한글로 2자 이상 6자 이하로 입력해주세요.").css("color","red");
                        $(this).focus();
                     }else{
                     	 $("#BuCheck").html("").css('color','green');
-                         $(this).focus().css("background",'white');
+                         $(this).focus();
                     }
                     });
 
@@ -544,7 +669,7 @@ font-weight: normal; font-style: normal; }
                     $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color","red");
                         $(this).focus();
                     }else {
-                    $("#noresult").html('').css("color","green");
+                    $("#noresult").html('');
                      }
                     });
            
