@@ -99,14 +99,14 @@ public class Service_Service {
 
 
 	
-	  public int insertService(Service_ServiceTable_oh st, String[] day) {
+	 public int insertService(Service_ServiceTable_oh st, String[] day) {
 	      Connection conn = getConnection();
 	      ServiceDao sDao = new ServiceDao();
 	      
 	      int result = sDao.inssertService(conn,st);
 	      int result2 = sDao.insertService1(conn, day);
 	      
-	      if(result>0 && result2>0 ) {
+	      if(result >0 && result2 >0) {
 	         commit(conn);
 	      }else {
 	         rollback(conn);
@@ -114,10 +114,6 @@ public class Service_Service {
 	      close(conn);
 	      return result;
 	   }
-	
-
-
-
 
 
 	
