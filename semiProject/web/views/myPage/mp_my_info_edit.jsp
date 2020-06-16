@@ -292,12 +292,12 @@
 
                         <div class="row">
                           <div class="col-6">
-                            <input type="text" class="form-control" id="emailId" name="email1"
+                            <input type="text" class="form-control" id="emailId" name="email"
                               placeholder="이메일 아이디를 입력 해주세요">
                           </div>
 
                           <div class="col-6">
-                            <input type="text" name="email2" list="email" id="userEmail"
+                            <input type="text" name="email" list="email" id="userEmail"
                               style="width:255px; height:38px;" placeholder="이메일 주소를 입력해주세요">
                             <datalist id="email">
                               <option value="@naver.com">@naver.com</option>
@@ -311,7 +311,14 @@
 
 
                         </div>
-                        <label id="emailresult"></label>
+                        <div class="row">
+						<div class="col-6">
+                     	<label id="dupEmailCheck"></label>
+						</div>
+						<div class="col-6">
+						<label id="emailresult"></label>
+						</div>      
+                    </div>
 
                       </div>
 
@@ -394,13 +401,6 @@
       <script>
         var flag = true;
 
-        var userId = $("#registerForm input[name='userId']");
-        // 아이디 영대,소문자 숫자로만 4~15자
-        var regI = /^[a-zA-z0-9]{4,15}$/;
-
-        // 한글 최소 2자 이상 6자 이하
-        var regHE = /^[가-힣]{2,6}$/;
-
         // 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자
         var regP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
 
@@ -476,7 +476,18 @@
                   alert("이메일 주소를 입력하세요");
                   $("#userEmail").focus();
                   flag = false;
-              }else{
+              }
+              else if(!regE.test($("#userEmail").val())) {
+                  alert("이메일 형식을 @와 . 을 사용 해주세요");
+                  $("#userEmail").focus();
+                  flag = false;
+             }
+             else if($("#dupEmailCheck").html()=="이미 존재하는 이메일 아이디 입니다"){
+					alert("이미 존재하는 이메일 아이디 입니다"); 
+                 $("#emailId").focus();     
+                 flag = false;
+             }
+              else{
             	  
         	  flag = confirm("회원 수정이 완료 되었습니다.");
               }
@@ -526,6 +537,105 @@
 
         $(document).ready(function () {
           
+        	// 이메일 아이디 중복확인 ajax
+            var email = $("#registerForm input[name='email']");
+
+			 $("#emailId").change(function(){	
+				if(email.val().trim().length == 0){
+					$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+					flag = false;
+				}
+				else if(email.val().trim().length != 0 && $("#userEmail").val().trim().length == 0){
+					$("#dupEmailCheck").html("이메일 주소를 입력해주세요").css("color", "red");
+					flag = false;
+				}
+				else{
+					
+					var e = $("#registerForm input[name='email']").serialize();
+					$.ajax({
+	    				url : "<%=request.getContextPath()%>/emailCheck.me",
+	    				type : 'post',
+	    				data:e,
+	    				success : function(data) {
+	    					if (data == "fail") {
+	    						$("#dupEmailCheck").html("이미 존재하는 이메일 아이디 입니다").css("color", "red");
+	                            $("#emailId").focus();
+	    						flag = false;
+	    					}
+	    					else if((data != "fail" && email.val().trim().length == 0)|| (data != "fail" && email.val() != 0 && !regE.test($("#userEmail").val()))){
+	    						$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+	    						flag = false;
+	    					}
+
+	    					else{
+	    						$("#dupEmailCheck").html("사용 가능한 이메일 아이디 입니다").css("color", "green");
+	    						flag = true;
+	    					
+	    					}
+	    					
+	    				}
+	    				, error : function(request,status,error){
+	    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    				    flag = false;
+	    				}
+	    				});
+					return flag;
+	    			} 
+	    			});
+        	
+			 
+			 // 이메일 아이디 중복확인(@이메일부분) ajax
+			 var email = $("#registerForm input[name='email']");
+
+			 $("#userEmail").change(function(){	
+				if(($("#userEmail").val().trim().length == 0 && email.val().trim().length != 0 )){
+					$("#dupEmailCheck").html("이메일을 입력해주세요").css("color","red");
+	                $("#emailresult").focus();
+					flag = false;
+				}
+				else if($("#userEmail").val().trim().length != 0 && email.val().trim().length == 0){
+					$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+					$("#emailresult").html("");
+					flag = false;
+				}
+				else{
+					
+					var e = $("#registerForm input[name='email']").serialize();
+					$.ajax({
+	    				url : "<%=request.getContextPath()%>/emailCheck.me",
+	    				type : 'post',
+	    				data:e,
+	    				success : function(data) {
+	    					if (data == "fail") {
+	    						$("#dupEmailCheck").html("이미 존재하는 이메일 입니다").css("color", "red");
+	                            $("#userEmail").focus();
+	    						flag = false;
+	    					}
+	    					else if(data != "fail" && !regE.test($("#userEmail").val())){
+	    						$("#dupEmailCheck").html("이메일 주소를 올바르게 입력해주세요").css("color", "red");
+	    						flag = false;
+	    					}
+	    					else{
+	    						$("#dupEmailCheck").html("사용 가능한 이메일 아이디 입니다").css("color", "green");
+	    						flag = true;
+	    					
+	    					}
+	    					
+	    				}
+	    				, error : function(request,status,error){
+	    				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	    				    flag = false;
+	    				}
+	    				});
+					return flag;
+	    			} 
+	    			});
+        	
+        	
+        	
+        	
+        	
+        	
           // pwd 제약조건
           $("#userPwd").change(function () {
             if (!regP.test($(this).val())) {
@@ -597,7 +707,7 @@
               $(this).focus();
             } else {
               $("#BuCheck").html("").css('color', 'green');
-              $(this).focus().css("background", 'white');
+              $(this).focus();
             }
           });
 
@@ -606,7 +716,7 @@
               $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color", "red");
               $(this).focus();
             } else {
-              $("#noresult").html('').css("color", "green");
+              $("#noresult").html('');
             }
           });
 

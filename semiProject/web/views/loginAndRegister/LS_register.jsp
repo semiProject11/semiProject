@@ -467,7 +467,7 @@ font-weight: normal; font-style: normal; }
     					flag = false;
     				}
     				else if(email.val().trim().length != 0 && $("#userEmail").val().trim().length == 0){
-    					$("#emailresult").html("이메일 주소를 입력해주세요").css("color", "red");
+    					$("#dupEmailCheck").html("이메일 주소를 입력해주세요").css("color", "red");
     					flag = false;
     				}
     				else{
@@ -481,6 +481,10 @@ font-weight: normal; font-style: normal; }
 		    					if (data == "fail") {
 		    						$("#dupEmailCheck").html("이미 존재하는 이메일 아이디 입니다").css("color", "red");
 		                            $("#emailId").focus();
+		    						flag = false;
+		    					}
+		    					else if((data != "fail" && email.val().trim().length == 0)|| (data != "fail" && email.val() != 0 && !regE.test($("#userEmail").val()))){
+		    						$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
 		    						flag = false;
 		    					}
 
@@ -505,13 +509,14 @@ font-weight: normal; font-style: normal; }
     			 var email = $("#registerForm input[name='email']");
 
     			 $("#userEmail").change(function(){	
-    				if(!regE.test($("#userEmail").val()) && $("#userEmail").val().trim().length != 0){
-    					$("#emailresult").html("이메일 형식을 @와 . 을 사용 해주세요").css("color","red");
+    				if(($("#userEmail").val().trim().length == 0 && email.val().trim().length != 0 )){
+    					$("#dupEmailCheck").html("이메일을 입력해주세요").css("color","red");
     	                $("#emailresult").focus();
     					flag = false;
     				}
     				else if($("#userEmail").val().trim().length != 0 && email.val().trim().length == 0){
     					$("#dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+    					$("#emailresult").html("");
     					flag = false;
     				}
     				else{
@@ -527,12 +532,12 @@ font-weight: normal; font-style: normal; }
 		                            $("#userEmail").focus();
 		    						flag = false;
 		    					}
-		    					else if(data != "fail" && email.val().trim().length == 0){
-		    						$("##dupEmailCheck").html("이메일 아이디를 입력해주세요").css("color", "red");
+		    					else if(data != "fail" && !regE.test($("#userEmail").val())){
+		    						$("#dupEmailCheck").html("이메일 주소를 올바르게 입력해주세요").css("color", "red");
 		    						flag = false;
 		    					}
 		    					else{
-		    						$("#dupEmailCheck").html("사용 가능한 이메일 입니다").css("color", "green");
+		    						$("#dupEmailCheck").html("사용 가능한 이메일 아이디 입니다").css("color", "green");
 		    						flag = true;
 		    					
 		    					}
@@ -637,6 +642,16 @@ font-weight: normal; font-style: normal; }
                     }
                     });
                     
+                    // 이메일
+                     $("#userEmail").change(function(){
+                     if(!regE.test($("#userEmail").val())){
+    					$("#emailresult").html("이메일 형식을 @와 . 을 사용 해주세요").css("color","red");
+    	                $("#emailresult").focus();
+    				 }else if($("#userEmail").val()!=0){
+    					$("#emailresult").html("");
+    				 }
+                     });
+                   
              	
                    // 은행 예금주명 한글 2~6자, 계자는 숫자로만
                     $("#account_hold").change(function(){
