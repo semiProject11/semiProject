@@ -13,7 +13,7 @@ import board.model.vo.Files;
 import board.model.vo.Inquiary;
 
 import board.model.vo.Report;
-
+import board.model.vo.Review;
 import member.model.vo.Account;
 
 import member.model.vo.Member;
@@ -435,6 +435,57 @@ public class BoardDao {
 		
 		
 		return member;
+	}
+
+	public int insertReviewB(Connection conn, Review re) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL,?,?,?,DEFAULT,0,10,'N')";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, re.getTitle());
+			pstmt.setString(2, re.getContent());
+			pstmt.setString(3, re.getUserNo());
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+	public int insertReviewR(Connection conn, Review re) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "INSERT INTO REVIEW VALUES((SELECT MAX(BOARD_NO) FROM BOARD),?,?,?)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, re.getRating());
+			pstmt.setInt(2, re.getServiceNo());
+			pstmt.setString(3, re.getsUserNo());
+			
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
 	}
 
 	

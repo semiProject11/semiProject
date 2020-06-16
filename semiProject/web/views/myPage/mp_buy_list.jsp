@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="service.model.vo.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="service.model.vo.*, java.util.ArrayList, board.model.vo.*"%>
 <%
 	Pagination pn = (Pagination)request.getAttribute("pn");
-	ArrayList bsList = (ArrayList) request.getAttribute("bsList");
-	
+	ArrayList<ServiceBuyList> bsList = (ArrayList<ServiceBuyList>) request.getAttribute("bsList");
+	ArrayList<Review> reList = (ArrayList<Review>) request.getAttribute("reList");
 	int listCount = pn.getListCount();
 	int currentPage = pn.getCurrentPage();
 	int maxPage = pn.getMaxPage();
 	int startPage = pn.getStartPage();
 	int endPage = pn.getEndPage();
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -102,6 +103,16 @@
           /*가운데 정렬*/
           align-items: center;
       }
+      .starR{
+		  background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+		  background-size: auto 100%;
+		  width: 30px;
+		  height: 30px;
+		  display: inline-block;
+		  text-indent: -9999px;
+		  cursor: pointer;
+		}
+		.starR.on{background-position:0 0;}
   </style>
 </head>
 <body>
@@ -229,6 +240,7 @@
 						%>
 						<%
 							for (int i = 0; i < bsList.size(); i++) {
+								ServiceBuyList s = bsList.get(i);
 						%>
                       <tr >                 
                         <td class="clickme">
@@ -236,22 +248,17 @@
                               <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
                             </div>                        
                         </td>
-                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getTitle()%></td>
-                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getTradeDate()%></td>
-                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getsUserName()%></td>
-                        <td class="clickme"><%=((ServiceBuyList) bsList.get(i)).getsPhone()%></td>
+                        <td class="clickme"><%=s.getTitle()%></td>
+                        <td class="clickme"><%=s.getTradeDate()%></td>
+                        <td class="clickme"><%=s.getsUserName()%></td>
+                        <td class="clickme"><%=s.getsPhone()%></td>
+                        
+                        <!-- 리뷰 불러와서 매칭 시키기  -->
+                        <%if(reList.isEmpty()) {%>                        
                         <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<%=((ServiceBuyList) bsList.get(i)).getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" style="background:black; color:white; width:110px;">평점주기</button>
                         </td>
-                      </tr>
-                        <%
-							}
-						%>
-						<%
-							}
-						%>
-                      
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -260,44 +267,162 @@
 						          <span aria-hidden="true">&times;</span>
 						        </button>
 						      </div>
+						        <form action="<%=request.getContextPath() %>/insert.re">
+						      <div class="modal-body">
+						          <div class="form-group">
+						            <label for="recipient-name" class="">평점:</label>
+						            <div class="starRev">
+									  <span class="starR">1</span>
+									  <span class="starR">2</span>
+									  <span class="starR">3</span>
+									  <span class="starR">4</span>
+									  <span class="starR">5</span>
+									  <input type="text" id="title" name="title" style="display:none;" value="<%=s.getTitle()%>">
+									  <input type="text" id="title" name="sNO" style="display:none;" value="<%=s.getServiceNo()%>">
+									  <input type="text" id="value1" name="value1" style="display:none;">
+									</div>
+						          </div>
+						          <div class="form-group">
+						            <label for="message-text" class="col-form-label">리뷰:</label>
+						            <textarea class="form-control" id="message-text" name="content"></textarea>
+						          </div>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">닫기</button>
+						        <button type="submit" class="btn btn-primary">평점 등록</button>
+						      </div>
+						        </form>
+						    </div>
+						  </div>
+						</div> 
+                        
+                        
+                        
+                        <%} else { %>
+                        <%for (int j=0; j <reList.size(); j++){
+                        	Review r = reList.get(j);%>
+                        <%if(s.getServiceNo() == r.getServiceNo()) {%>
+                        
+                        <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="reClick();" style="background:black; color:white; width:110px;">리뷰보기</button>
+                        </td>
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">작성된 평점과 리뷰</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
 						      <div class="modal-body">
 						        <form>
 						          <div class="form-group">
-						            <label for="recipient-name" class="">Recipient:</label>
-						            <input type="text" class="form-control" id="recipient-name">
+						            <label for="recipient-name" class="">평점:</label>
+						            <div class="starRev">						            
+									  <span class="starR" id="1">1</span>									  
+									  <span class="starR" id="2">2</span>
+									  <span class="starR" id="3">3</span>
+									  <span class="starR" id="4">4</span>
+									  <span class="starR" id="5">5</span>
+									  <input type="text" id="value1" name="value1" value="<%=r.getRating()%>" style="display:none;">
+									</div>
 						          </div>
 						          <div class="form-group">
-						            <label for="message-text" class="col-form-label">Message:</label>
-						            <textarea class="form-control" id="message-text"></textarea>
+						            <label for="message-text" class="col-form-label">리뷰:</label>
+						            <textarea class="form-control" id="message-text" name="review" readonly><%=r.getContent()%></textarea>
 						          </div>
 						        </form>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-primary">Send message</button>
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">닫기</button>
 						      </div>
 						    </div>
 						  </div>
-						</div>                      
-				<script>
-				$(function(){
-					$(".clickme").click(function(){
-					alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");
+						</div> 
+						<%}else if(j == reList.size()-1){ %>						
+						<td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" style="background:black; color:white; width:110px;">평점주기</button>
+                        </td>
+						<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						        <form action="<%=request.getContextPath() %>/insert.re">
+						      <div class="modal-body">
+						          <div class="form-group">
+						            <label for="recipient-name" class="">평점:</label>
+						            <div class="starRev">						            
+									  <span class="starR">1</span>
+									  <span class="starR">2</span>
+									  <span class="starR">3</span>
+									  <span class="starR">4</span>
+									  <span class="starR">5</span>
+									  <input type="text" id="title" name="title" style="display:none;" value="<%=s.getTitle()%>">
+									  <input type="text" id="title" name="sNO" style="display:none;" value="<%=s.getServiceNo()%>">
+									  <input type="text" id="value1" name="value1" style="display:none;">
+									</div>
+						          </div>
+						          <div class="form-group">
+						            <label for="message-text" class="col-form-label">리뷰:</label>
+						            <textarea class="form-control" id="message-text" name="content"></textarea>
+						          </div>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal" >닫기</button>
+						        <button type="submit" class="btn btn-primary">평점 등록</button>
+						      </div>
+						        </form>
+						    </div>
+						  </div>
+						</div> 
+					<% }%>
+					
+					<% }%>
+					<% }%>
 						
+						
+						
+                      </tr>
+                        <%
+							}
+						%>
+						<%
+							}
+						%>
+                      
+					
+					
+					<script>
+					$('.starRev span').click(function(){
+						  $(this).parent().children('span').removeClass('on');
+						  $(this).addClass('on').prevAll('span').addClass('on');
+						  $("#value1").val($(this).text());
+						  return false;
+						});
+					
+					$(function(){
+						$(".clickme").click(function(){
+						alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");						
+							
+						})
 						
 					})
-					
-				})			
-					$('#exampleModal').on('show.bs.modal', function (event) {
-						  var button = $(event.relatedTarget)
-						  var recipient = button.data('whatever')
-						  var modal = $(this)
-						  modal.find('.modal-body input').val(recipient)
-						})
-				</script>
-                      
-
-
+					function reClick(){
+						var starCount = '#'+$('#value1').val();
+						console.log(starCount);
+						$(starCount).click();
+					}
+					function close(){
+						location.href="<%=request.getContextPath()%>/buyList.sv"
+						consol.log("안녕");
+					}
+					</script>	  
                   </tbody>
               </table>
           </div>          
@@ -335,9 +460,6 @@
         </ul>
 
     </div>
-
-
-
 
 
 

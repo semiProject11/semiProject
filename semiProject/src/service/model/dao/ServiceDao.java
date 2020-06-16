@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import board.model.vo.Review;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
@@ -291,6 +292,63 @@ public class ServiceDao {
 		
 		
 		return bsList;
+	}
+
+	public ArrayList<Review> selectReviewList(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<Review> re = new ArrayList<>();
+		
+		String query = "SELECT * FROM BOARD B JOIN REVIEW R ON(B.BOARD_NO = R.BOARD_NO) WHERE USER_NO = ? AND BOARD_CODE = 10";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Review review = 
+						new Review(rset.getString("CONTENT"),
+								rset.getInt("RATING"),
+								rset.getInt("SERVICE_NO")
+								);
+				
+				re.add(review);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return re;
+	}
+
+	public String selectUserNo(Connection conn, int serviceNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String result = "";
+		String query = "SELECT S_USER_NO FROM SERVICE WHERE SERVICE_NO =?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, serviceNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getString("S_USER_NO");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		return result;
 	}
 
 

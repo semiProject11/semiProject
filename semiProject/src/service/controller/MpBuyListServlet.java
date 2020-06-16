@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.model.vo.Review;
 import service.model.service.Service_Service;
 import service.model.vo.Pagination;
 import service.model.vo.ServiceBuyList;
@@ -50,7 +51,7 @@ public class MpBuyListServlet extends HttpServlet {
 		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
 		int startPage;		// 한번에 표시될 페이지가 시작 할 페이지
 		int endPage;		// 한번에 표시될 페이지가 끝나는 페이지
-		
+		int empty=0;		// 리스트가 비었는지 확인
 		// 기본적으로 게시판은 1페이지부터 시작함
 		currentPage = 1;
 		// 하지만 페이지 전환시 전달받은 현재 페이지가 있을 시 해당 페이지를 currentPage로 적용
@@ -76,11 +77,14 @@ public class MpBuyListServlet extends HttpServlet {
 		// 화면에 뿌려줄 게시판 리스트 조회
 		ArrayList<ServiceBuyList> bsList = sService.selectBuyServiceList(currentPage, limit, userNo);
 		
+		ArrayList<Review>  re = sService.selectReviewList(userNo);
+		System.out.println(re);
 		RequestDispatcher view = null;
 		if(bsList != null) {
 			view = request.getRequestDispatcher("views/myPage/mp_buy_list.jsp");
 			request.setAttribute("bsList", bsList);
 			request.setAttribute("pn", pn);
+			request.setAttribute("reList", re);
 		}else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "buyList 조회 실패!!");

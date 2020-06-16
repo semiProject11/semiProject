@@ -8,7 +8,9 @@ import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
 import board.model.vo.Report;
+import board.model.vo.Review;
 import member.model.vo.Member;
+import service.model.dao.ServiceDao;
 
 public class BoardService {
 
@@ -182,6 +184,41 @@ public class BoardService {
 
 		close(conn);
 		return member;
+	}
+
+	public int insertReviewB(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewB(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int insertReviewR(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewR(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public String selectUserNo(int serviceNo) {
+		Connection conn = getConnection();
+		
+		String userNo = new ServiceDao().selectUserNo(conn, serviceNo);
+		
+		
+		return userNo;
 	}
 
 	

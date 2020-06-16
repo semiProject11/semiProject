@@ -6,6 +6,7 @@ import static common.JDBCTemplate.getConnection;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import board.model.vo.Review;
 import service.model.dao.ServiceDao;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
@@ -82,6 +83,15 @@ public class Service_Service {
 		
 		
 		return bsList;
+	}
+
+
+	public ArrayList<Review> selectReviewList(String userNo) {
+		Connection conn=getConnection();
+		ArrayList<Review> re = new ServiceDao().selectReviewList(conn, userNo);
+		
+		close(conn);
+		return re;
 	}
 
 
