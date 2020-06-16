@@ -3,6 +3,7 @@ package board.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,10 +14,13 @@ import board.model.vo.Files;
 import board.model.vo.Inquiary;
 
 import board.model.vo.Report;
-
+import board.model.vo.Review;
 import member.model.vo.Account;
 
 import member.model.vo.Member;
+import service.model.vo.Service;
+import service.model.vo.Service_Category;
+import service.model.vo.Service_List;
 
 public class BoardDao {
 
@@ -942,6 +946,242 @@ public class BoardDao {
 		System.out.println("dao"+list);
 		return list;
 
+	}
+
+	public ArrayList<Board> selectB_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Board> bList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+
+				Board b = new Board(rset.getInt("board_no"), rset.getString("title"), rset.getString("content"),
+						rset.getInt("user_no"), rset.getDate("write_date"), rset.getInt("read_num"),
+						rset.getInt("board_code"), rset.getString("board_status"));
+
+				bList.add(b);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return bList;
+	}
+
+	public ArrayList<Review> selectR_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Review> rList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Review r = new Review(rset.getInt("board_no"), rset.getInt("rating"), rset.getInt("service_no"));
+				rList.add(r);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return rList;
+	}
+
+	public ArrayList<Service_Category> selectSC_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service_Category> scList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Service_Category sc = new Service_Category(rset.getString("category_code"), rset.getString("category_name"));
+				scList.add(sc);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return scList;
+	}
+
+	public ArrayList<Service> selectS_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service> sList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+						
+				Service s = new Service(rset.getInt("service_no")
+									, rset.getInt("s_user_no")
+									, rset.getString("sale_info")
+									, rset.getString("available_area")
+									, rset.getInt("readCount")
+									, rset.getInt("file_count")
+									, rset.getString("file_YN")
+									, rset.getInt("b_user_no")
+									, rset.getString("saleMethod")
+									, rset.getDate("deadline")
+									, rset.getInt("price_bidding")
+									, rset.getInt("price_sale")
+									, rset.getString("subject")
+									, rset.getString("category_code"));
+				sList.add(s);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return sList;
+	}
+
+	public ArrayList<Service_List> selectSL_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service_List> slList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+				Service_List sl = new Service_List(rset.getInt("service_no")
+												, rset.getDate("trade_date")
+												, rset.getString("s_user_no")
+												, rset.getString("b_user_no")
+												, rset.getString("refund_yn"));
+				slList.add(sl);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return slList;
+	}
+
+	public ArrayList<Member> selectM_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Member> mList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+				Member m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+
+				
+				mList.add(m);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return mList;
 	}
 	
 

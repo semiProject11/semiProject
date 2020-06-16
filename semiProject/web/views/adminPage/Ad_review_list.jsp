@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*, service.model.vo.*, member.model.vo.*, java.util.ArrayList"%>
+
+ <% 
+	ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
+	ArrayList<Review> rList=(ArrayList<Review>)request.getAttribute("rList");
+	ArrayList<Service_Category> scList=(ArrayList<Service_Category>)request.getAttribute("scList");
+	ArrayList<Service> sList=(ArrayList<Service>)request.getAttribute("sList");
+	ArrayList<Service_List> slList=(ArrayList<Service_List>)request.getAttribute("slList");
+	ArrayList<Member> mList=(ArrayList<Member>)request.getAttribute("mList");
+  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -269,6 +277,7 @@
 
                     <!--게시판-->
                     <div class="table-responsive">
+                    
                         <table class="table table-striped table-bordered table-hover mt-2">
                             <thead>
                                 <tr>
@@ -278,37 +287,27 @@
                                     <th>거래일시</th>
                                     <th>별점</th>
                                     <th>구매자</th>
-
                                 </tr>
                             </thead>
                             <tbody>
+                            <%if(bList.isEmpty()){ %>
                                 <tr>
-                                    <td>1</td>
-                                    <td>15-458</td>
-                                    <td><a href="admin_review_into.html" id="bk">웹프로그래밍 익히고 싶으신 분</a></td>
-                                    <td>2020-05-01</td>
-                                    <td>5</td>
-                                    <td>빽다</td>
-
+                                <td colspan="3">작성된 게시글이 없습니다.</td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>15-586</td>
-                                    <td>마케팅 분야로 진출하고 싶나요</td>
-                                    <td>2020-05-05</td>
-                                    <td>4</td>
-                                    <td>마케팅새싹</td>
-
+                            <%}else{ %>
+                            	<%for(int i=0; i<bList.size(); i++){ %>
+                            	<tr>
+                            		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>">
+									<td><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td><%=(rList.get(i)).getService_no()%></td>
+                                    <td><%=(bList.get(i)).getTitle()%></td>
+                                    <td><%=(slList.get(i)).getTrade_date()%></td>
+                                    <td><%=(rList.get(i)).getRating()%></td>
+                                    <td><%=(mList.get(i)).getUserId()%></td>
+                                    
                                 </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>15-582</td>
-                                    <td>구매의 정석</td>
-                                    <td>2020-05-08</td>
-                                    <td>5</td>
-                                    <td>취준생</td>
-
-                                </tr>
+                                <%} %>
+                                <%} %>
                             </tbody>
                         </table>
 
@@ -337,32 +336,7 @@
                     </ul>
 
                 </div>
-
-
-
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

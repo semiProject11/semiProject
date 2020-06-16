@@ -9,7 +9,11 @@ import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
 import board.model.vo.Report;
+import board.model.vo.Review;
 import member.model.vo.Member;
+import service.model.vo.Service;
+import service.model.vo.Service_Category;
+import service.model.vo.Service_List;
 
 public class BoardService {
 
@@ -262,6 +266,66 @@ public class BoardService {
 		return list;
 		
 	
+	}
+
+	public ArrayList<Board> selectB_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Board> bList = new BoardDao().selectB_ReviewList(conn);
+
+		close(conn);
+		
+		return bList;
+	}
+
+	public ArrayList<Review> selectR_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Review> rList = new BoardDao().selectR_ReviewList(conn);
+
+		close(conn);
+		
+		return rList;
+	}
+
+	public ArrayList<Service_Category> selectSC_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_Category> scList = new BoardDao().selectSC_ReviewList(conn);
+
+		close(conn);
+		
+		return scList;
+	}
+
+	public ArrayList<Service> selectS_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service> sList = new BoardDao().selectS_ReviewList(conn);
+
+		close(conn);
+		
+		return sList;
+	}
+
+	public ArrayList<Service_List> selectSL_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+
+		close(conn);
+		
+		return slList;
+	}
+
+	public ArrayList<Member> selectM_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> mList = new BoardDao().selectM_ReviewList(conn);
+
+		close(conn);
+		
+		return mList;
 	}
 
 	
