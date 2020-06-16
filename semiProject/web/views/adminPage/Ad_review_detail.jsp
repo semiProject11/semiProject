@@ -242,9 +242,8 @@
                                 <div class="col-md-2"><label>거래일시</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%">2020-05-01</label>
                                 </div>
-                                <div class="col-md-2"><label>별점/가격</label></div>
-                                <div class="col-md-2"><label class="form-control" style="width:100%">확인중</label></div>
-                                <div class="col-md-2"><label class="form-control" style="width:100%">50,000</label></div>
+                                <div class="col-md-2"><label>포인트(가격)</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%">50,000</label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>

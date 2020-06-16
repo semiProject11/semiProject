@@ -109,7 +109,7 @@ public class Review {
 				+ ", writeDate=" + writeDate + ", readNo=" + readNo + ", rating=" + rating + ", serviceNo=" + serviceNo
 				+ ", sUserNo=" + sUserNo + "]";
 	}
-	
+
 	
 	
 	
