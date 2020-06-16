@@ -223,9 +223,9 @@
 						<h2>자주묻는 질문</h2>
 
 					</header>
-					<table class="table table-hover mt-4">
+					<table class="table table-hover mt-4"  id="titleArea">
 
-						<tbody id="titleArea">
+						<tbody>
 
 							<%
 								if (list.isEmpty()) {
@@ -241,7 +241,7 @@
 							%>
 							<tr>
 								<input type="hidden"
-									value="<%=((Board) list.get(i)).getBoard_no()%>">
+									name="board_no" value="<%=((Board) list.get(i)).getBoard_no()%>">
 								<td><%=((Board) list.get(i)).getTitle()%></td>
 
 							</tr>
@@ -321,7 +321,6 @@
             var boarder_no = $(this).parent().children("input").val();
 
            
-
               location.href = "<%=request.getContextPath()%>/detail.faq?boarder_no="+ boarder_no;
 
 

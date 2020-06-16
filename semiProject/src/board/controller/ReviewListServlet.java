@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
 import board.model.vo.Board;
-import board.model.vo.Review;
+import board.model.vo.ReviewAd;
 import member.model.vo.Member;
 import service.model.vo.Service;
 import service.model.vo.Service_Category;
@@ -39,7 +39,7 @@ public class ReviewListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ArrayList<Board> bList=new BoardService().selectB_ReivewList();
-		ArrayList<Review> rList=new BoardService().selectR_ReivewList();
+		ArrayList<ReviewAd> rList=new BoardService().selectR_ReivewList();
 		ArrayList<Service_Category> scList=new BoardService().selectSC_ReivewList();
 		ArrayList<Service> sList=new BoardService().selectS_ReivewList();
 		ArrayList<Service_List> slList=new BoardService().selectSL_ReivewList();

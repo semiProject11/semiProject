@@ -9,6 +9,7 @@ import static common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import board.model.dao.BoardDao;
 import member.model.dao.MemberDao;
 import member.model.vo.Account;
 import member.model.vo.Member;
@@ -161,8 +162,8 @@ public class MemberService {
 	public ArrayList<Member> selectGradeList() {
 		Connection conn=getConnection();
 		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
+	
 		close(conn);
-		System.out.println("gradelist서비스에서:"+gradeList);
 		return gradeList;
 		
 	}
@@ -172,7 +173,7 @@ public class MemberService {
 		Connection conn=getConnection();
 		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
 		close(conn);
-		System.out.println("sellerlist서비스에서:"+sellerList);
+
 		return sellerList;
 		
 		
@@ -302,6 +303,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	public Member selectSeller(int service_no) {
 		Connection conn=getConnection();
 		Member seller=new MemberDao().selectTradeSel(conn,service_no);
+		close(conn);
 		return seller;
 	}
 
@@ -309,6 +311,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	public Member selectBuyer(int service_no) {
 		Connection conn=getConnection();
 		Member buyer=new MemberDao().selectTradeBuy(conn,service_no);
+		close(conn);
 		return buyer;
 	}
 
@@ -378,6 +381,75 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int updateGrade(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		int result=new MemberDao().updateGrade(conn,arr);
+		
+		close(conn);
+		return result;
+	}
+
+
+	public int updateBuyer(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		System.out.println("서비스에 옴");
+		int result=new MemberDao().updateBuyer(conn,arr);
+		System.out.println("서비스:"+result);
+
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+
+	public int updateSeller(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		System.out.println("서비스에 옴");
+		int result=new MemberDao().updateSeller(conn,arr);
+		System.out.println("서비스:"+result);
+
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+
+	public ArrayList<Member> searchMember(String word) {
+		
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchMember(conn,word);
+				
+		
+		close(conn);
+		return list;
+	}
+
+
+	public ArrayList<Seller> searchSellerList(String word) {
+		Connection conn=getConnection();
+		ArrayList<Seller> sellerList=new MemberDao().searchSellerList(conn,word);
+		close(conn);
+
+		return sellerList;
+	}
+
+
 	public int emailCheck(String email) {
 		Connection conn = getConnection();
 		
@@ -389,8 +461,66 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int memberWithdrawal(String userNo) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberWithdrawal(conn, userNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public String memberPwd(String userNo) {
+		Connection conn	= getConnection();
+		String pwd = new MemberDao().memberPwd(conn, userNo);
+		
+		close(conn);
+		
+		return pwd;
+	}
+
+
+	public int memberGradeTot(String sUserNo, int rating) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberGradeTot(conn, sUserNo, rating);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int selectRating(String sUserNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().selectRating(conn, sUserNo);
+		
+		close(conn);
+		return result;
+	}
+
+
 	
 
+	
+	public Member selectMemberInquiary(int board_no) {
+		Connection conn =getConnection();
+		System.out.println("멤버서비스에서 board_no"+board_no);
+		Member member=new MemberDao().selectMemberInquiary(conn,board_no);
+		System.out.println("멤버디오 다녀온 후 member"+member);
+		return member;
+	}
 
 }
 

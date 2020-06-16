@@ -36,9 +36,7 @@ public class FaqListServlet extends HttpServlet {
 		int board_code=50;
 	
 		
-		
-		
-		ArrayList<Board> list= new BoardService().selectBoard(board_code);
+		ArrayList<Board> list= new BoardService().selectFaq(board_code);
 	
 	
 		if(!list.isEmpty()) {

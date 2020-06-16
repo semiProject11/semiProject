@@ -40,11 +40,13 @@ public class TransactionListServlet extends HttpServlet {
 		ArrayList<Member> sellerList=new MemberService().selectTradeListS();
 		ArrayList<Member> buyerList=new MemberService().selectTradeListB();
 		
-		/*
-		 * System.out.println("서블렛에서"+memberList);
-		 * System.out.println("서블렛에서"+tradeList);
-		 * System.out.println("서블렛에서"+serviceList);
-		 */
+	
+		 
+		  System.out.println("서블렛에서"+tradeList);
+		  System.out.println("서블렛에서"+serviceList);
+		  System.out.println("서블렛에서"+sellerList);
+		  System.out.println("서블렛에서"+buyerList);
+		 
 		
 		if(!tradeList.isEmpty()&&!serviceList.isEmpty()&&!sellerList.isEmpty()&&!buyerList.isEmpty()) {
 			request.setAttribute("sellerList", sellerList);
@@ -55,8 +57,6 @@ public class TransactionListServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("views/adminPage/Ad_transaction_list.jsp").forward(request, response);
 			
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		
 	}

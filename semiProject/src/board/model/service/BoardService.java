@@ -1,6 +1,10 @@
 package board.model.service;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -10,10 +14,13 @@ import board.model.vo.Files;
 import board.model.vo.Inquiary;
 import board.model.vo.Report;
 import board.model.vo.Review;
+import board.model.vo.ReviewAd;
 import member.model.vo.Member;
+import service.model.dao.ServiceDao;
 import service.model.vo.Service;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
+
 
 public class BoardService {
 
@@ -97,15 +104,20 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().selectBoard(conn);
+		close(conn);
 
 		return list;
 	}
+	
+	
+	
 
 	public ArrayList<Board> selectBoardNotice() {
 
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().selectBoardNotice(conn);
+		close(conn);
 
 		return list;
 	}
@@ -188,11 +200,48 @@ public class BoardService {
 		return member;
 	}
 
+
+	public int insertReviewB(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewB(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public int insertReviewR(Review re) {
+		Connection conn=getConnection();
+		int result = new BoardDao().insertReviewR(conn, re);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public String selectUserNo(int serviceNo) {
+		Connection conn = getConnection();
+		
+		String userNo = new ServiceDao().selectUserNo(conn, serviceNo);
+		
+		
+		return userNo;
+	}
+
+
 	public Board selectBoardNo(int board_no) {
 		Connection conn = getConnection();
 
 		Board board = new BoardDao().selectBoardNo(conn, board_no);
-
+		close(conn);
 		return board;
 	}
 
@@ -202,6 +251,7 @@ public class BoardService {
 		ArrayList<Files> flist = new BoardDao().selectFiles(conn, board_no);
 
 		System.out.println("서비스에서" + flist);
+		close(conn);
 		return flist;
 	}
 
@@ -211,6 +261,7 @@ public class BoardService {
 		int result = new BoardDao().updateBoard(conn, b); 
 //		System.out.println("서비스에서 fList:"+fList);
 		int result2 = new BoardDao().deleteBoardFiles(conn, fList); //status 'n'으로 바꾸기
+
 	
 		int result3 = new BoardDao().updateBoardFiles(conn, fList); //'y'로 새로 추가된 파일 넣기
 //		System.out.println("service에서 1:"+result);
@@ -247,9 +298,7 @@ public class BoardService {
 		}
 		close(conn);
 		
-		
-		
-		
+	
 		return result;
 		
 		
@@ -262,11 +311,13 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().searchNotice(conn,type,word);
+		close(conn);
 
 		return list;
 		
 	
 	}
+
 
 	public ArrayList<Board> selectB_ReivewList() {
 		Connection conn = getConnection();
@@ -278,10 +329,10 @@ public class BoardService {
 		return bList;
 	}
 
-	public ArrayList<Review> selectR_ReivewList() {
+	public ArrayList<ReviewAd> selectR_ReivewList() {
 		Connection conn = getConnection();
 		
-		ArrayList<Review> rList = new BoardDao().selectR_ReviewList(conn);
+		ArrayList<ReviewAd> rList = new BoardDao().selectR_ReviewList(conn);
 
 		close(conn);
 		
@@ -328,6 +379,73 @@ public class BoardService {
 		return mList;
 	}
 
+	public int checkInquiary(ArrayList<String> arr) {
+
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().checkInquiary(conn,arr);
+		System.out.println("서비스:"+result);
+
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
 	
+		return result;
+	}
+
+	public ArrayList<Board> searchInquiary(String type, String word) {
+		Connection conn = getConnection();
+
+		
+		ArrayList<Board> bList = new BoardDao().searchInquiary(conn,type,word);
+
+		close(conn);
+		return bList;
+	}
+
+	public ArrayList<Inquiary> searchInquaryTypeList(String type, String word) {
+		Connection conn = getConnection();
+
+		System.out.println("서비스(dao다녀오기 전):"+type+"이랑"+word);
+		ArrayList<Inquiary> inquiaryList = new BoardDao().searchInquaryTypeList(conn,type,word);
+		System.out.println("서비스(dao다녀온후):"+inquiaryList);
+		close(conn);
+		return inquiaryList;
+	}
+
+	public Board selectInquiary(int board_no) {
+		Connection conn =getConnection();
+		Board board=new BoardDao().selectInquiary(conn,board_no);
+		close(conn);
+		return board;
+	}
+
+	public Inquiary selectInquiaryType(int board_no) {
+		Connection conn = getConnection();
+		System.out.println("보드서비스:"+board_no);
+		Inquiary inquiary = new BoardDao().searchInquaryTypeList(conn,board_no);
+		System.out.println("디오다녀온후:"+inquiary);
+	
+		close(conn);
+		return inquiary;
+	}
+
+	public ArrayList<Board> selectFaq(int board_code) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().selectFaq(conn,board_code);
+		close(conn);
+
+		return list;
+	
+	}
+
+
 
 }

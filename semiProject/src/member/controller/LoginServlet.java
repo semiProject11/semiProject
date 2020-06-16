@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 		
 	    // MemberService로 이동
 	    Member loginUser = new MemberService().loginMember(member);
-	    
+	    System.out.println(loginUser);
 	    // 회원 정보 나오는지 확인
 //	    System.out.println("로그인 이후 Servlet에서 확인하기 : " + loginUser);
 	    

@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import board.model.vo.Board;
+import board.model.vo.Files;
 import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
@@ -278,7 +280,7 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER";
+		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
 		ArrayList<Member> gradeList=new ArrayList<Member>();
 		
 		try {
@@ -324,7 +326,7 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM SELLER";
+		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
 		try {
@@ -774,7 +776,7 @@ public class MemberDao {
 		}
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
@@ -825,7 +827,7 @@ public class MemberDao {
 		}
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}finally {
 			close(pstmt);
@@ -1046,6 +1048,29 @@ public class MemberDao {
 		
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
@@ -1126,7 +1151,411 @@ public class MemberDao {
 		System.out.println(result);
 		return result;
 	}
+
+
+
+
+	public int memberWithdrawal(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		String query = "UPDATE MEMBER SET STATUS = 'N' WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+
+
+	public String memberPwd(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String pwd = "";
+		
+		String query = "SELECT USER_PWD FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pwd = rset.getString("USER_PWD");
+			}
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return pwd;
+	}
+
+
+
+
+	public int memberGradeTot(Connection conn, String sUserNo, int rating) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET GRADE_TOT = ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rating);
+			pstmt.setString(2, sUserNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int selectRating(Connection conn, String sUserNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = "SELECT GRADE_TOT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sUserNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("GRADE_TOT");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return result;
+	}
 	
 	
 
-}
+
+
+
+
+
+
+	public int updateGrade(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		
+		//회원번호랑 바꿀 등급을  받아야함 
+		String query="UPDATE MEMBER SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+
+
+	public int updateBuyer(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		System.out.println("DAo에 옴");
+		String s="";
+		
+		String query="UPDATE MEMBER SET REVIEW_YN='N' WHERE USER_NO=?";
+	
+			try {
+				
+				
+				for(int i=0; i<arr.size(); i++){
+				s=arr.get(i);
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, arr.get(i));
+		
+				result+=pstmt.executeUpdate();
+				
+				}
+				
+			} catch (SQLException e) {
+			
+				e.printStackTrace();
+			} finally {
+				
+				close(pstmt);
+			}
+			
+			return result;
+			
+	}
+
+
+
+
+	public int updateSeller(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		System.out.println("DAo에 옴");
+		String s="";
+		
+		String query="UPDATE MEMBER SET SELL_YN='N' WHERE USER_NO=?";
+	
+			try {
+				
+				
+				for(int i=0; i<arr.size(); i++){
+				s=arr.get(i);
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, arr.get(i));
+		
+				result+=pstmt.executeUpdate();
+				
+				}
+				
+			} catch (SQLException e) {
+		
+				e.printStackTrace();
+			}finally {
+				close(pstmt);
+			}
+			
+			return result;
+	}
+
+
+
+
+	public ArrayList<Member> searchMember(Connection conn, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Member> list=new ArrayList<>();
+		
+	
+		System.out.println("dao에서는여:"+word);
+		
+	
+		
+		if(word=="") {
+	
+		String query="SELECT * FROM MEMBER";
+		
+		try {
+			
+			System.out.println("쓴게 없을때");
+			pstmt=conn.prepareStatement(query);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Member m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+				list.add(m);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		}else {
+				
+			String query="SELECT * FROM MEMBER WHERE USER_ID LIKE '%'||?||'%'";
+		try {
+			
+			System.out.println("쓴 게 있을때:"+word);
+			
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, word);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Member m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+				list.add(m);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+			
+			
+		}
+	
+		return list;
+		
+		
+		
+	}
+
+
+
+
+	public ArrayList<Seller> searchSellerList(Connection conn, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y' AND USER_ID LIKE '%'||?||'%'";
+		ArrayList<Seller> sellerList=new ArrayList<>();
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, word);
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Seller s=new Seller(rset.getInt("s_user_No"),
+									rset.getInt("report_Num"),
+									rset.getInt("sellCount")
+									
+						
+						);
+				sellerList.add(s);
+			
+			}
+			
+		} catch (SQLException e) {
+	
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return sellerList;
+	}
+
+
+	
+	public Member selectMemberInquiary(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND B.BOARD_NO=?"; 
+		Member member=null;
+		System.out.println("멤버서비스에서 board_no"+board_no);
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+
+				member = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		System.out.println("디오에서 member"+member);
+		return member;
+	}
+
+
+
+	
+	}
