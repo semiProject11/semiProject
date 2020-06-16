@@ -13,6 +13,8 @@ import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
 
+import static common.JDBCTemplate.*;
+
 public class Service_Service {
 
 	public ArrayList<Service_List> selectTradeList() {
@@ -95,9 +97,22 @@ public class Service_Service {
 	}
 
 
-
 	
-	
+	  public int insertService(Service_ServiceTable_oh st, String[] day) {
+	      Connection conn = getConnection();
+	      ServiceDao sDao = new ServiceDao();
+	      
+	      int result = sDao.inssertService(conn,st);
+	      int result2 = sDao.insertService1(conn, day);
+	      
+	      if(result>0 && result2>0 ) {
+	         commit(conn);
+	      }else {
+	         rollback(conn);
+	      }
+	      close(conn);
+	      return result;
+	   }
 	
 	
 	
