@@ -19,17 +19,17 @@
   <style>
   @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
 font-weight: normal; font-style: normal; }
-	*{	
-		font-family : 'SeoulNamsanM';	
-	}
-	
-	p{
-		font-family : 'SeoulNamsanM';
-	}
-	div{
-		font-family : 'SeoulNamsanM';
-		font-size :medium;
-	}
+   *{   
+      font-family : 'SeoulNamsanM';   
+   }
+   
+   p{
+      font-family : 'SeoulNamsanM';
+   }
+   div{
+      font-family : 'SeoulNamsanM';
+      font-size :medium;
+   }
 
     #jin {
       background: black;
@@ -143,7 +143,7 @@ font-weight: normal; font-style: normal; }
           <option>Marketing</option>
           <option>Event</option>
         </select>
-		
+      
         <input class="form-control" type="text" placeholder="제목을 입력해주세요." aria-label="Search"
           aria-describedby="basic-addon2" />
         <div class="input-group-append"></div>
@@ -194,7 +194,7 @@ font-weight: normal; font-style: normal; }
   
   /* 로그인 시 드롭메뉴바 마이페이지 클릭 시 마이페이지로 이동 */
   function myPageinfo(){
-	  location.href="<%=request.getContextPath()%>/myPage.me";
+     location.href="<%=request.getContextPath()%>/myPage.me";
       }
   
   
@@ -205,18 +205,18 @@ font-weight: normal; font-style: normal; }
   
   /* 로그인 시 드롭메뉴바 고객센터 클릭 시 고객센터 페이지로 이동 */
   function serviceCenter(){
-	  location.href="<%=request.getContextPath()%>/list.notice";
+     location.href="<%=request.getContextPath()%>/list.notice";
       }
   
   
   /* 로그인 시 드롭메뉴바 관리자센터 클릭 시 관리자센터 페이지로 이동 */
   function adminCenter(){
-	  location.href="<%=request.getContextPath()%>/list.grade";
+     location.href="<%=request.getContextPath()%>/list.grade";
       }
   
   /* 로그인 시 드롭메뉴바 로그아웃 클릭 시 비 로그인화면 으로 이동 */
   function logout(){
-	  location.href="<%=request.getContextPath()%>/logout.me";
+     location.href="<%=request.getContextPath()%>/logout.me";
       }
   </script>
 

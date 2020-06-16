@@ -1126,6 +1126,118 @@ public class MemberDao {
 		System.out.println(result);
 		return result;
 	}
+
+
+
+
+	public int memberWithdrawal(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		
+		int result = 0;
+		String query = "UPDATE MEMBER SET STATUS = 'N' WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+
+
+	public String memberPwd(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String pwd = "";
+		
+		String query = "SELECT USER_PWD FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				pwd = rset.getString("USER_PWD");
+			}
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return pwd;
+	}
+
+
+
+
+	public int memberGradeTot(Connection conn, String sUserNo, int rating) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET GRADE_TOT = ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, rating);
+			pstmt.setString(2, sUserNo);
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		
+		return result;
+	}
+
+
+
+
+	public int selectRating(Connection conn, String sUserNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		
+		String query = "SELECT GRADE_TOT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sUserNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("GRADE_TOT");
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return result;
+	}
 	
 	
 

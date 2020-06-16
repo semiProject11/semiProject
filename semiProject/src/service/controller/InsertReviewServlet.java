@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import board.model.service.BoardService;
 import board.model.vo.Review;
+import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
@@ -38,20 +39,24 @@ public class InsertReviewServlet extends HttpServlet {
 //		
 //		String userNo = loginUser.getUserNo();	
 		String userNo = "1";
-		int rating = Integer.valueOf(request.getParameter("value1"));
+		int rating = Integer.valueOf(request.getParameter("value11"));
 		String content = request.getParameter("content");
-		String title = request.getParameter("title")+"_review";
+		String title = request.getParameter("sNO")+"_review";
 		int serviceNo = Integer.valueOf(request.getParameter("sNO"));
 		String sUserNo = new BoardService().selectUserNo(serviceNo);
+		//판매자 등금 조회
+		int ratingTot = new MemberService().selectRating(sUserNo)+rating;
+		
 		
 		
 		Review re = new Review(title, content, userNo);
 		Review re1 = new Review(rating, serviceNo, sUserNo);
-		System.out.println(re1);
-		
+		// board에 추가
 		int result = new BoardService().insertReviewB(re);
-		
+		// review에 추가
 		int result1 = new BoardService().insertReviewR(re1);
+		// 판매자 등급포인트에 추가
+		int result2 = new MemberService().memberGradeTot(sUserNo, ratingTot);
 		
 		if(result>0 && result1>0) {
 			response.sendRedirect("buyList.sv");

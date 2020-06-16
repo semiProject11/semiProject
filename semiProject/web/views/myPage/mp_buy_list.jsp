@@ -9,7 +9,9 @@
 	int maxPage = pn.getMaxPage();
 	int startPage = pn.getStartPage();
 	int endPage = pn.getEndPage();
-	
+	int ck= 0;
+	int rating = 0;
+	String content1 = "";
 %>
 <!DOCTYPE html>
 <html>
@@ -113,35 +115,40 @@
 		  cursor: pointer;
 		}
 		.starR.on{background-position:0 0;}
+		
+		#naviya div{
+			margin-bottom: 10px;
+			color : black;
+		}
+		
   </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar2.jsp" />
+	<jsp:include page="../common/menubar3.jsp" />
 	
 	<!--메인사이드바 시작-->
-	<div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
-      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
-
-        <div class="sb-sidenav-menu">
-          <div class="nav">
-            <div class="sb-sidenav-menu-heading">
+	<div id="layoutSidenav" class="container">
+	<div class="row">
+	
+    <div id="layoutSidenav_nav" class="col-2"  >      
+		<div class="mt-5">
+        
+          <div class="nav" id="naviya">
+            <div class="sb-sidenav-menu-heading" style="font-size:23px; margin-bottom:20px;margin-top:20px;">
               <svg class="bi bi-list" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                   d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
                   clip-rule="evenodd" />
-              </svg>
-              마이페이지</div>
-            <a class="nav-link" href="mp_my_info.html">
+              </svg>&nbsp;마이페이지</div>
+            <a class="nav-link" href="<%=request.getContextPath()%>/myPage.me">
               <div class="sb-nav-link-icon"><svg class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
                     clip-rule="evenodd" />
-                </svg></div>
-              내정보
+                </svg>&nbsp;내정보</div>
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/edit.me">
               <div class="sb-nav-link-icon"><svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -150,10 +157,9 @@
                   <path fill-rule="evenodd"
                     d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              회원정보수정
+                </svg>&nbsp;회원정보수정</div>
             </a>
-            <a class="nav-link" href="mp_buy_list.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/buyList.sv">
               <div class="sb-nav-link-icon"><svg class="bi bi-list-task" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -164,8 +170,7 @@
                   <path fill-rule="evenodd"
                     d="M1.5 7a.5.5 0 01.5-.5h1a.5.5 0 01.5.5v1a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5V7zM2 7h1v1H2V7zm0 3.5a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h1a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5H2zm1 .5H2v1h1v-1z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              구매내역
+                </svg>&nbsp;구매내역</div>
             </a>
             <a class="nav-link" href="mp_sell_list.html">
               <div class="sb-nav-link-icon"><svg class="bi bi-list-ul" width="1em" height="1em" viewBox="0 0 16 16"
@@ -173,8 +178,7 @@
                   <path fill-rule="evenodd"
                     d="M5 11.5a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm0-4a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm0-4a.5.5 0 01.5-.5h9a.5.5 0 010 1h-9a.5.5 0 01-.5-.5zm-3 1a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2zm0 4a1 1 0 100-2 1 1 0 000 2z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              판매내역
+                </svg>&nbsp;판매내역</div>
             </a>
             <a class="nav-link" href="mp_consultation_history.html">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
@@ -185,24 +189,28 @@
                   <path fill-rule="evenodd"
                     d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              1:1 상담내역
+                </svg>&nbsp;1:1 상담내역</div>
             </a>
-
+			<a class="nav-link" href="<%=request.getContextPath()%>/withPage.me">
+              <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  				<path fill-rule="evenodd" d="M4 11a4 4 0 1 1 8 0 .5.5 0 0 1-.5.5h-7A.5.5 0 0 1 4 11zm4-8a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 3zm8 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 11a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.414a.5.5 0 1 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zM4.464 7.464a.5.5 0 0 1-.707 0L2.343 6.05a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/>
+				</svg>&nbsp;회원 탈퇴</div>
+            </a>
           </div>
-        </div>
-
-        <div class="sb-sidenav-footer">
-          <div class="small">Logged in as:</div>
-          Start Bootstrap
-        </div>
-      </nav>
+          </div>    
     </div>
     
     
     
 	<!-- <div id="page-content-wrapper"> -->
-    <div id="layoutSidenav_content">
+    <div id="layoutSidenav_content" class="col-10">
+    
+    
+    
+    
+    
+    
+    
 
       <!--main-->
 
@@ -241,6 +249,7 @@
 						<%
 							for (int i = 0; i < bsList.size(); i++) {
 								ServiceBuyList s = bsList.get(i);
+								ck=0; rating=0; content1="";
 						%>
                       <tr >                 
                         <td class="clickme">
@@ -254,60 +263,26 @@
                         <td class="clickme"><%=s.getsPhone()%></td>
                         
                         <!-- 리뷰 불러와서 매칭 시키기  -->
-                        <%if(reList.isEmpty()) {%>                        
-                        <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2" style="background:black; color:white; width:110px;">평점주기</button>
-                        </td>
-						<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						        <form action="<%=request.getContextPath() %>/insert.re">
-						      <div class="modal-body">
-						          <div class="form-group">
-						            <label for="recipient-name" class="">평점:</label>
-						            <div class="starRev">
-									  <span class="starR">1</span>
-									  <span class="starR">2</span>
-									  <span class="starR">3</span>
-									  <span class="starR">4</span>
-									  <span class="starR">5</span>
-									  <input type="text" id="title" name="title" style="display:none;" value="<%=s.getTitle()%>">
-									  <input type="text" id="title" name="sNO" style="display:none;" value="<%=s.getServiceNo()%>">
-									  <input type="text" id="value1" name="value1" style="display:none;">
-									</div>
-						          </div>
-						          <div class="form-group">
-						            <label for="message-text" class="col-form-label">리뷰:</label>
-						            <textarea class="form-control" id="message-text" name="content"></textarea>
-						          </div>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">닫기</button>
-						        <button type="submit" class="btn btn-primary">평점 등록</button>
-						      </div>
-						        </form>
-						    </div>
-						  </div>
-						</div> 
-                        
-                        
-                        
+                        <%if(reList.isEmpty()) {%>                          
                         <%} else { %>
                         <%for (int j=0; j <reList.size(); j++){
-                        	Review r = reList.get(j);%>
-                        <%if(s.getServiceNo() == r.getServiceNo()) {%>
-                        
+                        	Review r = reList.get(j); %>
+                        <%if(s.getServiceNo() == r.getServiceNo()) { 
+                        	ck=1; rating = r.getRating(); content1 = r.getContent();%>
+                        <% }%> 
+                        <% }%> 
+                        <% }%>               
+						<%if(ck==1){ %>
                         <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="reClick();" style="background:black; color:white; width:110px;">리뷰보기</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="reClick();" style="background:black; color:white; width:110px;" disabled>평점주기</button>
                         </td>
+                        <%} else{%>
+                        <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
+                        </td>
+                        <%} %>
 						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
+						<div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
 						        <h5 class="modal-title" id="exampleModalLabel">작성된 평점과 리뷰</h5>
@@ -325,68 +300,21 @@
 									  <span class="starR" id="3">3</span>
 									  <span class="starR" id="4">4</span>
 									  <span class="starR" id="5">5</span>
-									  <input type="text" id="value1" name="value1" value="<%=r.getRating()%>" style="display:none;">
+									  <input type="text" id="value1" name="value1" value="<%=rating%>" >
 									</div>
 						          </div>
 						          <div class="form-group">
 						            <label for="message-text" class="col-form-label">리뷰:</label>
-						            <textarea class="form-control" id="message-text" name="review" readonly><%=r.getContent()%></textarea>
+						            <textarea class="form-control" id="message-text" name="review" readonly><%=content1%></textarea>
 						          </div>
 						        </form>
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close()">닫기</button>
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close111();">닫기</button>
 						      </div>
 						    </div>
 						  </div>
 						</div> 
-						<%}else if(j == reList.size()-1){ %>						
-						<td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" style="background:black; color:white; width:110px;">평점주기</button>
-                        </td>
-						<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						        <form action="<%=request.getContextPath() %>/insert.re">
-						      <div class="modal-body">
-						          <div class="form-group">
-						            <label for="recipient-name" class="">평점:</label>
-						            <div class="starRev">						            
-									  <span class="starR">1</span>
-									  <span class="starR">2</span>
-									  <span class="starR">3</span>
-									  <span class="starR">4</span>
-									  <span class="starR">5</span>
-									  <input type="text" id="title" name="title" style="display:none;" value="<%=s.getTitle()%>">
-									  <input type="text" id="title" name="sNO" style="display:none;" value="<%=s.getServiceNo()%>">
-									  <input type="text" id="value1" name="value1" style="display:none;">
-									</div>
-						          </div>
-						          <div class="form-group">
-						            <label for="message-text" class="col-form-label">리뷰:</label>
-						            <textarea class="form-control" id="message-text" name="content"></textarea>
-						          </div>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal" >닫기</button>
-						        <button type="submit" class="btn btn-primary">평점 등록</button>
-						      </div>
-						        </form>
-						    </div>
-						  </div>
-						</div> 
-					<% }%>
-					
-					<% }%>
-					<% }%>
-						
-						
 						
                       </tr>
                         <%
@@ -396,13 +324,51 @@
 							}
 						%>
                       
+						
+						<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						        <form action="<%=request.getContextPath() %>/insert.re" onsubmit="return submit11();">
+						      <div class="modal-body">
+						          <div class="form-group">
+						            <label for="recipient-name" class="">평점:</label>
+						            <div class="starRev">						            
+									  <span class="starR">1</span>
+									  <span class="starR">2</span>
+									  <span class="starR">3</span>
+									  <span class="starR">4</span>
+									  <span class="starR">5</span>
+									  <input type="text" id="title" name="sNO" style="display:none;">
+									  <textarea id="value11" name="value11" style="display:none;"></textarea>
+									</div>
+						          </div>
+						          <div class="form-group">
+						            <label for="message-text" class="col-form-label">리뷰:</label>
+						            <textarea class="form-control" id="message-text" name="content"></textarea>
+						          </div>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close111();">닫기</button>
+						        <button type="submit" class="btn btn-primary">평점 등록</button>
+						      </div>
+						        </form>
+						    </div>
+						  </div>
+						</div> 
+						
 					
 					
 					<script>
 					$('.starRev span').click(function(){
 						  $(this).parent().children('span').removeClass('on');
 						  $(this).addClass('on').prevAll('span').addClass('on');
-						  $("#value1").val($(this).text());
+						  $("#value11").val($(this).text());
 						  return false;
 						});
 					
@@ -418,9 +384,19 @@
 						console.log(starCount);
 						$(starCount).click();
 					}
-					function close(){
+					function close111(){
 						location.href="<%=request.getContextPath()%>/buyList.sv"
 						consol.log("안녕");
+					}
+					$('#exampleModal1').on('show.bs.modal', function (event) {
+						  var button = $(event.relatedTarget) 
+						  var recipient = button.data('whatever') 
+						  var modal = $(this)
+						  modal.find('.modal-body input').val(recipient)
+						})
+					function submit11(){
+						alert("평점이 등록 되었습니다.");
+						return true;
 					}
 					</script>	  
                   </tbody>
@@ -480,5 +456,15 @@
 
     </div>
     </div>
+    
+    
+    
+    
+    
+    
+    </div>
+    </div>
+    </div>
+    
 </body>
 </html>

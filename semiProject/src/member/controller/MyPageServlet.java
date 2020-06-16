@@ -39,7 +39,7 @@ public class MyPageServlet extends HttpServlet {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		String userId =loginUser.getUserId();
-
+//		String userId = "admin";
 		
 
 		Member member = new MemberService().selectMember(userId);

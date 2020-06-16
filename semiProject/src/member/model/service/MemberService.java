@@ -389,6 +389,56 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int memberWithdrawal(String userNo) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberWithdrawal(conn, userNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public String memberPwd(String userNo) {
+		Connection conn	= getConnection();
+		String pwd = new MemberDao().memberPwd(conn, userNo);
+		
+		close(conn);
+		
+		return pwd;
+	}
+
+
+	public int memberGradeTot(String sUserNo, int rating) {
+		Connection conn	= getConnection();
+		
+		int result = new MemberDao().memberGradeTot(conn, sUserNo, rating);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int selectRating(String sUserNo) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().selectRating(conn, sUserNo);
+		
+		close(conn);
+		return result;
+	}
+
+
 	
 
 

@@ -1,18 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member"%>
+    pageEncoding="UTF-8"%>
 <%
-	Member member = (Member)request.getAttribute("member");
-	String userId = member.getUserId();
-	String userName = member.getUserName();
-	String email = member.getEmail();
-	int buyCount = (int)request.getAttribute("buyCount");
-	int sellCount = (int)request.getAttribute("sellCount");
-	int gradeTot = member.getGradeTot();
-	String grade = member.getGrade();
-	int point = member.getPoint();
-	String fileName = (String)request.getAttribute("fileName");
-	String gradeIcon = member.getGrade();
-	String userNo = member.getUserNo();
+	String pwd = (String)request.getAttribute("pwd");	
 %>
 
 <!DOCTYPE html>
@@ -124,7 +113,7 @@
 	<jsp:include page="../common/menubar3.jsp" />
 
 	<!--메인사이드바 시작-->
-	<div id="layoutSidenav" class="container">
+		<div id="layoutSidenav" class="container">
 	<div class="row">
 	
     <div id="layoutSidenav_nav" class="col-2"  >      
@@ -203,126 +192,132 @@
     <div id="layoutSidenav_content" class="col-10">
 
       <!--main-->
- <form action="<%=request.getContextPath() %>/insert.pf" method="post" encType="multipart/form-data" onsubmit="">
-      <div class="container mt-5">
-        <h2>내정보</h2>
+ 	<div class="container mt-5">
+        <h2>회원 탈퇴</h2>
         <ol class="breadcrumb mb-4">
           <li class="breadcrumb-item"><a href="mp_my_info.html">마이페이지</a></li>
-          <li class="breadcrumb-item active">내정보</li>
+          <li class="breadcrumb-item active">회원 탈퇴</li>
         </ol>
 
         <div class="card mb-4">
           <div class="card-body">
-            <div class="table-responsive mt-3">
-              <div class="container">
-                <div class="row">
-                
-                <div class="col-4">
-                  <div class="card" id="profile">                    
-                    <div class="card-header" align="center">프로필 사진</div>
-                    <div class="card-body" align="center" id="imgArea"><img id="titleImg" src="profile_imgFiles/<%=fileName%>" alt="" 
-                     style="width: 140px; height: 140px; cursor:pointer;"><br>                    
-                    </div>
-                    <div class="card-footer" align="center">
-                      <button align="center" type="submit" id="button_joinus" class="btn" style="background:black; color:white; width:120px;" disabled>프로필 변경</button>
-                    </div>
-                    
+            <div class="container">
+              <div class="row">
+                <div class="col">
+
+                </div>
+                <div class="col-6">
+
+                  <div>
+                    <form role="form" id='registerForm' action="<%=request.getContextPath()%>/withdrawal.me" method="post" onsubmit="return validate();">
+                      
+                      <div class="form-group mt-5">
+                        <label>비밀번호</label>
+                        <input type="password" class="form-control" name="userPwd" id="userPwd"
+                          placeholder="비밀번호를 입력 해주세요" size="16" maxlength="16">
+                        <label id="pwdresultcondition"></label>
+                      </div>
+
+                      <div class="form-group">
+                        <label>비밀번호 확인</label>
+                        <input type="password" class="form-control" name="userPwdCheck" id="userPwdCheck"
+                          placeholder="비밀번호 확인을 위해 다시한번 입력 해주세요" size="16" maxlength="16">
+                        <label id="pwdresult"></label>
+                      </div>
+					
+                      <div class="form-group text-center">
+                        <button type="submit" class="btn"                          
+                          style="background:black; color:white; width:110px;">탈퇴하기</button>
+                      </div>
+                    </form>
                   </div>
-                </div>
-                <div class="col-8">
-                 
-                    <table id="my_info" style="margin-left: 30px;">
 
-                      <tr>
-                        <td style="text-align: left;">아이디 : </td>
-                        <td><label id="info_name"><%=userId%></label></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left;">이름 : </td>
-                        <td><label id="info_id"><%=userName%></label></td>
-                      </tr>
-                      <tr>
-                        <td style="text-align: left;"><label>이메일 : </label></td>
-                        <td> <label id="info_email"><%=email%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>구매횟수 : </label></td>
-                        <td><label id="info_buy_count"><%=buyCount%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>판매횟수 : </label></td>
-                        <td><label id="info_sell_count"><%=sellCount%></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>등급 : </label></td>
-                        <td><label id="info_level_point"><%=gradeTot%> / &nbsp;</label><label><img src="gradeIcon/<%=gradeIcon%>.png" alt=""
-                              style="width: 20px; height: 20px;"></label></td>
-                      </tr>
-                      <tr>
-                        <td><label>포인트 : </label></td>
-                        <td><label id="info_point"><%=point%> point</label></td>
-                        <td>
-                        	<button type="button" class="btn" onclick="location.href='views/myPage/mp_point_charge.jsp'" style="background:black; color:white; width:110px;">포인트충전</button>
-                        </td>
-                        <td>
-				            <button type="button" class="btn" onclick="location.href='<%=request.getContextPath()%>/select.ac'" style="background:black; color:white; width:110px;">출금하기</button>
-				         </td>
-                      </tr>
-
-                  
-                    </table>
-
-				
-                <div id="fileArea">
-				<input type="file" id="profileImg" name="profileImg" onchange="LoadImg(this)">
-				<input type="text" name="userNo" value="<%=userNo%>">
-				</div>
                 </div>
-                
+                <div class="col">
+
                 </div>
-                
               </div>
             </div>
+
 
           </div>
         </div>
       </div>
-      </form>
-      
-	<script>	
-	
-	$(function(){
-		 $("#fileArea").hide(); 		
-			
-		 $("#imgArea").click(function(){
-				$("#profileImg").click();				
-				
-			 
-		 
-			});
-		 
-		 
-		
 
-	})
-	
-	
-	function LoadImg(value){
-					if(value.files[0].size >= (1024 * 1024 *10)){
-						alert("파일용량이 너무 큽니다.");
-					}else{											
-						
-						if(value.files && value.files[0]){
-							var reader = new FileReader();							
-							reader.onload = function(e){
-								$("#titleImg").attr("src",e.target.result);
-								 $('#button_joinus').attr('disabled', false);
-							}
-							reader.readAsDataURL(value.files[0]);
-						}
-					}
-		}
-	</script>
+
+      <!-- onsubmit validate() 함수-->
+
+      <script>
+        var flag = true;
+
+        
+
+        // 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자        
+        
+        function validate() {
+
+                     
+        	  if($("#userPwd").val().trim().length == 0){
+                  alert("비밀번호를 입력하세요");
+                  $("#userPwd").focus();
+                  flag = false;
+              }
+              else if($("#userPwd").val() != <%=pwd%>){
+                  alert("비밀번호가 틀렸습니다.");
+                  $("#userPwd").focus();
+                  flag = false;
+              }
+              else if($("#userPwdCheck").val().trim().length == 0){
+                  alert("비밀번호 확인을 입력하세요");
+                  $("#userPwdCheck").focus();
+                  flag = false;
+              }
+              else if($("#userPwd").val() != $("#userPwdCheck").val() ){
+                  alert("비밀번호가 같은지 확인해주세요");
+                  $("#userPwdCheck").focus();
+                  flag = false;
+              }else{
+            	  
+        	  flag = confirm("회원 탈퇴가 되었습니다.");
+              }
+                    
+          
+          return flag;
+        }
+
+
+
+        // 제약 조건식
+
+        $(document).ready(function () {         
+
+
+          // pw 확인 
+          $("#userPwdCheck").change(function () {
+            if ($("#userPwd").val() != $(this).val() || $(this).val().length == 0) {
+              $("#pwdresult").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+              $(this).focus();
+
+            } else {
+              $("#pwdresult").html("비밀번호가 일치합니다.").css("color", "green");
+            }
+          });
+
+          $("#userPwd").change(function () {
+            if ($("#userPwdCheck").val() != $(this).val() && $("#userPwdCheck").val().length > 0) {
+              $("#pwdresult").html("비밀번호가 일치하지 않습니다.").css("color", "red");
+            } else if ($("#userPwdCheck").val() == $(this).val() && $(this).val().length != 0) {
+              $("#pwdresult").html("비밀번호가 일치합니다.").css("color", "green");
+            }
+
+          });
+
+
+
+        });
+
+
+      </script>
 
 
       <!--footer-->
