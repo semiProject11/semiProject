@@ -2,10 +2,7 @@
     pageEncoding="UTF-8" import="board.model.vo.*,java.util.ArrayList"%>
     
     <%
-    
-    
-    
-    
+ 
   /*  	Pagination pn=(Pagination)request.getAttribute("pn"); */
     ArrayList<Board> list=(ArrayList<Board>)request.getAttribute("list");
   

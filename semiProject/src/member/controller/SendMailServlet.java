@@ -53,7 +53,7 @@ public class SendMailServlet extends HttpServlet {
         String sResult = "OK";
        
         
-      //인증 번호 생성기
+      // 임시 비밀번호  생성
         StringBuffer temp =new StringBuffer();
         Random rnd = new Random();
         for(int i=0;i<10;i++)
@@ -77,9 +77,10 @@ public class SendMailServlet extends HttpServlet {
         
         String AuthenticationKey = temp.toString();
         
-        // 인증번호 생성 확인
+        // 임시 비밀번호 생성 확인
         System.out.println(AuthenticationKey);
         
+        // 임시 비밀번호의 값을 기존 패스워드 값에 덮어 쓰기
         userPwd = temp.toString();
         
         int result = new MemberService().changePwd(new Member(userId, userName, email, userPwd));

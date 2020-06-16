@@ -401,8 +401,8 @@ th, tr, td {
 		$("#gListArea").submit();
 		
 		
-		<%-- var gid=$("#gradeList").val();
-		var grade=$("#grade").val();--%>
+		var gid=$("#gradeList").val();
+		var grade=$("#grade").val();
 		
 		location.href="<%=request.getContextPath()%>/update.grade?gid=" + gid;
 		location.href="<%=request.getContextPath()%>/update.grade?grade=" + grade;

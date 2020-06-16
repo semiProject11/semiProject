@@ -43,6 +43,7 @@ public class NoticeInsertServlet extends HttpServlet {
 		
 		int maxSize=1024*1024*10;
 		
+		System.out.println("서블릿 옴");
 		
 		String root=request.getSession().getServletContext().getRealPath("/");
 		String savePath=root+"board_uploadFiles/";
@@ -94,7 +95,21 @@ public class NoticeInsertServlet extends HttpServlet {
 			fList.add(f);
 		}
 		
+		System.out.println("flist"+fList);
+		System.out.println("b"+b);
+		
 		int result=new BoardService().insertBoard(b,fList);
+		
+		
+		if(result>0) {
+			request.getRequestDispatcher("/listAd.notice").forward(request, response);
+			
+		}else {
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			
+		}
+		
+		
 	}
 
 

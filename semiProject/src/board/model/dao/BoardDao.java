@@ -152,7 +152,7 @@ public class BoardDao {
 	public int insertBoard(Connection conn, Board b) {
 		PreparedStatement pstmt = null;
 		int result = 0;
-		String query = "INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL,?,?,?,SYSDATE,0,?,'N')";
+		String query = "INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL,?,?,?,SYSDATE,0,?,'Y')";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -218,15 +218,52 @@ public class BoardDao {
 	
 	
 
-	public ArrayList<Board> selectBoard(Connection conn,int board_code) {
+	public ArrayList<Board> selectBoard(Connection conn) { //공지사항 게시글 가져오는거
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM BOARD WHERE BOARD_CODE=?";
+		String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y'";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
-			pstmt.setInt(1, board_code);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return list;
+	}
+
+	
+	
+
+	public ArrayList<Board> selectBoardNotice(Connection conn) { //고객센터용 공지사항
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		String query="SELECT * FROM BOARD WHERE BOARD_CODE=20 AND BOARD_STATUS='Y'";
+		
+		
+		
+		try {
+			pstmt=conn.prepareStatement(query);
 			
 			rset=pstmt.executeQuery();
 			
@@ -286,7 +323,7 @@ public class BoardDao {
 		ResultSet rset=null;
 		Board b=null;
 		
-		String query="SELECT * FROM BOARD WHERE BOARD_NO=?";
+		String query="SELECT * FROM BOARD WHERE BOARD_NO=? AND BOARD_STATUS='Y'";
 		try {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
@@ -437,6 +474,7 @@ public class BoardDao {
 		return member;
 	}
 
+
 	public int insertReviewB(Connection conn, Review re) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -486,6 +524,477 @@ public class BoardDao {
 		
 		
 		return result;
+	}
+
+
+	public Board selectBoardNo(Connection conn, int board_no) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		
+		Board board=null;
+		String query="SELECT * FROM BOARD WHERE BOARD_NO=? AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				board=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"));
+		
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return board;
+	}
+
+	public ArrayList<Files> selectFiles(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Files> flist=new ArrayList<>();
+		
+		
+		String query = "SELECT * FROM FILES WHERE BOARD_NO=? AND STATUS='Y'";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				Files f = new Files(rs.getInt("fid"),
+									rs.getInt("board_no"),
+									rs.getString("origin_name"),
+									rs.getString("change_name"),
+									rs.getString("file_path"),
+									rs.getDate("upload_date"),
+									rs.getInt("file_level"),
+									rs.getInt("download_count"),
+									rs.getString("status")
+									);
+				flist.add(f);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			close(pstmt);
+			close(rs);
+		}
+		
+		System.out.println("dao에서"+flist);
+		return flist;
+	}
+
+	public int updateBoard(Connection conn, Board b) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE BOARD SET TITLE=?,CONTENT=?,BOARD_CODE=? WHERE BOARD_NO=?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getTitle());
+			pstmt.setString(2, b.getContent());
+			
+			pstmt.setInt(3, b.getBoard_code());
+			pstmt.setInt(4, b.getBoard_no());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		System.out.println("게시물이 dao에서 등록됨");
+		System.out.println(result);
+		
+		return result;
+	}
+
+	public int deleteBoardFiles(Connection conn, ArrayList<Files> fList) {
+		
+		System.out.println("dao에서 n으로 바뀌는곳f"+fList);
+		int result=0;
+		PreparedStatement pstmt=null;
+		String query="UPDATE FILES SET STATUS='N' WHERE BOARD_NO=?";
+		
+		try {
+			
+			for(int i=0; i<fList.size();i++) {
+				Files f=fList.get(i);
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1, f.getBoard_no());
+				
+				
+				result+=pstmt.executeUpdate();
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+
+
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+
+
+	public int updateBoardFiles(Connection conn, ArrayList<Files> fList) {
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+		
+		System.out.println("flist"+fList);
+		
+		String query = "INSERT INTO FILES VALUES(SEQ_FILE.NEXTVAL,?,?,?,?,SYSDATE,0,0,'Y')";
+		
+		try {
+
+			for (int i=0;i<fList.size();i++) {
+				Files f=fList.get(i);
+
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, f.getBoard_no());
+				pstmt.setString(2, f.getOrigin_name());
+				pstmt.setString(3, f.getChange_name());
+				pstmt.setString(4, f.getFile_path());
+				
+				result +=pstmt.executeUpdate();
+
+			}
+
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		System.out.println("파일이 dao에서 등록됨");
+		System.out.println(result);
+		
+		return result;
+		
+	}
+
+	public int deleteBoard(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String query="UPDATE BOARD SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	
+	
+	
+	public ArrayList<Board> searchNotice(Connection conn, String typeNotice, String wordNotice) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		String type=typeNotice;
+		String word=wordNotice;
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+		
+		if(word=="") {
+			System.out.println("비어있음");
+		}
+		
+		if(type.equals("stitle")&&word=="") {
+	
+		
+			
+		String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("not")&&word==""){
+
+			String query="SELECT * FROM BOARD WHERE BOARD_CODE=20 AND BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+			
+		}else if(type.equals("pol")&&word==""){
+			
+			
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("faq")&&word==""){
+
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("stitle")&&word!=""){
+			
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				System.out.println("메소드안:"+word);
+				pstmt.setString(1, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("not")&&word!=""){
+			
+
+			
+			
+			
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("pol")&&word!=""){
+			
+			
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("faq")&&word!=""){
+			
+			
+			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		
+		
+		}
+		
+		System.out.println("dao"+list);
+		return list;
+
 	}
 
 	

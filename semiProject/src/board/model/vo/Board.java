@@ -23,6 +23,16 @@ public class Board implements Serializable {
 	
 	
 	
+	public Board(int board_no, String title, String content, int board_code, String user_name) {
+		super();
+		this.board_no = board_no;
+		this.title = title;
+		this.content = content;
+		this.board_code = board_code;
+		this.user_name = user_name;
+	}
+
+
 	public Board(int board_no, String title, Date write_date) {
 		super();
 		this.board_no = board_no;

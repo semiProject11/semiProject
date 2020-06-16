@@ -33,13 +33,8 @@ public class NoticeListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		
-	
-		int board_code=20;
-	
 		
-		
-		
-		ArrayList<Board> list= new BoardService().selectBoard(board_code);
+		ArrayList<Board> list= new BoardService().selectBoardNotice();
 	
 	
 		if(!list.isEmpty()) {

@@ -1047,4 +1047,86 @@ public class MemberDao {
 		return result;
 	}
 
+
+
+
+	public int registerBuyer(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result3 = 0;
+		
+		String query = "INSERT INTO BUYER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			
+			result3 = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result3);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result3;
+	}
+
+
+
+
+	public int registerSeller(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result4 = 0;
+		
+		String query = "INSERT INTO SELLER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			
+			result4 = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result4);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result4;
+	}
+
+
+
+
+	public int emailCheck(Connection conn, String email) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		int result = 0;
+		
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE EMAIL = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,email);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		System.out.println(result);
+		return result;
+	}
+	
+	
+
 }

@@ -179,8 +179,8 @@
                 <header>
                   <h2>공지사항</h2>
                   <hr>
-                  <h4 class="mt-5"><%=b.getTitle() %></h4>
                 </header>
+                  <h4 class="mt-5"><%=b.getTitle() %></h4>
               </div>
             </div>
 
