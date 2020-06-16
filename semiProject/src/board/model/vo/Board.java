@@ -18,18 +18,18 @@ public class Board implements Serializable {
 	private int read_num;			//조회수
 	private int board_code;			//게시물 코드
 	private String board_status;	//삭제여부
-	private String user_name;		//게시글 작성자명
+	private String user_id;		//게시글 작성자명
 	
 	
 	
 	
-	public Board(int board_no, String title, String content, int board_code, String user_name) {
+	public Board(int board_no, String title, String content, int board_code, String user_id) {
 		super();
 		this.board_no = board_no;
 		this.title = title;
 		this.content = content;
 		this.board_code = board_code;
-		this.user_name = user_name;
+		this.user_id = user_id;
 	}
 
 
@@ -62,7 +62,7 @@ public class Board implements Serializable {
 
 
 	public Board(int board_no, String title, String content, int user_no, Date write_date, int read_num, int board_code,
-			String board_status, String user_name) {
+			String board_status, String user_id) {
 		super();
 		this.board_no = board_no;
 		this.title = title;
@@ -72,7 +72,7 @@ public class Board implements Serializable {
 		this.read_num = read_num;
 		this.board_code = board_code;
 		this.board_status = board_status;
-		this.user_name = user_name;
+		this.user_id = user_id;
 	}
 
 
@@ -156,13 +156,13 @@ public class Board implements Serializable {
 	}
 
 
-	public String getUser_name() {
-		return user_name;
+	public String getuser_id() {
+		return user_id;
 	}
 
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setuser_id(String user_id) {
+		this.user_id = user_id;
 	}
 
 
@@ -175,7 +175,7 @@ public class Board implements Serializable {
 	public String toString() {
 		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_no=" + user_no
 				+ ", write_date=" + write_date + ", read_num=" + read_num + ", board_code=" + board_code
-				+ ", board_status=" + board_status + ", user_name=" + user_name + "]";
+				+ ", board_status=" + board_status + ", user_id=" + user_id + "]";
 	}
 	
 	

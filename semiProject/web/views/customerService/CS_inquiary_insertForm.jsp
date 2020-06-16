@@ -165,9 +165,9 @@
                             <div class="col-md-2 text-center"><label>상담 유형</label></div>
                             <div class="col-md-4">
                             <select class="form-control" style="width:80%" name="inquiaryName">
-                                    <option value="question" selected >이용문의</option>
-                                    <option value="opinion">고객의 소리</option>
-                                    <option value="alliance">제휴</option>
+                                    <option value="A1" selected >이용문의</option>
+                                    <option value="A2">고객의 소리</option>
+                                    <option value="A3">제휴</option>
                                 </select></div>
                         </div>
 

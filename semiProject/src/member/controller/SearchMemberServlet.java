@@ -1,4 +1,4 @@
-package board.controller;
+package member.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.Board;
+import member.model.service.MemberService;
+import member.model.vo.Member;
+import member.model.vo.Seller;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class SearchMemberServlet
  */
-@WebServlet("/list.faq")
-public class FaqListServlet extends HttpServlet {
+@WebServlet("/search.member")
+public class SearchMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public SearchMemberServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +32,25 @@ public class FaqListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
 		
-		int board_code=50;
-	
+		String word=request.getParameter("word");
 		
-		ArrayList<Board> list= new BoardService().selectFaq(board_code);
-	
-	
-		if(!list.isEmpty()) {
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/customerService/CS_faq_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		ArrayList<Member> gradeList= new MemberService().searchMember(word);
+		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word);
 		
+		
+		System.out.println("메소드 다녀온 후 마지막:"+gradeList);
+		System.out.println("메소드 다녀온 후 마지막:"+sellerList);
+		
+	
+
+			request.setAttribute("gradeList", gradeList);
+			request.setAttribute("sellerList", sellerList);
+			
+			request.getRequestDispatcher("views/adminPage/Ad_grade_list.jsp").forward(request, response);
+	
 		
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

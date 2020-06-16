@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
 import board.model.vo.Board;
+import board.model.vo.Inquiary;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class InquiarySearchServlet
  */
-@WebServlet("/list.faq")
-public class FaqListServlet extends HttpServlet {
+@WebServlet("/search.inquiary")
+public class InquiarySearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public InquiarySearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +32,28 @@ public class FaqListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String type=request.getParameter("search");
+		String word=request.getParameter("word");
+		
 	
 		
-		int board_code=50;
-	
+		ArrayList<Board> bList= new BoardService().searchInquiary(type,word);
+		ArrayList<Inquiary> inquiaryList=new BoardService().searchInquaryTypeList(type,word);
 		
-		ArrayList<Board> list= new BoardService().selectFaq(board_code);
+		
+		/* System.out.println("다 끝나고 서블릿 온 후:"+bList); */
+		
 	
-	
-		if(!list.isEmpty()) {
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/customerService/CS_faq_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+			request.setAttribute("bList", bList);
+			request.setAttribute("inquiaryList", inquiaryList);
+			
+			request.getRequestDispatcher("views/adminPage/Ad_inquiary_list.jsp").forward(request, response);
+		
+		
+		
 		
 		
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
