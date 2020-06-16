@@ -148,6 +148,7 @@ Board b = (Board) request.getAttribute("board");
 
 
 
+
 <!-- contents -->
       <div class="container mt-5">
         <div class="container my-5">
@@ -205,20 +206,6 @@ Board b = (Board) request.getAttribute("board");
 	</div>
 	</div>
 	
-	<script>
-	
-		$(function(){
-			$("#listArea td").mouseenter(function(){
-				$(this).parent().css({"cursor":"pointer"});
-			}).click(function(){
-				var board_no=$(this).parent().children("input").val();
-				location.href="<%=request.getContextPath()%>/detail.notice?board_no="+board_no;
-			});
-			
-			
-		});
-	
-	</script>
 	
 </body>
 </html>

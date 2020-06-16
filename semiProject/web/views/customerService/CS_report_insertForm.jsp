@@ -172,8 +172,8 @@ label {
 								<select class="form-control" style="width: 100%"
 									name="report_type" id="report_type">
 									<option selected>선택</option>
-									<option>판매자를 신고합니다</option>
-									<option>구매자를 신고합니다</option>
+									<option value="B1">판매자를 신고합니다</option>
+									<option value="B2">구매자를 신고합니다</option>
 								</select>
 							</div>
 

@@ -333,22 +333,35 @@ public class BoardDao {
 		ResultSet rset=null;
 		Board b=null;
 		
+		
+		
+		System.out.println("dao1:"+board_no);
 		String query="SELECT * FROM BOARD WHERE BOARD_NO=? AND BOARD_STATUS='Y'";
+		
+		
+		System.out.println("dao3:"+board_no);
+		
+		
 		try {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
 			rset=pstmt.executeQuery();
+			System.out.println("dao4:"+board_no);
+			System.out.println(rset);
 			
 			if(rset.next()) {
-				b=new Board(rset.getInt("board_no"),
-						rset.getString("title"),
+				b = new Board(rset.getInt("board_no"), 
+						rset.getString("title"), 
 						rset.getString("content"),
-						rset.getInt("user_no"),
-						rset.getDate("write_date"),
+						rset.getInt("user_no"), 
+						rset.getDate("write_date"), 
 						rset.getInt("read_num"),
-						rset.getInt("board_code"),
+						rset.getInt("board_code"), 
 						rset.getString("board_status"));
+
 			}
+			
+			System.out.println("dao2:"+b);
 				
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1579,7 +1592,7 @@ try {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM BOARD WHERE board_code=?";
+		String query="SELECT * FROM BOARD WHERE board_code=? and board_status='Y'";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -1609,8 +1622,592 @@ try {
 		return list;
 	}
 
+	public ArrayList<Report> selectReportList(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Report> rList=new ArrayList<>();
+		String query="SELECT * FROM REPORT P left JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y'";
+		try {
+			pstmt=conn.prepareStatement(query);
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Report r=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"));
+							rList.add(r);		
+				
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rList;
+	}
+
+	public ArrayList<Board> selectReportBoard(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"),
+						rset.getString("user_id"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Board> searchReport(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
 	
+		
+		if(type.equals("a")&&word=="") {
+	
+		
+			
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"),
+						rset.getString("user_id"));
+				
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B1' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B2' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("b")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}
+		return list;
+
+	
+	}
+
+	public ArrayList<Report> searchReportType(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Report> list=new ArrayList<>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+	
+		
+		if(type.equals("a")&&word=="") {
+	
+		
+			
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B1' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B2' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("b")&&word!=""){	
+			
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+					
+			
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}else if(type.equals("c")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+					
+			
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}
+			return list;
+	}
+
+	public int confirmReport(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String query="UPDATE REPORT SET RE_YN='Y' WHERE BOARD_NO=?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Report selectReport(Connection conn, int board_no) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Report report=null;
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND B.BOARD_NO=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				report=new Report(rset.getInt("board_no"),
+								rset.getString("re_content"),
+								rset.getString("re_yn"),
+								rset.getDate("re_date"),
+								rset.getInt("service_no"),
+								rset.getString("report_type"),
+								rset.getString("report_name"),
+								rset.getString("user_id"),
+								rset.getString("title"),
+								rset.getString("content"),
+								rset.getDate("write_date"));
+			}
+			
+			if(report.getReport_name().equalsIgnoreCase("구매자 신고")) {
+				String query2="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
+				pstmt=conn.prepareStatement(query2);
+				pstmt.setInt(1, board_no);
+				rset=pstmt.executeQuery();
+				
+				if(rset.next()) {
+					report=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"),
+									rset.getString("user_id"),
+									rset.getString("title"),
+									rset.getString("content"),
+									rset.getDate("write_date"));
+				}
+				
+				
+				
+			}else {
+				String query3="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
+				pstmt=conn.prepareStatement(query3);
+				pstmt.setInt(1, board_no);
+				rset=pstmt.executeQuery();
+				
+				if(rset.next()) {
+					report=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"),
+									rset.getString("user_id"),
+									rset.getString("title"),
+									rset.getString("content"),
+									rset.getDate("write_date"));
+		
+				}
+				
+				
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return report;
+	}
+
+	
+
 }
+
+
+	
+
+	
+
 	
 	
 	

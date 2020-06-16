@@ -329,8 +329,6 @@ th, tr, td {
 
 									<td id="no" class="text-center notice_list" style="width: 13%"><%=((Board) list.get(i)).getBoard_no()%></td>
 
-
-
 									<%
 										if (((Board) list.get(i)).getBoard_code() == 20) {
 									%>

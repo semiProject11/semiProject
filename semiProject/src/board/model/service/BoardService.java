@@ -21,6 +21,13 @@ public class BoardService {
 
 		int listCount = new BoardDao().getListCount(conn);
 
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return listCount;
 	}
@@ -129,8 +136,9 @@ public class BoardService {
 
 	public Board selectBoardDetail(int board_no) {
 		Connection conn = getConnection();
-
+		System.out.println("서비스1:"+board_no);
 		Board b = new BoardDao().selectBoardDetail(conn, board_no);
+		System.out.println("서비스2:"+b);
 
 		close(conn);
 		return b;
@@ -163,6 +171,13 @@ public class BoardService {
 		Connection conn = getConnection();
 		int result = new BoardDao().checkReportS(conn, service_no);
 
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
@@ -171,6 +186,13 @@ public class BoardService {
 		Connection conn = getConnection();
 		int result = new BoardDao().checkReportB(conn, service_no);
 
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
@@ -376,11 +398,84 @@ public class BoardService {
 	
 	}
 
-
-
+	public ArrayList<Report> selectReportList() {
+		
+		Connection conn=getConnection();
+		ArrayList<Report> rList=new BoardDao().selectReportList(conn);
+		
+		close(conn);
 	
+		return rList;
+	}
 
+	public ArrayList<Board> selectReportBoard() {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().selectReportBoard(conn);
+		close(conn);
+
+		return list;
+	}
+
+	public ArrayList<Board> searchReport(String type, String word) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().searchReport(conn,type,word);
+		close(conn);
+
+		return list;
+		
+	}
+
+
+
+	public ArrayList<Report> searchReportType(String type, String word) {
+		Connection conn = getConnection();
+
+		ArrayList<Report> list = new BoardDao().searchReportType(conn,type,word);
+		close(conn);
+
+		return list;
+	}
+
+	public int confirmReport(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().confirmReport(conn,arr);
+		System.out.println("서비스:"+result);
+		
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+	public Report selectReport(int board_no) {
+		Connection conn=getConnection();
+		Report report=new BoardDao().selectReport(conn,board_no);
+		close(conn);
+		return report;
+	}
 	
 	
-
 }
+	
+
+
+
+
+
+
+	
+
+	
+	
+
+

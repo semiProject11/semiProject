@@ -294,7 +294,7 @@ th, tr, td {
 									<td><%=(serviceList.get(i)).getTitle()%></td>
 									<td><%=(serviceList.get(i)).getServiceNo()%></td>
 									<td><%=(serviceList.get(i)).getPriceSale()%></td>
-									<td><%=(sellerList.get(i)).getUserName()%></td>
+									<td><%=(sellerList.get(i)).getUserId()%></td>
 									<td><%=(tradeList.get(i)).getTrade_date()%></td>
 
 								</tr>

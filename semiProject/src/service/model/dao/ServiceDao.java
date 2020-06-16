@@ -22,7 +22,7 @@ public class ServiceDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM LIST L JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) JOIN MEMBER M ON(L.B_USER_NO=M.USER_NO)";
+		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
 		ArrayList<Service_List> tradeList=new ArrayList<>();
 		
 		try {
@@ -58,7 +58,7 @@ public class ServiceDao {
 	public ArrayList<Service_ServiceTable_oh> selectServiceList(Connection conn) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM LIST L JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) JOIN MEMBER M ON(L.B_USER_NO=M.USER_NO)";
+		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
 		ArrayList<Service_ServiceTable_oh> serviceList=new ArrayList<>();
 		
 		try {
