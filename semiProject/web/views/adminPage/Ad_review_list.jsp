@@ -3,7 +3,7 @@
 
  <% 
 	ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
-	ArrayList<Review> rList=(ArrayList<Review>)request.getAttribute("rList");
+	ArrayList<ReviewAd> rList=(ArrayList<ReviewAd>)request.getAttribute("rList");
 	ArrayList<Service_Category> scList=(ArrayList<Service_Category>)request.getAttribute("scList");
 	ArrayList<Service> sList=(ArrayList<Service>)request.getAttribute("sList");
 	ArrayList<Service_List> slList=(ArrayList<Service_List>)request.getAttribute("slList");
