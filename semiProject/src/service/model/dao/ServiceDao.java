@@ -228,64 +228,7 @@ public class ServiceDao {
 	
 	
 
-	   public int inssertService(Connection conn, Service_ServiceTable_oh st) {
-		      PreparedStatement pstmt = null;
-		      int result1 = 0;
-		      
-		      String query = "INSERT INTO SERVICE VALUES(SEQ_SERVICE.NEXTVAL,'서비스유저넘버',?,?,\r\n" + 
-		            "DEFAULT,DEFAULT,DEFAULT,'게시판유저넘버',?,?,?,?,?,?,?,\r\n" + 
-		            "?,?,SYSDATE,?)";
-		      
-		      try {
-		         pstmt = conn.prepareStatement(query);
-		         pstmt.setString(1, st.getSaleInfo());
-		         pstmt.setString(2, st.getAvailableArea());
-		         pstmt.setString(3, st.getSaleMethod());
-		         pstmt.setString(4, st.getSubject());
-		         pstmt.setInt(5, Integer.valueOf(st.getCategoryCode()));   
-		         pstmt.setString(6, st.getDeadline());
-		         pstmt.setInt(7,Integer.valueOf(st.getPriceBidding()));
-		         pstmt.setInt(8, Integer.valueOf(st.getPriceSale()));
-		         pstmt.setString(9, st.getContactTime_start());
-		         pstmt.setString(10, st.getContactTime_finish());
-		         pstmt.setString(11, st.getTitle());
-		         pstmt.setString(12, st.getsExplain());
-		         
-		         result1 = pstmt.executeUpdate();
-		         System.out.println("반환값은 : " + result1);
-		         
-		      } catch (SQLException e) {
-		         e.printStackTrace();
-		      }finally {
-		         close(pstmt);
-		      }
-		      return result1;
-		      
-		   }
-
-		   public int insertService1(Connection conn, Service_DaysTable_oh sd) {
-		      PreparedStatement pstmt = null;
-		      int result2 = 0;
-		      
-		      String query = "INSERT INTO DAYS VALUES('?',2)";
-		      try {
-		         pstmt = conn.prepareStatement(query);
-		         
-		            
-		            pstmt.setString(1, sd.getAvailableDate());
-
-		            result2 = pstmt.executeUpdate();
-		         
-
-		         System.out.println("반환값은 : " + result2);
-		         
-		      } catch (SQLException e) {
-		         e.printStackTrace();
-		      }finally {
-		         close(pstmt);
-		      }
-		      return result2;
-		   }
+	
 	public int getBuyListCount(Connection conn, String userNo) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -464,7 +407,7 @@ public class ServiceDao {
 	         
 	         
 	       //데이터 없어서 임의의 값 넣음 
-	            String query = "INSERT INTO DAYS VALUES(?,28)";
+	            String query = "INSERT INTO DAYS VALUES(?,55)";
 	            //서비스번호 임시로 넣어둠 !
 	            
 	         try {
