@@ -6,9 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
- 
  <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
 
 <style>
         #form-control{
@@ -61,7 +59,6 @@
         }
         .area{
         float:left;
-        
         }
         .contact{
         float:left;
@@ -71,7 +68,6 @@
 </head>"web/views/service/service_register.jsp"
 <body>
    <jsp:include page="../common/menubar.jsp" />
-
 
 <%-- action="<%=request.getContextPath() %>/register.service" --%>
  <!-- <div id="layoutSidenav_content"> -->
@@ -88,17 +84,6 @@
               </div>
              &nbsp;&nbsp;&nbsp;<div class="category" style="margin-left : 30px ; width : 180px; height : 30px;">
                    <select class="form-control" name="category" id="category">
-                   <option value="">카테고리 선택</option>
-                   <option value="10">예술</option>
-                   <option value="20">요식업</option>
-                   <option value="30">의료</option>
-                   <option value="40">스포츠</option>
-                   <option value="50">패션</option>
-                   <option value="60">IT</option>
-                   <option value="70">금융</option>
-                   <option value="80">공무원</option>
-                   <option value="90">비즈니스(창업)</option>
-                   <option value="100">마케팅</option>
                    <option value="카테고리 선택">카테고리 선택</option>
                    <option value="예술">예술</option>
                    <option value="요식업">요식업</option>
@@ -143,12 +128,12 @@
          </div>
          <div id="bidding" class="change" style="margin-left:295px">
           
-             <div class="aution">
+            <div class="aution">
                <label for="bidprice" style="margin-left: 5px; margin-top : 5px">입찰가격</label>
              </div>
              <div class="aution">
                <input type="text" class="form-control" id="biddingPrice" name="biddingPrice" style=" margin-left: 30px; width:250px; height: 33px;" placeholder="최소금액을 입력하세요">
-             </div>-
+             </div>
              
              <div class="auction">
                <label for="deadline" style="margin-left: 15px; margin-top : 5px">마감시간</label>
@@ -160,7 +145,7 @@
          <br>
       <br>
              <div class="subject" style="margin-left:300px ; margin-top : 5px">
-    
+
           <label for="subject">관련주제</label>
           </div>
           <div class="subject">
@@ -193,25 +178,18 @@
         <br>
            <div class="form-check-inline" style="margin-left:300px ">
              <label >가능요일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            
                <input class="form-check-input" type="checkbox" id="day" name="day" value="월요일">
                <label>월&nbsp;&nbsp;&nbsp;</label>
-            
                <input class="form-check-input" type="checkbox" id="day" name="day" value="화요일">
                <label>화&nbsp;&nbsp;&nbsp;</label>
-             
                <input class="form-check-input" type="checkbox" id="day" name="day" value="수요일">
                <label>수&nbsp;&nbsp;&nbsp;</label>
-               
                <input class="form-check-input" type="checkbox" id="day" name="day" value="목요일">
                <label>목&nbsp;&nbsp;&nbsp;</label>
-             
                <input class="form-check-input" type="checkbox" id="day" name="day" value="금요일">
                <label>금&nbsp;&nbsp;&nbsp;</label>
-             
                <input class="form-check-input" type="checkbox" id="day" name="day" value="토요일">
                <label>토&nbsp;&nbsp;&nbsp;</label>
-              
                <input class="form-check-input" type="checkbox" id="day" name="day" value="일요일">
                <label>일</label>
    
@@ -243,98 +221,6 @@
    </form>
 
      <script>
-     
-   
-      function checkForm(){
-         
-         var Price = /^[0-9]{3,20}$/;
-         var form = document.insertForm;
-         var chk = document.insertForm;
-         var checked_items = 0;
-         
-         for(i=0; i<chk.elements.length; i++)   
-         {
-         if((chk.elements[i].name == "saleMethod") &&
-            (chk.elements[i].checked))
-            checked_items++;
-         }
-         
-         //카테고리 유효성 검사 
-         if($("#category").val() == ""){
-            alert("카테고리를 선택해주세요.");
-            return false;
-         }
-         //제목 유효성 검사 
-         if($("#title").val().trim().length == 0)
-            {
-            alert("제목을 입력하세요.");
-            $("#title").focus();
-            return false;
-            }
-         
-         //판매방식 유효성검사    
-         
-         if(checked_items == 0){
-            alert("판매방식을 선택해주세요.")
-            return false;
-         }
-         if($("#salePrice").val().trim().length == 0){
-            alert("금액을 입력해주세요.")
-            return false;
-         }
-         if($("#biddingPrice").val().trim().length == 0){
-            alert("금액을 입력해주세요.")
-            return false;
-         }
-         
-         if($("#subject").val().trim().length == 0)
-            {
-            alert("관련주제를 입력하세요.");
-            $("#subject").focus();
-            return false;
-            }
-      
-         if($("#detailContent").val().trim().length == 0)
-            {
-            alert("서비스 설명을 입력하세요.");
-            $("#detailContent").focus();
-            return false;
-            }
-         if($("#sellerInfo").val().trim().length == 0)
-            {
-               alert("판매자 정보를 입력하세요.");
-            $("#sellerInfo").focus();
-            return false;
-            }
-         
-         if($("#sellerInfo").val().trim().length == 0)
-         {
-            alert("판매자 정보를 입력하세요.");
-         $("#sellerInfo").focus();
-         return false;
-         }
-         if($("#availableArea").val().trim().length == 0)
-         {
-            alert("만남이 가능한 지역을 입력하세요.");
-            $("#availableArea").focus();
-            return false;
-         } 
-          
-         if(form.days[0].checked==false){
-            alert("만남이 가능한 요일을 체크해주세요.");
-            return false;
-         } 
-         if($("#startTime").val() == ""){
-            alert("연락가능한 시간대를 선택하세요.");
-            return false;
-            
-         }if($("#startTime").val() == ""){
-            alert("연락가능한 시간대를 선택하세요.");
-            return false;
-         }
-         else{
-            return true;
-         }
      
    
     function checkForm(){
@@ -371,15 +257,6 @@
             return false;
          }
         
-     /*     if($("#salePrice").val().trim().length == 0){
-            alert("금액을 입력해주세요.")
-            return false;
-         } */
-        /*  if($("#biddingPrice").val().trim().length == 0){
-            alert("금액을 입력해주세요.")
-            return false;
-         } */
-         
          if($("#subject").val().trim().length == 0)
             {
             alert("관련주제를 입력하세요.");
@@ -419,6 +296,10 @@
             alert("연락가능한 시간대를 선택하세요.");
             return false;
          }
+         if(showDiv == price){
+            
+         }
+         
          else{
             return true;
          }
@@ -432,22 +313,46 @@
             if (document.getElementById("choice_general").checked) {
                 document.getElementById("price").style.display = "block";
                 document.getElementById("bidding").style.display = "none";
-
             }
+            
+           
+            
+          
+      
+
+            
+            
+           
             if (document.getElementById("choice_auction").checked) {
                 document.getElementById("price").style.display = "none";
                 document.getElementById("bidding").style.display = "block";
+            }
+                
+                 
                
             }
-              }
+              
       
       
-      
+  /*     
+      if($("#salePrice").val().trim().length == 0){
+          alert("금액을 입력해주세요.")
+          return false;
+       }
+       
+        if($("#biddingPrice").val().trim().length == 0){
+          alert("금액을 입력해주세요.")
+          return false;
+          
+         if($("#deadline").val() == ""){
+          alert("마감시간을 입력해주세요.");
+          return false;
+       }
+        */
       
       
       
       //ServiceInsertServlet만들러 간다 ! 
-      
 
       
       
@@ -465,4 +370,3 @@
  </body>
     
 </html>
-
