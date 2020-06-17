@@ -14,9 +14,11 @@ import board.model.vo.Inquiary;
 import board.model.vo.InquiaryList;
 import board.model.vo.Report;
 import board.model.vo.Review;
-import member.model.vo.Account;
-
+import board.model.vo.ReviewAd;
 import member.model.vo.Member;
+import service.model.vo.Service;
+import service.model.vo.Service_Category;
+import service.model.vo.Service_List;
 
 public class BoardDao {
 
@@ -72,7 +74,7 @@ public class BoardDao {
 	public ArrayList<Board> selectInquiaryList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT * FROM INQUIARYLIST"; // INQUIARYLIST 뷰를 만들어야함
+		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' "; 
 		ArrayList<Board> bList = new ArrayList<>();
 
 		try {
@@ -81,9 +83,15 @@ public class BoardDao {
 
 			while (rset.next()) {
 
-				Board b = new Board(rset.getInt("board_no"), rset.getString("title"), rset.getString("content"),
-						rset.getInt("user_no"), rset.getDate("write_date"), rset.getInt("read_num"),
-						rset.getInt("board_code"), rset.getString("board_status"), rset.getString("user_name"));
+				Board b = new Board(rset.getInt("board_no"), 
+						rset.getString("title"), 
+						rset.getString("content"),
+						rset.getInt("user_no"), 
+						rset.getDate("write_date"), 
+						rset.getInt("read_num"),
+						rset.getInt("board_code"), 
+						rset.getString("board_status"), 
+						rset.getString("user_id"));
 
 				bList.add(b);
 
@@ -102,15 +110,19 @@ public class BoardDao {
 	public ArrayList<Inquiary> selectInquiaryTypeList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT * FROM INQUIARYLIST";
+		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
 		ArrayList<Inquiary> inquiaryList = new ArrayList<Inquiary>();
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				Inquiary i = new Inquiary(rset.getInt("board_no"), rset.getString("board_type"),
-						rset.getString("inquiry_content"), rset.getString("inquiry_yn"), rset.getDate("inquiry_date"));
+				Inquiary i = new Inquiary(rset.getInt("board_no"), 
+						rset.getString("board_type"),
+						rset.getString("inquiry_content"), 
+						rset.getString("inquiry_yn"), 
+						rset.getDate("inquiry_date"),
+						rset.getString("inquiary_name"));
 
 				inquiaryList.add(i);
 			}
@@ -324,22 +336,35 @@ public class BoardDao {
 		ResultSet rset=null;
 		Board b=null;
 		
+		
+		
+		System.out.println("dao1:"+board_no);
 		String query="SELECT * FROM BOARD WHERE BOARD_NO=? AND BOARD_STATUS='Y'";
+		
+		
+		System.out.println("dao3:"+board_no);
+		
+		
 		try {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
 			rset=pstmt.executeQuery();
+			System.out.println("dao4:"+board_no);
+			System.out.println(rset);
 			
 			if(rset.next()) {
-				b=new Board(rset.getInt("board_no"),
-						rset.getString("title"),
+				b = new Board(rset.getInt("board_no"), 
+						rset.getString("title"), 
 						rset.getString("content"),
-						rset.getInt("user_no"),
-						rset.getDate("write_date"),
+						rset.getInt("user_no"), 
+						rset.getDate("write_date"), 
 						rset.getInt("read_num"),
-						rset.getInt("board_code"),
+						rset.getInt("board_code"), 
 						rset.getString("board_status"));
+
 			}
+			
+			System.out.println("dao2:"+b);
 				
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1034,8 +1059,1448 @@ public class BoardDao {
 		return list;
 	}
 
+	public ArrayList<Board> selectB_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Board> bList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+
+				Board b = new Board(rset.getInt("board_no"), rset.getString("title"), rset.getString("content"),
+						rset.getInt("user_no"), rset.getDate("write_date"), rset.getInt("read_num"),
+						rset.getInt("board_code"), rset.getString("board_status"));
+
+				bList.add(b);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return bList;
+	}
+
+	public ArrayList<ReviewAd> selectR_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<ReviewAd> rList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				ReviewAd r = new ReviewAd(rset.getInt("board_no"), rset.getInt("rating"), rset.getInt("service_no"));
+				rList.add(r);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return rList;
+	}
+
+	public ArrayList<Service_Category> selectSC_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service_Category> scList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Service_Category sc = new Service_Category(rset.getString("category_code"), rset.getString("category_name"));
+				scList.add(sc);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return scList;
+	}
+
+	public ArrayList<Service> selectS_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service> sList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+						
+				Service s = new Service(rset.getInt("service_no")
+									, rset.getInt("s_user_no")
+									, rset.getString("sale_info")
+									, rset.getString("available_area")
+									, rset.getInt("readCount")
+									, rset.getInt("file_count")
+									, rset.getString("file_YN")
+									, rset.getInt("b_user_no")
+									, rset.getString("saleMethod")
+									, rset.getDate("deadline")
+									, rset.getInt("price_bidding")
+									, rset.getInt("price_sale")
+									, rset.getString("subject")
+									, rset.getString("category_code"));
+				sList.add(s);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return sList;
+	}
+
+	public ArrayList<Service_List> selectSL_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service_List> slList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+				Service_List sl = new Service_List(rset.getInt("service_no")
+												, rset.getDate("trade_date")
+												, rset.getString("s_user_no")
+												, rset.getString("b_user_no")
+												, rset.getString("refund_yn"));
+				slList.add(sl);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return slList;
+	}
+
+	public ArrayList<Member> selectM_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Member> mList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+				Member m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+
+				
+				mList.add(m);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return mList;
+	}
+
+	public int checkInquiary(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String query="UPDATE INQUIARY SET INQUIRY_YN='Y' WHERE BOARD_NO=?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> searchInquiary(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+		
+
+		if(type.equals("a")&&word=="") {
+	
+	
+		String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"),
+						rset.getString("user_id"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("d")&&word==""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){
+			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
+		}else if(type.equals("b")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("d")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		
+	}
+		return list;
+
+	}
+
+	public ArrayList<Inquiary> searchInquaryTypeList(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Inquiary> inquiaryList=new ArrayList<>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+		
+
+		if(type.equals("a")&&word=="") {
+	
+	
+		String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			while (rset.next()) {
+				Inquiary i = new Inquiary(rset.getInt("board_no"), 
+						rset.getString("board_type"),
+						rset.getString("inquiry_content"), 
+						rset.getString("inquiry_yn"), 
+						rset.getDate("inquiry_date"),
+						rset.getString("inquiary_name"));
+
+				inquiaryList.add(i);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"));
+
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2'";
+			
+try {
+	pstmt=conn.prepareStatement(query);
+
+	
+	rset=pstmt.executeQuery();
+	
+	while (rset.next()) {
+		Inquiary i = new Inquiary(rset.getInt("board_no"), 
+				rset.getString("board_type"),
+				rset.getString("inquiry_content"), 
+				rset.getString("inquiry_yn"), 
+				rset.getDate("inquiry_date"),
+				rset.getString("inquiary_name"));
+
+		inquiaryList.add(i);
+	}
+	
+} catch (SQLException e) {
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+}
+		}else if(type.equals("d")&&word==""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3'";
+			
+try {
+	pstmt=conn.prepareStatement(query);
+
+	
+	rset=pstmt.executeQuery();
+	
+	while (rset.next()) {
+		Inquiary i = new Inquiary(rset.getInt("board_no"), 
+				rset.getString("board_type"),
+				rset.getString("inquiry_content"), 
+				rset.getString("inquiry_yn"), 
+				rset.getDate("inquiry_date"),
+				rset.getString("inquiary_name"));
+
+		inquiaryList.add(i);
+	}
+	
+} catch (SQLException e) {
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+}
+		}else if(type.equals("a")&&word!=""){
+			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"));
+
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("b")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%')";
+			
+try {
+	pstmt=conn.prepareStatement(query);
+
+	
+	rset=pstmt.executeQuery();
+	
+	while (rset.next()) {
+		Inquiary i = new Inquiary(rset.getInt("board_no"), 
+				rset.getString("board_type"),
+				rset.getString("inquiry_content"), 
+				rset.getString("inquiry_yn"), 
+				rset.getDate("inquiry_date"),
+				rset.getString("inquiary_name"));
+
+		inquiaryList.add(i);
+	}
+	
+} catch (SQLException e) {
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+}
+		}else if(type.equals("c")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%')";
+			
+try {
+	pstmt=conn.prepareStatement(query);
+
+	
+	rset=pstmt.executeQuery();
+	
+	while (rset.next()) {
+		Inquiary i = new Inquiary(rset.getInt("board_no"), 
+				rset.getString("board_type"),
+				rset.getString("inquiry_content"), 
+				rset.getString("inquiry_yn"), 
+				rset.getDate("inquiry_date"),
+				rset.getString("inquiary_name"));
+
+		inquiaryList.add(i);
+	}
+	
+} catch (SQLException e) {
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+}
+		}else if(type.equals("d")&&word!=""){
+String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%')";
+			
+try {
+	pstmt=conn.prepareStatement(query);
+
+	
+	rset=pstmt.executeQuery();
+	
+	while (rset.next()) {
+		Inquiary i = new Inquiary(rset.getInt("board_no"), 
+				rset.getString("board_type"),
+				rset.getString("inquiry_content"), 
+				rset.getString("inquiry_yn"), 
+				rset.getDate("inquiry_date"),
+				rset.getString("inquiary_name"));
+
+		inquiaryList.add(i);
+	}
+	
+} catch (SQLException e) {
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+}
+		
+	}
+		return inquiaryList;
+		
+	}
+
+	public Board selectInquiary(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND B.BOARD_NO=?"; 
+		Board board=null;
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+
+				board = new Board(rset.getInt("board_no"), 
+						rset.getString("title"), 
+						rset.getString("content"),
+						rset.getInt("user_no"), 
+						rset.getDate("write_date"), 
+						rset.getInt("read_num"),
+						rset.getInt("board_code"), 
+						rset.getString("board_status"), 
+						rset.getString("user_id"));
+
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return board;
+	}
+
+	public Inquiary searchInquaryTypeList(Connection conn, int board_no) {
+		
+		System.out.println("디오에서 board_no:"+board_no);
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND B.BOARD_NO=?";
+		Inquiary inquiary = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				inquiary = new Inquiary(rset.getInt("board_no"), 
+						rset.getString("board_type"),
+						rset.getString("inquiry_content"), 
+						rset.getString("inquiry_yn"), 
+						rset.getDate("inquiry_date"),
+						rset.getString("inquiary_name"));
+
+				
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		System.out.println("디올끝나고 난 후:"+inquiary);
+		return inquiary;
+	}
+
+	public ArrayList<Board> selectFaq(Connection conn, int board_code) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		String query="SELECT * FROM BOARD WHERE board_code=? and board_status='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,board_code);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Report> selectReportList(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Report> rList=new ArrayList<>();
+		String query="SELECT * FROM REPORT P left JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y'";
+		try {
+			pstmt=conn.prepareStatement(query);
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Report r=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"));
+							rList.add(r);		
+				
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return rList;
+	}
+
+	public ArrayList<Board> selectReportBoard(Connection conn) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"),
+						rset.getString("user_id"));
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return list;
+	}
+
+	public ArrayList<Board> searchReport(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Board> list=new ArrayList<Board>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+	
+		
+		if(type.equals("a")&&word=="") {
+	
+		
+			
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Board b=new Board(rset.getInt("board_no"),
+						rset.getString("title"),
+						rset.getString("content"),
+						rset.getInt("user_no"),
+						rset.getDate("write_date"),
+						rset.getInt("read_num"),
+						rset.getInt("board_code"),
+						rset.getString("board_status"),
+						rset.getString("user_id"));
+				
+				
+				list.add(b);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B1' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B2' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("b")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Board b=new Board(rset.getInt("board_no"),
+							rset.getString("title"),
+							rset.getString("content"),
+							rset.getInt("user_no"),
+							rset.getDate("write_date"),
+							rset.getInt("read_num"),
+							rset.getInt("board_code"),
+							rset.getString("board_status"),
+							rset.getString("user_id"));
+					
+					list.add(b);
+					
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}
+		return list;
+
+	
+	}
+
+	public ArrayList<Report> searchReportType(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList<Report> list=new ArrayList<>();
+		
+		System.out.println("dao:"+type);
+		System.out.println("dao:"+word);
+	
+		
+		if(type.equals("a")&&word=="") {
+	
+		
+			
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+
+			
+			rset=pstmt.executeQuery();
+			
+			
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B1' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("c")&&word==""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND P.REPORT_TYPE='B2' AND B.BOARD_STATUS='Y'";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){	
+	String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%') ";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("b")&&word!=""){	
+			
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+					
+			
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}else if(type.equals("c")&&word!=""){	
+String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND P.REPORT_TYPE='B1' AND (B.TITLE LIKE '%'||?||'%' OR M.USER_ID LIKE '%'||?||'%')";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				
+
+				
+				rset=pstmt.executeQuery();
+				
+				while(rset.next()) {
+					Report r=new Report(rset.getInt("board_no"),
+										rset.getString("re_content"),
+										rset.getString("re_yn"),
+										rset.getDate("re_date"),
+										rset.getInt("service_no"),
+										rset.getString("report_type"),
+										rset.getString("report_name"));
+					list.add(r);		
+					
+				
+				}
+					
+			
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+	
+	}
+			return list;
+	}
+
+	public int confirmReport(Connection conn, ArrayList<String> arr) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String query="UPDATE REPORT SET RE_YN='Y' WHERE BOARD_NO=?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Report selectReport(Connection conn, int board_no) {
+		
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		Report report=null;
+		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND B.BOARD_STATUS='Y' AND B.BOARD_NO=?";
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset=pstmt.executeQuery();
+			
+			if(rset.next()) {
+				report=new Report(rset.getInt("board_no"),
+								rset.getString("re_content"),
+								rset.getString("re_yn"),
+								rset.getDate("re_date"),
+								rset.getInt("service_no"),
+								rset.getString("report_type"),
+								rset.getString("report_name"),
+								rset.getString("user_id"),
+								rset.getString("title"),
+								rset.getString("content"),
+								rset.getDate("write_date"));
+			}
+			
+			if(report.getReport_name().equalsIgnoreCase("구매자 신고")) {
+				String query2="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
+				pstmt=conn.prepareStatement(query2);
+				pstmt.setInt(1, board_no);
+				rset=pstmt.executeQuery();
+				
+				if(rset.next()) {
+					report=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"),
+									rset.getString("user_id"),
+									rset.getString("title"),
+									rset.getString("content"),
+									rset.getDate("write_date"));
+				}
+				
+				
+				
+			}else {
+				String query3="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
+				pstmt=conn.prepareStatement(query3);
+				pstmt.setInt(1, board_no);
+				rset=pstmt.executeQuery();
+				
+				if(rset.next()) {
+					report=new Report(rset.getInt("board_no"),
+									rset.getString("re_content"),
+									rset.getString("re_yn"),
+									rset.getDate("re_date"),
+									rset.getInt("service_no"),
+									rset.getString("report_type"),
+									rset.getString("report_name"),
+									rset.getString("user_id"),
+									rset.getString("title"),
+									rset.getString("content"),
+									rset.getDate("write_date"));
+		
+				}
+				
+				
+				
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return report;
+	}
+
 	
 
 }
+
+
+	
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
 
 

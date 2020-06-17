@@ -37,15 +37,16 @@ public class InquiaryListServlet extends HttpServlet {
 		ArrayList<Board> bList=new BoardService().selectInquiaryList();
 		ArrayList<Inquiary> inquiaryList=new BoardService().selectInquaryTypeList();
 		
+		
+		
 		RequestDispatcher view=null;
-		if(!bList.isEmpty()&&!inquiaryList.isEmpty()) {
+		
+		
 			request.setAttribute("bList", bList);
 			request.setAttribute("inquiaryList", inquiaryList);
 			request.getRequestDispatcher("views/adminPage/Ad_inquiary_list.jsp").forward(request, response);
 			
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+	
 		
 		
 	}

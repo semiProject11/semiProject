@@ -98,11 +98,12 @@ th, tr, td {
 	<jsp:include page="../common/menubar2.jsp" />
 
 	<!--side nav start-->
-	<div id="layoutSidenav">
+		<div id="layoutSidenav">
+
 		<div id="layoutSidenav_nav">
 			<nav class="sb-sidenav accordion sb-sidenav-light"
 				id="sidenavAccordion">
-			
+				<!--클릭할때 글자색상이 파란색이라 color바꿔줌-->
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">
@@ -131,10 +132,10 @@ th, tr, td {
 						<div class="collapse" id="collapseUsers"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_grade.html">판매자 등급 관리</a> <a
-									class="nav-link" href="admin_transaction.html">거래내역 관리</a> <a
-									class="nav-link" href="admin_review.html">전체 리뷰 관리</a> <a
-									class="nav-link" href="admin_inquiry.html">문의 사항 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
 
@@ -155,7 +156,7 @@ th, tr, td {
 						<div class="collapse" id="collapseReport"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_report.html">신고 내역 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
 
@@ -207,12 +208,13 @@ th, tr, td {
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_notice.html">공지사항 관리</a>
-								<a class="nav-link" onclick="location.href='<%=request.getContextPath()%>/eventList.service'">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
+									class="nav-link" href="admin_event.html">이벤트 관리</a>
 							</nav>
 						</div>
 					</div>
 				</div>
+
 				<!--side nav footer start-->
 				<div class="sb-sidenav-footer">
 					<div class="small">Logged in as:</div>

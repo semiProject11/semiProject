@@ -148,6 +148,7 @@ Board b = (Board) request.getAttribute("board");
 
 
 
+
 <!-- contents -->
       <div class="container mt-5">
         <div class="container my-5">

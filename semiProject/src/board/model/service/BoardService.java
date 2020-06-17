@@ -1,6 +1,10 @@
 package board.model.service;
 
-import static common.JDBCTemplate.*;
+import static common.JDBCTemplate.close;
+import static common.JDBCTemplate.commit;
+import static common.JDBCTemplate.getConnection;
+import static common.JDBCTemplate.rollback;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -11,8 +15,13 @@ import board.model.vo.Inquiary;
 import board.model.vo.InquiaryList;
 import board.model.vo.Report;
 import board.model.vo.Review;
+import board.model.vo.ReviewAd;
 import member.model.vo.Member;
 import service.model.dao.ServiceDao;
+import service.model.vo.Service;
+import service.model.vo.Service_Category;
+import service.model.vo.Service_List;
+
 
 public class BoardService {
 
@@ -22,6 +31,13 @@ public class BoardService {
 
 		int listCount = new BoardDao().getListCount(conn);
 
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return listCount;
 	}
@@ -96,15 +112,20 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().selectBoard(conn);
+		close(conn);
 
 		return list;
 	}
+	
+	
+	
 
 	public ArrayList<Board> selectBoardNotice() {
 
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().selectBoardNotice(conn);
+		close(conn);
 
 		return list;
 	}
@@ -125,8 +146,9 @@ public class BoardService {
 
 	public Board selectBoardDetail(int board_no) {
 		Connection conn = getConnection();
-
+		System.out.println("서비스1:"+board_no);
 		Board b = new BoardDao().selectBoardDetail(conn, board_no);
+		System.out.println("서비스2:"+b);
 
 		close(conn);
 		return b;
@@ -159,6 +181,13 @@ public class BoardService {
 		Connection conn = getConnection();
 		int result = new BoardDao().checkReportS(conn, service_no);
 
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
@@ -167,6 +196,13 @@ public class BoardService {
 		Connection conn = getConnection();
 		int result = new BoardDao().checkReportB(conn, service_no);
 
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
@@ -228,7 +264,7 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		Board board = new BoardDao().selectBoardNo(conn, board_no);
-
+		close(conn);
 		return board;
 	}
 
@@ -238,6 +274,7 @@ public class BoardService {
 		ArrayList<Files> flist = new BoardDao().selectFiles(conn, board_no);
 
 		System.out.println("서비스에서" + flist);
+		close(conn);
 		return flist;
 	}
 
@@ -284,9 +321,7 @@ public class BoardService {
 		}
 		close(conn);
 		
-		
-		
-		
+	
 		return result;
 		
 		
@@ -299,11 +334,13 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		ArrayList<Board> list = new BoardDao().searchNotice(conn,type,word);
+		close(conn);
 
 		return list;
 		
 	
 	}
+
 
 	public ArrayList<InquiaryList> selectListIq(String userNo) {
 		Connection conn = getConnection();
@@ -314,6 +351,213 @@ public class BoardService {
 		return list;
 	}
 
+
+	public ArrayList<Board> selectB_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Board> bList = new BoardDao().selectB_ReviewList(conn);
+
+		close(conn);
+		
+		return bList;
+	}
+
+	public ArrayList<ReviewAd> selectR_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<ReviewAd> rList = new BoardDao().selectR_ReviewList(conn);
+
+		close(conn);
+		
+		return rList;
+	}
+
+	public ArrayList<Service_Category> selectSC_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_Category> scList = new BoardDao().selectSC_ReviewList(conn);
+
+		close(conn);
+		
+		return scList;
+	}
+
+	public ArrayList<Service> selectS_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service> sList = new BoardDao().selectS_ReviewList(conn);
+
+		close(conn);
+		
+		return sList;
+	}
+
+	public ArrayList<Service_List> selectSL_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+
+		close(conn);
+		
+		return slList;
+	}
+
+	public ArrayList<Member> selectM_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> mList = new BoardDao().selectM_ReviewList(conn);
+
+		close(conn);
+		
+		return mList;
+	}
+
+	public int checkInquiary(ArrayList<String> arr) {
+
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().checkInquiary(conn,arr);
+		System.out.println("서비스:"+result);
+
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+	public ArrayList<Board> searchInquiary(String type, String word) {
+		Connection conn = getConnection();
+
+		
+		ArrayList<Board> bList = new BoardDao().searchInquiary(conn,type,word);
+
+		close(conn);
+		return bList;
+	}
+
+	public ArrayList<Inquiary> searchInquaryTypeList(String type, String word) {
+		Connection conn = getConnection();
+
+		System.out.println("서비스(dao다녀오기 전):"+type+"이랑"+word);
+		ArrayList<Inquiary> inquiaryList = new BoardDao().searchInquaryTypeList(conn,type,word);
+		System.out.println("서비스(dao다녀온후):"+inquiaryList);
+		close(conn);
+		return inquiaryList;
+	}
+
+	public Board selectInquiary(int board_no) {
+		Connection conn =getConnection();
+		Board board=new BoardDao().selectInquiary(conn,board_no);
+		close(conn);
+		return board;
+	}
+
+	public Inquiary selectInquiaryType(int board_no) {
+		Connection conn = getConnection();
+		System.out.println("보드서비스:"+board_no);
+		Inquiary inquiary = new BoardDao().searchInquaryTypeList(conn,board_no);
+		System.out.println("디오다녀온후:"+inquiary);
+	
+		close(conn);
+		return inquiary;
+	}
+
+	public ArrayList<Board> selectFaq(int board_code) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().selectFaq(conn,board_code);
+		close(conn);
+
+		return list;
+	
+	}
+
+	public ArrayList<Report> selectReportList() {
+		
+		Connection conn=getConnection();
+		ArrayList<Report> rList=new BoardDao().selectReportList(conn);
+		
+		close(conn);
+	
+		return rList;
+	}
+
+	public ArrayList<Board> selectReportBoard() {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().selectReportBoard(conn);
+		close(conn);
+
+		return list;
+	}
+
+	public ArrayList<Board> searchReport(String type, String word) {
+		Connection conn = getConnection();
+
+		ArrayList<Board> list = new BoardDao().searchReport(conn,type,word);
+		close(conn);
+
+		return list;
+		
+	}
+
+
+
+	public ArrayList<Report> searchReportType(String type, String word) {
+		Connection conn = getConnection();
+
+		ArrayList<Report> list = new BoardDao().searchReportType(conn,type,word);
+		close(conn);
+
+		return list;
+	}
+
+	public int confirmReport(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().confirmReport(conn,arr);
+		System.out.println("서비스:"+result);
+		
+		if (result > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+	public Report selectReport(int board_no) {
+		Connection conn=getConnection();
+		Report report=new BoardDao().selectReport(conn,board_no);
+		close(conn);
+		return report;
+	}
+	
+	
+}
+
 	
 
-}
+
+
+
+
+
+	
+
+	
+	
+
+

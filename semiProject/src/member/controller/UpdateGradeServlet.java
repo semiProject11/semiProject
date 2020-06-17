@@ -1,6 +1,8 @@
 package member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,16 +33,49 @@ public class UpdateGradeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
+		String userNo=request.getParameter("userNo"); //회원번호
+		String grade=request.getParameter("grade"); //변경할 등급
+		String rowArr=request.getParameter("rowArr");
+		String tdArr=request.getParameter("tdArr");
 		
-	request.setCharacterEncoding("utf-8");
-	String[] gradeChange=request.getParameterValues("gid");
-	String[] grade=request.getParameterValues("grade");
+		System.out.println("userno:"+userNo);
+		System.out.println("grade:"+grade);
+		System.out.println("rowArr:"+rowArr);
+		System.out.println("tdArr:"+tdArr);
 		
-	System.out.println("서블릿으로 넘어오나:"+gradeChange);
 		
-
-
-
+		
+		
+		
+		
+		/*
+		 * String rowArr=request.getParameter("rowArr");
+		 * System.out.println("서블릿에서 rowArr"+rowArr); String
+		 * tdArr=request.getParameter("tdArr"); System.out.println("서블릿에서 tdArr"+tdArr);
+		 * 
+		 * 
+		 * StringTokenizer st=new StringTokenizer(rowArr,","); ArrayList<String> arr=new
+		 * ArrayList(); while(st.hasMoreTokens()) { arr.add(st.nextToken());
+		 * 
+		 * }
+		 * 
+		 * System.out.println("토크나이저로 끊은 값:"+arr);
+		 */
+		
+		/*
+		 *  int result=new MemberService().updateGrade(arr);
+		 * 
+		 * System.out.println("DAO다녀온 후 RESULT:"+result);
+		 * 
+		 * if (result > 0) {
+		 * request.getRequestDispatcher("/list.grade").forward(request, response);
+		 * 
+		 * } else {
+		 * request.getRequestDispatcher("views/common/errorPage.jsp").forward(request,
+		 * response); }
+		 */
+		
+		
 	
 	
 	}

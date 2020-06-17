@@ -134,10 +134,10 @@ th, tr, td {
 						<div class="collapse" id="collapseUsers"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_grade.html">판매자 등급 관리</a> <a
-									class="nav-link" href="admin_transaction.html">거래내역 관리</a> <a
-									class="nav-link" href="admin_review.html">전체 리뷰 관리</a> <a
-									class="nav-link" href="admin_inquiry.html">문의 사항 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
 
@@ -158,7 +158,7 @@ th, tr, td {
 						<div class="collapse" id="collapseReport"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_report.html">신고 내역 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
 
@@ -210,7 +210,7 @@ th, tr, td {
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_notice.html">공지사항 관리</a><a
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
 									class="nav-link" href="admin_event.html">이벤트 관리</a>
 							</nav>
 						</div>
@@ -228,6 +228,12 @@ th, tr, td {
 			<!--side nav end-->
 
 
+
+
+
+
+
+
 			<!--contents-->
 			<div class="container mt-5">
 
@@ -235,33 +241,37 @@ th, tr, td {
 					<h2>사용자 등급 관리</h2>
 					<hr>
 				</header>
-					<form>
+					<form action="<%=request.getContextPath() %>/search.member" method="post">
 				<div class="container my-4">
 						<div>
 							<!--상단 버튼-->
 							<button type="button" class="btn" id="checkBtn"
-								style="background: black; color: white">전체 선택</button>
+								style="background: black; color: white" onclick="checkAll();">전체 선택</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="updateGrade();">등급
-								변경</button>
+								style="background: black; color: white" onclick="updateGrade();">변경</button>
 							<button type="button" class="btn"
-								style="background: black; color: white">구매자 제한</button>
+								style="background: black; color: white" onclick="changeBuy();">구매자 제한</button>
 							<button type="button" class="btn"
-								style="background: black; color: white">판매자 제한</button>
+								style="background: black; color: white" onclick="changeSell();">판매자 제한</button>
+						
+						
+						
 							<!--상단 검색창-->
+							
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
-									<input class="form-control" type="text"
+									<input class="form-control" type="text" name="word" value=""
 										placeholder="Search for..." aria-label="Search"
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
-									<button class="btn btn-primary mr-0" type="button" id="jin">
-										<i class="fas fa-search"></i></i>
+									<button class="btn btn-primary mr-0" type="submit" style="background:black; border:black;">
+									
+										<i class="fas fa-search"></i>
 									</button>
 								</div>
 							</div>
-						</div>
+						</div> 
 
 
 
@@ -274,7 +284,7 @@ th, tr, td {
 										<th><input type="checkbox" class="common" id="checkAll"
 											style="width: 18px; height: 18px;"></th>
 										<th>No</th>
-										<th>판매자 아이디</th>
+										<th>사용자 아이디</th>
 										<th>판매점수</th>
 										<th>신고받은 횟수</th>
 										<th>현재 등급</th>
@@ -283,7 +293,7 @@ th, tr, td {
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody name="tr" value="bbbb">
 
 
 									<%
@@ -299,34 +309,39 @@ th, tr, td {
 										for (int i = 0; i < gradeList.size(); i++) {
 									%>
 
-									<tr>
-
-										<td><input type="checkbox" class="common" id="gradeList"
-											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>">
+									<tr id="tr" name="tr" value="trtr">
+										<input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
+										
+										<td><input type="checkbox" class="common" id="rowCheck"
+											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>>
 
 
 										</td>
 										<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
 										<td><%=(gradeList.get(i)).getUserNo()%></td>
 										<!-- 유저아이디 -->
-										<td name="userId"><%=(gradeList.get(i)).getUserId()%></td>
+										<td><%=(gradeList.get(i)).getUserId()%></td>
 										<!-- 점수  -->
 										<td><%=(gradeList.get(i)).getGradeTot()%></td>
 										<!-- 신고받은 횟수 -->
 										<td><%=(sellerList.get(i)).getReportNum()%></td>
 										<!-- 현재 등급 -->
 										<td><%=(gradeList.get(i)).getGrade()%></td>
+										
+										
+										
 										<!-- 변경될 등급 -->
-
-
-
-										<td><select name="grade" class="custom-select">
+										<td><select name="grade" id="grade" class="custom-select grade">
 												<option value="BRONZE">BRONZE</option>
 												<option value="SILVER">SILVER</option>
 												<option value="GOLD">GOLD</option>
 												<option value="PLATINUM">PLATINUM</option>
 												<option value="DIAMOND">DIAMOND</option>
-										</select></td>
+										</select>
+										
+									
+										
+										</td>
 
 									</tr>
 
@@ -391,50 +406,142 @@ th, tr, td {
 
 
 
+
+
 	<script>
 	
+	
 	//등급변경
-    function updateGrade(){
-    	
-		//등급 변경할 값을 arraylist에 넣어주고 서블릿에 넘기기 
-		
-		$("#gListArea").submit();
+	 function updateGrade(){
 		
 		
-		var gid=$("#gradeList").val();
-		var grade=$("#grade").val();
-		
-		location.href="<%=request.getContextPath()%>/update.grade?gid=" + gid;
-		location.href="<%=request.getContextPath()%>/update.grade?grade=" + grade;
+		var rowArr=new Array();
+		var tdArr=new Array();
 		
 		
-		};
+		$("input:checkbox[name=rowCheck]:checked").each(function(i){ //td단계임
+			
+			rowArr+=$(this).val();
+		
+	
+			trArr=$(this).eq(7).text()+",";
+
+
+		});
+		
+			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
+	
+	
+	} 
+	
+	
+	
+	<%-- 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
+			
+			var rowArr=new Array();
+			var tdArr=new Array();
+			
+			$("input:checkbox[name=rowCheck]:checked").each(function(i){
+				
+				var tr=$(this).parent().parent().eq(i); //tr 전체 값
+				var td=tr.children();	//td 값
+				
+				rowArr.push(tr.text());
+				
+				var userNo=td.eq(0).text()+",";
+				var grade=td.eq(6).text()+",";
+				
+				tdArr.push(userNo);
+				tdArr.push(grade);
+				
+					
+				});
+				
+				
+				
+			
+			}else{
+			return false;
+		
+		
+	}  
+ 	}
+		--%>
 		
 		
 		
+//검색기능
+	
+<%-- 	function searchData(){
+		location.href="<%=request.getContextPath() %>/search.member?word="+word;
 		
+	} --%>
+	
+	
+	
+	
+	//구매자 권한 변경
+	function changeBuy(){
 		
+	
+    		if(confirm("선택한 사용자의 구매자 권한을 변경하시겠습니까?")){
+    			
+    			var arr=new Array();
+					$("input:checkbox[name=rowCheck]:checked").each(function(i){
+					
+						var userNo=$(this).val();
+						arr.push(userNo);
 		
+						
+					})
+					
+					
+					location.href="<%=request.getContextPath()%>/changeB.member?arr="+ arr;
+    				
+    			
+    			}else{
+    			return false;
+    		}
+    		
+    	} 
+
+
+	
+	
+	//판매자 권한 변경
+ function changeSell(){
 		
+	
+    		if(confirm("선택한 사용자의 판매자 권한을 변경하시겠습니까?")){
+    			
+    			var arr=new Array();
+					$("input:checkbox[name=rowCheck]:checked").each(function(i){
+					
+						var userNo=$(this).val();
+						arr.push(userNo);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+						
+					})
+					
+					
+					location.href="<%=request.getContextPath()%>/changeS.member?arr="+ arr;
+    				
+    			
+    			}else{
+    			return false;
+    		}
+    		
+    	}  
+	
+	
+	
+
+	
 		
 		
 		//모두 체크
 		
-		  $(function(){
+	 $(function(){
 			  $("#checkAll").hide();
 			  $("#checkBtn").click(function(){
 					$("#checkAll").click();
@@ -449,5 +556,8 @@ th, tr, td {
            
 
 	</script>
+	
+	
+	
 </body>
 </html>
