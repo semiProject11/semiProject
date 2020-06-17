@@ -12,6 +12,7 @@
 	int ck= 0;
 	int rating = 0;
 	String content1 = "";
+	String content2 = "";
 %>
 <!DOCTYPE html>
 <html>
@@ -269,19 +270,33 @@
                         	Review r = reList.get(j); %>
                         <%if(s.getServiceNo() == r.getServiceNo()) { 
                         	ck=1; rating = r.getRating(); content1 = r.getContent();%>
+                        	<h1><%=content2 %></h1>
+                        <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-whatever="12345" data-target="#exampleModal" value="<%=i %>" onclick="reClick();" disabled="disabled" style="background:black; color:white; width:110px;">
+                        	<input type="hidden" class="rating" value="<%=r.getRating()%>">
+                        	<input type="hidden" class="content1" value="<%=r.getContent()%>">
+                        	평점주기</button>                        
+                        </td>
+                        	
+                        	
                         <% }%> 
                         <% }%> 
                         <% }%>               
 						<%if(ck==1){ %>
-                        <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="reClick();" style="background:black; color:white; width:110px;" disabled>평점주기</button>
-                        </td>
                         <%} else{%>
                         <td>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
                         </td>
                         <%} %>
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        						
+                      </tr>
+                        <%
+							}
+						%>
+						<%
+							}
+						%>
+                      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -300,7 +315,8 @@
 									  <span class="starR" id="3">3</span>
 									  <span class="starR" id="4">4</span>
 									  <span class="starR" id="5">5</span>
-									  <input type="text" id="value1" name="value1" value="<%=rating%>" >
+									  <input type="text" id="value1" name="value1" value="<%=rating%>" >									  
+									  
 									</div>
 						          </div>
 						          <div class="form-group">
@@ -314,16 +330,7 @@
 						      </div>
 						    </div>
 						  </div>
-						</div> 
-						
-                      </tr>
-                        <%
-							}
-						%>
-						<%
-							}
-						%>
-                      
+						</div>
 						
 						<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
@@ -380,24 +387,29 @@
 						
 					})
 					function reClick(){
-						var starCount = '#'+$('#value1').val();
-						console.log(starCount);
-						$(starCount).click();
-					}
+								var rating1 = $(this).children(".rating").val();
+								var content11 = $(this).children(".content1").val();
+								alert(rating1)
+								var starCount = '#'+rating1;
+								$(starCount).click();
+							}
+					
 					function close111(){
 						location.href="<%=request.getContextPath()%>/buyList.sv"
 						consol.log("안녕");
 					}
 					$('#exampleModal1').on('show.bs.modal', function (event) {
 						  var button = $(event.relatedTarget) 
-						  var recipient = button.data('whatever') 
-						  var modal = $(this)
+						  var recipient = button.data('whatever')
+						  
 						  modal.find('.modal-body input').val(recipient)
 						})
+						
 					function submit11(){
 						alert("평점이 등록 되었습니다.");
 						return true;
 					}
+					
 					</script>	  
                   </tbody>
               </table>

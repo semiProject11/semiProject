@@ -8,6 +8,7 @@ import board.model.dao.BoardDao;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
+import board.model.vo.InquiaryList;
 import board.model.vo.Report;
 import board.model.vo.Review;
 import member.model.vo.Member;
@@ -302,6 +303,15 @@ public class BoardService {
 		return list;
 		
 	
+	}
+
+	public ArrayList<InquiaryList> selectListIq(String userNo) {
+		Connection conn = getConnection();
+		
+		ArrayList<InquiaryList> list = new BoardDao().selectListIq(conn, userNo);
+		
+		close(conn);
+		return list;
 	}
 
 	

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
-
+import board.model.vo.InquiaryList;
 import board.model.vo.Report;
 import board.model.vo.Review;
 import member.model.vo.Account;
@@ -247,6 +247,7 @@ public class BoardDao {
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
 		return list;
 	}
@@ -995,6 +996,42 @@ public class BoardDao {
 		System.out.println("dao"+list);
 		return list;
 
+	}
+
+	public ArrayList<InquiaryList> selectListIq(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<InquiaryList> list = new ArrayList<>();
+		
+		String query = "SELECT * FROM BOARD B JOIN INQUIARY I ON(B.BOARD_NO = I.BOARD_NO) WHERE B.USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				InquiaryList in = new InquiaryList(rset.getInt("BOARD_NO"),
+						rset.getString("TITLE"),
+						rset.getDate("WRITE_DATE"),
+						rset.getString("INQUIRY_YN"),
+						rset.getString("BOARD_TYPE")													
+						);
+				list.add(in);
+						
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		
+		
+		return list;
 	}
 
 	
