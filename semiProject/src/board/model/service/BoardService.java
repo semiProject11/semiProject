@@ -508,6 +508,23 @@ public class BoardService {
 		close(conn);
 		return report;
 	}
+
+	public int deleteReview(int board_no) {
+		
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().deleteReview(conn,board_no);
+		
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
 	
 	
 }

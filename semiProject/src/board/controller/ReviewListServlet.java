@@ -55,7 +55,7 @@ public class ReviewListServlet extends HttpServlet {
 //		System.out.println(mList);
 		
 		RequestDispatcher view=null;
-		if(!bList.isEmpty()&&!rList.isEmpty()&&!scList.isEmpty()&&!sList.isEmpty()&&!slList.isEmpty()) {
+		
 			request.setAttribute("bList", bList);
 			request.setAttribute("rList", rList);
 			request.setAttribute("scList", scList);
@@ -65,9 +65,7 @@ public class ReviewListServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("views/adminPage/Ad_review_list.jsp").forward(request, response);
 			
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 	}
 
