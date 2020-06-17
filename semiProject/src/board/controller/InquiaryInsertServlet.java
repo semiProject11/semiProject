@@ -85,6 +85,7 @@ public class InquiaryInsertServlet extends HttpServlet {
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
+
 		b.setuser_id(user_id);
 		b.setBoard_code(board_code);
 

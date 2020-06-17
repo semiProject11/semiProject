@@ -372,45 +372,10 @@ public class BoardService {
 		return rList;
 	}
 
-	public ArrayList<Service_Category> selectSC_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service_Category> scList = new BoardDao().selectSC_ReviewList(conn);
 
-		close(conn);
-		
-		return scList;
-	}
+	
 
-	public ArrayList<Service> selectS_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service> sList = new BoardDao().selectS_ReviewList(conn);
 
-		close(conn);
-		
-		return sList;
-	}
-
-	public ArrayList<Service_List> selectSL_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
-
-		close(conn);
-		
-		return slList;
-	}
-
-	public ArrayList<Member> selectM_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Member> mList = new BoardDao().selectM_ReviewList(conn);
-
-		close(conn);
-		
-		return mList;
-	}
 
 	public int checkInquiary(ArrayList<String> arr) {
 
@@ -479,6 +444,15 @@ public class BoardService {
 	
 	}
 
+
+	public Board selectBoardReivew(int board_no) {
+		Connection conn =getConnection();
+		Board board=new BoardDao().selectBoardReivew(conn,board_no);
+		close(conn);
+		return board;
+	}
+
+
 	public ArrayList<Report> selectReportList() {
 		
 		Connection conn=getConnection();
@@ -507,6 +481,7 @@ public class BoardService {
 		return list;
 		
 	}
+
 
 
 

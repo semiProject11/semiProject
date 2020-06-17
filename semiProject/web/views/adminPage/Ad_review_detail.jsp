@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*, member.model.vo.*, service.model.vo.*, java.util.*"%>
+    <%
+    Board b=(Board)request.getAttribute("board");
+    Member m=(Member)request.getAttribute("member");
+    Service s =(Service)request.getAttribute("service");
+    Service_List ls = (Service_List)request.getAttribute("lService");
+	Service_Category cs = (Service_Category)request.getAttribute("cService");
+	ServiceBuyList sb = (ServiceBuyList)request.getAttribute("sbService");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,32 +234,32 @@
                         <form class="form-group">
                             <div class="row">
                                 <div class="col-md-2"><label>카테고리</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">IT</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=cs.getCategory_name() %></label></div>
                                 <div class="col-md-2"><label>구매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">빽다</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">15-458</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=b.getBoard_no() %></label></div>
                                 <div class="col-md-2"><label>판매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">소통소통</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>거래일시</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">2020-05-01</label>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=ls.getTrade_date() %></label>
                                 </div>
                                 <div class="col-md-2"><label>포인트(가격)</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">50,000</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=s.getPrice_sale() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>
-                                <div class="col-md-10"><label style="width:100%; text-align: left;">웹프로그래밍 익히고 싶으신
-                                        분</label></div>
+                                <div class="col-md-10"><label style="width:100%; text-align: left;"><%=sb.getTitle() %>
+                                        </label></div>
                             </div>
                             <div class="mt-2">
                                 <textarea class="form-control"
-                                    style="width:100%; height:500px; resize:none;">웹프로그래밍쪽 진로 관련 상담 가능</textarea>
+                                    style="width:100%; height:500px; resize:none;"><%=b.getContent() %></textarea>
 
                             </div>
                             <div class="row mt-2">

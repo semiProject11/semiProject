@@ -24,6 +24,10 @@ public class ServiceBuyList {
 		this.serviceNo = serviceNo;
 		this.bUserNo = bUserNo;
 	}
+	
+	public ServiceBuyList(String title) {
+		this.title = title;
+	}
 	public String getChangeName() {
 		return changeName;
 	}

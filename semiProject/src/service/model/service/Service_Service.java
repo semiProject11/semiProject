@@ -8,8 +8,11 @@ import static common.JDBCTemplate.rollback;
 import java.sql.Connection;
 import java.util.ArrayList;
 
+import board.model.dao.BoardDao;
+import board.model.vo.Inquiary;
 import board.model.vo.Review;
 import service.model.dao.ServiceDao;
+import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_DaysTable_oh;
@@ -114,6 +117,83 @@ public class Service_Service {
 	      close(conn);
 	      return result;
 	   }
+
+
+	public Service selectServiceReview(int board_no) {
+		Connection conn = getConnection();
+		
+		Service service = new ServiceDao().selectServiceReview(conn,board_no);
+	
+		close(conn);
+		return service;
+	}
+
+
+	public ArrayList<Service> selectS_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service> sList = new ServiceDao().selectS_ReviewList(conn);
+
+		close(conn);
+		
+		return sList;
+	}
+
+
+	public ArrayList<Service_Category> selectSC_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_Category> scList = new ServiceDao().selectSC_ReviewList(conn);
+
+		close(conn);
+		
+		return scList;
+
+	}
+
+
+	public ArrayList<Service_List> selectSL_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+
+		close(conn);
+		
+		return slList;
+	}
+
+
+	public Service_List selectLServiceReview(int board_no) {
+		
+		Connection conn = getConnection();
+		
+		Service_List lService = new ServiceDao().selectLServiceReview(conn, board_no);
+	
+		close(conn);
+		return lService;
+	}
+
+
+	public Service_Category selectCServiceReview(int board_no) {
+		
+		Connection conn = getConnection();
+		
+		Service_Category cService = new ServiceDao().selectCServiceReview(conn, board_no);
+	
+		close(conn);
+		return cService;
+	}
+
+
+	public ServiceBuyList selectBuyListServiceReview(int board_no) {
+		
+		Connection conn = getConnection();
+		
+		ServiceBuyList sbService = new ServiceDao().selectBuyListServiceReview(conn, board_no);
+	
+		close(conn);
+		return sbService;
+	}
 
 
 	
