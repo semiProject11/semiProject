@@ -9,7 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import board.model.vo.Inquiary;
 import board.model.vo.Review;
+import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_DaysTable_oh;
@@ -407,7 +409,7 @@ public class ServiceDao {
 	         
 	         
 	       //데이터 없어서 임의의 값 넣음 
-	            String query = "INSERT INTO DAYS VALUES(?,55)";
+	            String query = "INSERT INTO DAYS VALUES(?,5)";
 	            //서비스번호 임시로 넣어둠 !
 	            
 	         try {
@@ -433,6 +435,240 @@ public class ServiceDao {
 
 	   
 	   }
+
+	public Service selectServiceReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SELLER SE ON (L.S_USER_NO = SE.S_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_NO=?";
+		Service service = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				service = new Service(rset.getInt("service_no")
+						, rset.getInt("s_user_no")
+						, rset.getString("sale_info")
+						, rset.getString("available_area")
+						, rset.getInt("readCount")
+						, rset.getInt("file_count")
+						, rset.getString("file_YN")
+						, rset.getInt("b_user_no")
+						, rset.getString("saleMethod")
+						, rset.getDate("deadline")
+						, rset.getInt("price_bidding")
+						, rset.getInt("price_sale")
+						, rset.getString("subject")
+						, rset.getString("category_code"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return service;
+	}
+
+	public ArrayList<Service> selectS_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service> sList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {	
+						
+				Service s = new Service(rset.getInt("service_no")
+									, rset.getInt("s_user_no")
+									, rset.getString("sale_info")
+									, rset.getString("available_area")
+									, rset.getInt("readCount")
+									, rset.getInt("file_count")
+									, rset.getString("file_YN")
+									, rset.getInt("b_user_no")
+									, rset.getString("saleMethod")
+									, rset.getDate("deadline")
+									, rset.getInt("price_bidding")
+									, rset.getInt("price_sale")
+									, rset.getString("subject")
+									, rset.getString("category_code"));
+				sList.add(s);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return sList;
+
+	}
+
+	public ArrayList<Service_Category> selectSC_ReviewList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		ArrayList<Service_Category> scList = new ArrayList<>();
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				Service_Category sc = new Service_Category(rset.getString("category_code"), rset.getString("category_name"));
+				scList.add(sc);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return scList;
+	}
+
+	public Service_List selectLServiceReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SELLER SE ON (L.S_USER_NO = SE.S_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_NO=?";
+		Service_List lService = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				lService = new Service_List(rset.getInt("service_no"),
+										rset.getDate("trade_date"),
+										rset.getString("s_user_no"),
+										rset.getString("b_user_no"),
+										rset.getString("refund_yn"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return lService;
+	}
+
+	public Service_Category selectCServiceReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SELLER SE ON (L.S_USER_NO = SE.S_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_NO=?";
+		Service_Category cService = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				
+				cService = new Service_Category(rset.getString("category_code"),
+										rset.getString("category_name"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return cService;
+	}
+
+	public ServiceBuyList selectBuyListServiceReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "SELECT *\r\n" + 
+				"FROM REVIEW F\r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN SELLER SE ON (L.S_USER_NO = SE.S_USER_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_NO=?";
+		ServiceBuyList sbService = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				
+				sbService = new ServiceBuyList(
+										rset.getString("title"));
+				
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return sbService;
+	}
 	      
 
 }

@@ -312,7 +312,7 @@
                             <%}else{ %>
                             	<%for(int i=0; i<bList.size(); i++){ %>
                             	<tr>
-                            		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>">
+                            		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>>
 									<td class="review_list"><%=(bList.get(i)).getBoard_no()%></td>
                                     <td class="review_list"><%=(rList.get(i)).getService_no()%></td>
                                     <td class="review_list"><%=(bList.get(i)).getTitle()%></td>
@@ -380,7 +380,8 @@
 				});
 				
 				$(".review_list").click(function(){
-					location.href="<%=request.getContextPath()%>/detail.review"
+					var board_no=$(this).parent().children("input").val();
+					location.href="<%=request.getContextPath()%>/detail.review?board_no="+ board_no;
 					});
 	
 			}); 
