@@ -2033,6 +2033,8 @@ try {
 			
 			try {
 				pstmt=conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
 
 				
 				rset=pstmt.executeQuery();
