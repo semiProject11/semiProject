@@ -743,9 +743,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L \r\n" + 
-				"JOIN MEMBER M ON(L.s_USER_NO=M.USER_NO)\r\n" + 
-				"JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO)";
+		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
 		try {
 			pstmt=conn.prepareStatement(query);
 		
@@ -794,7 +792,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) JOIN MEMBER M ON(L.B_USER_NO=M.USER_NO)";
+		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
 		try {
 			pstmt=conn.prepareStatement(query);
 		

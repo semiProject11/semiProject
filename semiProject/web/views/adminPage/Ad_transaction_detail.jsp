@@ -223,21 +223,21 @@
                            
                                 <div class="col-md-2"><label>카테고리</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=category.getCategory_name() %></label></div>
-                                <div class="col-md-2"><label>구매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=buyer.getUserName() %></label></div>
+                                <div class="col-md-2"><label>구매자</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=buyer.getUserId()%></label></div>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=service.getServiceNo() %></label></div>
-                                <div class="col-md-2"><label>판매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=seller.getUserName() %></label></div>
+                                <div class="col-md-2"><label>판매자</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=seller.getUserId() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>거래일시</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=trade.getTrade_date() %></label>
                                 </div>
-                                <div class="col-md-2"><label>포인트(점)</label></div>
+                                <div class="col-md-2"><label>포인트(가격)</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:100%"><%=service.getPriceSale() %></label></div>
                                
                             </div>

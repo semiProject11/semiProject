@@ -251,12 +251,11 @@
 
                     <div>
                         <!--상단 버튼-->
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">전체
+                        <button type="button" class="btn" style="background:black; color:white;">전체
                             선택</button>
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">확
+                        <button type="button" class="btn" style="background:black; color:white;">충전</button>
+                        <button type="button" class="btn" style="background:black; color:white;">확
                             인</button>
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">선택
-                            취소</button>
                         <!--상단 검색창-->
                         <form
                             class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -280,12 +279,14 @@
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th><div class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" id="checkall"
+                                                style="width:18px; height:18px;"></th>
                                     <th>No</th>
-                                    <th>출금 신청 포인트</th>
-                                    <th>요청 일시</th>
-                                    <th>판매자</th>
-                                    <th>확인 여부</th>
+                                    <th>가용 포인트</th>
+                                    <th>충전 포인트</th>
+                                    <th>아이디</th>
+                               
 
                                 </tr>
                             </thead>
@@ -301,46 +302,13 @@
                                     <td>1</td>
                                     <td>1,000,000,000</td>
 
-                                    <td>2020-05-14</td>
+                            
                                     <td>김퍼블</td>
                                     <td>X</td>
 
                                 </tr>
 
 
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
-                                                style="width:18px; height:18px;">
-
-                                        </div>
-                                    </td>
-                                    <td>2</td>
-                                    <td>50,000</td>
-
-                                    <td>2020-05-12</td>
-                                    <td>구매의신</td>
-                                    <td>X</td>
-
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="test"
-                                                style="width:18px; height:18px;">
-
-                                        </div>
-                                    </td>
-                                    <td>3</td>
-                                    <td>600,000</td>
-
-                                    <td>2020-05-10</td>
-                                    <td>디자인스튜</td>
-                                    <td>O</td>
-
-                                </tr>
                             </tbody>
                         </table>
                     </div>

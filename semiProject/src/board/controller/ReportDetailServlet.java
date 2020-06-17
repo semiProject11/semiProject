@@ -1,8 +1,8 @@
 package board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
-import board.model.vo.Board;
+import board.model.vo.Report;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class ReportDetailServlet
  */
-@WebServlet("/list.faq")
-public class FaqListServlet extends HttpServlet {
+@WebServlet("/detail.report")
+public class ReportDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public ReportDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +31,33 @@ public class FaqListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
-		
-		int board_code=50;
 		
 		
-		ArrayList<Board> list= new BoardService().selectFaq(board_code);
+		int board_no=Integer.valueOf(request.getParameter("board_no"));
 	
 	
-		if(!list.isEmpty()) {
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/customerService/CS_faq_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		Report report=new BoardService().selectReport(board_no);
+	
 		
+		
+		
+		RequestDispatcher view = null;
+		
+	
+		 if(report!=null) {
+		 
+		 
+			 request.setAttribute("report", report);
+		 view =request.getRequestDispatcher("views/adminPage/Ad_report_detail.jsp");
+		
+		 
+		 }else { view = request.getRequestDispatcher("views/common/errorPage.jsp"); }
+		 
+		 view.forward(request, response);
+		
+	
 		
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

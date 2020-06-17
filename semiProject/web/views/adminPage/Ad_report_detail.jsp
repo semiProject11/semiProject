@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*"%>
+    <%
+    Report r=(Report)request.getAttribute("report");
+    
+    %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -224,11 +227,11 @@
                         <form class="form-group">
                             <div class="row">
                                 <div class="col-md-2"><label>구분</label></div>
-                                <div class="col-md-3"><label class="form-control" style="width:100%;">판매자 신고</label>
+                                <div class="col-md-3"><label class="form-control" style="width:100%;"><%=r.getReport_name() %></label>
                                 </div>
                                 <div class="col-md-1"></div>
                                 <div class="col-md-2"><label>신고대상</label></div>
-                                <div class="col-md-3"><label class="form-control">톳흐넘</label></div>
+                                <div class="col-md-3"><label class="form-control"><%=r.getReport_userId() %></label></div>
                                 <div class="col-md-1"><button type="button" class="btn"
                                         style="background:black; color:white; display:inline;"><a
                                             href="admin_grade.html" id="wh">검색</a></button>
@@ -239,13 +242,13 @@
                             <div class="row">
 
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-3"><label class="form-control">12-351054</label></div>
+                                <div class="col-md-3"><label class="form-control"><%=r.getService_no() %></label></div>
                                 <div class="col-md-1"><button type="button" class="btn"
                                         style="background:black; color:white; display:inline;"><a
                                             href="admin_transaction.html" id="wh">검색</a></button>
                                 </div>
-                                <div class="col-md-2"><label>작성일시</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%;">2020-05-14</label>
+                                <div class="col-md-2"><label>작성일자</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%;"><%=r.getWrite_date() %></label>
                                 </div>
 
 
@@ -254,13 +257,18 @@
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>
                                 <div class="col-md-10"><label class="form-control"
-                                        style="width:100%; text-align:left;">판매자가 너무 불량해요</label></div>
+                                        style="width:100%; text-align:left;"><%=r.getTitle() %></label></div>
                             </div>
                             <div class="mt-2">
                                 <label class="form-control"
-                                    style="width:100%; height:300px; resize:none; text-align:left;">1시간 그냥 날린
-                                    기분이예요</label>
+                                    style="width:100%; height:300px; resize:none; text-align:left;"><%=r.getContent() %></label>
 
+                           
+                           
+                           
+                           
+                           
+                           <!-- 댓글달면 보일 부분 -->
                             </div>
                             <div class="mx-3">
                                 <div class="row mt-5">

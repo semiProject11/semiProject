@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*,java.util.ArrayList"%>
+    <%
+    
+    ArrayList<Board> bList= (ArrayList<Board>)request.getAttribute("bList");
+	ArrayList<Report> rList=(ArrayList<Report>)request.getAttribute("rList");
+	
+    %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -237,6 +242,11 @@
 		</div>
 		<div id="layoutSidenav_content">
 
+
+
+
+
+
             <!--contents-->
             <div class="container mt-5">
                 <head>
@@ -247,36 +257,45 @@
 
                 <div>
                     <!--상단 버튼-->
-                    <button type="button" class="btn" style="background:black; color:white; width:95px;">전체 선택</button>
-                    <button type="button" class="btn" style="background:black; color:white; width:95px;">확 인</button>
-                    <button type="button" class="btn" style="background:black; color:white; width:95px;">선택 취소</button>
+                     <button type="button" class="btn" id="checkBtn"
+							style="background: black; color: white;">전체 선택</button>
+                        <button type="button" class="btn" style="background:black; color:white; " onclick="checkReport();">확인</button>
+                        <button type="button" class="btn" style="background:black; color:white; " onclick="deleteReport();">삭제</button>
+                  
+                  
+                  
+                  
+                  
+                  
                     <!--상단 검색창-->
-                    <form class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        
-                 <div class="input-group" >
-                   
-                    <select class="form-control" id="category">
-                        <option selected>전체</option>
-                        <option>판매자 신고</option>
-                          <option>구매자 신고</option>
-                    </select>
-                   
-                  <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
-                  <div class="input-group-append"></div>
-                      <button class="btn btn-primary" type="button" id="jin" >
-                          <i class="fas fa-search" ></i></i></button>
-                        </div>
-                    </form>
-                </div>
+                <form
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0" method='post' action="<%=request.getContextPath() %>/search.report">
+                            
+                            <div class="input-group">
+                                <select class="form-control" name="search">
+                                    <option value="a">전체</option>
+                                    <option value="b">판매자 신고</option>
+                                    <option value="c">구매자 신고</option>
+                          
 
-                 
+                                </select>
+                                <input class="form-control" type="text"  name="word" value="" placeholder="Search for..." aria-label="Search"
+                                    aria-describedby="basic-addon2" />
+                                <div class="input-group-append"></div>
+                                <button class="btn btn-primary mr-0" type="submit" id="jin">
+                                    <i class="fas fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
 
-                <!--유저 리스트-->
+
+                <!--신고 리스트-->
                 <div class="table-responsive mt-3">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th></th>
+                                 <th><input type="checkbox" class="common" id="checkAll"
+										style="width: 18px; height: 18px;"></th>
                                 <th>No</th>
                                 <th>구분</th>
                                 <th>제목</th>
@@ -287,40 +306,34 @@
                             </tr>
                         </thead>
                         <tbody>
+                        
+                          <%if(bList.isEmpty()){ %>
                             <tr>
-                                <td>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" class="form-check-input" id="checkall"
-                                            style="width:18px; height:18px;">
-            
-                                    </div>
-                                </td>
-                                <td>1</td>
-                                <td>판매자 신고</td>
-                                <td><a href="admin_report_into1.html" id="bk">판매자가 너무 불량해요</a></td>
-                                <td>2020-05-14</td>
-                                <td>김퍼블</td>
-                                <td>X</td>
-                            
+                            <td colspan="7">작성된 게시글이 없습니다.</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check form-check-inline">
-                                        <input type="checkbox" class="form-check-input" id="checkall"
-                                            style="width:18px; height:18px;">
-                                    </div>
-                                </td>
-                                <td>2</td>
-                                <td>구매자 신고</td>
-                                <td><a href="admin_report_into2.html" id="bk">구매자가 악성댓글을 달았어요</a></td>
-                                <td>2020-05-13</td>
-                                <td>디자인스튜</td>
-                                <td>
-                                    O
-                                </td>
-                            </tr>
-                           
-                        </tbody>
+                            <%}else{ %>
+                                <%for(int i=0;i<bList.size();i++){ %>
+                               <tr>
+                          			
+                          			<input type="hidden" name="board_no" 
+										value="<%=(bList.get(i)).getBoard_no()%>">
+                                   <td class="text-center" style="width: 5%">
+                        
+									<input
+										type="checkbox" class="common" id="rowCheck" name="rowCheck"
+										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_no()%>">
+										</td>
+                                    <td class="report_list" style="width: 8%"><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td class="report_list" id="type" style="width: 15%"><%=(rList.get(i)).getReport_name()%></td>
+                                    <td class="report_list"><%=(bList.get(i)).getTitle()%></td>
+                                    <td class="report_list" style="width: 15%"><%=(bList.get(i)).getWrite_date()%></td>
+                                    <td class="report_list" style="width: 13%"><%=(bList.get(i)).getuser_id()%></td>
+                                    <td class="report_list" style="width: 13%"><%=(rList.get(i)).getRe_yn()%></td>
+
+                                </tr>
+                            <%} %>
+                            <%} %>
+                            </tbody>
                     </table>
                 </div>
 
@@ -392,6 +405,104 @@
             </footer>
             </div>
             </div>
+    <script>
+            
+            
+        	//게시물 상세페이지 가기
+        	
+			$(function(){
+				$("#listArea td").mouseenter(function(){
+					$(this).parent().css({"cursor":"pointer"});
+				});
+				
+				$(".report_list").click(function(){
+					var board_no=$(this).parent().children("input").val();
+				
+					location.href="<%=request.getContextPath()%>/detail.report?board_no="+ board_no;
+					});
+	
+			}); 
+	
+            
+            
+            
+          //체크된 항목 확인
+			function checkReport(){
+        		
+			
+        		
+        		if(confirm("확인 처리하시겠습니까?")){
+        			
+        			var arr=new Array();
+						$("input:checkbox[name=rowCheck]:checked").each(function(i){
+						
+							var board_no=$(this).val();
+							arr.push(board_no);
+			
+							
+						})
+						
+						
+						location.href="<%=request.getContextPath()%>/confirm.report?arr="+ arr;
+        				
+        			
+        			}else{
+        			return false;
+        		}
+        		
+        	}  
+	
+            
+            
+            
+            
+            
+            
+      		//체크된 항목 삭제
+			function deleteReport(){
+        		
+			
+        		
+        		if(confirm("삭제하시겠습니까?")){
+        			
+        			var arr=new Array();
+						$("input:checkbox[name=rowCheck]:checked").each(function(i){
+						
+							var board_no=$(this).val();
+							arr.push(board_no);
+			
+							
+						})
+						
+						
+						location.href="<%=request.getContextPath()%>/delete.report?arr="+ arr;
+        				
+        			
+        			}else{
+        			return false;
+        		}
+        		
+        	}  
+	
+            
+            
+            
+            
+          //모두 체크
+    		
+			$(function() {
+				$("#checkAll").hide();
+				$("#checkBtn").click(function() {
+					$("#checkAll").click();
+				});
+	
+				$("#checkAll").click(function() {
+					var bool = $(this).prop("checked");
+					$(".common").prop('checked', bool);
+				});
+			}); 
 
+            
+            </script>
 </body>
 </html>

@@ -37,8 +37,7 @@ public class InquiaryListServlet extends HttpServlet {
 		ArrayList<Board> bList=new BoardService().selectInquiaryList();
 		ArrayList<Inquiary> inquiaryList=new BoardService().selectInquaryTypeList();
 		
-		
-		
+	
 		RequestDispatcher view=null;
 		
 		
@@ -46,8 +45,6 @@ public class InquiaryListServlet extends HttpServlet {
 			request.setAttribute("inquiaryList", inquiaryList);
 			request.getRequestDispatcher("views/adminPage/Ad_inquiary_list.jsp").forward(request, response);
 			
-	
-		
 		
 	}
 

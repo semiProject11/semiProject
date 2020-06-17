@@ -54,6 +54,7 @@ public class InquiaryDetailAdServlet extends HttpServlet {
 		RequestDispatcher view = null;
 		
 		if(board!=null&&member!=null&&inquiary!=null) {
+			
 			request.setAttribute("board", board);
 			request.setAttribute("member", member);
 			request.setAttribute("inquiary", inquiary);
@@ -63,6 +64,8 @@ public class InquiaryDetailAdServlet extends HttpServlet {
 			
 			
 			view = request.getRequestDispatcher("views/adminPage/Ad_inquiary_detail.jsp");
+		
+		
 		}else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 					}

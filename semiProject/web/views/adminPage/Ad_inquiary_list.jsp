@@ -286,9 +286,9 @@
                             <div class="input-group">
                                 <select class="form-control" name="search">
                                     <option value="a">전체</option>
-                                    <option value="b">이용 문의</option>
-                                    <option value="c">고객의 소리</option>
-                                    <option value="b">제휴</option>
+                                    <option value="c">이용 문의</option>
+                                    <option value="b">고객의 소리</option>
+                                    <option value="d">제휴</option>
 
                                 </select>
                                 <input class="form-control" type="text"  name="word" value="" placeholder="Search for..." aria-label="Search"
@@ -329,7 +329,7 @@
                           			
                           			<input type="hidden" name="board_no" 
 										value="<%=(bList.get(i)).getBoard_no()%>">
-                                   <td class="text-center" style="width: 5%" class="inquiary_list">
+                                   <td class="text-center" style="width: 5%">
 									<input
 										type="checkbox" class="common" id="rowCheck" name="rowCheck"
 										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_no()%>">

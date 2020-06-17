@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
 import board.model.vo.Board;
+import board.model.vo.Report;
 
 /**
- * Servlet implementation class FaqListServlet
+ * Servlet implementation class NoticeSearchServlet
  */
-@WebServlet("/list.faq")
-public class FaqListServlet extends HttpServlet {
+@WebServlet("/search.report")
+public class ReportSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FaqListServlet() {
+    public ReportSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +32,28 @@ public class FaqListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String type=request.getParameter("search");
+		String word=request.getParameter("word");
+		
+		System.out.println(type);
+		System.out.println(word);
+		
+		
+		ArrayList<Board> bList= new BoardService().searchReport(type,word);
+		ArrayList<Report> rList=new BoardService().searchReportType(type,word);
 	
 		
-		int board_code=50;
+	
+			request.setAttribute("bList", bList);
+			request.setAttribute("rList", rList);
+			request.getRequestDispatcher("views/adminPage/Ad_report_list.jsp").forward(request, response);
 		
 		
-		ArrayList<Board> list= new BoardService().selectFaq(board_code);
-	
-	
-		if(!list.isEmpty()) {
-			request.setAttribute("list", list);
-			request.getRequestDispatcher("views/customerService/CS_faq_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 		
 	}
-
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

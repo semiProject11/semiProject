@@ -31,20 +31,21 @@ public class FaqDetailservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		int board_no=Integer.valueOf(request.getParameter("board_no"));
-		System.out.println("faq디테일:"+board_no);
+	int board_no=Integer.valueOf(request.getParameter("board_no"));
 		
+	System.out.println("서블릿:"+board_no);
 		int result = new BoardService().updateCount(board_no);
-		
+	
 		if(result>0) {
 			
 			Board b=new BoardService().selectBoardDetail(board_no);
+			System.out.println("서블릿2:"+b);
 			
 			if (b!=null) {
 				request.setAttribute("board", b);
-				request.getRequestDispatcher("views/customerService/CS_faq_detail.jsp").forward(request, response);
+				request.getRequestDispatcher("views/customerService/CS_faq_detail.jsp").forward(request, response); 
 			} else {
-	
+				request.setAttribute("msg", "게시글 상세 조회 실패!");
 				request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 			}
 			
@@ -52,7 +53,7 @@ public class FaqDetailservlet extends HttpServlet {
 			
 			
 		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response); //게시글 조회수 증가 실패
 		}
 		
 	}
