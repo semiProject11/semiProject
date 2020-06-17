@@ -54,12 +54,12 @@ public class InquiaryInsertServlet extends HttpServlet {
 		String title = multiRequest.getParameter("inquiaryTitle");
 		String content = multiRequest.getParameter("inquiaryContent");
 //		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_no = "1";
+		String user_id = "admin";
 		String board_type = multiRequest.getParameter("inquiaryName");
 		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
 
 		// 왜 값이 안담겨옴??
-		System.out.println("이건 뭐들어있지" + user_no);
+		System.out.println("이건 뭐들어있지" + user_id);
 		System.out.println("title:" + title);
 		System.out.println("content:" + content);
 		System.out.println("board_type:" + board_type);
@@ -85,7 +85,7 @@ public class InquiaryInsertServlet extends HttpServlet {
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
-		b.setUser_name(user_no);
+		b.setuser_id(user_id);
 		b.setBoard_code(board_code);
 
 		Inquiary inq = new Inquiary();
