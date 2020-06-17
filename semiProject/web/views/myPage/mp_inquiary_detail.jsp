@@ -237,7 +237,7 @@ th, tr, td {
 							<div class="container my-3" id="post">
 								<div class="container my-3">
 									<form class="form-group my-3"
-										action="<%=request.getContextPath()%>/insert.inquiary"
+										action="<%=request.getContextPath() %>/update.inquiary"
 										method="post" encType="multipart/form-data"
 										onsubmit="return validate();">
 										<input type="hidden" name="board_code" value="10">
@@ -245,7 +245,7 @@ th, tr, td {
 											<div class="col-md-2 text-center">
 												<label>상담 유형</label>
 											</div>
-											<div class="col-md-4" id="sangdam1">
+											<div class="col-md-4" id="sangdam1">													
 												<input type="text" name="sangdam1" id="sangdam1"
 													class="form-control" style="width: 100%; text-align: left;" readonly>
 											</div>
@@ -257,6 +257,13 @@ th, tr, td {
 													<option value="A3">제휴</option>
 												</select>
 											</div>
+											<div class="col-md-2 text-center">
+												<label>서비스 번호</label>
+											</div>
+											<div class="col-md-4" id="boardnum1">													
+												<input type="text" name="boardnum" id="boardnum" value="1"
+													class="form-control" style="width: 100%; text-align: left;" readonly>
+											</div>											
 										</div>
 
 										<div class="row mt-2">
@@ -386,11 +393,10 @@ th, tr, td {
 	            	}else{
 	            		alert('수정을 완료 했습니다.');
 	            		return true;
-	            		 location.href='<%=request.getContextPath() %>/list.notice'
 	            	}
 	            	
 	            	
-	            };
+	            }
 				</script>
 
 

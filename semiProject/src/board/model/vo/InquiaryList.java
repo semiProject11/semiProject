@@ -17,6 +17,19 @@ public class InquiaryList {
 		super();
 	}
 	
+	public InquiaryList(int boardNo, String title, String content, String userNo, Date writeDate, String inquiryContent,
+			Date inquiryDate, String boardType) {
+		super();
+		this.boardNo = boardNo;
+		this.title = title;
+		this.content = content;
+		this.userNo = userNo;
+		this.writeDate = writeDate;
+		this.inquiryContent = inquiryContent;
+		this.inquiryDate = inquiryDate;
+		this.boardType = boardType;
+	}
+
 	public InquiaryList(int boardNo, String title, Date writeDate, String inquiryYN, String boardType) {
 		super();
 		this.boardNo = boardNo;

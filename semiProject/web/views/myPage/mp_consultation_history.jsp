@@ -281,7 +281,7 @@ th, tr, td {
 											$("#inContent tr").click(function(){												
 												var bid = $(this).children( '.b1' ).text()
 												<%-- <% if(loginUser != null) {%>				
-												location.href="<%=request.getContextPath()%>/detail.bo?bid=" + bid;
+												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid;
 												<%}else{%>
 													alert("로그인 해야만 상세보기가 가능합니다.");
 												<%}%> --%>
@@ -290,15 +290,10 @@ th, tr, td {
 									</script>
 								</table>
 							</div>
-							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;">문의
-								삭제</button>
+							
 							<button type="button" class="btn float-right mr-3"
 								style="background: black; color: white; width: 100px; font-size: small;">1:1문의
-								등록</button>
-							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;">문의
-								수정</button>
+								등록</button>							
 						</div>
 					</div>
 				</div>

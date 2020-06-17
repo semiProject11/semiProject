@@ -544,6 +544,39 @@ public class BoardService {
 		close(conn);
 		return report;
 	}
+
+	public int updateInquiary(Board b, ArrayList<Files> inquiaryList, Inquiary inq, String boardNo) {
+		Connection conn = getConnection();
+		BoardDao bDao = new BoardDao();
+		int result = bDao.updateBoard1(conn, b); // 게시물 board 수정
+		int result3 = bDao.updateInquiaryType(conn, inq, boardNo); // 게시물 문의 수정
+		int result4 = bDao.deleteBoardFiles1(conn, boardNo);		// 기존 게시물 파일 삭제
+		int result2 = bDao.insertBoardFiles1(conn, inquiaryList, boardNo); // 수정된 게시물 파일 생성
+
+		if (result > 0 && result2 >= 0 && result3 > 0 && result4>0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+
+		close(conn);
+
+		return result;
+	}
+
+	public InquiaryList selectInquiaryDetail(int board_no) {
+		Connection conn = getConnection();
+		
+		InquiaryList iq = new BoardDao().selectInquiaryDetail(conn,board_no);
+		
+		
+		close(conn);
+		
+		
+		return iq;
+	}
 	
 	
 }

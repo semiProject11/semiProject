@@ -2474,6 +2474,118 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		return report;
 	}
 
+	public int updateBoard1(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE BOARD SET TITLE=?, CONTENT =?,WRITE_DATE=SYSDATE WHERE BOARD_NO=?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getTitle());
+			pstmt.setString(2, b.getContent());			
+			pstmt.setInt(3, b.getBoard_no());
+
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		
+		return result;
+	}
+
+	public int updateInquiaryType(Connection conn, Inquiary inq, String boardNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "UPDATE INQUIARY SET BOARD_TYPE = ? WHERE BOARD_NO=?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, inq.getBoard_type());
+			pstmt.setString(2,  boardNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int deleteBoardFiles1(Connection conn, String boardNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "DELETE FROM FILES WHERE BOARD_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, boardNo);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int insertBoardFiles1(Connection conn, ArrayList<Files> fList, String boardNo) {
+		PreparedStatement pstmt = null;
+
+		int result = 0;
+		
+		System.out.println("flist"+fList);
+		
+		String query = "INSERT INTO FILES VALUES(SEQ_FILE.NEXTVAL,?,?,?,?,SYSDATE,0,0,'Y')";
+		
+		try {
+
+			for (int i=0;i<fList.size();i++) {
+				Files f=fList.get(i);
+
+				pstmt = conn.prepareStatement(query);
+				
+				pstmt.setString(1, boardNo);
+				pstmt.setString(2, f.getOrigin_name());
+				pstmt.setString(3, f.getChange_name());
+				pstmt.setString(4, f.getFile_path());
+				
+				result +=pstmt.executeUpdate();
+
+			}
+
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		System.out.println("파일이 dao에서 등록됨");
+		System.out.println(result);
+		
+		return result;
+	}
+
+	public InquiaryList selectInquiaryDetail(Connection conn, int board_no) {
+		
+		
+		return null;
+	}
+
+
+
 	
 
 }
