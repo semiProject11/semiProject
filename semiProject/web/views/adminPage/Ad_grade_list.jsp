@@ -432,19 +432,19 @@ th, tr, td {
 			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
 	
 	
-	} 
+	 
 	
 	
 	
-	<%-- 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
+	 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
 			
 			var rowArr=new Array();
 			var tdArr=new Array();
 			
 			$("input:checkbox[name=rowCheck]:checked").each(function(i){
 				
-				var tr=$(this).parent().parent().eq(i); //tr 전체 값
-				var td=tr.children();	//td 값
+				var tr=$(this).parent().parent().eq(i); //tr 전체 값 : 아이디
+				var td=tr.children();	//td 값 : 등급
 				
 				rowArr.push(tr.text());
 				
@@ -456,8 +456,8 @@ th, tr, td {
 				
 					
 				});
-				
-				
+
+				location.href="<%=request.getContextPath() %>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
 				
 			
 			}else{
@@ -465,8 +465,8 @@ th, tr, td {
 		
 		
 	}  
- 	}
-		--%>
+	}
+		
 		
 		
 		

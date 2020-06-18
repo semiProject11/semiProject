@@ -250,8 +250,9 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		int result2 = mDao.registerMember(conn, account);
 		int result3 = mDao.registerBuyer(conn);
 		int result4 = mDao.registerSeller(conn);
+		int result5 = mDao.registerProfile_file(conn);
 		
-		if(result>0 && result2>0 && result3>0 && result4>0) {
+		if(result>0 && result2>0 && result3>0 && result4>0 && result5>0) {
 			commit(conn);	
 		}else {
 			rollback(conn);
