@@ -1,4 +1,4 @@
-package member.controller;
+package board.controller;
 
 import java.io.IOException;
 
@@ -7,22 +7,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import board.model.service.BoardService;
+import board.model.vo.InquiaryList;
 
 /**
- * Servlet implementation class MyPageWithdrawal
+ * Servlet implementation class MpInquiaryDetailServlet
  */
-@WebServlet("/withdrawal.me")
-public class MyPageWithdrawal extends HttpServlet {
+@WebServlet("/detail.inquiary")
+public class MpInquiaryDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyPageWithdrawal() {
+    public MpInquiaryDetailServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,24 +30,17 @@ public class MyPageWithdrawal extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		int board_no = Integer.valueOf(request.getParameter("bid"));
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String userNo = loginUser.getUserNo();
-				
+		InquiaryList iq = new BoardService().selectInquiaryDetail(board_no);
 		
-		int result = new MemberService().memberWithdrawal(userNo);
-		
-		if(result >0) {
-			response.sendRedirect("logout.me");
-		}else {
-			request.setAttribute("msg", "탈퇴 실패");
+		if(iq!=null) {
+			request.setAttribute("inquiary", iq);
+			request.getRequestDispatcher("views/myPage/mp_inquiary_detail.jsp").forward(request, response); 
+		} else {
+			request.setAttribute("msg", "1:1문의 조회 실패!");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
-		
-		
-		
-	}
+		}	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

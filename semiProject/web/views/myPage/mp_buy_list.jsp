@@ -12,6 +12,7 @@
 	int ck= 0;
 	int rating = 0;
 	String content1 = "";
+	String content2 = "";
 %>
 <!DOCTYPE html>
 <html>
@@ -180,7 +181,7 @@
                     clip-rule="evenodd" />
                 </svg>&nbsp;판매내역</div>
             </a>
-            <a class="nav-link" href="mp_consultation_history.html">
+            <a class="nav-link" href="<%=request.getContextPath()%>/selectList.iq">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
                   fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd"
@@ -263,69 +264,33 @@
                         <td class="clickme"><%=s.getsPhone()%></td>
                         
                         <!-- 리뷰 불러와서 매칭 시키기  -->
-                        <%if(reList.isEmpty()) {%>                          
+                        <%if(reList.isEmpty()) {%> 
+                        <td>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
+                        </td>                         
                         <%} else { %>
                         <%for (int j=0; j <reList.size(); j++){
                         	Review r = reList.get(j); %>
                         <%if(s.getServiceNo() == r.getServiceNo()) { 
-                        	ck=1; rating = r.getRating(); content1 = r.getContent();%>
+                        	ck=1;%>
                         <% }%> 
                         <% }%> 
                         <% }%>               
 						<%if(ck==1){ %>
                         <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="reClick();" style="background:black; color:white; width:110px;" disabled>평점주기</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-whatever="12345" data-target="#exampleModal" value="<%=i %>" onclick="reClick();" disabled="disabled" style="background:black; color:white; width:110px;">
+                        	
+                        	평점주기</button>                        
                         </td>
                         <%} else{%>
                         <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
+                        
                         </td>
                         <%} %>
+                        
+                        						
 						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">작성된 평점과 리뷰</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						        <form>
-						          <div class="form-group">
-						            <label for="recipient-name" class="">평점:</label>
-						            <div class="starRev">						            
-									  <span class="starR" id="1">1</span>									  
-									  <span class="starR" id="2">2</span>
-									  <span class="starR" id="3">3</span>
-									  <span class="starR" id="4">4</span>
-									  <span class="starR" id="5">5</span>
-									  <input type="text" id="value1" name="value1" value="<%=rating%>" >
-									</div>
-						          </div>
-						          <div class="form-group">
-						            <label for="message-text" class="col-form-label">리뷰:</label>
-						            <textarea class="form-control" id="message-text" name="review" readonly><%=content1%></textarea>
-						          </div>
-						        </form>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close111();">닫기</button>
-						      </div>
-						    </div>
-						  </div>
-						</div> 
-						
-                      </tr>
-                        <%
-							}
-						%>
-						<%
-							}
-						%>
-                      
-						
-						<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -344,7 +309,7 @@
 									  <span class="starR">3</span>
 									  <span class="starR">4</span>
 									  <span class="starR">5</span>
-									  <input type="text" id="title" name="sNO" style="display:none;">
+									  <input type="text" id="title" name="sNO" ">
 									  <textarea id="value11" name="value11" style="display:none;"></textarea>
 									</div>
 						          </div>
@@ -361,6 +326,15 @@
 						    </div>
 						  </div>
 						</div> 
+                      </tr>
+                        <%
+							}
+						%>
+						<%
+							}
+						%>
+                      
+						
 						
 					
 					
@@ -379,25 +353,23 @@
 						})
 						
 					})
-					function reClick(){
-						var starCount = '#'+$('#value1').val();
-						console.log(starCount);
-						$(starCount).click();
-					}
 					function close111(){
 						location.href="<%=request.getContextPath()%>/buyList.sv"
-						consol.log("안녕");
+						
 					}
-					$('#exampleModal1').on('show.bs.modal', function (event) {
-						  var button = $(event.relatedTarget) 
-						  var recipient = button.data('whatever') 
+					
+					$('#exampleModal').on('show.bs.modal', function (event) {
+						  var button = $(event.relatedTarget)
+						  var recipient = button.data('whatever')
 						  var modal = $(this)
 						  modal.find('.modal-body input').val(recipient)
 						})
+						
 					function submit11(){
 						alert("평점이 등록 되었습니다.");
 						return true;
 					}
+					
 					</script>	  
                   </tbody>
               </table>

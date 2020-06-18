@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -20,26 +21,24 @@ import board.model.vo.Inquiary;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class InquiaryInsertServlet
+ * Servlet implementation class InquiaryUpdateServlet
  */
-@WebServlet("/insert.inquiary")
-public class InquiaryInsertServlet extends HttpServlet {
+@WebServlet("/update.inquiary")
+public class InquiaryUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public InquiaryUpdateServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public InquiaryInsertServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		// 전송 용량
 		int maxSize = 1024 * 1024 * 10;
@@ -51,21 +50,21 @@ public class InquiaryInsertServlet extends HttpServlet {
 		MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
+//		HttpSession session = request.getSession();
+//		
+//		Member loginUser = (Member)session.getAttribute("loginUser");
+//		
+//		int userNo = Integer.valueOf(loginUser.getUserNo());
+		int userNo = 1;
+		
 		String title = multiRequest.getParameter("inquiaryTitle");
 		String content = multiRequest.getParameter("inquiaryContent");
+		String boardNo = multiRequest.getParameter("boardnum");
 //		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_id = "admin";
+		
 		String board_type = multiRequest.getParameter("inquiaryName");
-		
-		
-		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
 
-		// 왜 값이 안담겨옴??
-		System.out.println("이건 뭐들어있지" + user_id);
-		System.out.println("title:" + title);
-		System.out.println("content:" + content);
-		System.out.println("board_type:" + board_type);
-
+		
 		// 저장할 파일 이름 리스트
 		ArrayList<String> saveFiles = new ArrayList<>();
 
@@ -73,7 +72,6 @@ public class InquiaryInsertServlet extends HttpServlet {
 		ArrayList<String> originFiles = new ArrayList<>();
 
 		Enumeration<String> files = multiRequest.getFileNames();
-		
 		while (files.hasMoreElements()) {
 
 			String name = files.nextElement();
@@ -88,9 +86,7 @@ public class InquiaryInsertServlet extends HttpServlet {
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
-
-		b.setuser_id(user_id);
-		b.setBoard_code(board_code);
+		b.setUser_no(userNo);
 
 		Inquiary inq = new Inquiary();
 		inq.setBoard_type(board_type);
@@ -107,10 +103,10 @@ public class InquiaryInsertServlet extends HttpServlet {
 
 		}
 
-		int result = new BoardService().insertInquiary(b, inquiaryList, inq);
+		int result = new BoardService().updateInquiary(b, inquiaryList, inq, boardNo);
 
 		if (result > 0) {
-			request.getRequestDispatcher("/list.notice").forward(request, response);
+			request.getRequestDispatcher("/selectList.iq").forward(request, response);
 
 		} else {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
@@ -119,11 +115,9 @@ public class InquiaryInsertServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

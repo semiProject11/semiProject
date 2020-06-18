@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.service.BoardService;
 import board.model.vo.Board;
 import board.model.vo.ReviewAd;
+import member.model.service.MemberService;
 import member.model.vo.Member;
+import service.model.service.Service_Service;
 import service.model.vo.Service;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
@@ -40,10 +42,10 @@ public class ReviewListServlet extends HttpServlet {
 
 		ArrayList<Board> bList=new BoardService().selectB_ReivewList();
 		ArrayList<ReviewAd> rList=new BoardService().selectR_ReivewList();
-		ArrayList<Service_Category> scList=new BoardService().selectSC_ReivewList();
-		ArrayList<Service> sList=new BoardService().selectS_ReivewList();
-		ArrayList<Service_List> slList=new BoardService().selectSL_ReivewList();
-		ArrayList<Member> mList=new BoardService().selectM_ReivewList();
+		ArrayList<Service_Category> scList=new Service_Service().selectSC_ReivewList();
+		ArrayList<Service> sList=new Service_Service().selectS_ReivewList();
+		ArrayList<Service_List> slList=new Service_Service().selectSL_ReivewList();
+		ArrayList<Member> mList=new MemberService().selectM_ReivewList();
 		
 //		System.out.println(bList);
 //		System.out.println(rList);
@@ -53,7 +55,7 @@ public class ReviewListServlet extends HttpServlet {
 //		System.out.println(mList);
 		
 		RequestDispatcher view=null;
-		if(!bList.isEmpty()&&!rList.isEmpty()&&!scList.isEmpty()&&!sList.isEmpty()&&!slList.isEmpty()) {
+		
 			request.setAttribute("bList", bList);
 			request.setAttribute("rList", rList);
 			request.setAttribute("scList", scList);
@@ -63,9 +65,7 @@ public class ReviewListServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("views/adminPage/Ad_review_list.jsp").forward(request, response);
 			
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 	}
 

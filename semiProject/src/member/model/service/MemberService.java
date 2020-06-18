@@ -522,6 +522,27 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		return member;
 	}
 
+
+	public Member selectMemberReview(int board_no) {
+		Connection conn =getConnection();
+
+		Member member=new MemberDao().selectMemberReview(conn,board_no);
+
+		return member;
+	}
+
+
+	public ArrayList<Member> selectM_ReivewList() {
+
+		Connection conn = getConnection();
+		
+		ArrayList<Member> mList = new MemberDao().selectM_ReviewList(conn);
+
+		close(conn);
+		
+		return mList;
+	}
+
 }
 
 

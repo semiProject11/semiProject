@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.ArrayList, board.model.vo.*"%>
 <%
-	ArrayList<InquiaryList> list = (ArrayList<InquiaryList>)request.getAttribute("list");	
-	String yn = "처리중";
-
+	InquiaryList iq = (InquiaryList)request.getAttribute("inquiary");
+	String iqc = iq.getInquiryContent();
 %>
 <!DOCTYPE html>
 <html>
@@ -235,94 +234,183 @@ th, tr, td {
 							<i class="fas fa-table mr-1"></i>1:1 상담내역
 						</div>
 						<div class="card-body">
-							<div class="table-responsive mt-3">
-								<table class="table table-striped table-bordered table-hover">
-									<thead>
-										<tr>
-											<th>No</th>
-											<th>진행상황</th>
-											<th>제목</th>
-											<th>날짜</th>
-											<th>구분</th>
+							<div class="container my-3" id="post">
+								<div class="container my-3">
+									<form class="form-group my-3"
+										action="<%=request.getContextPath() %>/update.inquiary"
+										method="post" encType="multipart/form-data"
+										onsubmit="return validate();">
+										<input type="hidden" name="board_code" value="10">
+										<div class="row">
+											<div class="col-md-2 text-center">
+												<label>상담 유형</label>
+											</div>
+											<div class="col-md-4" id="sangdam1">													
+												<input type="text" name="sangdam1" id="sangdam1" value="<%=iq.getBoardType()%>"
+													class="form-control" style="width: 100%; text-align: left;" readonly>
+											</div>
+											<div class="col-md-4" style="display: none;" id="sangdam">
+												<select class="form-control" style="width: 80%"
+													name="inquiaryName">
+													<option value="A1" selected>이용문의</option>
+													<option value="A2">고객의 소리</option>
+													<option value="A3">제휴</option>
+												</select>
+											</div>
+											<div class="col-md-2 text-center">
+												<label>서비스 번호</label>
+											</div>
+											<div class="col-md-4" id="boardnum1">													
+												<input type="text" name="boardnum" id="boardnum" value="<%=iq.getBoardNo() %>"
+													class="form-control" style="width: 100%; text-align: left;" readonly>
+											</div>											
+										</div>
 
-										</tr>
-									</thead>
-									<tbody id="inContent">
-										<%
-										if (list.isEmpty()){
-										%>
-										<tr>
-											<td colspan="6">1:1문의 내역이 없습니다.</td>
-										</tr>
-										<%
-											} else {
-										%>
-										<%
-											for (int i = 0; i < list.size(); i++) {
-												
-												InquiaryList in = list.get(i);
-												if(in.getInquiryYN().equals("Y")){
-													yn = "답변완료";
-												}
-										%>
-										<tr id="111">
-										<input type="hidden" class="b1" value="<%=in.getBoardNo() %>">
-										<%-- <td class="b1" style="display: none;"><%=in.getBoardNo() %></td> --%>							
-											<td ><%=i+1 %></td>
-											<td><%=yn %></td>
-											<td><%=in.getTitle() %></td>
-											<td><%=in.getWriteDate() %></td>
-											<td><%=in.getBoardType() %></td>
-										</tr>
-										<%  yn = "처리중"; } %>
-										<% } %>
-									</tbody>
-									<script>
-										$(function(){
-											$("#inContent td").click(function(){												
-												var bid = $(this).parent().children("input").val();
-												alert(bid)
-												<%-- <% if(loginUser != null) {%> --%>				
-												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid												
-												<%-- <%}else{%>
-													alert("로그인 해야만 상세보기가 가능합니다.");
-												<%}%> --%>
-											})
-										})
-									</script>
-								</table>
+										<div class="row mt-2">
+											<div class="col-md-2 text-center">
+												<label for="inquiaryTitle">제목</label>
+											</div>
+											<div class="col-md-10">
+												<input type="text" name="inquiaryTitle" id="inquiaryTitle" value="<%=iq.getTitle() %>"
+													class="form-control" style="width: 100%; text-align: left;" readonly>
+											</div>
+										</div>
+										<div class="mt-2">
+											<textarea class="form-control" name="inquiaryContent"
+												id="inquiaryContent"
+												style="width: 100%; height: 400px; resize: none; text-align: left;" readonly><%=iq.getContent() %></textarea>
+
+										</div>
+										<%if(!iqc.equals("N")){ %>
+										<div style="margin: 15px;">
+												<label>답변내용</label>
+										</div>
+										<div class="mt-2">
+											<textarea class="form-control"
+												style="width: 100%; height: 400px; resize: none; text-align: left;" readonly><%=iq.getInquiryContent() %></textarea>
+
+										</div>
+										<%} else{%>
+										<!--파일첨부-->
+										<div class="row mt-2" id="inq_fileArea" style="display: none;">
+											<div class="col-md-2 text-center">
+												<label for="find_file01">파일 첨부 1</label>
+											</div>
+											<div class="col-md-10 form-group form_file"
+												style="position: relative;">
+
+												<input type="text" name="fileName1" id="fileName1"
+													class="form-control form_point_color01"
+													style="position: absolute; width: 98%" readonly
+													placeholder="파일첨부 클릭 또는 파일을 드래그하세요"> <input
+													type="file" name="fileName1" class="form-control"
+													id="find_file01" style="position: absolute; opacity: 0;"
+													onchange="javascript: document.getElementById('fileName1').value = this.value">
+
+
+
+											</div>
+											<div class="col-md-2 text-center">
+												<label for="find_file02">파일 첨부 2</label>
+											</div>
+											<div class="col-md-10 form-group form_file"
+												style="position: relative;">
+
+												<input type="text" name="fileName2" id="fileName2"
+													class="form-control form_point_color01"
+													style="position: absolute; width: 98%" readonly
+													placeholder="파일첨부 클릭 또는 파일을 드래그하세요"> <input
+													type="file" name="fileName2" class="form-control"
+													id="find_file02" style="position: absolute; opacity: 0;"
+													onchange="javascript: document.getElementById('fileName2').value = this.value">
+
+											</div>
+
+										</div>
+										<%} %>
+										<!--파일첨부 끝-->
+
+
+
+
+										<div class="row mt-5">
+											<div class="col"></div>
+											<div class="col text-center" id="button22">
+											<%if(iqc.equals("N")){ %>
+												<button type="button" class="btn"
+													style="background: black; color: white" onclick="change();">수정 하기</button>
+											<%} %>
+												<button type="button" class="btn"
+													style="background: black; color: white" onclick="delete1();">삭제하기</button>
+											</div>
+											<div class="col text-center" style="display: none;" id="button11">
+												<button type="submit" class="btn"
+													style="background: black; color: white">수정 완료</button>
+												<button type="reset" class="btn"
+													style="background: black; color: white" onclick="cancle();">취소</button>
+											</div>
+											<div class="col"></div>
+										</div>
+
+
+									</form>
+								</div>
 							</div>
-							
-							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 100px; font-size: small;">1:1문의
-								등록</button>							
+
 						</div>
 					</div>
 				</div>
-
-				<!------페이징 처리----->
-				<div class="page-center">
-					<ul class="pagination-t">
-
-						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"
-							href="#">Previous</a></li>
-
-						<li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-						<!-- disabled: 해당 버튼 활성화 -->
-						<li class="page-item-t active-t" aria-current="page-t"><a
-							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-					</ul>
-
-				</div>
-			
-
-
-
-
+				<script>
+				function change(){
+					// 상담유형 변경
+					$("#sangdam").css("display","block")
+					$("#sangdam1").css("display","none")
+					// 제목 변경
+					$("#inquiaryTitle").prop("readonly",false)
+					
+					// 내용 변경
+					$("#inquiaryContent").prop("readonly",false)
+					// 파일첨부 변경
+					$("#inq_fileArea").css("display","flex")
+					// 버튼 바꾸기
+					$("#button11").css("display","block")
+					$("#button22").css("display","none")
+					
+				}
+				
+				function cancle(){
+					// 상담 디테일 불러오는 서블릿으로 이동
+					var bid = $("#boardnum").val()
+					location.href="<%=request.getContextPath()%>/detail.inquiary?bid="+bid
+					
+				}
+				function delete1(){
+					// 해당 1:1문의 번호 가지고 삭제 하는 서블릿으로 이동
+					var bid = $("#boardnum").val()
+					location.href="<%=request.getContextPath()%>/mpDelete.iq?bid="+bid
+				}
+				
+				
+				function validate(){
+		            
+	            	if($("#inquiaryTitle").val().trim().length==0){
+	            		alert('제목을 입력해주세요.');
+	            		$("#inquiaryTitle").focus();
+	            		return false;
+	            		
+	            	}else if($("#inquiaryContent").val().trim().length==0){
+	            		alert('내용을 입력해주세요.');
+	            		$("#inquiaryContent").focus();
+	            		return false;
+	            		
+	            	}else{
+	            		alert('수정을 완료 했습니다.');
+	            		return true;
+	            	}
+	            	
+	            	
+	            }
+				</script>
 
 
 				<!--footer-->

@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.*, member.model.vo.*, service.model.vo.*, java.util.*"%>
+    <%
+    Board b=(Board)request.getAttribute("board");
+    Member m=(Member)request.getAttribute("member");
+    Service s =(Service)request.getAttribute("service");
+    Service_List ls = (Service_List)request.getAttribute("lService");
+	Service_Category cs = (Service_Category)request.getAttribute("cService");
+	ServiceBuyList sb = (ServiceBuyList)request.getAttribute("sbService");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -227,42 +234,40 @@
                         <form class="form-group">
                             <div class="row">
                                 <div class="col-md-2"><label>카테고리</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">IT</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=cs.getCategory_name() %></label></div>
                                 <div class="col-md-2"><label>구매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">빽다</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">15-458</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%" id="valBoard"><%=b.getBoard_no() %></label></div>
                                 <div class="col-md-2"><label>판매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">소통소통</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>거래일시</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%">2020-05-01</label>
+                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=ls.getTrade_date() %></label>
                                 </div>
                                 <div class="col-md-2"><label>포인트(가격)</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%">50,000</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=s.getPrice_sale() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>
-                                <div class="col-md-10"><label style="width:100%; text-align: left;">웹프로그래밍 익히고 싶으신
-                                        분</label></div>
+                                <div class="col-md-10"><label style="width:100%; text-align: left;"><%=sb.getTitle() %>
+                                        </label></div>
                             </div>
                             <div class="mt-2">
                                 <textarea class="form-control"
-                                    style="width:100%; height:500px; resize:none;">웹프로그래밍쪽 진로 관련 상담 가능</textarea>
+                                    style="width:100%; height:500px; resize:none;"><%=b.getContent() %></textarea>
 
                             </div>
                             <div class="row mt-2">
                                 <div class="col"></div>
                                 <div class="col text-center"><button type="button" class="btn"
-                                        style="background:black; color:white"><a href="admin_review.html"
-                                            id="wh">목록</a></button>
+                                        style="background:black; color:white" id="wh" onclick="backMenu();">목록</button>
                                     <!--row나 col에서 text-center로 가운데 정렬 가능-->
-                                    <button type="button" class="btn" style="background:black; color:white">수정</button>
-                                    <button type="button" class="btn" style="background:black; color:white">삭제</button>
+                                    <button type="button" class="btn" style="background:black; color:white" onclick="deleteReview();">삭제</button>
                                 </div>
                                 <div class="col"></div>
                             </div>
@@ -293,5 +298,28 @@
             </footer>
 </div>
 </div>
+
+<script>
+
+	function backMenu(){
+			location.href="<%=request.getContextPath()%>/relist.bo"
+		};
+
+		
+	function deleteReview(){
+		var bool = confirm("해당 리뷰를 삭제하시겠습니까?");
+		
+		if(bool){
+			var board_no = $("#valBoard").text();
+			alert(board_no);
+			location.href="<%=request.getContextPath()%>/deleteReview.bo?board_no="+board_no
+			
+		}
+		};
+
+
+</script>
+
+
 </body>
 </html>

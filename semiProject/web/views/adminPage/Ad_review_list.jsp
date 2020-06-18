@@ -293,7 +293,7 @@
                     <!--게시판-->
                     <div class="table-responsive">
                     
-                        <table class="table table-striped table-bordered table-hover mt-2">
+                        <table class="table table-striped table-bordered table-hover mt-2" id="reviewdetail">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -307,18 +307,18 @@
                             <tbody>
                             <%if(bList.isEmpty()){ %>
                                 <tr>
-                                <td colspan="3">작성된 게시글이 없습니다.</td>
+                                <td colspan="7">작성된 게시글이 없습니다.</td>
                                 </tr>
                             <%}else{ %>
                             	<%for(int i=0; i<bList.size(); i++){ %>
                             	<tr>
-                            		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>">
-									<td><%=(bList.get(i)).getBoard_no()%></td>
-                                    <td><%=(rList.get(i)).getService_no()%></td>
-                                    <td><%=(bList.get(i)).getTitle()%></td>
-                                    <td><%=(slList.get(i)).getTrade_date()%></td>
-                                    <td><%=(rList.get(i)).getRating()%></td>
-                                    <td><%=(mList.get(i)).getUserId()%></td>
+                            		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>>
+									<td class="review_list"><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td class="review_list"><%=(rList.get(i)).getService_no()%></td>
+                                    <td class="review_list"><%=(bList.get(i)).getTitle()%></td>
+                                    <td class="review_list"><%=(slList.get(i)).getTrade_date()%></td>
+                                    <td class="review_list"><%=(rList.get(i)).getRating()%></td>
+                                    <td class="review_list"><%=(mList.get(i)).getUserId()%></td>
                                     
                                 </tr>
                                 <%} %>
@@ -371,6 +371,23 @@
             </footer>
 </div>
 </div>
+
+<script>
+	// 리뷰 상세 페이지 가기
+	$(function(){
+				$("#reviewdetail td").mouseenter(function(){
+					$(this).parent().css({"cursor":"pointer"});
+				});
+				
+				$(".review_list").click(function(){
+					var board_no=$(this).parent().children("input").val();
+					location.href="<%=request.getContextPath()%>/detail.review?board_no="+ board_no;
+					});
+	
+			}); 
+	
+
+</script>
 
 
 </body>

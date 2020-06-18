@@ -1,28 +1,25 @@
-package member.controller;
+package board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import board.model.service.BoardService;
 
 /**
- * Servlet implementation class MyPageWithdrawal
+ * Servlet implementation class ReviewDeleteServlet
  */
-@WebServlet("/withdrawal.me")
-public class MyPageWithdrawal extends HttpServlet {
+@WebServlet("/deleteReview.bo")
+public class ReviewDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyPageWithdrawal() {
+    public ReviewDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,23 +28,18 @@ public class MyPageWithdrawal extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String userNo = loginUser.getUserNo();
-				
+		System.out.println("안녕?");
+		int board_no = Integer.valueOf(request.getParameter("board_no"));
+		System.out.println(board_no);
 		
-		int result = new MemberService().memberWithdrawal(userNo);
+		int result = new BoardService().deleteReview(board_no);
 		
-		if(result >0) {
-			response.sendRedirect("logout.me");
+		if(result>0) {
+			request.getRequestDispatcher("/relist.bo").forward(request, response);
 		}else {
-			request.setAttribute("msg", "탈퇴 실패");
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
-		
-		
-		
 	}
 
 	/**

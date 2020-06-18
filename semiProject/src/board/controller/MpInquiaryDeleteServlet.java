@@ -1,28 +1,25 @@
-package member.controller;
+package board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
+import board.model.service.BoardService;
 
 /**
- * Servlet implementation class MyPageWithdrawal
+ * Servlet implementation class MpInquiaryDeleteServlet
  */
-@WebServlet("/withdrawal.me")
-public class MyPageWithdrawal extends HttpServlet {
+@WebServlet("/mpDelete.iq")
+public class MpInquiaryDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MyPageWithdrawal() {
+    public MpInquiaryDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,18 +28,14 @@ public class MyPageWithdrawal extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		int bNo = Integer.valueOf(request.getParameter("bid"));
+		System.out.println("sk sjadjdydhK?:" + bNo);
+		int result = new BoardService().deleteInquiary(bNo);
 		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String userNo = loginUser.getUserNo();
-				
-		
-		int result = new MemberService().memberWithdrawal(userNo);
-		
-		if(result >0) {
-			response.sendRedirect("logout.me");
-		}else {
-			request.setAttribute("msg", "탈퇴 실패");
+		if (result > 0) {
+			request.getRequestDispatcher("/selectList.iq").forward(request, response);
+
+		} else {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
 		}
 		
