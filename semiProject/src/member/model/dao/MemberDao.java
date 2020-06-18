@@ -1662,5 +1662,29 @@ public class MemberDao {
 
 
 
+
+	public int registerProfile_file(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result5 = 0;
+		
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_ME.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			
+			
+			result5 = pstmt.executeUpdate();
+			System.out.println("Dao에서 회원 가입 후 반환값은  : " + result5);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result5;
+	}
+
+
+
 	
 	}

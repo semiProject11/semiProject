@@ -372,10 +372,45 @@ public class BoardService {
 		return rList;
 	}
 
+	public ArrayList<Service_Category> selectSC_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_Category> scList = new ServiceDao().selectSC_ReviewList(conn);
 
-	
+		close(conn);
+		
+		return scList;
+	}
 
+	public ArrayList<Service> selectS_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service> sList = new ServiceDao().selectS_ReviewList(conn);
 
+		close(conn);
+		
+		return sList;
+	}
+
+	public ArrayList<Service_List> selectSL_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+
+		close(conn);
+		
+		return slList;
+	}
+
+	public ArrayList<Member> selectM_ReivewList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> mList = new BoardDao().selectM_ReviewList(conn);
+
+		close(conn);
+		
+		return mList;
+	}
 
 	public int checkInquiary(ArrayList<String> arr) {
 
@@ -520,6 +555,35 @@ public class BoardService {
 		return report;
 	}
 
+	public int getGradeListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getGradeListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int insertReplyInq(String reply, int board_no) {
+
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().insertReplyInq(conn,board_no,reply);
+		
+		
+		close(conn);
+		return result;
+	}
+
+	
+
 
 	public int updateInquiary(Board b, ArrayList<Files> inquiaryList, Inquiary inq, String boardNo) {
 		Connection conn = getConnection();
@@ -602,6 +666,8 @@ public class BoardService {
 
 		return result;
 	}
+
+
 	
 	
 }
