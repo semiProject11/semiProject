@@ -709,28 +709,30 @@ public class ServiceDao {
 		int starRow = (currentPage-1)*limit+1;
 		int endRow = currentPage * limit;
 		
-		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		
+		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = '1') WHERE RNUM BETWEEN 1 AND 5";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, userNo);
-			pstmt.setInt(2, starRow);
-			pstmt.setInt(3, endRow);
+//			pstmt.setString(1, userNo);
+//			pstmt.setInt(2, starRow);
+//			pstmt.setInt(3, endRow);
 			
 			rset = pstmt.executeQuery();
-			
+			System.out.println("test");
 			while(rset.next()) {
-				ServiceSellList service = 
-						new ServiceSellList(rset.getInt("SERVICE_NO"),
-								rset.getString("TITLE"),
-								rset.getString("SERVICE_STATUS"),
-								rset.getString("USER_NAME"),
-								rset.getString("PHONE"),
-								rset.getInt("RATING"));
+				System.out.println("나 나오니?");
 				
-				bsList.add(service);
+					ServiceSellList service = 
+							new ServiceSellList(rset.getInt("SERVICE_NO"),
+									rset.getString("TITLE"),
+									rset.getString("SERVICE_STATUS"));
+					
+					bsList.add(service);
+					
+					
 			}
-			
+			System.out.println(bsList);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

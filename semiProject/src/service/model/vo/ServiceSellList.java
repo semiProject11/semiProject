@@ -10,6 +10,14 @@ public class ServiceSellList {
 	public ServiceSellList() {
 		super();
 	}
+	
+	public ServiceSellList(int serviceNo, String title, String serviceStatus) {
+		super();
+		this.serviceNo = serviceNo;
+		this.title = title;
+		this.serviceStatus = serviceStatus;
+	}
+
 	public ServiceSellList(int serviceNo, String title, String serviceStatus, String userName, String phone,
 			int rating) {
 		super();

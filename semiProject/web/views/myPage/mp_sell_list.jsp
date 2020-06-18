@@ -132,6 +132,7 @@ th, tr, td {
 									clip-rule="evenodd" />
               </svg>
 							&nbsp;마이페이지
+							<hr>
 						</div>
 						<a class="nav-link" href="<%=request.getContextPath()%>/myPage.me">
 							<div class="sb-nav-link-icon">
@@ -175,7 +176,7 @@ th, tr, td {
                 </svg>
 								&nbsp;구매내역
 							</div>
-						</a> <a class="nav-link" href="mp_sell_list.html">
+						</a> <a class="nav-link" href="<%=request.getContextPath()%>/sellList.sv">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-list-ul" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -252,7 +253,7 @@ th, tr, td {
 										if (bsList.isEmpty()){
 										%>
 										<tr>
-											<td colspan="7">구매 내역이 없습니다.</td>
+											<td colspan="7">판매 내역이 없습니다.</td>
 										</tr>
 										<%
 											} else {
@@ -269,14 +270,23 @@ th, tr, td {
 											<td><%=s.getServiceNo()%></td>
 											<td style="width: 300px;"><a href="index.html"
 												style="color: black;"><%=s.getTitle()%></a></td>
+												<%if(s.getUserName()==null){ %>
+												<td>-</td>
+												<td>-</td>
+												<%}else{ %>
 											<td><%=s.getUserName()%></td>
 											<td><%=s.getPhone()%></td>
+											<%} %>
 											<%if(s.getServiceStatus().equals("Y")){ %>
 											<td>판매중</td>
 											<%}else{ %>
 											<td>판매완료</td>
 											<%} %>
+											<%if(s.getRating()==0){ %>
+											<td>-</td>
+											<%}else{ %>
 											<td><%=s.getRating()%></td>
+											<%} %>
 										</tr>
 										<%} %>
 										<%} %>
