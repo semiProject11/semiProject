@@ -178,7 +178,8 @@ th, tr, td {
                 </svg>
 								&nbsp;판매내역
 							</div>
-						</a> <a class="nav-link" href="<%=request.getContextPath()%>/selectList.iq">
+						</a> <a class="nav-link"
+							href="<%=request.getContextPath()%>/selectList.iq">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-clipboard" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -229,10 +230,10 @@ th, tr, td {
 									<thead>
 										<tr>
 											<th></th>
-											<th>서비스이미지</th>
-											<th>판매번호</th>
+											<th>서비스번호</th>
 											<th>제목</th>
-											<th>가격</th>
+											<th>구매자</th>
+											<th>연락처</th>
 											<th>상태</th>
 											<th>평점</th>
 
@@ -240,21 +241,17 @@ th, tr, td {
 									</thead>
 									<tbody>
 										<tr>
-											<td><input type="radio" id="service" name="service"
-												value="1" onclick="result1();"></td>
-											<td>
-												<div>
-													<img src="image/images.jfif" alt=""
-														style="width: 100px; height: 100px;">
-												</div>
-											</td>
+											<input type="hidden" name="board_no" value="#">
+											<td class="text-center" style="width: 5%"><input
+												type="checkbox" class="common" id="rowCheck" name="rowCheck"
+												style="width: 18px; height: 18px;" value="서비스아이디"></td>
 											<td>12-458264</td>
 											<td style="width: 300px;"><a href="index.html"
 												style="color: black;">개발왕개발왕개발왕개발왕개발왕개발왕개발왕개발왕개발왕개발왕개발왕개발왕</a></td>
-											<td>1,000,000,000</td>
+											<td>관리자</td>
+											<td>01088772626</td>
 											<td>판매중</td>
 											<td>0</td>
-											<input type="text" id="result" style="display: none;">
 										</tr>
 									</tbody>
 								</table>
@@ -263,11 +260,9 @@ th, tr, td {
 						<div class="card-body">
 							<hr>
 							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;">서비스등록</button>
+								style="background: black; color: white; width: 95px; font-size: small;"onclick="insertService();">서비스등록</button>
 							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;">서비스수정</button>
-							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;">서비스삭제</button>
+								style="background: black; color: white; width: 95px; font-size: small;" onclick="deleteService();">서비스삭제</button>
 
 						</div>
 					</div>
@@ -298,6 +293,32 @@ th, tr, td {
   			$("#result").val($("#service").val());
   			
   		}
+  	//체크된 항목 삭제
+		function deleteService(){    		
+		
+    		
+    		if(confirm("삭제하시겠습니까?")){
+    			
+    			var arr=new Array();
+					$("input:checkbox[name=rowCheck]:checked").each(function(i){
+					
+						var board_no=$(this).val();
+						arr.push(board_no);
+		
+						
+					})
+					
+					
+					location.href="<%=request.getContextPath()%>/delete.inquiary?arr="+ arr;
+    				
+    			
+    			}else{
+    			return false;
+    		}
+    		
+    	}  
+  		
+  		
   		</script>
 
 

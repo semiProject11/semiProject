@@ -437,7 +437,7 @@
                   flag = false;
               }else{
             	  
-        	  flag = confirm("회원 수정이 완료 되었습니다.");
+        	  flag = confirm("회원 수정하시겠습니까?");
               }
           }
           else if ($("#phone2").val().trim().length != 0 || $("#phone3").val().trim().length != 0) {
@@ -462,7 +462,7 @@
                   flag = false;
               }else{
             	  
-        	  flag = confirm("회원 수정이 완료 되었습니다.");
+        	  flag = confirm("회원 수정하시겠습니까?");
               }
           }
           else if($("#emailId").val().trim().length != 0 || $("#userEmail").val().trim().length != 0){
@@ -489,7 +489,7 @@
              }
               else{
             	  
-        	  flag = confirm("회원 수정이 완료 되었습니다.");
+        	  flag = confirm("회원 수정하시겠습니까?");
               }
 	          
          }else if($("#bank").val().trim().length != 0 || $("#account_hold").val().trim().length != 0 || $("#account").val().trim().length != 0){
@@ -520,12 +520,12 @@
                  flag = false;
              }else{
             	 
-        	 flag = confirm("회원 수정이 완료 되었습니다.");
+        	 flag = confirm("회원 수정하시겠습니까?");
              }
          }   
           
           else {
-            flag = confirm("회원 수정이 완료 되었습니다.");
+            flag = confirm("회원 수정하시겠습니까?");
 
           }
           return flag;

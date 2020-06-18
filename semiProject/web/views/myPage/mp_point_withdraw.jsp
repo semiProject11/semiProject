@@ -337,10 +337,12 @@
                     alert("계좌번호를 입력하세요");
                     $("#bankNo").focus();
                     return false;
-                }
-                else{
-                  return true;
-                }
+                }                
+                if(confirm("포인트를 출금 하시겠습니까?")){
+            		return true;
+            	}else{
+            		return false;
+            	};
 
         }
         

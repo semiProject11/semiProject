@@ -258,7 +258,7 @@ th, tr, td {
 												</select>
 											</div>
 											<div class="col-md-2 text-center">
-												<label>서비스 번호</label>
+												<label>개시물 번호</label>
 											</div>
 											<div class="col-md-4" id="boardnum1">													
 												<input type="text" name="boardnum" id="boardnum" value="<%=iq.getBoardNo() %>"
@@ -379,15 +379,26 @@ th, tr, td {
 				}
 				
 				function cancle(){
+					
+					
 					// 상담 디테일 불러오는 서블릿으로 이동
 					var bid = $("#boardnum").val()
 					location.href="<%=request.getContextPath()%>/detail.inquiary?bid="+bid
 					
+					
+							
+							
+							
 				}
 				function delete1(){
+					if(confirm("삭제 하시겠습니까?")){
 					// 해당 1:1문의 번호 가지고 삭제 하는 서블릿으로 이동
 					var bid = $("#boardnum").val()
 					location.href="<%=request.getContextPath()%>/mpDelete.iq?bid="+bid
+					
+					}else{
+	        			return false;
+	        		}
 				}
 				
 				
@@ -404,8 +415,14 @@ th, tr, td {
 	            		return false;
 	            		
 	            	}else{
-	            		alert('수정을 완료 했습니다.');
+	            		if(confirm("수정 하시겠습니까?")){
+	            			
 	            		return true;
+	            		}else{
+	            			return false;
+	            		}
+	            			
+	            		
 	            	}
 	            	
 	            	
