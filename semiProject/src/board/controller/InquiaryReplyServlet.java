@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
-import member.model.service.MemberService;
 
 /**
  * Servlet implementation class InquiaryReplyServlet
@@ -39,10 +38,16 @@ public class InquiaryReplyServlet extends HttpServlet {
 
 		int result = new BoardService().insertReplyInq(reply,board_no);
 		
+		System.out.println(result);
+		
 		PrintWriter out = response.getWriter();
+		
+		
+		
 
-		if(result == 0) {
+		if(result >0) {
 			out.print("success");
+			System.out.println("성공임다아아앙");
 		}else {
 			out.print("fail");
 		}
