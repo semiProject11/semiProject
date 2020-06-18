@@ -520,6 +520,7 @@ public class BoardService {
 		return report;
 	}
 
+
 	public int updateInquiary(Board b, ArrayList<Files> inquiaryList, Inquiary inq, String boardNo) {
 		Connection conn = getConnection();
 		BoardDao bDao = new BoardDao();
@@ -581,6 +582,24 @@ public class BoardService {
 		}else {
 			rollback(conn);
 		}
+		
+		return result;
+	}
+		
+	
+	public int deleteReview(int board_no) {
+		
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().deleteReview(conn,board_no);
+		
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);		
+
 		return result;
 	}
 	

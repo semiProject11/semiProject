@@ -307,7 +307,7 @@
                             <tbody>
                             <%if(bList.isEmpty()){ %>
                                 <tr>
-                                <td colspan="3">작성된 게시글이 없습니다.</td>
+                                <td colspan="7">작성된 게시글이 없습니다.</td>
                                 </tr>
                             <%}else{ %>
                             	<%for(int i=0; i<bList.size(); i++){ %>

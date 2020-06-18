@@ -241,7 +241,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%"><%=b.getBoard_no() %></label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%" id="valBoard"><%=b.getBoard_no() %></label></div>
                                 <div class="col-md-2"><label>판매자명</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
                             </div>
@@ -265,11 +265,9 @@
                             <div class="row mt-2">
                                 <div class="col"></div>
                                 <div class="col text-center"><button type="button" class="btn"
-                                        style="background:black; color:white"><a href="admin_review.html"
-                                            id="wh">목록</a></button>
+                                        style="background:black; color:white" id="wh" onclick="backMenu();">목록</button>
                                     <!--row나 col에서 text-center로 가운데 정렬 가능-->
-                                    <button type="button" class="btn" style="background:black; color:white">수정</button>
-                                    <button type="button" class="btn" style="background:black; color:white">삭제</button>
+                                    <button type="button" class="btn" style="background:black; color:white" onclick="deleteReview();">삭제</button>
                                 </div>
                                 <div class="col"></div>
                             </div>
@@ -300,5 +298,28 @@
             </footer>
 </div>
 </div>
+
+<script>
+
+	function backMenu(){
+			location.href="<%=request.getContextPath()%>/relist.bo"
+		};
+
+		
+	function deleteReview(){
+		var bool = confirm("해당 리뷰를 삭제하시겠습니까?");
+		
+		if(bool){
+			var board_no = $("#valBoard").text();
+			alert(board_no);
+			location.href="<%=request.getContextPath()%>/deleteReview.bo?board_no="+board_no
+			
+		}
+		};
+
+
+</script>
+
+
 </body>
 </html>
