@@ -1270,25 +1270,25 @@ public class MemberDao {
 
 
 
-	public int updateGrade(Connection conn, ArrayList<String> arr) {
+	public int updateGrade(Connection conn, ArrayList<String> userNo, ArrayList<String> Grade) {
 		int result=0;
 		PreparedStatement pstmt=null;
 		
 		//회원번호랑 바꿀 등급을  받아야함 
-		String query="UPDATE MEMBER SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		String query="UPDATE MEMBER SET GRADE=? WHERE USER_NO=?";
 		try {
 			
-			for(int i=0; i<arr.size(); i++) {
+			for(int i=0; i<Grade.size(); i++) {
 			pstmt=conn.prepareStatement(query);
 			
-			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			pstmt.setString(1, Grade.get(i));
+			pstmt.setString(2, userNo.get(i));
 			
 			result+=pstmt.executeUpdate();
 			
 			}
 			
-		} catch (SQLException e) {
-			
+		} catch (SQLException e) {			
 			e.printStackTrace();
 		}finally {
 			close(pstmt);

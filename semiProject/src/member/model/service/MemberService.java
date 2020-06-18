@@ -382,11 +382,20 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public int updateGrade(ArrayList<String> arr) {
+	public int updateGrade(ArrayList<String> userNo, ArrayList<String> Grade) {
 		Connection conn=getConnection();
-		int result=new MemberDao().updateGrade(conn,arr);
+		System.out.println(userNo);
+		System.out.println(Grade);
+		int result=new MemberDao().updateGrade(conn,userNo, Grade);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
 		
 		close(conn);
+		
 		return result;
 	}
 

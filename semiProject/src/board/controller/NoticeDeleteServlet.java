@@ -38,9 +38,9 @@ public class NoticeDeleteServlet extends HttpServlet {
 	
 		StringTokenizer st=new StringTokenizer(board_no,",");
 		ArrayList<String> arr=new ArrayList();
+		
 		while(st.hasMoreTokens()) {
 			arr.add(st.nextToken());
-		
 		}
 		
 		System.out.println(arr);

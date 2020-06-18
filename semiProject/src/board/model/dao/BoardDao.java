@@ -160,6 +160,9 @@ public class BoardDao {
 
 		return result;
 	}
+	
+	
+	
 
 	public int insertBoard(Connection conn, Board b) {
 		PreparedStatement pstmt = null;
@@ -2420,7 +2423,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt=null;
 		int result=0;
 		try {
-			String query="UPDATE INQUIARYSET INQUIRY_YN='Y', INQUIRY_CONTENT=?, INQUIRY_DATE=SYSDATE WHERE BOARD_NO=?";
+			String query="UPDATE INQUIARY SET INQUIRY_YN='Y', INQUIRY_CONTENT=?, INQUIRY_DATE=SYSDATE WHERE BOARD_NO=?";
 			pstmt=conn.prepareStatement(query);
 			
 			pstmt.setString(1,reply);
@@ -2434,6 +2437,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 			close(pstmt);
 		}
 		
+		System.out.println(result);
 		return result;
 	}
 

@@ -574,7 +574,7 @@ public class BoardService {
 	public int insertReplyInq(String reply, int board_no) {
 
 		Connection conn=getConnection();
-		
+		System.out.println("서비스다아아안:"+reply);
 		int result=new BoardDao().insertReplyInq(conn,board_no,reply);
 		
 		

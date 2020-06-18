@@ -264,33 +264,34 @@
                             
                             
                        <!-- 답글 보이는 부분 -->
-                            
-                            <div class="mx-3">
+                  
+            					<div class="mx-3" id="test">
                                 <div class="row mt-5">
-                                    <div class="col-md-2"><label
-                                            style="background:none; text-align:left; font-weight:bold;">타임셀러</label>
+                                    <div class="col-md-2">
+                                    <label style="background:none; text-align:left; font-weight:bold;">TimeSeller</label>
                                     </div>
-                                    <div class="col-md-2"><label
-                                            style="background:none; text-align:left; font-weight:bold;"><%=i.getInquiry_date() %></label>
+                                    <div class="col-md-2">
+                                    <label style="background:none; text-align:left; font-weight:bold;"><%=i.getInquiry_date() %></label>
                                     </div>
                                     <div class="col-md-8"></div>
-                                </div>
-                                <div class="row" id="replyArea">
-                                    <label class="form-control"
-                                        style="width:100%; height:250px; resize:none; text-align:left;"><%=i.getInquiry_content() %></label>
-                                </div>
-
-                                <!--여기부터 댓글창-->
+                                	</div>
+                               	<div class="row" id="replyArea">
+                                    <textarea class="form-control" id="replyZone"
+                                        style="width:100%; height:250px; resize:none; text-align:left; background:white" readonly><%=i.getInquiry_content() %></textarea>
+                                </div>  
+                                
+                                
+                                <!--여기부터 답변다는 창-->
                                 
                                 <div class="row" style="height:100px; padding:5px 0px;">
                                 <%if(i.getInquiry_yn().equalsIgnoreCase("N")){ %>
-									<div id="replySel">
+									<div>
                                     <textarea class="form-control"
-                                        style="width:100%; height:50px; resize:none;" id="replyContent">등록된 답변이 없습니다.</textarea>
+                                        style="width:100%; height:50px; resize:none;" id="content">답변을 등록해주세요.</textarea>
                                     </div>
                                     <%}else{ %>
                                     <div>
-                                    <textarea class="form-control"  id="replyWrite" style="width:100%;height:50px; resize:none;" placeholder="답변을 작성하세요."></textarea>
+                                    <textarea class="form-control"  id="replyWrite" style="width:100%;height:50px; resize:none;" placeholder="기존에 작성한 댓글은 삭제 후 등록됩니다."></textarea>
                                     </div>
                                     <%} %>
                                     &nbsp;
@@ -311,7 +312,6 @@
                                             id="wh">목록</a></button>
                                     <!--row나 col에서 text-center로 가운데 정렬 가능-->
 
-                                    <button type="button" class="btn" style="background:black; color:white">수정</button>
                                     <button type="button" class="btn" style="background:black; color:white">삭제</button>
                                 </div>
                                 <div class="col"></div>
@@ -326,28 +326,24 @@
             $(function(){
             	$("#addReply").click(function(){
             		
-            		var content=$("#replyWrite").val(); //답글 쓰는 textarea
-            		var board_no=<%=b.getBoard_no()%>
+            		var content=$("#replyWrite").val(); //답글 쓰는 textarea의 내용(새로 업데이트할 답변내용)
+            		var board_no=<%=b.getBoard_no()%>	//해당 보드넘버
             		
             		$.ajax({
             			
             			url:"<%=request.getContextPath()%>/reply.inquiary",
             			type:"post",
             			data:{content:content,board_no:board_no},
-            			sucess:function(data){
+   
+            			
+            			success:function(data){
             				
-            				$row=$("<div ")
-            				$replyTable=$("#replyArea");
-            				$replyTable.html(""); //기존꺼 삭제
+            				//textarea 내용만 바꾸려고 할때 
+            				if(data=="success"){
+            				$("#replyZone").val(content); 
             				
-            				for(var key in data){
-        					
-        						var $replyContent = $("<textarea>").text(data[key].content);
-        						
-        						$replyTable.append($replyContent);
-        					}
-            				
-            				$("#replyContent").val("");
+            			}
+            			 +
             			},
             			error:function(request,status,error){
         				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -357,9 +353,6 @@
             })
             
             </script>
-
-
-
 
 
             <!--footer-->
