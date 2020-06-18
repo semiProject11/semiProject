@@ -375,7 +375,7 @@ public class BoardService {
 	public ArrayList<Service_Category> selectSC_ReivewList() {
 		Connection conn = getConnection();
 		
-		ArrayList<Service_Category> scList = new BoardDao().selectSC_ReviewList(conn);
+		ArrayList<Service_Category> scList = new ServiceDao().selectSC_ReviewList(conn);
 
 		close(conn);
 		
@@ -385,7 +385,7 @@ public class BoardService {
 	public ArrayList<Service> selectS_ReivewList() {
 		Connection conn = getConnection();
 		
-		ArrayList<Service> sList = new BoardDao().selectS_ReviewList(conn);
+		ArrayList<Service> sList = new ServiceDao().selectS_ReviewList(conn);
 
 		close(conn);
 		
