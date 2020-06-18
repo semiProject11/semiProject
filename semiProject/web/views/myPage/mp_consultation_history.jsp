@@ -281,7 +281,6 @@ th, tr, td {
 										$(function(){
 											$("#inContent td").click(function(){												
 												var bid = $(this).parent().children("input").val();
-												alert(bid)
 												<%-- <% if(loginUser != null) {%> --%>				
 												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid												
 												<%-- <%}else{%>

@@ -3,13 +3,13 @@ package service.model.vo;
 import java.sql.Date;
 
 public class ServiceBuyList {
-	private String changeName;
-	private String title;
-	private Date tradeDate;
-	private String sUserName;
-	private String sPhone;
-	private int serviceNo;
-	private String bUserNo;
+	private String changeName;		// 썸네일이미지 이름
+	private String title;			// 제목
+	private Date tradeDate;			// 거래일자
+	private String sUserName;		// 판매자이름
+	private String sPhone;			// 판매자전화번호
+	private int serviceNo;			// 서비스번호
+	private String bUserNo;			// 구매자 번호
 	public ServiceBuyList() {
 		super();
 	}

@@ -56,6 +56,8 @@ public class InquiaryInsertServlet extends HttpServlet {
 //		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
 		String user_id = "admin";
 		String board_type = multiRequest.getParameter("inquiaryName");
+		
+		
 		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
 
 		// 왜 값이 안담겨옴??
@@ -71,6 +73,7 @@ public class InquiaryInsertServlet extends HttpServlet {
 		ArrayList<String> originFiles = new ArrayList<>();
 
 		Enumeration<String> files = multiRequest.getFileNames();
+		
 		while (files.hasMoreElements()) {
 
 			String name = files.nextElement();

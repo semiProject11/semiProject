@@ -277,6 +277,12 @@
                 		return false;
                 	}
                 	
+                	if(confirm("포인트를 충전하시겠습니까?")){
+                		return true;
+                	}else{
+                		return false;
+                	};
+                	
                 }
                 
                 
