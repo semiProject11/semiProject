@@ -1,16 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*,board.model.vo.*,java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="member.model.vo.*,java.util.ArrayList"%>
 <%
-	Pagination pn = (Pagination)request.getAttribute("pn");
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
 	ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
-	
-	int listCount = pn.getListCount();
-	int currentPage = pn.getCurrentPage();
-	int maxPage = pn.getMaxPage();
-	int startPage = pn.getStartPage();
-	int endPage = pn.getEndPage();
-	
 %>
 
 
@@ -301,7 +293,7 @@ th, tr, td {
 									</tr>
 								</thead>
 
-								<tbody>
+								<tbody name="tr" value="bbbb">
 
 
 									<%
@@ -317,9 +309,9 @@ th, tr, td {
 										for (int i = 0; i < gradeList.size(); i++) {
 									%>
 
-									<tr>
-										
-										<input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
+									<tr id="tr" name="tr" value="trtr">
+										<%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
+										 --%>
 										<td><input type="checkbox" class="common" id="rowCheck"
 											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>>
 
@@ -375,22 +367,18 @@ th, tr, td {
 				<div class="page-center">
 					<ul class="pagination-t">
 
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
-			<% for(int p = startPage ; p <= endPage ; p ++) {%>
-				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
-				<%}else{ %>
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
+						<li class="page-item-t disabled-t"><a class="page-link-t"
+							href="#">Previous</a></li>
+
+						<li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
 
 						<!-- disabled: 해당 버튼 활성화 -->
-						<!-- <li class="page-item-t active-t" aria-current="page-t"><a
+						<li class="page-item-t active-t" aria-current="page-t"><a
 							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
 						</li>
-						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li> -->
-						
-						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
 					</ul>
 
 				</div>
@@ -424,70 +412,39 @@ th, tr, td {
 	
 	
 	//등급변경
-	
+	 function updateGrade(){
+		
 
-	<%-- function updateGrade(){
+		var rowArr=new Array();
+		var tdArr=new Array();
 		
 		
-		 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
-				
-				var rowArr=new Array();
-				var tdArr=new Array();
-				
-				$("input:checkbox[name=rowCheck]:checked").each(function(i){
-					
-					var tr=$(this).parent().parent().eq(i); //tr 전체 값 : 아이디
-					var td=tr.children();	//td 값 : 등급
-					
-					rowArr.push(tr.text());
-					
-					var userNo=td.eq(0).text()+",";
-					var grade=td.eq(6).text()+",";
-					
-					tdArr.push(userNo);
-					tdArr.push(grade);
-					
-						
-					});
-
-					location.href="<%=request.getContextPath() %>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
-					
-				
-				}else{
-				return false;
+		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
+		
+			rowArr+=$(this).parent().parent().children().eq(1).text()+",";
+			tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
 			
-
 			
-		} 
-
-			rowArr+=$(this).val();
-		
-	
-			trArr=$(this).eq(7).text()+",";
-
+			
 
 		});
 		
-			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr; 
+			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
 	
-
 	
-	} --%>
-
-	 
-
+	} 
 	
 	
 	
-<%-- 	 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
+	<%-- 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
 			
 			var rowArr=new Array();
 			var tdArr=new Array();
 			
 			$("input:checkbox[name=rowCheck]:checked").each(function(i){
 				
-				var tr=$(this).parent().parent().eq(i); //tr 전체 값 : 아이디
-				var td=tr.children();	//td 값 : 등급
+				var tr=$(this).parent().parent().eq(i); //tr 전체 값
+				var td=tr.children();	//td 값
 				
 				rowArr.push(tr.text());
 				
@@ -499,26 +456,27 @@ th, tr, td {
 				
 					
 				});
-
-				location.href="<%=request.getContextPath() %>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
+				
+				
 				
 			
 			}else{
 			return false;
 		
 		
-	}  --%> 
-	
-		
+	}  
+ 	}
+		--%>
 		
 		
 		
 //검색기능
-
-	function searchData(){
+	
+<%-- 	function searchData(){
 		location.href="<%=request.getContextPath() %>/search.member?word="+word;
 		
-	}
+	} --%>
+	
 	
 	
 	
@@ -535,21 +493,21 @@ th, tr, td {
 						arr.push(userNo);
 		
 						
-					});
+					})
 					
-			
+					
 					location.href="<%=request.getContextPath()%>/changeB.member?arr="+ arr;
-    			
+    				
     			
     			}else{
     			return false;
-    		
+    		}
     		
     	} 
-	}
 
 
-
+	
+	
 	//판매자 권한 변경
  function changeSell(){
 		
@@ -563,21 +521,19 @@ th, tr, td {
 						arr.push(userNo);
 		
 						
-					});
+					})
 					
-		
-			
+					
 					location.href="<%=request.getContextPath()%>/changeS.member?arr="+ arr;
     				
     			
     			}else{
     			return false;
     		}
-	}
     		
-    
+    	}  
 	
-
+	
 	
 
 	

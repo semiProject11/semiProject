@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.model.service.BoardService;
 import member.model.service.MemberService;
 
 /**
@@ -31,52 +32,40 @@ public class UpdateGradeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		
-		String userNo=request.getParameter("userNo"); //회원번호
-		String grade=request.getParameter("grade"); //변경할 등급
-		String rowArr=request.getParameter("rowArr");
-		String tdArr=request.getParameter("tdArr");
-		
-		System.out.println("userno:"+userNo);
-		System.out.println("grade:"+grade);
-		System.out.println("rowArr:"+rowArr);
-		System.out.println("tdArr:"+tdArr);
-		
-		
-		
-		
-		
-		
-		/*
-		 * String rowArr=request.getParameter("rowArr");
-		 * System.out.println("서블릿에서 rowArr"+rowArr); String
-		 * tdArr=request.getParameter("tdArr"); System.out.println("서블릿에서 tdArr"+tdArr);
-		 * 
-		 * 
-		 * StringTokenizer st=new StringTokenizer(rowArr,","); ArrayList<String> arr=new
-		 * ArrayList(); while(st.hasMoreTokens()) { arr.add(st.nextToken());
-		 * 
-		 * }
-		 * 
-		 * System.out.println("토크나이저로 끊은 값:"+arr);
-		 */
-		
-		/*
-		 *  int result=new MemberService().updateGrade(arr);
-		 * 
-		 * System.out.println("DAO다녀온 후 RESULT:"+result);
-		 * 
-		 * if (result > 0) {
-		 * request.getRequestDispatcher("/list.grade").forward(request, response);
-		 * 
-		 * } else {
-		 * request.getRequestDispatcher("views/common/errorPage.jsp").forward(request,
-		 * response); }
-		 */
-		
-		
 	
+
+		String rowArr = request.getParameter("rowArr");	// 	현재 체크한 회원 번호
+		String tdArr =request.getParameter("tdArr");		// 	현재 체크한 회원의 등급
+		System.out.println(rowArr);
+		System.out.println(tdArr);
+		
+		
+		StringTokenizer st1 = new StringTokenizer(rowArr,",");
+		ArrayList<String> userNo = new ArrayList<String>();
+		while(st1.hasMoreTokens()) {
+			userNo.add(st1.nextToken());
+		
+		}
+		
+		StringTokenizer st2 = new StringTokenizer(tdArr,",");
+		ArrayList<String> Grade = new ArrayList<String>();
+		while(st2.hasMoreTokens()) {
+			Grade.add(st2.nextToken());
+		
+		}
+		  
+
+		int result=new MemberService().updateGrade(userNo, Grade);
+
+		System.out.println("DAO다녀온 후 RESULT:"+result);
+		
+			if (result > 0) {
+			request.getRequestDispatcher("/list.grade").forward(request, response);
+			  
+			} else {
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request,response);
+			}
+
 	
 	}
 

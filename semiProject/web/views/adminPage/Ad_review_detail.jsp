@@ -311,7 +311,6 @@
 		
 		if(bool){
 			var board_no = $("#valBoard").text();
-			alert(board_no);
 			location.href="<%=request.getContextPath()%>/deleteReview.bo?board_no="+board_no
 			
 		}
