@@ -186,7 +186,7 @@ th, tr, td {
                 </svg>
 								&nbsp;판매내역
 							</div>
-						</a> <a class="nav-link" href="mp_consultation_history.html">
+						</a> <a class="nav-link" href="<%=request.getContextPath()%>/selectList.iq">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-clipboard" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -266,7 +266,8 @@ th, tr, td {
 												}
 										%>
 										<tr id="111">
-										<td class="b1" style="display: none;"><%=in.getBoardNo() %></td>							
+										<input type="hidden" class="b1" value="<%=in.getBoardNo() %>">
+										<%-- <td class="b1" style="display: none;"><%=in.getBoardNo() %></td> --%>							
 											<td ><%=i+1 %></td>
 											<td><%=yn %></td>
 											<td><%=in.getTitle() %></td>
@@ -278,11 +279,12 @@ th, tr, td {
 									</tbody>
 									<script>
 										$(function(){
-											$("#inContent tr").click(function(){												
-												var bid = $(this).children( '.b1' ).text()
-												<%-- <% if(loginUser != null) {%>				
-												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid;
-												<%}else{%>
+											$("#inContent td").click(function(){												
+												var bid = $(this).parent().children("input").val();
+												alert(bid)
+												<%-- <% if(loginUser != null) {%> --%>				
+												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid												
+												<%-- <%}else{%>
 													alert("로그인 해야만 상세보기가 가능합니다.");
 												<%}%> --%>
 											})

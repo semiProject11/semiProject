@@ -364,7 +364,7 @@ public class MemberDao {
 		int userNo2 = Integer.valueOf(userNo); 
 		
 		
-		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_FID.NEXTVAL, ?,?,?,?,SYSDATE,DEFAULT)";
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, ?,?,?,?,SYSDATE,DEFAULT)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

@@ -178,7 +178,7 @@ th, tr, td {
                 </svg>
 								&nbsp;판매내역
 							</div>
-						</a> <a class="nav-link" href="mp_consultation_history.html">
+						</a> <a class="nav-link" href="<%=request.getContextPath()%>/selectList.iq">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-clipboard" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"

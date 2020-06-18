@@ -30,14 +30,17 @@ public class MpInquiaryDetailServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int board_no = Integer.valueOf(request.getParameter("board_no"));
+		int board_no = Integer.valueOf(request.getParameter("bid"));
 		
 		InquiaryList iq = new BoardService().selectInquiaryDetail(board_no);
 		
 		if(iq!=null) {
-			
-		}
-	}
+			request.setAttribute("inquiary", iq);
+			request.getRequestDispatcher("views/myPage/mp_inquiary_detail.jsp").forward(request, response); 
+		} else {
+			request.setAttribute("msg", "1:1문의 조회 실패!");
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

@@ -1028,7 +1028,7 @@ public class BoardDao {
 		ResultSet rset = null;
 		ArrayList<InquiaryList> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM BOARD B JOIN INQUIARY I ON(B.BOARD_NO = I.BOARD_NO) WHERE B.USER_NO = ?";
+		String query = "SELECT * FROM BOARD B JOIN INQUIARY I ON(B.BOARD_NO = I.BOARD_NO) WHERE B.USER_NO = ? AND BOARD_STATUS='Y'";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -2397,7 +2397,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		return report;
 	}
 
-	public int updateBoard1(Connection conn, Board b) {
+	public int updateBoard1(Connection conn, Board b, String boardNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
@@ -2407,7 +2407,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, b.getTitle());
 			pstmt.setString(2, b.getContent());			
-			pstmt.setInt(3, b.getBoard_no());
+			pstmt.setString(3, boardNo);
 
 			result = pstmt.executeUpdate();
 
@@ -2446,7 +2446,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "DELETE FROM FILES WHERE BOARD_NO = ?";
+		String query = "UPDATE FILES SET STATUS = 'N' WHERE BOARD_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -2459,7 +2459,6 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		} finally {
 			close(pstmt);
 		}
-		
 		return result;
 	}
 
@@ -2470,7 +2469,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		
 		System.out.println("flist"+fList);
 		
-		String query = "INSERT INTO FILES VALUES(SEQ_FILE.NEXTVAL,?,?,?,?,SYSDATE,0,0,'Y')";
+		String query = "INSERT INTO FILES VALUES(SEQ_BFID.NEXTVAL,?,?,?,?,SYSDATE,0,0,'Y')";
 		
 		try {
 
@@ -2502,9 +2501,63 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 	}
 
 	public InquiaryList selectInquiaryDetail(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		InquiaryList iq = null;
+		String query = "SELECT * FROM BOARD B JOIN INQUIARY I ON(B.BOARD_NO = I.BOARD_NO) WHERE B.BOARD_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, board_no);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				 iq = new InquiaryList(rset.getInt("BOARD_NO"),
+													rset.getString("TITLE"),
+													rset.getString("CONTENT"),
+													rset.getString("USER_NO"),
+													rset.getDate("WRITE_DATE"),
+													rset.getString("INQUIRY_CONTENT"),
+													rset.getDate("INQUIRY_DATE"),
+													rset.getString("BOARD_TYPE"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+				
 		
 		
-		return null;
+		return iq;
+	}
+
+	public int deleteInquiary(Connection conn, int bNo) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		
+		String query="UPDATE BOARD SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		try {
+			
+			
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, bNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 

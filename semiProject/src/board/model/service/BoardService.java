@@ -523,22 +523,40 @@ public class BoardService {
 	public int updateInquiary(Board b, ArrayList<Files> inquiaryList, Inquiary inq, String boardNo) {
 		Connection conn = getConnection();
 		BoardDao bDao = new BoardDao();
-		int result = bDao.updateBoard1(conn, b); // 게시물 board 수정
+		int result1 = 0;		// 실제 잘 되었는지 확인 하는 결과값
+		
+		int result = bDao.updateBoard1(conn, b, boardNo); // 게시물 board 수정
 		int result3 = bDao.updateInquiaryType(conn, inq, boardNo); // 게시물 문의 수정
-		int result4 = bDao.deleteBoardFiles1(conn, boardNo);		// 기존 게시물 파일 삭제
-		int result2 = bDao.insertBoardFiles1(conn, inquiaryList, boardNo); // 수정된 게시물 파일 생성
-
-		if (result > 0 && result2 >= 0 && result3 > 0 && result4>0) {
-			System.out.println("커밋됨");
-			commit(conn);
-		} else {
-			System.out.println("롤백됨");
-			rollback(conn);
+		
+		if(!inquiaryList.isEmpty()) {
+			int result4 = bDao.deleteBoardFiles1(conn, boardNo);		// 기존 게시물 파일 삭제
+			int result2 = bDao.insertBoardFiles1(conn, inquiaryList, boardNo); // 수정된 게시물 파일 생성
+		
+			if (result > 0 && result2 >= 0 && result3 > 0) {
+				System.out.println("커밋됨1");
+				result1 = 1;
+				commit(conn);
+			} else {
+				System.out.println("롤백됨1");
+				rollback(conn);
+			}
+		
+		}else {
+			if (result > 0 &&  result3 > 0) {
+				System.out.println("커밋됨");
+				result1 = 1;
+				commit(conn);
+			} else {
+				System.out.println("롤백됨");
+				rollback(conn);
+			}
 		}
+		
+
 
 		close(conn);
 
-		return result;
+		return result1;
 	}
 
 	public InquiaryList selectInquiaryDetail(int board_no) {
@@ -551,6 +569,19 @@ public class BoardService {
 		
 		
 		return iq;
+	}
+
+	public int deleteInquiary(int bNo) {
+		Connection conn = getConnection();
+		
+		int result = new BoardDao().deleteInquiary(conn, bNo);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
 	}
 	
 	

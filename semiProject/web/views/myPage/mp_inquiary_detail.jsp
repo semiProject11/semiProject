@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="java.util.ArrayList, board.model.vo.*"%>
 <%
-	
-
+	InquiaryList iq = (InquiaryList)request.getAttribute("inquiary");
+	String iqc = iq.getInquiryContent();
 %>
 <!DOCTYPE html>
 <html>
@@ -185,7 +185,7 @@ th, tr, td {
                 </svg>
 								&nbsp;판매내역
 							</div>
-						</a> <a class="nav-link" href="mp_consultation_history.html">
+						</a> <a class="nav-link" href="<%=request.getContextPath()%>/selectList.iq">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-clipboard" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -246,7 +246,7 @@ th, tr, td {
 												<label>상담 유형</label>
 											</div>
 											<div class="col-md-4" id="sangdam1">													
-												<input type="text" name="sangdam1" id="sangdam1"
+												<input type="text" name="sangdam1" id="sangdam1" value="<%=iq.getBoardType()%>"
 													class="form-control" style="width: 100%; text-align: left;" readonly>
 											</div>
 											<div class="col-md-4" style="display: none;" id="sangdam">
@@ -261,7 +261,7 @@ th, tr, td {
 												<label>서비스 번호</label>
 											</div>
 											<div class="col-md-4" id="boardnum1">													
-												<input type="text" name="boardnum" id="boardnum" value="1"
+												<input type="text" name="boardnum" id="boardnum" value="<%=iq.getBoardNo() %>"
 													class="form-control" style="width: 100%; text-align: left;" readonly>
 											</div>											
 										</div>
@@ -271,19 +271,28 @@ th, tr, td {
 												<label for="inquiaryTitle">제목</label>
 											</div>
 											<div class="col-md-10">
-												<input type="text" name="inquiaryTitle" id="inquiaryTitle"
+												<input type="text" name="inquiaryTitle" id="inquiaryTitle" value="<%=iq.getTitle() %>"
 													class="form-control" style="width: 100%; text-align: left;" readonly>
 											</div>
 										</div>
 										<div class="mt-2">
 											<textarea class="form-control" name="inquiaryContent"
 												id="inquiaryContent"
-												style="width: 100%; height: 400px; resize: none; text-align: left;" readonly></textarea>
+												style="width: 100%; height: 400px; resize: none; text-align: left;" readonly><%=iq.getContent() %></textarea>
 
 										</div>
+										<%if(!iqc.equals("N")){ %>
+										<div style="margin: 15px;">
+												<label>답변내용</label>
+										</div>
+										<div class="mt-2">
+											<textarea class="form-control"
+												style="width: 100%; height: 400px; resize: none; text-align: left;" readonly><%=iq.getInquiryContent() %></textarea>
 
+										</div>
+										<%} else{%>
 										<!--파일첨부-->
-										<div class="row mt-2" id="inq_fileArea">
+										<div class="row mt-2" id="inq_fileArea" style="display: none;">
 											<div class="col-md-2 text-center">
 												<label for="find_file01">파일 첨부 1</label>
 											</div>
@@ -296,7 +305,7 @@ th, tr, td {
 													placeholder="파일첨부 클릭 또는 파일을 드래그하세요"> <input
 													type="file" name="fileName1" class="form-control"
 													id="find_file01" style="position: absolute; opacity: 0;"
-													onchange="javascript: document.getElementById('fileName1').value = this.value" disabled>
+													onchange="javascript: document.getElementById('fileName1').value = this.value">
 
 
 
@@ -313,11 +322,12 @@ th, tr, td {
 													placeholder="파일첨부 클릭 또는 파일을 드래그하세요"> <input
 													type="file" name="fileName2" class="form-control"
 													id="find_file02" style="position: absolute; opacity: 0;"
-													onchange="javascript: document.getElementById('fileName2').value = this.value" disabled>
+													onchange="javascript: document.getElementById('fileName2').value = this.value">
 
 											</div>
 
 										</div>
+										<%} %>
 										<!--파일첨부 끝-->
 
 
@@ -326,8 +336,10 @@ th, tr, td {
 										<div class="row mt-5">
 											<div class="col"></div>
 											<div class="col text-center" id="button22">
+											<%if(iqc.equals("N")){ %>
 												<button type="button" class="btn"
 													style="background: black; color: white" onclick="change();">수정 하기</button>
+											<%} %>
 												<button type="button" class="btn"
 													style="background: black; color: white" onclick="delete1();">삭제하기</button>
 											</div>
@@ -359,8 +371,7 @@ th, tr, td {
 					// 내용 변경
 					$("#inquiaryContent").prop("readonly",false)
 					// 파일첨부 변경
-					$("#find_file01").prop("disabled",false)
-					$("#find_file02").prop("disabled",false)
+					$("#inq_fileArea").css("display","flex")
 					// 버튼 바꾸기
 					$("#button11").css("display","block")
 					$("#button22").css("display","none")
@@ -369,12 +380,14 @@ th, tr, td {
 				
 				function cancle(){
 					// 상담 디테일 불러오는 서블릿으로 이동
-					<%-- location.href=<%=request.getContextPath()%> --%>
+					var bid = $("#boardnum").val()
+					location.href="<%=request.getContextPath()%>/detail.inquiary?bid="+bid
 					
 				}
 				function delete1(){
 					// 해당 1:1문의 번호 가지고 삭제 하는 서블릿으로 이동
-					<%-- location.href=<%=request.getContextPath()%> --%>
+					var bid = $("#boardnum").val()
+					location.href="<%=request.getContextPath()%>/mpDelete.iq?bid="+bid
 				}
 				
 				
