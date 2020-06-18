@@ -2438,6 +2438,45 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		return report;
 	}
 
+	public int getGradeListCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) FROM MEMBER";
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		System.out.println("dao:"+result);
+		return result;
+	}
+
+	public int insertReplyInq(Connection conn, int board_no, String reply) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			String query="UPDATE INQUIARYSET INQUIRY_YN='Y', INQUIRY_CONTENT=?, INQUIRY_DATE=SYSDATE WHERE BOARD_NO=?";
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setString(1,reply);
+			pstmt.setInt(2,board_no);
+			result=pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 	
 
 }

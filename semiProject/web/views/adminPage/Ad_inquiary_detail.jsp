@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.*,member.model.vo.*,java.util.*;"%>
+    pageEncoding="UTF-8" import="board.model.vo.*,member.model.vo.*,java.util.*"%>
     
     <%
     Board b=(Board)request.getAttribute("board");
@@ -236,6 +236,7 @@
               
                     <div class="container my-3">
                         <form class="form-group">
+                        <input type="hidden" name="board_no" id="board_no" value="<%=b.getBoard_no() %>">
                             <div class="row">
                                 <div class="col-md-2"><label>문의 유형</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=i.getInquiry_name() %></label></div>
@@ -262,7 +263,7 @@
                             </div>
                             
                             
-                   <%--          <!-- 답글 보이는 부분 -->
+                       <!-- 답글 보이는 부분 -->
                             
                             <div class="mx-3">
                                 <div class="row mt-5">
@@ -281,21 +282,20 @@
 
                                 <!--여기부터 댓글창-->
                                 
-                                <div class="row" style="height:100px; display:flex; padding:5px; ">
+                                <div class="row" style="height:100px; padding:5px 0px;">
                                 <%if(i.getInquiry_yn().equalsIgnoreCase("N")){ %>
 									<div id="replySel">
                                     <textarea class="form-control"
-                                        style="width:78%; height:50px; resize:none;" id="replyContent">등록된 답변이 없습니다.</textarea>
+                                        style="width:100%; height:50px; resize:none;" id="replyContent">등록된 답변이 없습니다.</textarea>
                                     </div>
                                     <%}else{ %>
-                                    <div id="replySel">
-                                    <textarea class="form-control"
-                                        style="width:78%; height:50px; resize:none;" id="replyContent"><%=i.getInquiry_content() %></textarea>
+                                    <div>
+                                    <textarea class="form-control"  id="replyWrite" style="width:100%;height:50px; resize:none;" placeholder="답변을 작성하세요."></textarea>
                                     </div>
                                     <%} %>
+                                    &nbsp;
                                     <div>
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white; height:50px; width:100px;" id="addReply">댓글작성</button>
+                                        <button type="button" class="btn" style="background:black; color:white; height:50px; width:100px;" id="addReply">답변작성</button>
 
 
                                         <button type="button" class="btn"
@@ -326,21 +326,23 @@
             $(function(){
             	$("#addReply").click(function(){
             		
-            		var content=$("#replyContent").val(); //답글 쓰는 textarea
+            		var content=$("#replyWrite").val(); //답글 쓰는 textarea
+            		var board_no=<%=b.getBoard_no()%>
             		
             		$.ajax({
             			
             			url:"<%=request.getContextPath()%>/reply.inquiary",
             			type:"post",
-            			data:{content:content},
+            			data:{content:content,board_no:board_no},
             			sucess:function(data){
             				
+            				$row=$("<div ")
             				$replyTable=$("#replyArea");
             				$replyTable.html(""); //기존꺼 삭제
             				
             				for(var key in data){
         					
-        						var $replyContent = $("<textarea>").text(data[key].Inquiry_content);
+        						var $replyContent = $("<textarea>").text(data[key].content);
         						
         						$replyTable.append($replyContent);
         					}
@@ -357,7 +359,7 @@
             </script>
 
 
- --%>
+
 
 
             <!--footer-->

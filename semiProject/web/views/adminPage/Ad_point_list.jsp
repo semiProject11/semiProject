@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="member.model.vo.*,java.util.ArrayList"%>
+    <%
+    
+    ArrayList<Member> m=(ArrayList<Member>)request.getAttribute("member");
+    
+    %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -247,18 +251,16 @@
                     <h2>포인트 관리</h2>
                     <hr>
                 </head>
+                        <form
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="container my-4">
 
                     <div>
                         <!--상단 버튼-->
-                        <button type="button" class="btn" style="background:black; color:white;">전체
-                            선택</button>
+                        <button type="button" class="btn" style="background:black; color:white;">전체 선택</button>
                         <button type="button" class="btn" style="background:black; color:white;">충전</button>
-                        <button type="button" class="btn" style="background:black; color:white;">확
-                            인</button>
+                        <button type="button" class="btn" style="background:black; color:white;">확인</button>
                         <!--상단 검색창-->
-                        <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 
                             <div class="input-group">
 
@@ -267,9 +269,9 @@
                                     aria-describedby="basic-addon2" />
                                 <div class="input-group-append"></div>
                                 <button class="btn btn-primary" type="button" id="jin">
-                                    <i class="fas fa-search"></i></i></button>
+                                    <i class="fas fa-search"></i></button>
                             </div>
-                        </form>
+                       
                     </div>
 
 
@@ -291,26 +293,41 @@
                                 </tr>
                             </thead>
                             <tbody>
+                               <%
+									if (m.isEmpty()) {
+								%>
+								<tr>
+									<td colspan="5">등록된 회원이 없습니다.</td>
+								</tr>
+								<%
+									} else {
+								%>
+								<%
+									for (int i = 0; i < m.size(); i++) {
+								%>
+                               
                                 <tr>
-                                    <td>
-                                        <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
-                                                style="width:18px; height:18px;">
-
-                                        </div>
-                                    </td>
-                                    <td>1</td>
-                                    <td>1,000,000,000</td>
-
-                            
-                                    <td>김퍼블</td>
-                                    <td>X</td>
+                                    <input type="hidden" name="userNo" value="<%=((Member)m.get(i)).getUserNo()%>">
+									<td class="text-center" style="width: 8%">
+									<input
+										type="checkbox" class="common" id="rowCheck" name="rowCheck"
+										style="width: 18px; height: 18px;" 
+										value="<%=((Member)m.get(i)).getUserNo()%>"></td>
+                                    <!-- 순서 -->
+                                    <td><%=((Member)m.get(i)).getUserNo()%></td>
+                                    <!-- 가용 포인트 -->
+                                    <td><%=((Member)m.get(i)).getPoint()%></td>
+                                    <!-- 충전 포인트 -->
+                                    <td><input type="text" id="chargePoint" name="chargePoint"></td>
+                                    <!-- 회원아이디 -->
+                                    <td><%=((Member)m.get(i)).getUserId()%></td>
 
                                 </tr>
 
 
                             </tbody>
                         </table>
+ 			</form>
                     </div>
                 </div>
 
@@ -342,30 +359,6 @@
             </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <!--footer-->
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid">
@@ -381,6 +374,34 @@
             </footer>
             </div>
             </div>
+            
+            <script>
+            
+            //선택된 회원 포인트 충전
+            function chargePoint(){
+            	
+            
+            
+            
+          
+            }
+            
+            
+        	//모두 체크
+    		
+			$(function() {
+				$("#checkAll").hide();
+				$("#checkBtn").click(function() {
+					$("#checkAll").click();
+				});
+	
+				$("#checkAll").click(function() {
+					var bool = $(this).prop("checked");
+					$(".common").prop('checked', bool);
+				});
+			}); 
+            
+            </script>
 
 </body>
 </html>

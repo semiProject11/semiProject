@@ -533,6 +533,35 @@ public class BoardService {
 		close(conn);
 		return report;
 	}
+
+	public int getGradeListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getGradeListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int insertReplyInq(String reply, int board_no) {
+
+		Connection conn=getConnection();
+		
+		int result=new BoardDao().insertReplyInq(conn,board_no,reply);
+		
+		
+		close(conn);
+		return result;
+	}
+
+	
 	
 	
 }

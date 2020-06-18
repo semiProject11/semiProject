@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.model.service.BoardService;
+import board.model.vo.Pagination;
 import member.model.service.MemberService;
 import member.model.vo.Member;
 import member.model.vo.Seller;
@@ -34,10 +36,50 @@ public class GradeListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		
+		//페이징 처리
+		
+		int listCount=new BoardService().getGradeListCount();
+		int currentPage;	// 현재 페이지를 표시 할 변수
+		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
+		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
+		int startPage;		// 한번에 표시될 페이지가 시작 할 페이지
+		int endPage;		// 한번에 표시될 페이지가 끝나는 페이지
+
+		currentPage = 1;
+		
+		
+		if(request.getParameter("currentPage")!=null)
+		{		
+			currentPage = Integer.valueOf(request.getParameter("currentPage"));
+			
+		}
+		
+		limit = 10;
+		
+		maxPage = (int)((double)listCount/limit + 0.9);
+		
+		startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit +1;
+		
+		endPage = startPage + limit - 1;
+		
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
+		
+	
+		System.out.println("여기까진 옴");
+		
+		
+		
+		//필요한 정보 가져오기
 		
 		
 		ArrayList<Member> gradeList=new MemberService().selectGradeList();
+		System.out.println("여기까진 옴1"+gradeList);
 		ArrayList<Seller> sellerList=new MemberService().selectSellerList();
+		System.out.println("여기까진 옴2"+sellerList);
 		
 	
 		if(!gradeList.isEmpty()&&!sellerList.isEmpty()) {
