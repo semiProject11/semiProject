@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="service.model.vo.*, java.util.ArrayList, board.model.vo.*"%>
+    pageEncoding="UTF-8" import="service.model.vo.Pagination, service.model.vo.ServiceBuyList, java.util.ArrayList, board.model.vo.*"%>
 <%
 	Pagination pn = (Pagination)request.getAttribute("pn");
 	ArrayList<ServiceBuyList> bsList = (ArrayList<ServiceBuyList>) request.getAttribute("bsList");
@@ -378,6 +378,13 @@
       
 
       <!------페이징 처리----->
+
+
+
+
+
+    </div>
+    </div>
       <div class="page-center">
         <ul class="pagination-t">
 
@@ -408,10 +415,7 @@
         </ul>
 
     </div>
-
-
-
-
+    
       <!--footer-->
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid">
@@ -425,10 +429,6 @@
           </div>
         </div>
       </footer>
-
-    </div>
-    </div>
-    
     
     
     

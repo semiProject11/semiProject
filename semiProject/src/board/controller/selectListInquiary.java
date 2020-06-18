@@ -42,12 +42,10 @@ public class selectListInquiary extends HttpServlet {
 		
 		ArrayList<InquiaryList> list = new BoardService().selectListIq(userNo);
 		System.out.println(list);
-		if(!list.isEmpty()) {
+		
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/myPage/mp_consultation_history.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 	}
 
 	/**

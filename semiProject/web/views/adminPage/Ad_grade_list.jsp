@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*,board.model.vo.*,java.util.ArrayList"%>
+	pageEncoding="UTF-8"
+	import="member.model.vo.*,board.model.vo.*,java.util.ArrayList"%>
 <%
 	Pagination pn = (Pagination)request.getAttribute("pn");
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
@@ -142,10 +143,14 @@ th, tr, td {
 						<div class="collapse" id="collapseUsers"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.transaction">거래내역
+									관리</a> <a class="nav-link"
+									href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
 
@@ -166,7 +171,8 @@ th, tr, td {
 						<div class="collapse" id="collapseReport"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
 
@@ -218,7 +224,8 @@ th, tr, td {
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
 									class="nav-link" href="admin_event.html">이벤트 관리</a>
 							</nav>
 						</div>
@@ -249,23 +256,27 @@ th, tr, td {
 					<h2>사용자 등급 관리</h2>
 					<hr>
 				</header>
-					<form action="<%=request.getContextPath() %>/search.member" method="post">
-				<div class="container my-4">
+				<form action="<%=request.getContextPath() %>/search.member"
+					method="post">
+					<div class="container my-4">
 						<div>
 							<!--상단 버튼-->
 							<button type="button" class="btn" id="checkBtn"
-								style="background: black; color: white" onclick="checkAll();">전체 선택</button>
+								style="background: black; color: white" onclick="checkAll();">전체
+								선택</button>
 							<button type="button" class="btn"
 								style="background: black; color: white" onclick="updateGrade();">변경</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="changeBuy();">구매자 제한</button>
+								style="background: black; color: white" onclick="changeBuy();">구매자
+								제한</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="changeSell();">판매자 제한</button>
-						
-						
-						
+								style="background: black; color: white" onclick="changeSell();">판매자
+								제한</button>
+
+
+
 							<!--상단 검색창-->
-							
+
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
@@ -273,13 +284,14 @@ th, tr, td {
 										placeholder="Search for..." aria-label="Search"
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
-									<button class="btn btn-primary mr-0" type="submit" style="background:black; border:black;">
-									
+									<button class="btn btn-primary mr-0" type="submit"
+										style="background: black; border: black;">
+
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
 							</div>
-						</div> 
+						</div>
 
 
 
@@ -318,13 +330,12 @@ th, tr, td {
 									%>
 
 									<tr>
-										
-										<input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
+
+										<input type="hidden" name="userNo" id="userNo"
+											value="<%=(gradeList.get(i)).getUserNo()%>">
 										<td><input type="checkbox" class="common" id="rowCheck"
-											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>>
-
-
-										</td>
+											name="rowCheck" style="width: 18px; height: 18px;"
+											value=<%=(gradeList.get(i)).getUserNo()%>></td>
 										<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
 										<td><%=(gradeList.get(i)).getUserNo()%></td>
 										<!-- 유저아이디 -->
@@ -335,21 +346,18 @@ th, tr, td {
 										<td><%=(sellerList.get(i)).getReportNum()%></td>
 										<!-- 현재 등급 -->
 										<td><%=(gradeList.get(i)).getGrade()%></td>
-										
-										
-										
+
+
+
 										<!-- 변경될 등급 -->
-										<td><select name="grade" id="grade" class="custom-select grade">
+										<td><select name="grade" id="grade"
+											class="custom-select grade">
 												<option value="BRONZE">BRONZE</option>
 												<option value="SILVER">SILVER</option>
 												<option value="GOLD">GOLD</option>
 												<option value="PLATINUM">PLATINUM</option>
 												<option value="DIAMOND">DIAMOND</option>
-										</select>
-										
-									
-										
-										</td>
+										</select></td>
 
 									</tr>
 
@@ -364,7 +372,7 @@ th, tr, td {
 								</tbody>
 							</table>
 						</div>
-				</div>
+					</div>
 				</form>
 
 
@@ -375,22 +383,25 @@ th, tr, td {
 				<div class="page-center">
 					<ul class="pagination-t">
 
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
-			<% for(int p = startPage ; p <= endPage ; p ++) {%>
-				<%if(p == currentPage) {%>
+						<li class="page-item-t disabled-t"><a class="page-link-t"
+							href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
+						<% for(int p = startPage ; p <= endPage ; p ++) {%>
+						<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
 						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
-				<%}else{ %>
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
+						<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
 
 						<!-- disabled: 해당 버튼 활성화 -->
 						<!-- <li class="page-item-t active-t" aria-current="page-t"><a
 							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
 						</li>
 						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li> -->
-						
-						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
+
+
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
 					</ul>
 
 				</div>
@@ -543,12 +554,12 @@ th, tr, td {
 					location.href="<%=request.getContextPath()%>/changeS.member?arr="+ arr;
 			
     				
-    			
+    		
     			}else{
     			return false;
     		}
 	}
-    		
+			
     
 	
 
@@ -574,8 +585,8 @@ th, tr, td {
            
 
 	</script>
-	
-	
-	
+
+
+
 </body>
 </html>
