@@ -14,6 +14,7 @@ import board.model.vo.Review;
 import service.model.dao.ServiceDao;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
+import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_DaysTable_oh;
 import service.model.vo.Service_List;
@@ -193,6 +194,29 @@ public class Service_Service {
 	
 		close(conn);
 		return sbService;
+	}
+
+
+	public int getSellListCount(String userNo) {
+		Connection conn=getConnection();
+		int result = new ServiceDao().getSellListCount(conn, userNo);
+		
+		
+		close(conn);
+		return result;
+	}
+
+
+	public ArrayList<ServiceSellList> selectSellServiceList(int currentPage, int limit, String userNo) {
+		Connection conn=getConnection();
+		
+		ArrayList<ServiceSellList> bsList = new ServiceDao().selectSellServiceList(conn, currentPage, limit, userNo);
+		
+		close(conn);
+		
+		
+		
+		return bsList;
 	}
 
 

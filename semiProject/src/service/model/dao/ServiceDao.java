@@ -13,6 +13,7 @@ import board.model.vo.Inquiary;
 import board.model.vo.Review;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
+import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_DaysTable_oh;
 import service.model.vo.Service_List;
@@ -668,6 +669,77 @@ public class ServiceDao {
 		}
 
 		return sbService;
+	}
+
+	public int getSellListCount(Connection conn, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) C FROM SERVICE WHERE S_USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				result = rset.getInt("C");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		
+		return result;
+	}
+
+	public ArrayList<ServiceSellList> selectSellServiceList(Connection conn, int currentPage, int limit,
+			String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<ServiceSellList> bsList = new ArrayList<>();
+		
+		int starRow = (currentPage-1)*limit+1;
+		int endRow = currentPage * limit;
+		
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ServiceSellList service = 
+						new ServiceSellList(rset.getInt("SERVICE_NO"),
+								rset.getString("TITLE"),
+								rset.getString("SERVICE_STATUS"),
+								rset.getString("USER_NAME"),
+								rset.getString("PHONE"),
+								rset.getInt("RATING"));
+				
+				bsList.add(service);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bsList;
 	}
 	      
 

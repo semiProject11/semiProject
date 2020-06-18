@@ -78,7 +78,7 @@ public class MpBuyListServlet extends HttpServlet {
 		ArrayList<ServiceBuyList> bsList = sService.selectBuyServiceList(currentPage, limit, userNo);
 		
 		ArrayList<Review>  re = sService.selectReviewList(userNo);
-		System.out.println(re);
+		
 		RequestDispatcher view = null;
 		if(bsList != null) {
 			view = request.getRequestDispatcher("views/myPage/mp_buy_list.jsp");
