@@ -743,6 +743,57 @@ public class ServiceDao {
 		
 		return bsList;
 	}
+
+	public int deleteService(Connection conn, ArrayList<String> arr) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="DELETE FROM SERVICE WHERE SERVICE_NO = ?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+		
+	}
+
+	public int deleteServiceFile(Connection conn, ArrayList<String> arr) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="DELETE FROM SERVICE_FILES WHERE SERVICE_NO = ?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	      
 
 }
