@@ -69,7 +69,7 @@ public class GradeListServlet extends HttpServlet {
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 	
-		System.out.println("여기까진 옴");
+		
 		
 		
 		
@@ -77,12 +77,14 @@ public class GradeListServlet extends HttpServlet {
 		
 		
 		ArrayList<Member> gradeList=new MemberService().selectGradeList();
-		System.out.println("여기까진 옴1"+gradeList);
+	
 		ArrayList<Seller> sellerList=new MemberService().selectSellerList();
-		System.out.println("여기까진 옴2"+sellerList);
+	
 		
 	
 		if(!gradeList.isEmpty()&&!sellerList.isEmpty()) {
+		
+			request.setAttribute("pn", pn);
 			request.setAttribute("gradeList", gradeList);
 			request.setAttribute("sellerList", sellerList);
 			request.getRequestDispatcher("views/adminPage/Ad_grade_list.jsp").forward(request, response);

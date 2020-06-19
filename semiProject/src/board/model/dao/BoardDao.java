@@ -74,7 +74,13 @@ public class BoardDao {
 	public ArrayList<Board> selectInquiaryList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' "; 
+		String query = "SELECT ROWNUM RNUM,T.* \r\n" + 
+				"FROM (SELECT * FROM INQUIARY I \r\n" + 
+				"LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) \r\n" + 
+				"LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO)\r\n" + 
+				"WHERE B.BOARD_STATUS='Y' \r\n" + 
+				"ORDER BY B.BOARD_NO DESC)T";
 		ArrayList<Board> bList = new ArrayList<>();
 
 		try {
@@ -110,7 +116,13 @@ public class BoardDao {
 	public ArrayList<Inquiary> selectInquiaryTypeList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
+		String query = "SELECT ROWNUM RNUM,T.* \r\n" + 
+				"FROM (SELECT * FROM INQUIARY I \r\n" + 
+				"LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) \r\n" + 
+				"LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO)\r\n" + 
+				"WHERE B.BOARD_STATUS='Y' \r\n" + 
+				"ORDER BY B.BOARD_NO DESC)T";
 		ArrayList<Inquiary> inquiaryList = new ArrayList<Inquiary>();
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -122,7 +134,8 @@ public class BoardDao {
 						rset.getString("inquiry_content"), 
 						rset.getString("inquiry_yn"), 
 						rset.getDate("inquiry_date"),
-						rset.getString("inquiary_name"));
+						rset.getString("inquiary_name"),
+						rset.getInt("rnum"));
 
 				inquiaryList.add(i);
 			}
@@ -237,7 +250,8 @@ public class BoardDao {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y'";
+		String query="SELECT *\r\n" + 
+				"FROM (SELECT ROWNUM RNUM,B.* FROM BOARD B WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y') ORDER BY BOARD_NO DESC";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -252,7 +266,8 @@ public class BoardDao {
 						rset.getDate("write_date"),
 						rset.getInt("read_num"),
 						rset.getInt("board_code"),
-						rset.getString("board_status"));
+						rset.getString("board_status"),
+						rset.getInt("rnum"));
 				
 				list.add(b);
 				
@@ -1824,7 +1839,7 @@ try {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Report> rList=new ArrayList<>();
-		String query="SELECT * FROM REPORT P left JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y'";
+		String query="SELECT * FROM (SELECT * FROM (SELECT ROWNUM RNUM, P.*,R.REPORT_NAME FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y') ORDER BY BOARD_NO DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
 			rset=pstmt.executeQuery();
@@ -1855,8 +1870,8 @@ try {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_CODE=30 AND BOARD_STATUS='Y'";
-		
+		String query="SELECT * FROM (SELECT ROWNUM RNUM, P.* FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y')P ORDER BY BOARD_NO DESC";
+		// 테이블 다시 조인문 봐야함
 		try {
 			pstmt=conn.prepareStatement(query);
 			
@@ -2676,6 +2691,81 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 		return mList;
 	}
+
+	public int getinquiaryListCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) FROM inquiary";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int getNoticeListCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}public int getTradeListCount(Connection conn) {
+	
+
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int getReportListCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+
+	
 }
 
 
