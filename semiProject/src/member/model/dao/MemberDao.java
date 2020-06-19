@@ -688,7 +688,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		String query = "INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -714,7 +714,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result2 = 0;
 		
-		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_MEMBER.CURRVAL) "; 
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1079,7 +1079,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result3 = 0;
 		
-		String query = "INSERT INTO BUYER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO BUYER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1103,7 +1103,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result4 = 0;
 		
-		String query = "INSERT INTO SELLER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO SELLER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1285,9 +1285,9 @@ public class MemberDao {
 			
 			pstmt.setString(1, Grade.get(i));
 			pstmt.setString(2, userNo.get(i));
-			
+
 			result+=pstmt.executeUpdate();
-			
+			System.out.println(result);
 			}
 			
 		} catch (SQLException e) {			
@@ -1669,7 +1669,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result5 = 0;
 		
-		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_ME.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_MEMBER.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
