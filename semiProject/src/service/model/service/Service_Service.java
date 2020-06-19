@@ -18,6 +18,7 @@ import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
+import service.model.vo.Service_SeviceFilesTable_oh;
 
 public class Service_Service {
 
@@ -98,24 +99,6 @@ public class Service_Service {
 
 		close(conn);
 		return re;
-	}
-
-
-
-	public int insertService(Service_ServiceTable_oh st, String[] day) {
-		Connection conn = getConnection();
-		ServiceDao sDao = new ServiceDao();
-
-		int result = sDao.inssertService(conn,st);
-		int result2 = sDao.insertService1(conn, day);
-
-		if(result >0 && result2 >0) {
-			commit(conn);
-		}else {
-			rollback(conn);
-		}
-		close(conn);
-		return result;
 	}
 
 
@@ -217,6 +200,35 @@ public class Service_Service {
 
 		return bsList;
 	}
+
+
+	
+	
+	//영은이꺼
+	public int insertService(Service_ServiceTable_oh st, String[] day,
+			ArrayList<Service_SeviceFilesTable_oh> servicefileList) {
+		
+		Connection conn = getConnection();
+	    ServiceDao sDao = new ServiceDao();
+		
+	    int result1 = sDao.insertService1(conn,st);
+	    int result2 = sDao.insertService2(conn, day);
+	    int result3 = sDao.insertService3(conn,servicefileList);
+	    
+	    if(result1>0 && result2>0 && result3 >0) {
+	    	commit(conn);
+	    }else {
+	    	rollback(conn);
+	    }
+	    close(conn);
+	    
+		return result1;
+	}
+
+	
+	
+	
+	
 
 
 	public int deleteService(ArrayList<String> arr) {
@@ -381,10 +393,5 @@ public class Service_Service {
 		}
 
 		return result;
-	}
-
-
-
-
-
+}
 }
