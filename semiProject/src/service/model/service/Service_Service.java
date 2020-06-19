@@ -220,6 +220,24 @@ public class Service_Service {
 	}
 
 
+	public int deleteService(ArrayList<String> arr) {
+		Connection conn=getConnection();
+		
+		int result1=new ServiceDao().deleteServiceFile(conn,arr);
+		int result=new ServiceDao().deleteService(conn,arr);
+
+		if (result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+	
+		return result;
+	}
+
+
 	
 	
 	
