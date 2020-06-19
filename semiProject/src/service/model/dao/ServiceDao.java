@@ -794,6 +794,31 @@ public class ServiceDao {
 		
 		return result;
 	}
+
+	public int deleteServiceDate(Connection conn, ArrayList<String> arr) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="DELETE FROM DAYS WHERE SERVICE_NO = ?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
 	      
 
 }
