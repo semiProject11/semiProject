@@ -3,7 +3,6 @@ package service.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,19 +13,17 @@ import service.model.service.Service_Service;
 import service.model.vo.CategoryListPd;
 import service.model.vo.Service_SeviceFilesTable_oh;
 
-
-
 /**
- * Servlet implementation class categorylistServlet
+ * Servlet implementation class auctionpricehighServlet
  */
-@WebServlet("/categorypd.service")
-public class categorylistServlet extends HttpServlet {
+@WebServlet("/pricehigh.service")
+public class auctionpricehighServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public categorylistServlet() {
+    public auctionpricehighServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,18 +32,14 @@ public class categorylistServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8"); 
+		request.setCharacterEncoding("UTF-8");
 		String category = request.getParameter("category");
 		 String salemethod = request.getParameter("salemethod");
-
-		 System.out.println(salemethod);
 		 
 		 Service_Service svService = new Service_Service();
-		 
-
-				 
-	      ArrayList<CategoryListPd> svlist = svService.selectsvList(category, salemethod);
-	      
+		 				 
+	      ArrayList<CategoryListPd> svlist = svService.sortpricehigh(category, salemethod);
+	    
 	      ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 	      
 	      

@@ -49,6 +49,7 @@ public class ReviewDetailServlet extends HttpServlet {
 		System.out.println(board_no);
 		Board board = new BoardService().selectBoardReivew(board_no);
 		Member member = new MemberService().selectMemberReview(board_no);
+		Member seller = new MemberService().selectSellerReview(board_no);
 		Service service = new Service_Service().selectServiceReview(board_no);
 		Service_List lService = new Service_Service().selectLServiceReview(board_no);
 		Service_Category cService = new Service_Service().selectCServiceReview(board_no);	
@@ -56,13 +57,14 @@ public class ReviewDetailServlet extends HttpServlet {
 		
 RequestDispatcher view = null;
 		
-		if(board!=null&&member!=null&&service!=null&&lService!=null&&cService!=null&&sbService!=null) {
+		if(board!=null&&member!=null&&service!=null&&lService!=null&&cService!=null&&sbService!=null&&seller!=null) {
 			request.setAttribute("board", board);
 			request.setAttribute("member", member);
 			request.setAttribute("service", service);
 			request.setAttribute("lService", lService);
 			request.setAttribute("cService", cService);
 			request.setAttribute("sbService", sbService);
+			request.setAttribute("seller", seller);
 			
 
 			System.out.println("서블릿에서??"+board);
