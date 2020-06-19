@@ -52,6 +52,8 @@ div.ffileput {
 .form-control {
    box-shadow: none !important;
    display: inline !important;
+   border-color : none !important;
+   
 }
 
 form div * {
@@ -111,10 +113,25 @@ form>div>.container>* {
    border : none;
 }
 
+#titleImg {
+   visibility : hidden;
+}
+
+h1.b {
+        text-align: center;
+      }
+      h1.b:after {
+        content: "";
+        display: block;
+        width: 60px;
+        border-bottom: 1px solid #bcbcbc;
+        margin: 20px auto;
+      }
+
 </style>
 </head>
 <body>
-   <jsp:include page="../common/menubar.jsp" />
+   <jsp:include page="../common/menubar3.jsp" />
 
    <%-- action="<%=request.getContextPath() %>/register.service" --%>
    <!-- <div id="layoutSidenav_content"> -->
@@ -181,7 +198,7 @@ form>div>.container>* {
             </div>
             <div class="price">
                <input type="text" class="form-control" id="salePrice" onkeyup="inputNumberFormat(this)"
-                  name="salePrice" style="width: 200px; height: 33px; margin-left: 30px;"
+                  name="salePrice" style="width: 150px; height: 33px; margin-left: 30px;"
                   placeholder="0">&nbsp;원
             </div>
 
@@ -196,7 +213,7 @@ form>div>.container>* {
             <div class="aution">
                <input type="text" class="form-control" id="biddingPrice" onkeyup="inputNumberFormat(this)"
                   name="biddingPrice"
-                  style="margin-left: 30px; width: 200px; height: 33px;"
+                  style="margin-left: 30px; width: 150px; height: 33px;"
                   placeholder="0">&nbsp;원
             </div>
 
@@ -206,7 +223,7 @@ form>div>.container>* {
             <div class="auction">
                <input type="datetime-local" class="form-control" id="deadline"
                   name="deadline"
-                  style="width: 140px; height: 33px; margin-left: 18px;">
+                  style="width: 192px; height: 33px; margin-left: 18px;">
             </div>
          </div>
          <br> <br>
@@ -222,15 +239,15 @@ form>div>.container>* {
                placeholder="제공할 서비스의 주제를 입력하세요">
          </div>
 
-         <br> <br> <br>
+         <br> <br> <br> <br>
    
          
          <!-- 서비스설명 -->
          <div class="form-group"
             style="width: 600px; margin-left: 300px; margin-top: -20px;">
             <label class="textarea_text"></label> 
-            <label for="exampleFormControlTextarea1"></label>
-          	  <div id="serviceExample">
+            <label for="exampleFormControlTextarea1">서비스 설명</label>
+               <div id="serviceExample">
 
                <div id="titleImgArea">
                   <img id="titleImg" width="253" height="189.68" alt="&#10;&#10;&#10; 썸네일 미리보기" align="bottom">
@@ -240,7 +257,8 @@ form>div>.container>* {
                name="detailContent" id="detailContent"
                placeholder="서비스 설명을 입력하세요" rows="9"></textarea>
               
-      	 	
+              
+             
               
            </div>
          
@@ -340,10 +358,12 @@ form>div>.container>* {
                      name="fileName4" class="form-control" id="find_file02"
                      style="position: absolute; opacity: 0;"
                      onchange="javascript: document.getElementById('fileName4').value = this.value">
-
+					<hr class="b">
                </div>
             </div>
-
+			
+		
+			
          <br> <br>
          
          <!-- 가능지역 -->
@@ -414,61 +434,64 @@ form>div>.container>* {
 <!-- 스크립트 -->
 
    <script>
-  	
-   	/*일반판매 문자입력제한, 3자리수마다 콤마추가*/
-	   $(document).ready(function() {
+     
+      /*일반판매 문자입력제한, 3자리수마다 콤마추가*/
+      $(document).ready(function() {
 
-	   $('input[name=salePrice]').css('imeMode','disabled').keypress(function(event) {
-	    if(event.which && (event.which < 48 || event.which > 57) ) {
-	     event.preventDefault();
-	    }
-	   }).keyup(function(){
-	    if( $(this).val() != null && $(this).val() != '' ) {
-	     $(this).val( $(this).val().replace(/[^0-9]/g, '') );
-	     $(this).val( comma($(this).val()));
-	    }
-	   });
-	   
-		
-	   });
-	   
-	   function comma(str) {
-		    str = String(str);
-		    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-		}
-	   function inputNumberFormat(obj) {
-		    obj.value = comma(uncomma(obj.value));
-		}
-   		
-	   
-		/*경매 문자입력제한, 3자리수마다 콤마추가*/
-	   
-		$(document).ready(function() {
+      $('input[name=salePrice]').css('imeMode','disabled').keypress(function(event) {
+       if(event.which && (event.which < 48 || event.which > 57) ) {
+        event.preventDefault();
+       }
+      }).keyup(function(){
+       if( $(this).val() != null && $(this).val() != '' ) {
+        $(this).val( $(this).val().replace(/[^0-9]/g, '') );
+        $(this).val( comma($(this).val()));
+       }
+      });
+      
+      
+      });
+      
+      function comma(str) {
+          str = String(str);
+          return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+      }
+      function inputNumberFormat(obj) {
+          obj.value = comma(uncomma(obj.value));
+      }
+         
+      
+      /*경매 문자입력제한, 3자리수마다 콤마추가*/
+      
+      $(document).ready(function() {
 
-		   $('input[name=biddingPrice]').css('imeMode','disabled').keypress(function(event) {
-		    if(event.which && (event.which < 48 || event.which > 57) ) {
-		     event.preventDefault();
-		    }
-		   }).keyup(function(){
-		    if( $(this).val() != null && $(this).val() != '' ) {
-		     $(this).val( $(this).val().replace(/[^0-9]/g, '') );
-		     $(this).val( comma($(this).val()));
-		    }
-		   });
-		   
-			
-		   });
-		   
-		   function comma(str) {
-			    str = String(str);
-			    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-			}
-		   function inputNumberFormat(obj) {
-			    obj.value = comma(uncomma(obj.value));
-			}
-	   		
-	  
-	//일반/경매 라디오버튼 선택시 변경 
+         $('input[name=biddingPrice]').css('imeMode','disabled').keypress(function(event) {
+          if(event.which && (event.which < 48 || event.which > 57) ) {
+           event.preventDefault();
+          }
+         }).keyup(function(){
+          if( $(this).val() != null && $(this).val() != '' ) {
+           $(this).val( $(this).val().replace(/[^0-9]/g, '') );
+           $(this).val( comma($(this).val()));
+          }
+         });
+         
+         
+         });
+         
+         function comma(str) {
+             str = String(str);
+             return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+         }
+         function inputNumberFormat(obj) {
+             obj.value = comma(uncomma(obj.value));
+         }
+         
+         
+         
+         
+        
+   //일반/경매 라디오버튼 선택시 변경 
    function showDiv() {
 
        if (document.getElementById("choice_general").checked) {
@@ -484,7 +507,7 @@ form>div>.container>* {
 
     }
    
-				/*유효성검사*/
+            /*유효성검사*/
       function checkForm() {
          /*카테고리 유효성 검사*/
          if ($("#category").val() == "") {
@@ -505,29 +528,29 @@ form>div>.container>* {
             alert("판매방식을 선택해주세요");
             return false;
          }//
-  		
+        
          /*일반판매금액 유효성검사 */
          if($('input:radio[id=choice_general]').is(':checked')){
-        	 if($("#salePrice").val().trim().length == 0){
-        		 alert("판매 가격을 입력해주세요");
-        		 return false;	 
-        	 }
+            if($("#salePrice").val().trim().length == 0){
+               alert("판매 가격을 입력해주세요");
+               return false;    
+            }
          }//
          
          /*경매 가격 유효성검사 */
          if($('input:radio[id=choice_auction]').is(':checked')){
-        	 if($("#biddingPrice").val().trim().length == 0){
-        		 alert("입찰가격를 입력해주세요");
-        		 return false;	 
-        	 }
+            if($("#biddingPrice").val().trim().length == 0){
+               alert("입찰가격를 입력해주세요");
+               return false;    
+            }
          }//
          
          /*경매 마감시간 유효성검사 */
          if($('input:radio[id=choice_auction]').is(':checked')){
-        	 if($("#deadline").val().trim().length == 0){
-        		 alert("입찰 마감시간을 입력해주세요");
-        		 return false;	 
-        	 }
+            if($("#deadline").val().trim().length == 0){
+               alert("입찰 마감시간을 입력해주세요");
+               return false;    
+            }
          }//
          
 
@@ -570,10 +593,9 @@ form>div>.container>* {
 
          }//
          
-         /*연락가능 시간대 유효성검사 =*/
          if($("#startTime").val() > $("#finishTime").val()){
-        	 alert("연락가능시간대를 정확히 선택해주세요");
-        	 return false;
+            alert("연락가능시간대를 정확히 선택해주세요");
+            return false;
          }
          
          }
@@ -587,7 +609,7 @@ form>div>.container>* {
             reader.onload = function(e) {
                switch (num) {
                case 1:
-                  $("#titleImg").attr("src", e.target.result);
+                  $("#titleImg").attr("src", e.target.result).css("visibility","visible");
                   break;
                }
             }
@@ -595,7 +617,7 @@ form>div>.container>* {
          }
       }
 
-  
+         
     
   </script>
 
@@ -605,8 +627,7 @@ form>div>.container>* {
      
   
      
-   
-// submit을 실행시켰을 경우..
+
 
 
      
