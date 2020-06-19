@@ -21,15 +21,19 @@ import service.model.vo.Service_ServiceTable_oh;
 
 public class ServiceDao {
 
-	public ArrayList<Service_List> selectTradeList(Connection conn) {
+	public ArrayList<Service_List> selectTradeList(Connection conn, int currentPage, int limit) {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+		String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		ArrayList<Service_List> tradeList=new ArrayList<>();
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -58,14 +62,18 @@ public class ServiceDao {
 		return tradeList;
 	}
 
-	public ArrayList<Service_ServiceTable_oh> selectServiceList(Connection conn) {
+	public ArrayList<Service_ServiceTable_oh> selectServiceList(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+		String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		ArrayList<Service_ServiceTable_oh> serviceList=new ArrayList<>();
-		
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
+			
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {

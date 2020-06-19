@@ -73,10 +73,10 @@ public class TransactionListServlet extends HttpServlet {
 				
 				
 	
-		ArrayList<Service_List> tradeList=new Service_Service().selectTradeList();
-		ArrayList<Service_ServiceTable_oh> serviceList=new Service_Service().selectServiceList();
-		ArrayList<Member> sellerList=new MemberService().selectTradeListS();
-		ArrayList<Member> buyerList=new MemberService().selectTradeListB();
+				ArrayList<Service_List> tradeList=new Service_Service().selectTradeList(currentPage, limit);
+				ArrayList<Service_ServiceTable_oh> serviceList=new Service_Service().selectServiceList(currentPage, limit);
+				ArrayList<Member> sellerList=new MemberService().selectTradeListS(currentPage, limit);
+				ArrayList<Member> buyerList=new MemberService().selectTradeListB(currentPage, limit);
 		
 
 		

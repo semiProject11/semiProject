@@ -1,121 +1,113 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*,java.util.ArrayList"%>
-    <%
-    
-    ArrayList<Member> m=(ArrayList<Member>)request.getAttribute("member");
-    
-    %>	
+	pageEncoding="UTF-8"
+	import="board.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
+<%
+ArrayList<Member> m=(ArrayList<Member>)request.getAttribute("list");
+	
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+	
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <style>
-        #jin {
-            background: black;
-            border: none;
-        }
+<style>
+th, tr, td {
+	text-align: center;
+	vertical-align: middle !important;
+}
 
-        #young {
-            font-family: "돋움";
-            color: black;
-            font: bold;
-        }
+.pagination-t {
+	display: flex;
+	padding-left: 0;
+	list-style: none;
+	border-radius: 0.25rem;
+}
 
-        th,
-        tr,
-        td {
-            text-align: center;
-            vertical-align: middle !important;
-        }
+.page-link-t {
+	position: relative;
+	display: block;
+	padding: 0.5rem 0.75rem;
+	margin-left: -1px;
+	line-height: 1.25;
+	color: black;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+}
 
+.page-link-t:hover {
+	z-index: 2;
+	color: #0056b3;
+	text-decoration: none;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+}
 
-        .pagination-t {
-            display: flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
+.page-link-t:focus {
+	z-index: 3;
+	outline: 0;
+}
 
-        .page-link-t {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: black;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
+.page-item-t:first-child .page-link-t {
+	border-top-left-radius: 0.25rem;
+	border-bottom-left-radius: 0.25rem;
+}
 
-        .page-link-t:hover {
-            z-index: 2;
-            color: #0056b3;
-            text-decoration: none;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
+.page-item-t:last-child .page-link-t {
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
+}
 
-        .page-link-t:focus {
-            z-index: 3;
-            outline: 0;
-        }
+.page-item-t.active-t .page-link-t {
+	z-index: 3;
+	color: #fff;
+	background-color: gold;
+	border-color: gold;
+}
 
-        .page-item-t:first-child .page-link-t {
-            border-top-left-radius: 0.25rem;
-            border-bottom-left-radius: 0.25rem;
-        }
+.page-item-t.disabled-t .page-link-t {
+	color: #6c757d;
+	pointer-events: none;
+	cursor: auto;
+	background-color: #fff;
+	border-color: #dee2e6;
+}
 
-        .page-item-t:last-child .page-link-t {
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
+.sr-only-t {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
 
-        .page-item-t.active-t .page-link-t {
-            z-index: 3;
-            color: #fff;
-            background-color: gold;
-            border-color: gold;
-        }
-
-        .page-item-t.disabled-t .page-link-t {
-            color: #6c757d;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #fff;
-            border-color: #dee2e6;
-        }
-
-
-        .sr-only-t {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        .page-center {
-            display: flex;
-            justify-content: center;
-            /*가운데 정렬*/
-            align-items: center;
-        }
-
-        #test:focus{
-            background:gold !important;
-            color:gold ;
-            
-        }
-    </style>
+.page-center {
+	display: flex;
+	justify-content: center;
+	/*가운데 정렬*/
+	align-items: center;
+}
+</style>
 </head>
 <body>
-<jsp:include page="../common/menubar2.jsp" />	
-	
+
+
+
+	<jsp:include page="../common/menubar2.jsp" />
+
+	<!--side nav start-->
 	<div id="layoutSidenav">
 
 		<div id="layoutSidenav_nav">
@@ -150,10 +142,14 @@
 						<div class="collapse" id="collapseUsers"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.transaction">거래내역
+									관리</a> <a class="nav-link"
+									href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
 
@@ -174,7 +170,8 @@
 						<div class="collapse" id="collapseReport"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
 
@@ -226,7 +223,8 @@
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
 									class="nav-link" href="admin_event.html">이벤트 관리</a>
 							</nav>
 						</div>
@@ -241,153 +239,181 @@
 			</nav>
 		</div>
 		<div id="layoutSidenav_content">
-		
-		
-		
-            <!--contents-->
-            <div class="container mt-5">
-
-                <head>
-                    <h2>포인트 관리</h2>
-                    <hr>
-                </head>
-                        <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div class="container my-4">
-
-                    <div>
-                        <!--상단 버튼-->
-                        <button type="button" class="btn" style="background:black; color:white;">전체 선택</button>
-                        <button type="button" class="btn" style="background:black; color:white;">충전</button>
-                        <button type="button" class="btn" style="background:black; color:white;">확인</button>
-                        <!--상단 검색창-->
-
-                            <div class="input-group">
-
-
-                                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search"
-                                    aria-describedby="basic-addon2" />
-                                <div class="input-group-append"></div>
-                                <button class="btn btn-primary" type="button" id="jin">
-                                    <i class="fas fa-search"></i></button>
-                            </div>
-                       
-                    </div>
+			<!--side nav end-->
 
 
 
-                    <!--유저 리스트-->
-                    <div class="table-responsive mt-3">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th><div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
-                                                style="width:18px; height:18px;"></th>
-                                    <th>No</th>
-                                    <th>가용 포인트</th>
-                                    <th>충전 포인트</th>
-                                    <th>아이디</th>
-                               
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                               <%
+
+
+
+
+			<!--contents-->
+			<div class="container mt-5">
+
+				<header>
+					<h2>포인트 관리</h2>
+					<hr>
+				</header>
+				<form>
+				
+					<div class="container my-4">
+						<div>
+							<!--상단 버튼-->
+							<button type="button" class="btn" id="checkBtn"
+								style="background: black; color: white" onclick="checkAll();">전체 선택</button>
+							<button type="button" class="btn"
+								style="background: black; color: white" onclick="updateGrade();">포인트 충전</button>
+							<button type="button" class="btn"
+								style="background: black; color: white" onclick="changeBuy();">포인트 차감</button>
+							
+
+
+
+							<!--상단 검색창-->
+
+							<div
+								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+								<div class="input-group">
+									<input class="form-control" type="text" name="word" value=""
+										placeholder="Search for..." aria-label="Search"
+										aria-describedby="basic-addon2" />
+									<div class="input-group-append"></div>
+									<button class="btn btn-primary mr-0" type="submit"
+										style="background: black; border: black;">
+
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+
+
+
+						<!--회원등급 리스트-->
+						<div class="table-responsive mt-3">
+							<table class="table table-striped table-bordered table-hover"
+								id="gListArea" method="post">
+								<thead>
+									<tr>
+										<th><div class="form-check form-check-inline"></div>
+												<input type="checkbox" class="form-check-input"
+													id="checkall" style="width: 18px; height: 18px;"></th>
+										<th>No</th>
+										<th>가용 포인트</th>
+										<th>충전 포인트</th>
+										<th>아이디</th>
+
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<%
 									if (m.isEmpty()) {
 								%>
-								<tr>
-									<td colspan="5">등록된 회원이 없습니다.</td>
-								</tr>
-								<%
+									<tr>
+										<td colspan="5">등록된 회원이 없습니다.</td>
+									</tr>
+									<%
 									} else {
 								%>
-								<%
+									<%
 									for (int i = 0; i < m.size(); i++) {
 								%>
-                               
-                                <tr>
-                                    <input type="hidden" name="userNo" value="<%=((Member)m.get(i)).getUserNo()%>">
-									<td class="text-center" style="width: 8%">
-									<input
-										type="checkbox" class="common" id="rowCheck" name="rowCheck"
-										style="width: 18px; height: 18px;" 
-										value="<%=((Member)m.get(i)).getUserNo()%>"></td>
-                                    <!-- 순서 -->
-                                    <td><%=((Member)m.get(i)).getUserNo()%></td>
-                                    <!-- 가용 포인트 -->
-                                    <td><%=((Member)m.get(i)).getPoint()%></td>
-                                    <!-- 충전 포인트 -->
-                                    <td><input type="text" id="chargePoint" name="chargePoint"></td>
-                                    <!-- 회원아이디 -->
-                                    <td><%=((Member)m.get(i)).getUserId()%></td>
 
-                                </tr>
+									<tr>
+									
+										<td class="text-center" style="width: 8%"><input
+											type="checkbox" class="common" id="rowCheck" name="rowCheck"
+											style="width: 18px; height: 18px;"
+											value="<%=((Member)m.get(i)).getUserNo()%>"></td>
+										<!-- 순서 -->
+										<td><%=((Member)m.get(i)).getUserNo()%></td>
+										<!-- 가용 포인트 -->
+										<td><%=((Member)m.get(i)).getPoint()%></td>
+										<!-- 충전 포인트 -->
+										<td><input type="text" id="chargePoint"
+											name="chargePoint"></td>
+										<!-- 회원아이디 -->
+										<td><%=((Member)m.get(i)).getUserId()%></td>
 
+									</tr>
+									<% } %>
+									<% } %>
 
-                            </tbody>
-                        </table>
- 			</form>
-                    </div>
-                </div>
-
-
-
-
-
-                <!------페이징 처리----->
-                <div class="page-center">
-                    <ul class="pagination-t">
-
-                        <!-- disabled: 페이지 비활성화 -->
-                        <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
-
-                        <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-                        <!-- disabled: 해당 버튼 활성화 -->
-                        <li class="page-item-t active-t" aria-current="page-t">
-                            <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-                    </ul>
-
-                </div>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
 
 
 
-            </div>
 
 
-            <!--footer-->
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2019</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            </div>
-            </div>
-            
-            <script>
+				<!------페이징 처리----->
+					<div class="page-center">
+					<ul class="pagination-t">
+
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=p %>"><%=p %></a></li>
+
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
+
+				</div>
+
+			</div>
+
+
+
+			<!--footer-->
+			<footer class="py-4 bg-light mt-auto">
+				<div class="container-fluid">
+					<div
+						class="d-flex align-items-center justify-content-between small">
+						<div class="text-muted">Copyright &copy; Your Website 2019</div>
+						<div>
+							<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
+								&amp; Conditions</a>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+
+
+
+			<script>
             
             //선택된 회원 포인트 충전
-            function chargePoint(){
+          /*   function chargePoint(){
             	
             
             
             
           
-            }
+            } */
             
             
-        	//모두 체크
+  //모두 체크
     		
 			$(function() {
 				$("#checkAll").hide();

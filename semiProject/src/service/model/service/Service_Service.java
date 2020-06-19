@@ -22,19 +22,19 @@ import service.model.vo.Service_ServiceTable_oh;
 
 public class Service_Service {
 
-	public ArrayList<Service_List> selectTradeList() {
+	public ArrayList<Service_List> selectTradeList(int currentPage, int limit) {
 		
 		Connection conn=getConnection();
-		ArrayList<Service_List> tradeList=new ServiceDao().selectTradeList(conn);
+		ArrayList<Service_List> tradeList=new ServiceDao().selectTradeList(conn,currentPage, limit);
 		close(conn);
 		System.out.println("서비스단에서:"+tradeList);
 		return tradeList;
 	}
 	
 
-	public ArrayList<Service_ServiceTable_oh> selectServiceList() {
+	public ArrayList<Service_ServiceTable_oh> selectServiceList(int currentPage, int limit) {
 		Connection conn=getConnection();
-		ArrayList<Service_ServiceTable_oh> serviceList=new ServiceDao().selectServiceList(conn);
+		ArrayList<Service_ServiceTable_oh> serviceList=new ServiceDao().selectServiceList(conn,currentPage, limit);
 		close(conn);
 		System.out.println("서비스단에서:"+serviceList);
 		return serviceList;

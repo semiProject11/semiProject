@@ -14,14 +14,14 @@ import member.model.vo.Member;
 /**
  * Servlet implementation class AdminChargePointServlet
  */
-@WebServlet("/chargeAd.point")
-public class AdminChargePointServlet extends HttpServlet {
+@WebServlet("/deposit.me")
+public class PointDeposit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AdminChargePointServlet() {
+    public PointDeposit() {
         super();
         // TODO Auto-generated constructor stub
     }

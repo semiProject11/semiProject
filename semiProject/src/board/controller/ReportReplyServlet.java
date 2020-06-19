@@ -1,8 +1,7 @@
 package board.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.service.BoardService;
 
 /**
- * Servlet implementation class ReportDeleteServlet
+ * Servlet implementation class ReportReplyServlet
  */
-@WebServlet("/delete.report")
-public class ReportDeleteServlet extends HttpServlet {
+@WebServlet("/reply.report")
+public class ReportReplyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportDeleteServlet() {
+    public ReportReplyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,27 +30,31 @@ public class ReportDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String reply=request.getParameter("content");
+		int board_no=Integer.valueOf(request.getParameter("board_no"));
+		System.out.println("신고 리플 서블렛이당:"+reply+board_no);
 		
-		String board_no=request.getParameter("arr");
-		ArrayList<String> arr=new ArrayList();
-		
-		StringTokenizer st=new StringTokenizer(board_no,",");
-		while(st.hasMoreTokens()) {
-			arr.add(st.nextToken());
-		
-		}
-			
-		
-	
-		int result=new BoardService().deleteBoard(arr);
-		
-		
-		if (result > 0) {
-			request.getRequestDispatcher("/list.report").forward(request, response);
 
-		} else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		int result = new BoardService().insertReplyRep(reply,board_no);
+		
+		System.out.println(result);
+		
+		PrintWriter out = response.getWriter();
+		
+		
+		
+
+		if(result >0) {
+			out.print("success");
+			System.out.println("성공임다아아앙");
+		}else {
+			out.print("fail");
 		}
+		
+		out.flush();
+		out.close();
+
+
 		
 	}
 

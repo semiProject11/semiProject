@@ -327,13 +327,13 @@
                         
 									<input
 										type="checkbox" class="common" id="rowCheck" name="rowCheck"
-										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_id()%>">
+										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_no()%>">
 										</td>
-                                    <td class="report_list" style="width: 8%"><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td class="report_list" style="width: 8%"><%=(bList.get(i)).getBoard_id()%></td>
                                     <td class="report_list" id="type" style="width: 15%"><%=(rList.get(i)).getReport_name()%></td>
                                     <td class="report_list"><%=(bList.get(i)).getTitle()%></td>
                                     <td class="report_list" style="width: 15%"><%=(bList.get(i)).getWrite_date()%></td>
-                                    <td class="report_list" style="width: 13%"><%=(bList.get(i)).getuser_id()%></td>
+                                    <td class="report_list" style="width: 13%"><%=(rList.get(i)).getReport_userId()%></td>
                                     <td class="report_list" style="width: 13%"><%=(rList.get(i)).getRe_yn()%></td>
 
                                 </tr>

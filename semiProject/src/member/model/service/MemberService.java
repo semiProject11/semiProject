@@ -159,9 +159,9 @@ public class MemberService {
 	}
 
 
-	public ArrayList<Member> selectGradeList() {
+	public ArrayList<Member> selectGradeList(int currentPage, int limit) {
 		Connection conn=getConnection();
-		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn);
+		ArrayList<Member> gradeList=new MemberDao().selectGradeList(conn,currentPage,limit);
 	
 		close(conn);
 		return gradeList;
@@ -169,9 +169,9 @@ public class MemberService {
 	}
 
 
-	public ArrayList<Seller> selectSellerList() {
+	public ArrayList<Seller> selectSellerList(int currentPage, int limit) {
 		Connection conn=getConnection();
-		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn);
+		ArrayList<Seller> sellerList=new MemberDao().selectSellerList(conn,currentPage,limit);
 		close(conn);
 
 		return sellerList;
@@ -277,10 +277,10 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 
 
-	public ArrayList<Member> selectTradeListS() {
+	public ArrayList<Member> selectTradeListS(int currentPage, int limit) {
 		Connection conn = getConnection();
 		
-		ArrayList<Member> memberList = new MemberDao().selectTradeS(conn);
+		ArrayList<Member> memberList = new MemberDao().selectTradeS(conn,currentPage,limit);
 		
 	
 		close(conn);
@@ -289,10 +289,10 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public ArrayList<Member> selectTradeListB() {
+	public ArrayList<Member> selectTradeListB(int currentPage, int limit) {
 		Connection conn = getConnection();
 		
-		ArrayList<Member> memberList = new MemberDao().selectTradeB(conn);
+		ArrayList<Member> memberList = new MemberDao().selectTradeB(conn,currentPage,limit);
 		
 	
 		close(conn);
@@ -547,6 +547,17 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		Connection conn = getConnection();
 		
 		ArrayList<Member> mList = new MemberDao().selectM_ReviewList(conn);
+
+		close(conn);
+		
+		return mList;
+	}
+
+
+	public ArrayList<Member> selectMember(int currentPage, int limit) {
+		Connection conn = getConnection();
+		
+		ArrayList<Member> mList = new MemberDao().selectMember(conn,currentPage,limit);
 
 		close(conn);
 		

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
+	pageEncoding="UTF-8"
+	import="board.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
 <%
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
 	ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
@@ -20,9 +21,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-
-
-
 th, tr, td {
 	text-align: center;
 	vertical-align: middle !important;
@@ -35,29 +33,29 @@ th, tr, td {
 	border-radius: 0.25rem;
 }
 
- .page-link-t {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: black;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
+.page-link-t {
+	position: relative;
+	display: block;
+	padding: 0.5rem 0.75rem;
+	margin-left: -1px;
+	line-height: 1.25;
+	color: black;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+}
 
-        .page-link-t:hover {
-            z-index: 2;
-            color: #0056b3;
-            text-decoration: none;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
+.page-link-t:hover {
+	z-index: 2;
+	color: #0056b3;
+	text-decoration: none;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+}
 
-        .page-link-t:focus {
-            z-index: 3;
-            outline: 0;
-        }
+.page-link-t:focus {
+	z-index: 3;
+	outline: 0;
+}
 
 .page-item-t:first-child .page-link-t {
 	border-top-left-radius: 0.25rem;
@@ -145,10 +143,14 @@ th, tr, td {
 						<div class="collapse" id="collapseUsers"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.transaction">거래내역
+									관리</a> <a class="nav-link"
+									href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
+									class="nav-link"
+									href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
 
@@ -169,7 +171,8 @@ th, tr, td {
 						<div class="collapse" id="collapseReport"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
 
@@ -221,7 +224,8 @@ th, tr, td {
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
+								<a class="nav-link"
+									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
 									class="nav-link" href="admin_event.html">이벤트 관리</a>
 							</nav>
 						</div>
@@ -252,23 +256,27 @@ th, tr, td {
 					<h2>사용자 등급 관리</h2>
 					<hr>
 				</header>
-					<form action="<%=request.getContextPath() %>/search.member" method="post">
-				<div class="container my-4">
+				<form action="<%=request.getContextPath() %>/search.member"
+					method="post">
+					<div class="container my-4">
 						<div>
 							<!--상단 버튼-->
 							<button type="button" class="btn" id="checkBtn"
-								style="background: black; color: white" onclick="checkAll();">전체 선택</button>
+								style="background: black; color: white" onclick="checkAll();">전체
+								선택</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="updateGrade();">변경</button>
+								style="background: black; color: white" onclick="updateGrade();">등급 변경</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="changeBuy();">구매자 제한</button>
+								style="background: black; color: white" onclick="changeBuy();">구매자
+								제한</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="changeSell();">판매자 제한</button>
-						
-						
-						
+								style="background: black; color: white" onclick="changeSell();">판매자
+								제한</button>
+
+
+
 							<!--상단 검색창-->
-							
+
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
@@ -276,13 +284,14 @@ th, tr, td {
 										placeholder="Search for..." aria-label="Search"
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
-									<button class="btn btn-primary mr-0" type="submit" style="background:black; border:black;">
-									
+									<button class="btn btn-primary mr-0" type="submit"
+										style="background: black; border: black;">
+
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
 							</div>
-						</div> 
+						</div>
 
 
 
@@ -317,17 +326,15 @@ th, tr, td {
 										} else {
 									%>
 									<%
-										for (int i = 0; i < gradeList.size(); i++) {
+										for (int i = gradeList.size()-1; i >=0; i--) {
 									%>
 
 									<tr id="tr" name="tr" value="trtr">
 										<%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
 										 --%>
 										<td><input type="checkbox" class="common" id="rowCheck"
-											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(sellerList.get(i)).getUserNo()%>>
-
-
-										</td>
+											name="rowCheck" style="width: 18px; height: 18px;"
+											value=<%=(sellerList.get(i)).getUserNo()%>></td>
 										<!-- 게시물번호-->
 										<td val="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td>
 										<!-- 유저아이디 -->
@@ -338,21 +345,18 @@ th, tr, td {
 										<td><%=(sellerList.get(i)).getReportNum()%></td>
 										<!-- 현재 등급 -->
 										<td><%=(gradeList.get(i)).getGrade()%></td>
-										
-										
-										
+
+
+
 										<!-- 변경될 등급 -->
-										<td><select name="grade" id="grade" class="custom-select grade">
+										<td><select name="grade" id="grade"
+											class="custom-select grade">
 												<option value="BRONZE">BRONZE</option>
 												<option value="SILVER">SILVER</option>
 												<option value="GOLD">GOLD</option>
 												<option value="PLATINUM">PLATINUM</option>
 												<option value="DIAMOND">DIAMOND</option>
-										</select>
-										
-									
-										
-										</td>
+										</select></td>
 
 									</tr>
 
@@ -367,7 +371,7 @@ th, tr, td {
 								</tbody>
 							</table>
 						</div>
-				</div>
+					</div>
 				</form>
 
 
@@ -378,24 +382,22 @@ th, tr, td {
 				<div class="page-center">
 					<ul class="pagination-t">
 
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=1"><<</a></li>
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
-			<% for(int p = startPage ; p <= endPage ; p ++) {%>
-				<%if(p == currentPage) {%>
+						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=1"><<</a></li>
+						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
+						<% for(int p = startPage ; p <= endPage; p ++) {%>
+						<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
-				<%}else{ %>
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
+							<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+						<%}else{ %>
+							<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
 
-			<%} %>
-			<%} %>
-					
-						
+						<%} %>
+						<%} %>
+
+
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=maxPage %>">>></a></li>
-					
-					
-					
+
 					</ul>
 
 				</div>
@@ -431,8 +433,10 @@ th, tr, td {
 	//등급변경
 	 function updateGrade(){
 		
-
-		var rowArr=new Array();
+		var check= $("input:checkbox[name=rowCheck]:checked").val();
+		
+ 		if (check){		
+ 		var rowArr=new Array();
 		var tdArr=new Array();
 		
 		
@@ -447,52 +451,24 @@ th, tr, td {
 		});
 		
 			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
-	
+ 		}else{
+ 			alert('등급을 변경할 아이디를 선택해주세요.')
+ 		}
 	
 	} 
 	
 	
 	
-	<%-- 	if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
-			
-			var rowArr=new Array();
-			var tdArr=new Array();
-			
-			$("input:checkbox[name=rowCheck]:checked").each(function(i){
-				
-				var tr=$(this).parent().parent().eq(i); //tr 전체 값
-				var td=tr.children();	//td 값
-				
-				rowArr.push(tr.text());
-				
-				var userNo=td.eq(0).text()+",";
-				var grade=td.eq(6).text()+",";
-				
-				tdArr.push(userNo);
-				tdArr.push(grade);
-				
-					
-				});
-				
-				
-				
-			
-			}else{
-			return false;
-		
-		
-	}  
- 	}
-		--%>
+
 		
 		
 		
 //검색기능
 	
-<%-- 	function searchData(){
+	function searchData(){
 		location.href="<%=request.getContextPath() %>/search.member?word="+word;
 		
-	} --%>
+	} 
 	
 	
 	
@@ -573,8 +549,8 @@ th, tr, td {
            
 
 	</script>
-	
-	
-	
+
+
+
 </body>
 </html>

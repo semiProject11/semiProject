@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="board.model.vo.*"%>
     <%
     Report r=(Report)request.getAttribute("report");
+   
     
     %>	
 <!DOCTYPE html>
@@ -268,64 +269,67 @@
                            
                            
                            
-                           <!-- 댓글달면 보일 부분 -->
-                            </div>
-                            <div class="mx-3">
+                  
+
+                                          <!-- 답글 보이는 부분 -->
+                  
+            					<div class="mx-3" id="test">
                                 <div class="row mt-5">
-                                    <div class="col-md-2"><label
-                                            style="background:none; text-align:left; font-weight:bold;">타임셀러</label>
+                                    <div class="col-md-2">
+                                    <label style="background:none; text-align:left; font-weight:bold;">TimeSeller</label>
                                     </div>
-                                    <div class="col-md-2"><label
-                                            style="background:none; text-align:left; font-weight:bold;">2020-05-14</label>
+                                    <div class="col-md-2">
+                                    <label style="background:none; text-align:left; font-weight:bold;"><%=r.getRe_date() %></label>
                                     </div>
                                     <div class="col-md-8"></div>
-                                </div>
-                                <div class="row">
-                                    <label class="form-control"
-                                        style="width:100%; height:250px; resize:none; text-align:left;">서비스에 불편드려 죄송합니다.
-                                        해당 내용 확인 후 조치 진행될 예정입니다.</label>
-                                </div>
-
-                                <!--여기부터 댓글창-->
-                                <div class="row" style="height:100px; display:flex; padding:5px; ">
-
+                                	</div>
+                               	<div class="row" id="replyArea">
+                                    <textarea class="form-control" id="replyZone"
+                                        style="width:100%; height:250px; resize:none; text-align:left; background:white" readonly><%=r.getRe_content() %></textarea>
+                                </div>  
+                                
+                                
+                                <!--여기부터 답변다는 창-->
+                                
+                                <div class="row" style="width:100%;height:100px; padding:5px 0px;">
+                                <%if(r.getRe_yn().equalsIgnoreCase("N")){ %>
+									<div class="col-md-10">
                                     <textarea class="form-control"
-                                        style="width:78%; height:50px; resize:none;"></textarea>
+                                        style="width:100%; height:50px; resize:none;" id="content">답변을 등록해주세요.</textarea>
+                                    </div>
+                                    <%}else{ %>
+                                    <div>
+                                    <textarea class="form-control"  id="replyWrite" style="width:850px; height:50px; resize:none;" placeholder="기존에 작성한 댓글은 삭제 후 등록됩니다."></textarea>
+                                    </div>
+                                    <%} %>
                                     &nbsp;
                                     <div>
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white; height:50px; width:100px;">댓글작성</button>
+                                        <button type="button" class="btn" style="background:black; color:white; height:50px; width:100%;" id="addReply">답변작성</button>
 
 
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white; height:50px; width:100px;">댓글삭제</button>
+                                        
                                     </div>
-
                                 </div>
-                                <div class="row mt-2">
-                                    <div class="col"></div>
-                                    <div class="col text-center"><button type="button" class="btn"
-                                            style="background:black; color:white"><a href="admin_report.html"
-                                                id="wh">목록</a></button>
-                                        <!--row나 col에서 text-center로 가운데 정렬 가능-->
 
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white">수정</button>
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white">삭제</button>
-                                    </div>
-                                    <div class="col"></div>
-                                </div>
                             </div>
-                        </form>
+                            <div class="row mt-2">
+                                <div class="col"></div>
+                                <div class="col text-center"><button type="button" class="btn"
+                                        style="background:black; color:white" onclick="goList();">목록</button>
+                                    <!--row나 col에서 text-center로 가운데 정렬 가능-->
+
+                                    <button type="button" class="btn" style="background:black; color:white" onclick="deleteReport();">삭제</button>
+                                </div>
+                                <div class="col"></div>
+                            </div>
                     </div>
+                    </form>
                 </div>
-            </div>
+        
+</div>
+</div>
 
-
-
-
-
+  
 
 
             <!--footer-->
@@ -343,5 +347,69 @@
             </footer>
             </div>
             </div>
+            
+            
+            
+            <script>
+            $(function(){
+            	$("#addReply").click(function(){
+            		
+            		var content=$("#replyWrite").val(); //답글 쓰는 textarea의 내용(새로 업데이트할 답변내용)
+            		var board_no=<%=r.getBoard_no()%>	//해당 보드넘버
+            		
+            		$.ajax({
+            			
+            			url:"<%=request.getContextPath()%>/reply.report",
+            			type:"post",
+            			data:{content:content,board_no:board_no},
+   
+            			
+            			success:function(data){
+            				
+            				//textarea 내용만 바꾸려고 할때 
+            				if(data=="success"){
+            				$("#replyZone").val(content); 
+            				$("#replyWrite").val("");
+            				
+            			}
+            			 
+            			},
+            			error:function(request,status,error){
+        				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        				}
+            		})
+            	})
+            })
+            
+            
+            
+            	function goList(){
+		
+		location.href="<%=request.getContextPath()%>/list.report";
+
+		}
+            
+            
+          // 삭제
+			function deleteReport(){
+        		
+        		if(confirm("신고 내역을 삭제하시겠습니까?")){
+        			location.href="<%=request.getContextPath()%>/delete.report?arr="+<%=r.getBoard_no()%>;
+							
+        			}else{
+        			return false;
+        		}
+        		
+          }
+            
+            
+            
+            
+            </script>
+            
+            
+            
+            
+            
 </body>
 </html>

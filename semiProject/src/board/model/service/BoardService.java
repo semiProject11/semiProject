@@ -52,18 +52,18 @@ public class BoardService {
 		return list;
 	}
 
-	public ArrayList<Board> selectInquiaryList() {
+	public ArrayList<Board> selectInquiaryList(int currentPage, int limit) {
 
 		Connection conn = getConnection();
-		ArrayList<Board> bList = new BoardDao().selectInquiaryList(conn);
+		ArrayList<Board> bList = new BoardDao().selectInquiaryList(conn,currentPage,limit);
 		close(conn);
 
 		return bList;
 	}
 
-	public ArrayList<Inquiary> selectInquaryTypeList() {
+	public ArrayList<Inquiary> selectInquaryTypeList(int currentPage, int limit) {
 		Connection conn = getConnection();
-		ArrayList<Inquiary> inquiaryList = new BoardDao().selectInquiaryTypeList(conn);
+		ArrayList<Inquiary> inquiaryList = new BoardDao().selectInquiaryTypeList(conn,currentPage,limit);
 		close(conn);
 
 		return inquiaryList;
@@ -107,11 +107,11 @@ public class BoardService {
 		return result;
 	}
 
-	public ArrayList<Board> selectBoard() {
+	public ArrayList<Board> selectBoard(int currentPage, int limit) {
 
 		Connection conn = getConnection();
 
-		ArrayList<Board> list = new BoardDao().selectBoard(conn);
+		ArrayList<Board> list = new BoardDao().selectBoard(conn,currentPage,limit);
 		close(conn);
 
 		return list;
@@ -328,12 +328,12 @@ public class BoardService {
 		
 	}
 
-	public ArrayList<Board> searchNotice(String type, String word) {
+	public ArrayList<Board> searchNotice(String type, String word, int currentPage, int limit) {
 		
 		
 		Connection conn = getConnection();
 
-		ArrayList<Board> list = new BoardDao().searchNotice(conn,type,word);
+		ArrayList<Board> list = new BoardDao().searchNotice(conn,type,word,currentPage,limit);
 		close(conn);
 
 		return list;
@@ -432,22 +432,22 @@ public class BoardService {
 		return result;
 	}
 
-	public ArrayList<Board> searchInquiary(String type, String word) {
+	public ArrayList<Board> searchInquiary(int currentPage, int limit, String type, String word) {
 		Connection conn = getConnection();
 
 		
-		ArrayList<Board> bList = new BoardDao().searchInquiary(conn,type,word);
+		ArrayList<Board> bList = new BoardDao().searchInquiary(conn,currentPage,limit,type,word);
 
 		close(conn);
 		return bList;
 	}
 
-	public ArrayList<Inquiary> searchInquaryTypeList(String type, String word) {
+	public ArrayList<Inquiary> searchInquaryTypeList(int currentPage, int limit, String type, String word) {
 		Connection conn = getConnection();
 
-		System.out.println("서비스(dao다녀오기 전):"+type+"이랑"+word);
-		ArrayList<Inquiary> inquiaryList = new BoardDao().searchInquaryTypeList(conn,type,word);
-		System.out.println("서비스(dao다녀온후):"+inquiaryList);
+		
+		ArrayList<Inquiary> inquiaryList = new BoardDao().searchInquaryTypeList(conn,currentPage,limit,type,word);
+	
 		close(conn);
 		return inquiaryList;
 	}
@@ -488,20 +488,20 @@ public class BoardService {
 	}
 
 
-	public ArrayList<Report> selectReportList() {
+	public ArrayList<Report> selectReportList(int currentPage, int limit) {
 		
 		Connection conn=getConnection();
-		ArrayList<Report> rList=new BoardDao().selectReportList(conn);
+		ArrayList<Report> rList=new BoardDao().selectReportList(conn,currentPage,limit);
 		
 		close(conn);
 	
 		return rList;
 	}
 
-	public ArrayList<Board> selectReportBoard() {
+	public ArrayList<Board> selectReportBoard(int currentPage, int limit) {
 		Connection conn = getConnection();
 
-		ArrayList<Board> list = new BoardDao().selectReportBoard(conn);
+		ArrayList<Board> list = new BoardDao().selectReportBoard(conn,currentPage,limit);
 		close(conn);
 
 		return list;
@@ -729,6 +729,32 @@ public class BoardService {
 		}
 		close(conn);
 		return listCount;
+	}
+
+	public int insertReplyRep(String reply, int board_no) {
+		Connection conn=getConnection();
+		System.out.println("서비스다아아안?:"+reply);
+		int result=new BoardDao().insertReplyRep(conn,board_no,reply);
+		
+		
+		close(conn);
+		return result;
+	}
+
+	public int getMemberCount() {
+		Connection conn = getConnection();
+
+		int count = new BoardDao().getMemberCount(conn);
+
+		if (count > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return count;
 	}
 
 	

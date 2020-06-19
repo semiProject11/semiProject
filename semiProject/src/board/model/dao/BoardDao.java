@@ -24,17 +24,22 @@ public class BoardDao {
 
 	public int getListCount(Connection conn) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT COUNT(*) FROM SERVICE";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
 
 		return result;
@@ -71,20 +76,17 @@ public class BoardDao {
 		return list;
 	}
 
-	public ArrayList<Board> selectInquiaryList(Connection conn) {
+	public ArrayList<Board> selectInquiaryList(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT ROWNUM RNUM,T.* \r\n" + 
-				"FROM (SELECT * FROM INQUIARY I \r\n" + 
-				"LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) \r\n" + 
-				"LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) \r\n" + 
-				"LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO)\r\n" + 
-				"WHERE B.BOARD_STATUS='Y' \r\n" + 
-				"ORDER BY B.BOARD_NO DESC)T";
+		String query = "SELECT * FROM(SELECT ROWNUM RNUM,T.* FROM (SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE B.BOARD_STATUS='Y' ORDER BY B.BOARD_NO ASC)T ORDER BY RNUM DESC) WHERE RNUM BETWEEN ? AND ?";
 		ArrayList<Board> bList = new ArrayList<>();
-
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2,endRow);
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
@@ -113,21 +115,19 @@ public class BoardDao {
 		return bList;
 	}
 
-	public ArrayList<Inquiary> selectInquiaryTypeList(Connection conn) {
+	public ArrayList<Inquiary> selectInquiaryTypeList(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT ROWNUM RNUM,T.* \r\n" + 
-				"FROM (SELECT * FROM INQUIARY I \r\n" + 
-				"LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) \r\n" + 
-				"LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) \r\n" + 
-				"LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO)\r\n" + 
-				"WHERE B.BOARD_STATUS='Y' \r\n" + 
-				"ORDER BY B.BOARD_NO DESC)T";
+		String query = "SELECT * FROM(SELECT ROWNUM RNUM,T.* FROM (SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE B.BOARD_STATUS='Y' ORDER BY B.BOARD_NO ASC)T ORDER BY RNUM DESC) WHERE RNUM BETWEEN ? AND ?";
 		ArrayList<Inquiary> inquiaryList = new ArrayList<Inquiary>();
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		try {
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			rset = pstmt.executeQuery();
-
+		
 			while (rset.next()) {
 				Inquiary i = new Inquiary(rset.getInt("board_no"), 
 						rset.getString("board_type"),
@@ -246,16 +246,18 @@ public class BoardDao {
 	
 	
 
-	public ArrayList<Board> selectBoard(Connection conn) { //공지사항 게시글 가져오는거
+	public ArrayList<Board> selectBoard(Connection conn, int currentPage, int limit) { //공지사항 게시글 가져오는거
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT *\r\n" + 
-				"FROM (SELECT ROWNUM RNUM,B.* FROM BOARD B WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y') ORDER BY BOARD_NO DESC";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,B.* FROM BOARD B WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
-			
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -270,7 +272,7 @@ public class BoardDao {
 						rset.getInt("rnum"));
 				
 				list.add(b);
-				
+				System.out.println(b.getBoard_id());
 			}
 			
 		} catch (SQLException e) {
@@ -770,15 +772,16 @@ public class BoardDao {
 	
 	
 	
-	public ArrayList<Board> searchNotice(Connection conn, String typeNotice, String wordNotice) {
+	public ArrayList<Board> searchNotice(Connection conn, String typeNotice, String wordNotice, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
 		String type=typeNotice;
 		String word=wordNotice;
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		
-		System.out.println("dao:"+type);
-		System.out.println("dao:"+word);
+	
 		
 		if(word=="") {
 			System.out.println("비어있음");
@@ -788,10 +791,12 @@ public class BoardDao {
 	
 		
 			
-		String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y'";
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 
 			
 			rset=pstmt.executeQuery();
@@ -804,7 +809,8 @@ public class BoardDao {
 						rset.getDate("write_date"),
 						rset.getInt("read_num"),
 						rset.getInt("board_code"),
-						rset.getString("board_status"));
+						rset.getString("board_status"),
+						rset.getInt("rnum"));
 				
 				list.add(b);
 				
@@ -818,11 +824,12 @@ public class BoardDao {
 		
 		}else if(type.equals("not")&&word==""){
 
-			String query="SELECT * FROM BOARD WHERE BOARD_CODE=20 AND BOARD_STATUS='Y'";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -834,7 +841,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -850,11 +858,12 @@ public class BoardDao {
 		}else if(type.equals("pol")&&word==""){
 			
 			
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y'";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -866,7 +875,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -879,11 +889,12 @@ public class BoardDao {
 			}
 		}else if(type.equals("faq")&&word==""){
 
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y'";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -895,7 +906,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -908,13 +920,14 @@ public class BoardDao {
 			}
 		}else if(type.equals("stitle")&&word!=""){
 			
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' and (TITLE LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
 				System.out.println("메소드안:"+word);
 				pstmt.setString(1, word);
-				
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				rset=pstmt.executeQuery();
 				
 				while(rset.next()) {
@@ -925,7 +938,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -942,12 +956,14 @@ public class BoardDao {
 			
 			
 			
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
 				pstmt.setString(1, word);
 				pstmt.setString(2, word);
+				pstmt.setInt(3,startRow);
+				pstmt.setInt(4, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -959,7 +975,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -973,12 +990,14 @@ public class BoardDao {
 		}else if(type.equals("pol")&&word!=""){
 			
 			
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
 				pstmt.setString(1, word);
 				pstmt.setString(2, word);
+				pstmt.setInt(3,startRow);
+				pstmt.setInt(4, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -990,7 +1009,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -1004,12 +1024,14 @@ public class BoardDao {
 		}else if(type.equals("faq")&&word!=""){
 			
 			
-			String query="SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%')";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
 				pstmt.setString(1, word);
 				pstmt.setString(2, word);
+				pstmt.setInt(3,startRow);
+				pstmt.setInt(4, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1021,7 +1043,8 @@ public class BoardDao {
 							rset.getDate("write_date"),
 							rset.getInt("read_num"),
 							rset.getInt("board_code"),
-							rset.getString("board_status"));
+							rset.getString("board_status"),
+							rset.getInt("rnum"));
 					
 					list.add(b);
 					
@@ -1175,23 +1198,23 @@ public class BoardDao {
 		return result;
 	}
 
-	public ArrayList<Board> searchInquiary(Connection conn, String type, String word) {
+	public ArrayList<Board> searchInquiary(Connection conn, int currentPage, int limit, String type, String word) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		
-		System.out.println("dao:"+type);
-		System.out.println("dao:"+word);
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		
 
 		if(type.equals("a")&&word=="") {
 	
 	
-		String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
-
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1219,11 +1242,12 @@ public class BoardDao {
 		}else if(type.equals("b")&&word==""){
 
 			
-			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1'";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1248,11 +1272,12 @@ public class BoardDao {
 				close(pstmt);
 			}
 		}else if(type.equals("c")&&word==""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2'";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1277,11 +1302,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 				close(pstmt);
 			}
 		}else if(type.equals("d")&&word==""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3'";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1306,11 +1332,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 				close(pstmt);
 			}
 		}else if(type.equals("a")&&word!=""){
-			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1336,11 +1363,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 			}
 			
 		}else if(type.equals("b")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1365,11 +1393,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 				close(pstmt);
 			}
 		}else if(type.equals("c")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1393,11 +1422,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 				close(pstmt);
 			}
 		}else if(type.equals("d")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1427,23 +1457,23 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 
 	}
 
-	public ArrayList<Inquiary> searchInquaryTypeList(Connection conn, String type, String word) {
+	public ArrayList<Inquiary> searchInquaryTypeList(Connection conn, int currentPage, int limit, String type, String word) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Inquiary> inquiaryList=new ArrayList<>();
-		
-		System.out.println("dao:"+type);
-		System.out.println("dao:"+word);
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		
 
 		if(type.equals("a")&&word=="") {
 	
 	
-		String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y'";
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
-
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1453,7 +1483,8 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 						rset.getString("inquiry_content"), 
 						rset.getString("inquiry_yn"), 
 						rset.getDate("inquiry_date"),
-						rset.getString("inquiary_name"));
+						rset.getString("inquiary_name"),
+						rset.getInt("rnum"));
 
 				inquiaryList.add(i);
 			}
@@ -1467,11 +1498,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 		}else if(type.equals("b")&&word==""){
 
 			
-			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1'";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1481,7 +1513,8 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 							rset.getString("inquiry_content"), 
 							rset.getString("inquiry_yn"), 
 							rset.getDate("inquiry_date"),
-							rset.getString("inquiary_name"));
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
 
 					inquiaryList.add(i);
 				}
@@ -1492,61 +1525,12 @@ String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE
 				close(pstmt);
 			}
 		}else if(type.equals("c")&&word==""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2'";
-			
-try {
-	pstmt=conn.prepareStatement(query);
-
-	
-	rset=pstmt.executeQuery();
-	
-	while (rset.next()) {
-		Inquiary i = new Inquiary(rset.getInt("board_no"), 
-				rset.getString("board_type"),
-				rset.getString("inquiry_content"), 
-				rset.getString("inquiry_yn"), 
-				rset.getDate("inquiry_date"),
-				rset.getString("inquiary_name"));
-
-		inquiaryList.add(i);
-	}
-	
-} catch (SQLException e) {
-	e.printStackTrace();
-} finally {
-	close(pstmt);
-}
-		}else if(type.equals("d")&&word==""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3'";
-			
-try {
-	pstmt=conn.prepareStatement(query);
-
-	
-	rset=pstmt.executeQuery();
-	
-	while (rset.next()) {
-		Inquiary i = new Inquiary(rset.getInt("board_no"), 
-				rset.getString("board_type"),
-				rset.getString("inquiry_content"), 
-				rset.getString("inquiry_yn"), 
-				rset.getDate("inquiry_date"),
-				rset.getString("inquiary_name"));
-
-		inquiaryList.add(i);
-	}
-	
-} catch (SQLException e) {
-	e.printStackTrace();
-} finally {
-	close(pstmt);
-}
-		}else if(type.equals("a")&&word!=""){
-			String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1556,7 +1540,8 @@ try {
 							rset.getString("inquiry_content"), 
 							rset.getString("inquiry_yn"), 
 							rset.getDate("inquiry_date"),
-							rset.getString("inquiary_name"));
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
 
 					inquiaryList.add(i);
 				}
@@ -1566,81 +1551,141 @@ try {
 			} finally {
 				close(pstmt);
 			}
+		}else if(type.equals("d")&&word==""){
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3')Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
+
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+		}else if(type.equals("a")&&word!=""){
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
+			
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
+
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
+			
 		}else if(type.equals("b")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
-try {
-	pstmt=conn.prepareStatement(query);
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
 
-	
-	rset=pstmt.executeQuery();
-	
-	while (rset.next()) {
-		Inquiary i = new Inquiary(rset.getInt("board_no"), 
-				rset.getString("board_type"),
-				rset.getString("inquiry_content"), 
-				rset.getString("inquiry_yn"), 
-				rset.getDate("inquiry_date"),
-				rset.getString("inquiary_name"));
-
-		inquiaryList.add(i);
-	}
-	
-} catch (SQLException e) {
-	e.printStackTrace();
-} finally {
-	close(pstmt);
-}
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
 		}else if(type.equals("c")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
-try {
-	pstmt=conn.prepareStatement(query);
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
 
-	
-	rset=pstmt.executeQuery();
-	
-	while (rset.next()) {
-		Inquiary i = new Inquiary(rset.getInt("board_no"), 
-				rset.getString("board_type"),
-				rset.getString("inquiry_content"), 
-				rset.getString("inquiry_yn"), 
-				rset.getDate("inquiry_date"),
-				rset.getString("inquiary_name"));
-
-		inquiaryList.add(i);
-	}
-	
-} catch (SQLException e) {
-	e.printStackTrace();
-} finally {
-	close(pstmt);
-}
+					inquiaryList.add(i);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
 		}else if(type.equals("d")&&word!=""){
-String query="SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%')";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
 			
-try {
-	pstmt=conn.prepareStatement(query);
+			try {
+				pstmt=conn.prepareStatement(query);
+				pstmt.setInt(1,startRow);
+				pstmt.setInt(2, endRow);
+				
+				rset=pstmt.executeQuery();
+				
+				while (rset.next()) {
+					Inquiary i = new Inquiary(rset.getInt("board_no"), 
+							rset.getString("board_type"),
+							rset.getString("inquiry_content"), 
+							rset.getString("inquiry_yn"), 
+							rset.getDate("inquiry_date"),
+							rset.getString("inquiary_name"),
+							rset.getInt("rnum"));
 
-	
-	rset=pstmt.executeQuery();
-	
-	while (rset.next()) {
-		Inquiary i = new Inquiary(rset.getInt("board_no"), 
-				rset.getString("board_type"),
-				rset.getString("inquiry_content"), 
-				rset.getString("inquiry_yn"), 
-				rset.getDate("inquiry_date"),
-				rset.getString("inquiary_name"));
-
-		inquiaryList.add(i);
-	}
-	
-} catch (SQLException e) {
-	e.printStackTrace();
-} finally {
-	close(pstmt);
-}
+					inquiaryList.add(i);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+			}
 		
 	}
 		return inquiaryList;
@@ -1835,13 +1880,18 @@ try {
 	}
 
 
-	public ArrayList<Report> selectReportList(Connection conn) {
+	public ArrayList<Report> selectReportList(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Report> rList=new ArrayList<>();
-		String query="SELECT * FROM (SELECT * FROM (SELECT ROWNUM RNUM, P.*,R.REPORT_NAME FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y') ORDER BY BOARD_NO DESC";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		
+		String query="SELECT * FROM (SELECT ROWNUM RNUM, q.* FROM (select * from REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) LEFT JOIN member m ON (b.user_no=m.user_NO) WHERE BOARD_STATUS='Y')q) where rnum between ? and ? ORDER BY rnum DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -1851,7 +1901,8 @@ try {
 									rset.getDate("re_date"),
 									rset.getInt("service_no"),
 									rset.getString("report_type"),
-									rset.getString("report_name"));
+									rset.getString("report_name"),
+									rset.getString("user_id"));
 							rList.add(r);		
 				
 			}
@@ -1866,14 +1917,18 @@ try {
 		return rList;
 	}
 
-	public ArrayList<Board> selectReportBoard(Connection conn) {
+	public ArrayList<Board> selectReportBoard(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM (SELECT ROWNUM RNUM, P.* FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y')P ORDER BY BOARD_NO DESC";
-		// 테이블 다시 조인문 봐야함
+		String query="SELECT * FROM (SELECT ROWNUM RNUM, q.* FROM (select * from REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R.REPORT_TYPE) LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE BOARD_STATUS='Y')q) where rnum between ? and ? ORDER BY rnum DESC";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+	
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1886,7 +1941,7 @@ try {
 						rset.getInt("read_num"),
 						rset.getInt("board_code"),
 						rset.getString("board_status"),
-						rset.getString("user_id"));
+						rset.getInt("rnum"));
 				
 				list.add(b);
 				
@@ -2726,6 +2781,9 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		}
 
 		return result;
+		
+		
+		
 	}public int getTradeListCount(Connection conn) {
 	
 
@@ -2763,6 +2821,52 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 		return result;
 	}
+
+	public int insertReplyRep(Connection conn, int board_no, String reply) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		try {
+			String query="UPDATE report SET re_YN='Y', re_CONTENT=?, re_DATE=SYSDATE WHERE BOARD_NO=?";
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setString(1,reply);
+			pstmt.setInt(2,board_no);
+			result=pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		System.out.println(result);
+		return result;
+	}
+
+	public int getMemberCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		int result = 0;
+		String query = "SELECT COUNT(*) FROM member where status='Y'";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return result;
+	}
+	
 
 
 	

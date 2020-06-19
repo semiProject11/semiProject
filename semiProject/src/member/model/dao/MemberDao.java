@@ -276,16 +276,22 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<Member> selectGradeList(Connection conn) {
+	public ArrayList<Member> selectGradeList(Connection conn, int currentPage, int limit) {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT *\r\n" + 
-				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
+		
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		System.out.println("startRow : " + startRow + ", endRow : " + endRow);
+		
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') where (rnum between ? and ?) ORDER BY RNUM DESC";
 		ArrayList<Member> gradeList=new ArrayList<Member>();
 		
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -323,16 +329,20 @@ public class MemberDao {
 	}
 
 
-	public ArrayList<Seller> selectSellerList(Connection conn) {
+	public ArrayList<Seller> selectSellerList(Connection conn, int currentPage, int limit) {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT *\r\n" + 
-				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+	
+		String query="SELECT * FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') where (rnum between ? and ?) ORDER BY RNUM DESC";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2,endRow);
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -688,7 +698,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		String query = "INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -714,7 +724,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result2 = 0;
 		
-		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_MEMBER.CURRVAL) "; 
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -740,15 +750,17 @@ public class MemberDao {
 
 
 
-	public ArrayList<Member> selectTradeS(Connection conn) {
+	public ArrayList<Member> selectTradeS(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
-		
-		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		try {
 			pstmt=conn.prepareStatement(query);
-		
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 		
 		rset=pstmt.executeQuery();
 		
@@ -789,14 +801,18 @@ public class MemberDao {
 
 
 
-	public ArrayList<Member> selectTradeB(Connection conn) {
+	public ArrayList<Member> selectTradeB(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 		
-		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
+		String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2,endRow);
 		
 		
 		rset=pstmt.executeQuery();
@@ -1079,7 +1095,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result3 = 0;
 		
-		String query = "INSERT INTO BUYER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO BUYER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1103,7 +1119,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result4 = 0;
 		
-		String query = "INSERT INTO SELLER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO SELLER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1669,7 +1685,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result5 = 0;
 		
-		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_ME.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_MEMBER.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1684,6 +1700,56 @@ public class MemberDao {
 			close(pstmt);
 		}
 		return result5;
+	}
+
+
+
+
+	public ArrayList<Member> selectMember(Connection conn, int currentPage, int limit) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Member> member = new ArrayList<>();
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM MEMBER WHERE STATUS='Y')Q) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				Member m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+				member.add(m);
+				
+			}
+			System.out.println(member);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return member;
 	}
 
 
