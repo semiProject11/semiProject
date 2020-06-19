@@ -19,10 +19,62 @@ public class Board implements Serializable {
 	private int board_code;			//게시물 코드
 	private String board_status;	//삭제여부
 	private String user_id;		//게시글 작성자명
+	private int board_id;		//게시판 상의 번호
 	
 	
 	
 	
+	public String getUser_id() {
+		return user_id;
+	}
+
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public int getBoard_id() {
+		return board_id;
+	}
+
+
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+
+
+	public Board(int board_no, String title, String content, int user_no, Date write_date, int read_num, int board_code,
+			String board_status, String user_id, int board_id) {
+		super();
+		this.board_no = board_no;
+		this.title = title;
+		this.content = content;
+		this.user_no = user_no;
+		this.write_date = write_date;
+		this.read_num = read_num;
+		this.board_code = board_code;
+		this.board_status = board_status;
+		this.user_id = user_id;
+		this.board_id = board_id;
+	}
+
+
+	public Board(int board_no, String title, String content, int user_no, Date write_date, int read_num, int board_code,
+			String board_status, int board_id) {
+		super();
+		this.board_no = board_no;
+		this.title = title;
+		this.content = content;
+		this.user_no = user_no;
+		this.write_date = write_date;
+		this.read_num = read_num;
+		this.board_code = board_code;
+		this.board_status = board_status;
+		this.board_id = board_id;
+	}
+
+
 	public Board(int board_no, String title, String content, int board_code, String user_id) {
 		super();
 		this.board_no = board_no;
@@ -175,7 +227,7 @@ public class Board implements Serializable {
 	public String toString() {
 		return "Board [board_no=" + board_no + ", title=" + title + ", content=" + content + ", user_no=" + user_no
 				+ ", write_date=" + write_date + ", read_num=" + read_num + ", board_code=" + board_code
-				+ ", board_status=" + board_status + ", user_id=" + user_id + "]";
+				+ ", board_status=" + board_status + ", user_id=" + user_id + ", board_id=" + board_id + "]";
 	}
 	
 	

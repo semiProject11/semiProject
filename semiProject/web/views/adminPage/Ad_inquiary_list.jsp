@@ -4,6 +4,13 @@
     <% 
     ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
     ArrayList<Inquiary> inquiaryList=(ArrayList<Inquiary>)request.getAttribute("inquiaryList");
+	
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
     
     %>
 
@@ -164,7 +171,7 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
@@ -334,7 +341,7 @@
 										type="checkbox" class="common" id="rowCheck" name="rowCheck"
 										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_no()%>">
 										</td>
-                                    <td class="inquiary_list" style="width: 8%"><%=(bList.get(i)).getBoard_no()%></td>
+                                    <td class="inquiary_list" style="width: 8%"><%=(inquiaryList.get(i)).getBoard_id()%></td>
                                     <td class="inquiary_list" style="width: 15%"><%=(inquiaryList.get(i)).getInquiry_name()%></td>
                                     <td class="inquiary_list"><%=(bList.get(i)).getTitle()%></td>
                                     <td class="inquiary_list" style="width: 15%"><%=(bList.get(i)).getWrite_date()%></td>
@@ -353,25 +360,34 @@
 
 
 
-                <!------페이징 처리----->
-                <div class="page-center">
-                    <ul class="pagination-t">
+               	<!------페이징 처리----->
+				<div class="page-center">
+					<ul class="pagination-t">
 
-                        <!-- disabled: 페이지 비활성화 -->
-                        <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=p %>"><%=p %></a></li>
 
-                        <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
 
-                        <!-- disabled: 해당 버튼 활성화 -->
-                        <li class="page-item-t active-t" aria-current="page-t">
-                            <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-                    </ul>
+				</div>
 
-                </div>
-		   </div>
+			</div>
+
 
 
 

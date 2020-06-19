@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.*,java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
 <%
 	ArrayList<Member> gradeList = (ArrayList<Member>) request.getAttribute("gradeList");
 	ArrayList<Seller> sellerList = (ArrayList<Seller>) request.getAttribute("sellerList");
+	
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+	
 %>
 
 
@@ -12,6 +20,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
+
+
 th, tr, td {
 	text-align: center;
 	vertical-align: middle !important;
@@ -24,29 +35,29 @@ th, tr, td {
 	border-radius: 0.25rem;
 }
 
-.page-link-t {
-	position: relative;
-	display: block;
-	padding: 0.5rem 0.75rem;
-	margin-left: -1px;
-	line-height: 1.25;
-	color: black;
-	background-color: #fff;
-	border: 1px solid #dee2e6;
-}
+ .page-link-t {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: black;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
 
-.page-link-t:hover {
-	z-index: 2;
-	color: #0056b3;
-	text-decoration: none;
-	background-color: #e9ecef;
-	border-color: #dee2e6;
-}
+        .page-link-t:hover {
+            z-index: 2;
+            color: #0056b3;
+            text-decoration: none;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
 
-.page-link-t:focus {
-	z-index: 3;
-	outline: 0;
-}
+        .page-link-t:focus {
+            z-index: 3;
+            outline: 0;
+        }
 
 .page-item-t:first-child .page-link-t {
 	border-top-left-radius: 0.25rem;
@@ -136,7 +147,7 @@ th, tr, td {
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
@@ -313,12 +324,12 @@ th, tr, td {
 										<%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
 										 --%>
 										<td><input type="checkbox" class="common" id="rowCheck"
-											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(gradeList.get(i)).getUserNo()%>>
+											name="rowCheck" style="width: 18px; height: 18px;" value=<%=(sellerList.get(i)).getUserNo()%>>
 
 
 										</td>
-										<!-- 게시물번호 (뷰만들기 전엔 회원번호임)-->
-										<td><%=(gradeList.get(i)).getUserNo()%></td>
+										<!-- 게시물번호-->
+										<td val="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td>
 										<!-- 유저아이디 -->
 										<td><%=(gradeList.get(i)).getUserId()%></td>
 										<!-- 점수  -->
@@ -367,18 +378,24 @@ th, tr, td {
 				<div class="page-center">
 					<ul class="pagination-t">
 
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"
-							href="#">Previous</a></li>
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
 
-						<li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-						<!-- disabled: 해당 버튼 활성화 -->
-						<li class="page-item-t active-t" aria-current="page-t"><a
-							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-						</li>
-						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
 					</ul>
 
 				</div>
@@ -421,7 +438,7 @@ th, tr, td {
 		
 		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
 		
-			rowArr+=$(this).parent().parent().children().eq(1).text()+",";
+			rowArr+=$(this).val()+",";
 			tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
 			
 			

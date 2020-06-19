@@ -25,7 +25,7 @@ public class ServiceDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		ArrayList<Service_List> tradeList=new ArrayList<>();
 		
 		try {
@@ -61,7 +61,7 @@ public class ServiceDao {
 	public ArrayList<Service_ServiceTable_oh> selectServiceList(Connection conn) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		ArrayList<Service_ServiceTable_oh> serviceList=new ArrayList<>();
 		
 		try {
@@ -77,8 +77,8 @@ public class ServiceDao {
 									rset.getString("title"),
 									rset.getString("salemethod"),
 									rset.getInt("price_sale"),
-									rset.getInt("price_bidding"),
-									rset.getString("deadline"),
+									rset.getInt("price_bidding"), 
+									rset.getString("rnum"), //마감시간대신 rnum받아옴
 									rset.getString("subject"),
 									rset.getString("s_explain"),
 									rset.getString("sale_info"),

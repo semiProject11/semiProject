@@ -128,7 +128,7 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
@@ -283,24 +283,23 @@
                                 
                                 <!--여기부터 답변다는 창-->
                                 
-                                <div class="row" style="height:100px; padding:5px 0px;">
+                                <div class="row" style="width:100%;height:100px; padding:5px 0px;">
                                 <%if(i.getInquiry_yn().equalsIgnoreCase("N")){ %>
-									<div>
+									<div class="col-md-10">
                                     <textarea class="form-control"
                                         style="width:100%; height:50px; resize:none;" id="content">답변을 등록해주세요.</textarea>
                                     </div>
                                     <%}else{ %>
                                     <div>
-                                    <textarea class="form-control"  id="replyWrite" style="width:100%;height:50px; resize:none;" placeholder="기존에 작성한 댓글은 삭제 후 등록됩니다."></textarea>
+                                    <textarea class="form-control"  id="replyWrite" style="width:850px; height:50px; resize:none;" placeholder="기존에 작성한 댓글은 삭제 후 등록됩니다."></textarea>
                                     </div>
                                     <%} %>
                                     &nbsp;
                                     <div>
-                                        <button type="button" class="btn" style="background:black; color:white; height:50px; width:100px;" id="addReply">답변작성</button>
+                                        <button type="button" class="btn" style="background:black; color:white; height:50px; width:100%;" id="addReply">답변작성</button>
 
 
-                                        <button type="button" class="btn"
-                                            style="background:black; color:white; height:50px; width:100px;">댓글삭제</button>
+                                        
                                     </div>
                                 </div>
 
@@ -341,9 +340,10 @@
             				//textarea 내용만 바꾸려고 할때 
             				if(data=="success"){
             				$("#replyZone").val(content); 
+            				$("#replyWrite").val("");
             				
             			}
-            			 +
+            			 
             			},
             			error:function(request,status,error){
         				    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

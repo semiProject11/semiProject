@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"
-	import="service.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.Pagination,service.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
 
 <%
-	ArrayList<Service_List> tradeList = (ArrayList<Service_List>) request.getAttribute("tradeList");
+ArrayList<Service_List> tradeList = (ArrayList<Service_List>) request.getAttribute("tradeList");
 ArrayList<Service_ServiceTable_oh> serviceList = (ArrayList<Service_ServiceTable_oh>) request.getAttribute("serviceList");
 ArrayList<Member> buyerList = (ArrayList<Member>) request.getAttribute("buyerList");
 ArrayList<Member> sellerList = (ArrayList<Member>) request.getAttribute("sellerList");
+
+Pagination pn = (Pagination)request.getAttribute("pn");
+int listCount = pn.getListCount();
+int currentPage = pn.getCurrentPage();
+int maxPage = pn.getMaxPage();
+int startPage = pn.getStartPage();
+int endPage = pn.getEndPage();
+
+
 %>
 <!DOCTYPE html>
 <html>
@@ -135,7 +143,7 @@ th, tr, td {
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
@@ -290,7 +298,7 @@ th, tr, td {
 								<tr>
 
 									<input type="hidden" value="<%=(serviceList.get(i)).getServiceNo()%>">
-									<td><%=(tradeList.get(i)).getS_user_no()%></td>
+									<td><%=(serviceList.get(i)).getDeadline()%></td> <!-- 마감시간 대신 dao에서 게시글 순번넣어옴  -->
 									<td><%=(serviceList.get(i)).getTitle()%></td>
 									<td><%=(serviceList.get(i)).getServiceNo()%></td>
 									<td><%=(serviceList.get(i)).getPriceSale()%></td>
@@ -319,21 +327,32 @@ th, tr, td {
 
 
 
-				<!------페이징 처리----->
+						<!------페이징 처리----->
 				<div class="page-center">
 					<ul class="pagination-t">
+
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"
-							href="#">Previous</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-						<!-- disabled: 해당 버튼 활성화 -->
-						<li class="page-item-t active-t" aria-current="page-t"><a
-							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-						</li>
-						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=p %>"><%=p %></a></li>
+
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
 					</ul>
+
 				</div>
+
 			</div>
 
 

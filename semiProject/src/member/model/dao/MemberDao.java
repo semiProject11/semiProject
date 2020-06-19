@@ -280,7 +280,8 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
+		String query="SELECT *\r\n" + 
+				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
 		ArrayList<Member> gradeList=new ArrayList<Member>();
 		
 		try {
@@ -289,7 +290,7 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				
-				Member m=new Member(rset.getString("user_No"),
+				Member m=new Member(rset.getString("RNUM"), //회원번호대신 GRADELIST VIEW의 식별번호를 받아옴
 						rset.getString("user_Id"),
 						rset.getString("user_Pwd"),
 						rset.getString("user_Name"),
@@ -326,7 +327,8 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
+		String query="SELECT *\r\n" + 
+				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
 		try {
@@ -743,7 +745,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
 		
@@ -792,7 +794,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
 		
