@@ -1688,5 +1688,56 @@ public class MemberDao {
 
 
 
+
+	public Member selectSellerReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member seller=null;
+		String query = "SELECT * \r\n" + 
+				"FROM REVIEW R\r\n" + 
+				"LEFT JOIN BOARD B ON (R.BOARD_NO=B.BOARD_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (R.SERVICE_NO=S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (S.S_USER_NO=M.USER_NO)\r\n" + 
+				"WHERE B.BOARD_STATUS='Y'"; 
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+
+				seller = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return seller;
+	}
+
+
+
 	
 	}
