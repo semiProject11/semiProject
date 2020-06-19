@@ -646,7 +646,7 @@ public class ServiceDao {
 	
 	String query = "INSERT INTO SERVICE VALUES(SEQ_SERVICE.NEXTVAL,?,?,?,\r\n" + 
 			"DEFAULT,DEFAULT,DEFAULT,0,?,?,?,TO_DATE(?,'YYYYMMDD HH24:MI'),?,?,TO_DATE(?,'HH24:MI') ,\r\n" + 
-			"TO_DATE(?,'HH24:MI'),?,SYSDATE,?)";
+			"TO_DATE(?,'HH24:MI'),?,SYSDATE,?,'Y')";
 		
 	
 		try {
@@ -719,7 +719,7 @@ public class ServiceDao {
 		
 			System.out.println("servicefileList : " + servicefileList);
 			
-			String query = "INSERT INTO SERVICE_FILES VALUES(SEQ_SFID.NEXTVAL,SEQ_SERVICE.CURRVAL,?,?,?,SYSDATE,?,0,'Y')";
+			String query = "INSERT INTO SERVICE_FILES VALUES(SEQ_SFID.NEXTVAL,SEQ_SERVICE.CURRVAL,?,?,?,SYSDATE,?,0,DEFAULT)";
 		
 			try {
 				for(int i=0; i<servicefileList.size(); i++) {
