@@ -3,6 +3,7 @@
     <%
     Board b=(Board)request.getAttribute("board");
     Member m=(Member)request.getAttribute("member");
+    Member se=(Member)request.getAttribute("seller");
     Service s =(Service)request.getAttribute("service");
     Service_List ls = (Service_List)request.getAttribute("lService");
 	Service_Category cs = (Service_Category)request.getAttribute("cService");
@@ -128,7 +129,7 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
-									class="nav-link" href="<%=request.getContextPath()%>/list.review">전체 리뷰 관리</a> <a
+									class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
 									class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
 							</nav>
 						</div>
@@ -235,15 +236,15 @@
                             <div class="row">
                                 <div class="col-md-2"><label>카테고리</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=cs.getCategory_name() %></label></div>
-                                <div class="col-md-2"><label>구매자명</label></div>
+                                <div class="col-md-2"><label>구매자</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
 
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>서비스번호</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:80%" id="valBoard"><%=b.getBoard_no() %></label></div>
-                                <div class="col-md-2"><label>판매자명</label></div>
-                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=m.getUserId() %></label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:80%" id="valBoard"><%=ls.getService_no() %></label></div>
+                                <div class="col-md-2"><label>판매자</label></div>
+                                <div class="col-md-4"><label class="form-control" style="width:100%"><%=se.getUserId() %></label></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-2"><label>거래일시</label></div>

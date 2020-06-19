@@ -17,8 +17,31 @@ public class Inquiary implements Serializable{
 	private String inquiry_yn;		//답변여부
 	private Date inquiry_date;	//답변날짜
 	private String inquiry_name;	//문의유형 세부
+	private int board_id;			//문의게시판 번호
 	
-	
+
+
+	public int getBoard_id() {
+		return board_id;
+	}
+
+
+	public void setBoard_id(int board_id) {
+		this.board_id = board_id;
+	}
+
+
+	public Inquiary(int board_no, String board_type, String inquiry_content, String inquiry_yn, Date inquiry_date,
+			String inquiry_name, int board_id) {
+		super();
+		this.board_no = board_no;
+		this.board_type = board_type;
+		this.inquiry_content = inquiry_content;
+		this.inquiry_yn = inquiry_yn;
+		this.inquiry_date = inquiry_date;
+		this.inquiry_name = inquiry_name;
+		this.board_id = board_id;
+	}
 
 
 	public Inquiary(int board_no, String board_type, String inquiry_content, String inquiry_yn, Date inquiry_date,
@@ -118,7 +141,7 @@ public class Inquiary implements Serializable{
 	public String toString() {
 		return "Inquiary [board_no=" + board_no + ", board_type=" + board_type + ", inquiry_content=" + inquiry_content
 				+ ", inquiry_yn=" + inquiry_yn + ", inquiry_date=" + inquiry_date + ", inquiry_name=" + inquiry_name
-				+ "]";
+				+ ", board_id=" + board_id + "]";
 	}
 
 

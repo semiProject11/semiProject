@@ -280,7 +280,8 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
+		String query="SELECT *\r\n" + 
+				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
 		ArrayList<Member> gradeList=new ArrayList<Member>();
 		
 		try {
@@ -289,7 +290,7 @@ public class MemberDao {
 			
 			while(rset.next()) {
 				
-				Member m=new Member(rset.getString("user_No"),
+				Member m=new Member(rset.getString("RNUM"), //회원번호대신 GRADELIST VIEW의 식별번호를 받아옴
 						rset.getString("user_Id"),
 						rset.getString("user_Pwd"),
 						rset.getString("user_Name"),
@@ -326,7 +327,8 @@ public class MemberDao {
 		
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y'";
+		String query="SELECT *\r\n" + 
+				"FROM (SELECT ROWNUM RNUM,M.*,S.* FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y') ORDER BY USER_NO DESC";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
 		try {
@@ -686,7 +688,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "INSERT INTO MEMBER VALUES(SEQ_ME.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
+		String query = "INSERT INTO MEMBER VALUES(SEQ_MEMBER.NEXTVAL, ?, ?, ?, ?, ?, ?, DEFAULT,SYSDATE, SYSDATE, DEFAULT, DEFAULT, DEFAULT, NULL, DEFAULT, DEFAULT)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -712,7 +714,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result2 = 0;
 		
-		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_ME.CURRVAL) "; 
+		String query = "INSERT INTO ACCOUNT VALUES(?,?,?,SEQ_MEMBER.CURRVAL) "; 
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -743,7 +745,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
 		
@@ -792,7 +794,7 @@ public class MemberDao {
 		ResultSet rset=null;
 		ArrayList<Member> memberList=new ArrayList<>();
 		
-		String query="SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO)";
+		String query="SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 		try {
 			pstmt=conn.prepareStatement(query);
 		
@@ -1077,7 +1079,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result3 = 0;
 		
-		String query = "INSERT INTO BUYER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO BUYER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1101,7 +1103,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result4 = 0;
 		
-		String query = "INSERT INTO SELLER VALUES(SEQ_ME.CURRVAL, 0, 0)";
+		String query = "INSERT INTO SELLER VALUES(SEQ_MEMBER.CURRVAL, 0, 0)";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1283,9 +1285,9 @@ public class MemberDao {
 			
 			pstmt.setString(1, Grade.get(i));
 			pstmt.setString(2, userNo.get(i));
-			
+
 			result+=pstmt.executeUpdate();
-			
+			System.out.println(result);
 			}
 			
 		} catch (SQLException e) {			
@@ -1667,7 +1669,7 @@ public class MemberDao {
 		PreparedStatement pstmt = null;
 		int result5 = 0;
 		
-		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_ME.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
+		String query = "INSERT INTO PROFILE_FILES VALUES(SEQ_MFID.NEXTVAL, SEQ_MEMBER.CURRVAL, '0', 'noimg.gif', '0', SYSDATE, 'Y')";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1682,6 +1684,57 @@ public class MemberDao {
 			close(pstmt);
 		}
 		return result5;
+	}
+
+
+
+
+	public Member selectSellerReview(Connection conn, int board_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Member seller=null;
+		String query = "SELECT * \r\n" + 
+				"FROM REVIEW R\r\n" + 
+				"LEFT JOIN BOARD B ON (R.BOARD_NO=B.BOARD_NO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (R.SERVICE_NO=S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN MEMBER M ON (S.S_USER_NO=M.USER_NO)\r\n" + 
+				"WHERE B.BOARD_STATUS='Y'"; 
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+
+				seller = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+				
+
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return seller;
 	}
 
 

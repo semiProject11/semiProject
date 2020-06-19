@@ -57,7 +57,7 @@
 
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
+	<jsp:include page="../common/menubar4.jsp" />
 	
 	
 <div id="layoutSidenav">
@@ -68,48 +68,48 @@
             <div class="sb-sidenav-menu-heading" style="font-size: large;">
 
               Category</div>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryAr();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/man.png" style="width: 25px; height: 20px;"></div>
               Artist
-            </a>
-            <a class="nav-link" href="index.html">
+            </a>       
+            <a class="nav-link" onclick="categoryRe();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/fork.png" style="width: 25px; height: 20px;"></div>
               Restaurant business
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryMe();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/doctor22.png" style="width: 25px; height: 20px;"></div>
               Medicine
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categorySp();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/soccerman.png" style="width: 25px; height: 20px;"></div>
               Sports
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryFa();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/hatt.png" style="width: 25px; height: 20px;"></div>
               Fashion
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryIt();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/monitor.png" style="width: 25px; height: 20px;"></div>
               It
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryFi();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/money8.png" style="width: 25px; height: 20px;">
               </div>
               Finance
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryPu();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/staff.png" style="width: 27px; height: 20px;"></div>
               Public official
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryBu();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/bag.png" style="width: 25px; height: 20px;"></div>
               Business(foundation)
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryMa();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/shott.png" style="width: 25px; height: 20px;"></div>
               Marketing
             </a>
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" onclick="categoryEv();">
               <div class="sb-nav-link-icon"><img src="<%=request.getContextPath()%>/image/giftt.png" style="width: 25px; height: 20px;"></div>
               Event
             </a>
@@ -307,6 +307,62 @@
     $("ul").hover(function () {
         $("#tel_info").css("display", "none");
     })
+    
+    
+/*카테고리 별 상품 페이지 이동 함수*/    
+    
+function categoryAr(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ar&salemethod=auction";
+ }
+ 
+function categoryRe(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Re&salemethod=auction";
+ }
+
+function categoryMe(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Me&salemethod=auction";
+ }
+ 
+function categorySp(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Sp&salemethod=auction";
+ }
+ 
+function categoryFa(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Fa&salemethod=auction";
+ }
+ 
+function categoryIt(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=It&salemethod=auction";
+ }
+ 
+function categoryFi(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Fi&salemethod=auction";
+ }
+ 
+function categoryPu(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Pu&salemethod=auction";
+ }
+ 
+function categoryBu(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Bu&salemethod=auction";
+ }
+ 
+function categoryMa(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ma&salemethod=auction";
+ }
+ 
+function categoryEv(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ev&salemethod=auction";
+ }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </script>
 
 </html>

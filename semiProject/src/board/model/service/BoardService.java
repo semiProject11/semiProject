@@ -667,6 +667,69 @@ public class BoardService {
 		return result;
 	}
 
+	public int getinquiaryListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getinquiaryListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getNoticeListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getNoticeListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getTradeListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getTradeListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getReportListCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getReportListCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
 
 	
 	

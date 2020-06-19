@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="service.model.vo.Pagination,service.model.vo.ServiceSellList, java.util.ArrayList, board.model.vo.*"%>
+	pageEncoding="UTF-8"
+	import="service.model.vo.Pagination,service.model.vo.ServiceSellList, java.util.ArrayList, board.model.vo.*"%>
 <%
 	Pagination pn = (Pagination)request.getAttribute("pn");
 	ArrayList<ServiceSellList> bsList = (ArrayList<ServiceSellList>) request.getAttribute("bsList");
@@ -176,7 +177,8 @@ th, tr, td {
                 </svg>
 								&nbsp;구매내역
 							</div>
-						</a> <a class="nav-link" href="<%=request.getContextPath()%>/sellList.sv">
+						</a> <a class="nav-link"
+							href="<%=request.getContextPath()%>/sellList.sv">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-list-ul" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -261,19 +263,27 @@ th, tr, td {
 										<%
 											for (int i = 0; i < bsList.size(); i++) {
 												ServiceSellList s = bsList.get(i);	
-										%>							
-									<tr>
+										%>
+										<tr>
 											<input type="hidden" name="board_no" value="#">
+											<%if(s.getUserName()!=null){ %>
 											<td class="text-center" style="width: 5%"><input
 												type="checkbox" class="common" id="rowCheck" name="rowCheck"
-												style="width: 18px; height: 18px;" value="<%=s.getServiceNo()%>"></td>
+												style="width: 18px; height: 18px;"
+												value="<%=s.getServiceNo()%>" disabled></td>
+											<%}else{ %>
+											<td class="text-center" style="width: 5%"><input
+												type="checkbox" class="common" id="rowCheck" name="rowCheck"
+												style="width: 18px; height: 18px;"
+												value="<%=s.getServiceNo()%>"></td>
+											<%} %>
 											<td><%=s.getServiceNo()%></td>
 											<td style="width: 300px;"><a href="index.html"
 												style="color: black;"><%=s.getTitle()%></a></td>
-												<%if(s.getUserName()==null){ %>
-												<td>-</td>
-												<td>-</td>
-												<%}else{ %>
+											<%if(s.getUserName()==null){ %>
+											<td>-</td>
+											<td>-</td>
+											<%}else{ %>
 											<td><%=s.getUserName()%></td>
 											<td><%=s.getPhone()%></td>
 											<%} %>
@@ -297,9 +307,11 @@ th, tr, td {
 						<div class="card-body">
 							<hr>
 							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;"onclick="insertService();">서비스등록</button>
+								style="background: black; color: white; width: 95px; font-size: small;"
+								onclick="insertService();">서비스등록</button>
 							<button type="button" class="btn float-right mr-3"
-								style="background: black; color: white; width: 95px; font-size: small;" onclick="deleteService();">서비스삭제</button>
+								style="background: black; color: white; width: 95px; font-size: small;"
+								onclick="deleteService();">서비스삭제</button>
 
 						</div>
 					</div>
@@ -307,35 +319,39 @@ th, tr, td {
 
 				<!------페이징 처리----->
 				<div class="page-center">
-			        <ul class="pagination-t">
-			
-			            
-			            <!-- disabled: 페이지 비활성화 -->
-			            <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/sellList.sv?currentPage=1"><<</a></li>
-			            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != 1){%><%=request.getContextPath()%>/sellList.sv?currentPage=<%=currentPage - 1%>
+					<ul class="pagination-t">
+
+
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/sellList.sv?currentPage=1"><<</a></li>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%if(currentPage != 1){%><%=request.getContextPath()%>/sellList.sv?currentPage=<%=currentPage - 1%>
 									<%}%>">Previous</a></li>
 						<%
 							for (int p = startPage; p <= endPage; p++) {
 						%>
 						<%if(p == currentPage) {%>
-								<li class="page-item-t active-t" aria-current="page-t">
-			                <a class="page-link-t" disabled><%=p %></a>
-			            </li>
-							<%}else{ %>
-								<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/sellList.sv?currentPage=<%=p %>"><%=p %></a></li>
-							<%} %>
+						<li class="page-item-t active-t" aria-current="page-t"><a
+							class="page-link-t" disabled><%=p %></a></li>
+						<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/sellList.sv?currentPage=<%=p %>"><%=p %></a></li>
+						<%} %>
 						<%
 							}
 						%>
-						
-			            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != endPage){%>
+
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%if(currentPage != endPage){%>
 								<%=request.getContextPath()%>/sellList.sv?currentPage=<%=currentPage + 1%>
 									<%}%>">Next</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/sellList.sv?currentPage=<%=maxPage%>">>></a></li>
-						
-			        </ul>
-			
-			    </div>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/sellList.sv?currentPage=<%=maxPage%>">>></a></li>
+
+					</ul>
+
+				</div>
 
 				<script>
   		function result1(){
@@ -358,7 +374,7 @@ th, tr, td {
 					})
 					
 					
-					<%-- location.href="<%=request.getContextPath()%>/delete.inquiary?arr="+ arr; --%>
+					location.href="<%=request.getContextPath()%>/delete.sv?arr="+ arr;
     				
     			
     			}else{
