@@ -3,21 +3,20 @@ package service.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import board.model.vo.Inquiary;
 import board.model.vo.Review;
+import service.model.vo.CategoryListPd;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
-import service.model.vo.Service_DaysTable_oh;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
+import service.model.vo.Service_SeviceFilesTable_oh;
 
 public class ServiceDao {
 
