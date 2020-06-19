@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="service.model.vo.Pagination, service.model.vo.ServiceBuyList, java.util.ArrayList, board.model.vo.*"%>
+	pageEncoding="UTF-8"
+	import="service.model.vo.Pagination, service.model.vo.ServiceBuyList, java.util.ArrayList, board.model.vo.*"%>
 <%
-	Pagination pn = (Pagination)request.getAttribute("pn");
-	ArrayList<ServiceBuyList> bsList = (ArrayList<ServiceBuyList>) request.getAttribute("bsList");
-	ArrayList<Review> reList = (ArrayList<Review>) request.getAttribute("reList");
+	Pagination pn = (Pagination) request.getAttribute("pn");
+	ArrayList<ServiceBuyList> bsList = (ArrayList<ServiceBuyList>) request.getAttribute("bsList");	
 	int listCount = pn.getListCount();
 	int currentPage = pn.getCurrentPage();
 	int maxPage = pn.getMaxPage();
 	int startPage = pn.getStartPage();
-	int endPage = pn.getEndPage();
-	int ck= 0;
-	int rating = 0;
+	int endPage = pn.getEndPage();	
 	String content1 = "";
 	String content2 = "";
 %>
@@ -20,118 +18,117 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+th, tr, td {
+	text-align: center;
+	vertical-align: middle !important;
+}
 
-      
+.pagination-t {
+	display: flex;
+	padding-left: 0;
+	list-style: none;
+	border-radius: 0.25rem;
+}
 
-      th,
-      tr,
-      td {
-          text-align: center;
-          vertical-align: middle !important;
-      }
+.page-link-t {
+	position: relative;
+	display: block;
+	padding: 0.5rem 0.75rem;
+	margin-left: -1px;
+	line-height: 1.25;
+	color: black;
+	background-color: #fff;
+	border: 1px solid #dee2e6;
+}
 
+.page-link-t:hover {
+	z-index: 2;
+	color: #0056b3;
+	text-decoration: none;
+	background-color: #e9ecef;
+	border-color: #dee2e6;
+}
 
-      .pagination-t {
-          display: flex;
-          padding-left: 0;
-          list-style: none;
-          border-radius: 0.25rem;
-      }
+.page-link-t:focus {
+	z-index: 3;
+	outline: 0;
+}
 
-      .page-link-t {
-          position: relative;
-          display: block;
-          padding: 0.5rem 0.75rem;
-          margin-left: -1px;
-          line-height: 1.25;
-          color: black;
-          background-color: #fff;
-          border: 1px solid #dee2e6;
-      }
+.page-item-t:first-child .page-link-t {
+	border-top-left-radius: 0.25rem;
+	border-bottom-left-radius: 0.25rem;
+}
 
-      .page-link-t:hover {
-          z-index: 2;
-          color: #0056b3;
-          text-decoration: none;
-          background-color: #e9ecef;
-          border-color: #dee2e6;
-      }
+.page-item-t:last-child .page-link-t {
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
+}
 
-      .page-link-t:focus {
-          z-index: 3;
-          outline: 0;
-      }
+.page-item-t.active-t .page-link-t {
+	z-index: 3;
+	color: #fff;
+	background-color: gold;
+	border-color: gold;
+}
 
-      .page-item-t:first-child .page-link-t {
-          border-top-left-radius: 0.25rem;
-          border-bottom-left-radius: 0.25rem;
-      }
+.page-item-t.disabled-t .page-link-t {
+	color: #6c757d;
+	pointer-events: none;
+	cursor: auto;
+	background-color: #fff;
+	border-color: #dee2e6;
+}
 
-      .page-item-t:last-child .page-link-t {
-          border-top-right-radius: 0.25rem;
-          border-bottom-right-radius: 0.25rem;
-      }
+.sr-only-t {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
 
-      .page-item-t.active-t .page-link-t {
-          z-index: 3;
-          color: #fff;
-          background-color: gold;
-          border-color: gold;
-      }
+.page-center {
+	display: flex;
+	justify-content: center;
+	/*가운데 정렬*/
+	align-items: center;
+}
 
-      .page-item-t.disabled-t .page-link-t {
-          color: #6c757d;
-          pointer-events: none;
-          cursor: auto;
-          background-color: #fff;
-          border-color: #dee2e6;
-      }
+.starR {
+	background:
+		url('http://miuu227.godohosting.com/images/icon/ico_review.png')
+		no-repeat right 0;
+	background-size: auto 100%;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+	text-indent: -9999px;
+	cursor: pointer;
+}
 
+.starR.on {
+	background-position: 0 0;
+}
 
-      .sr-only-t {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
-      }
-
-      .page-center {
-          display: flex;
-          justify-content: center;
-          /*가운데 정렬*/
-          align-items: center;
-      }
-      .starR{
-		  background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
-		  background-size: auto 100%;
-		  width: 30px;
-		  height: 30px;
-		  display: inline-block;
-		  text-indent: -9999px;
-		  cursor: pointer;
-		}
-		.starR.on{background-position:0 0;}
-		
-		#naviya div{
-			margin-bottom: 10px;
-			color : black;
-		}
-		
-  </style>
+#naviya div {
+	margin-bottom: 10px;
+	color: black;
+}
+tr.exline td{border-top: 1px solid black;}
+</style>
 </head>
 <body>
 	<jsp:include page="../common/menubar3.jsp" />
-	
+
 	<!--메인사이드바 시작-->
 	<div id="layoutSidenav" class="container">
-	<div class="row">
-	
-    <div id="layoutSidenav_nav" class="col-2">
+		<div class="row">
+
+			<div id="layoutSidenav_nav" class="col-2">
 				<div class="mt-5">
 
 					<div class="nav" id="naviya">
@@ -189,7 +186,8 @@
                 </svg>
 								&nbsp;구매내역
 							</div>
-						</a> <a class="nav-link" href="<%=request.getContextPath()%>/sellList.sv">
+						</a> <a class="nav-link"
+							href="<%=request.getContextPath()%>/sellList.sv">
 							<div class="sb-nav-link-icon">
 								<svg class="bi bi-list-ul" width="1em" height="1em"
 									viewBox="0 0 16 16" fill="currentColor"
@@ -230,243 +228,276 @@
 					</div>
 				</div>
 			</div>
-    
-    
-    
-	<!-- <div id="page-content-wrapper"> -->
-    <div id="layoutSidenav_content" class="col-10">
-    
-    
-    
-    
-    
-    
-    
 
-      <!--main-->
 
-      <div class="container mt-5">
-        <h2>구매내역</h2>
-        <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item"><a href="test.html">마이페이지</a></li>
-          <li class="breadcrumb-item active">구매내역</li>
-        </ol>        
-        
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="table-responsive mt-3">
-              <table class="table   table-hover">
-                  <thead>
-                      <tr>                        
-                        <th>서비스이미지</th>
-                          <th>제목</th>
-                          <th>구입일</th>
-                          <th>판매자</th>
-                          <th>연락처</th>
-                          <th>평점등록</th>
 
-                      </tr>
-                  </thead>
-                  <tbody>               
+			<!-- <div id="page-content-wrapper"> -->
+			<div id="layoutSidenav_content" class="col-10">
+
+
+
+
+
+
+
+
+				<!--main-->
+
+				<div class="container mt-5">
+					<h2>구매내역</h2>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a href="test.html">마이페이지</a></li>
+						<li class="breadcrumb-item active">구매내역</li>
+					</ol>
+
+					<div class="card mb-4">
+						<div class="card-body">
+							<div class="table-responsive mt-3">
+								<table class="table   table-hover">
+									<thead>
+										<tr>
+											<th>서비스이미지</th>
+											<th>제목</th>
+											<th>구입일</th>
+											<th>판매자</th>
+											<th>연락처</th>
+											<th>평점등록</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<%
+											if (bsList.isEmpty()) {
+										%>
+										<tr>
+											<td colspan="6">구매 내역이 없습니다.</td>
+										</tr>
+										<%
+											} else {
+										%>
+										<%
+											for (int i = 0; i < bsList.size(); i++) {
+													ServiceBuyList s = bsList.get(i);													
+										%>
+										<tr class="exline">
+											<td class="clickme">
+												<div>
+													<img src="image/<%=s.getChangeName() %>" alt=""
+														style="width: 100px; height: 100px;">
+												</div>
+											</td>
+											<td class="clickme"><%=s.getTitle()%></td>
+											<td class="clickme"><%=s.getTradeDate()%></td>
+											<td class="clickme"><%=s.getsUserName()%></td>
+											<td class="clickme"><%=s.getsPhone()%></td>
+
+											<!-- 리뷰 불러와서 매칭 시키기  -->
+											
+
+											<%
+												if (s.getContent()!=null) {
+											%>
+											<td>
+												<button type="button" style="background: black; color: white; width: 110px;" class="btn btn-primary" disabled>평점주기</button>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2" style="">평점 : <%=s.getRating() %></td>
+											<td colspan="4">리뷰 : <%=s.getContent() %></td>
+										</tr>
+											<%
+												} else {
+											%>
+											<td>												
+												<button type="button" style="background: black; color: white; width: 110px;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<%=s.getServiceNo()%>">평점주기</button>
+											</td>
+																							
+											
+											
+										</tr>
+											<%
+												}
+											%>
+
+
+											
+										<%
+											}
+										%>
+										<%
+											}
+										%>
+										<div class="modal fade" id="exampleModal" tabindex="-1"
+												role="dialog" aria-labelledby="exampleModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">리뷰와
+																평점을 입력해주세요.</h5>
+															<button type="button" class="close" data-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<form action="<%=request.getContextPath()%>/insert.re" method="post" id="submit1">
+															<div class="modal-body">
+																<div class="form-group">
+																	<label for="recipient-name">평점:</label>
+																	<div class="starRev">
+																		<span class="starR">1</span> <span class="starR">2</span>
+																		<span class="starR">3</span> <span class="starR">4</span>
+																		<span class="starR">5</span> <input type="text"
+																			id="title" name="sNO">
+																		<textarea id="value11" name="value11"
+																			style="display: none;"></textarea>
+																	</div>
+																</div>
+																<div class="form-group">
+																	<label for="message-text" class="col-form-label">리뷰:</label>
+																	<textarea class="form-control" id="message-text" name="content"></textarea>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-secondary"
+																	data-dismiss="modal" onclick="close111();">닫기</button>
+																<button type="submit" data-dismiss="modal" class="btn btn-primary" onclick="submit11();">평점
+																	등록</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										
+
+
+
+
+										<script>
+											$('.starRev span').click(function(){
+												  $(this).parent().children('span').removeClass('on');
+												  $(this).addClass('on').prevAll('span').addClass('on');
+												  $("#value11").val($(this).text());
+												  return false;
+												});
+											
+											$(function(){
+												$(".clickme").click(function(){
+												alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");						
+													
+												})
+												
+											})
+											function close111(){
+												alert("나 나오니?")
+												location.href="<%=request.getContextPath()%>/buyList.sv"
+
+											}
+											function submit1(){
+												alert("너는 4점이야")
+												$("#submit1").submit();
+											}
+
+											$('#exampleModal')
+													.on(
+															'show.bs.modal',
+															function(event) {
+																var button = $(event.relatedTarget)
+																var recipient = button
+																		.data('whatever')
+																var modal = $(this)
+																modal
+																		.find(
+																				'.modal-body input')
+																		.val(
+																				recipient)
+															})
+
+											function submit11() {
+												var rat = $("#value11").val()
+												var cont = $("#message-text").val()
+												var num = $("#title").val()												
+												location.href="<%=request.getContextPath()%>/insert.re?value11="+rat+"&content="+cont+"&sNO="+num;
+												
+											}
+											
+										</script>
+									</tbody>
+								</table>
+							</div>
+						</div>
+
+
+						<!------페이징 처리----->
+
+
+
+
+
+					</div>
+				</div>
+				<div class="page-center">
+					<ul class="pagination-t">
+
+
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/buyList.sv?currentPage=1"><<</a></li>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%if (currentPage != 1) {%><%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage - 1%>
+						<%}%>">Previous</a></li>
 						<%
-						if (bsList.isEmpty()){
+							for (int p = startPage; p <= endPage; p++) {
 						%>
-						<tr>
-							<td colspan="6">구매 내역이 없습니다.</td>
-						</tr>
+						<%
+							if (p == currentPage) {
+						%>
+						<li class="page-item-t active-t" aria-current="page-t"><a
+							class="page-link-t" disabled><%=p%></a></li>
 						<%
 							} else {
 						%>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=p%>"><%=p%></a></li>
 						<%
-							for (int i = 0; i < bsList.size(); i++) {
-								ServiceBuyList s = bsList.get(i);
-								ck=0; rating=0; content1="";
-						%>
-                      <tr >                 
-                        <td class="clickme">
-                            <div >
-                              <img src="image/images.jfif" alt=""  style="width: 100px; height: 100px;">
-                            </div>                        
-                        </td>
-                        <td class="clickme"><%=s.getTitle()%></td>
-                        <td class="clickme"><%=s.getTradeDate()%></td>
-                        <td class="clickme"><%=s.getsUserName()%></td>
-                        <td class="clickme"><%=s.getsPhone()%></td>
-                        
-                        <!-- 리뷰 불러와서 매칭 시키기  -->
-                        <%if(reList.isEmpty()) {%> 
-                        <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
-                        </td>                         
-                        <%} else { %>
-                        <%for (int j=0; j <reList.size(); j++){
-                        	Review r = reList.get(j); %>
-                        <%if(s.getServiceNo() == r.getServiceNo()) { 
-                        	ck=1;%>
-                        <% }%> 
-                        <% }%> 
-                        <% }%>               
-						<%if(ck==1){ %>
-                        <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-whatever="12345" data-target="#exampleModal" value="<%=i %>" onclick="reClick();" disabled="disabled" style="background:black; color:white; width:110px;">
-                        	
-                        	평점주기</button>                        
-                        </td>
-                        <%} else{%>
-                        <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<%=s.getServiceNo()%>" style="background:black; color:white; width:110px;">평점주기</button>
-                        
-                        </td>
-                        <%} %>
-                        
-                        						
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLabel">리뷰와 평점을 입력해주세요.</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						        <form action="<%=request.getContextPath() %>/insert.re" onsubmit="return submit11();">
-						      <div class="modal-body">
-						          <div class="form-group">
-						            <label for="recipient-name" class="">평점:</label>
-						            <div class="starRev">						            
-									  <span class="starR">1</span>
-									  <span class="starR">2</span>
-									  <span class="starR">3</span>
-									  <span class="starR">4</span>
-									  <span class="starR">5</span>
-									  <input type="text" id="title" name="sNO" ">
-									  <textarea id="value11" name="value11" style="display:none;"></textarea>
-									</div>
-						          </div>
-						          <div class="form-group">
-						            <label for="message-text" class="col-form-label">리뷰:</label>
-						            <textarea class="form-control" id="message-text" name="content"></textarea>
-						          </div>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="close111();">닫기</button>
-						        <button type="submit" class="btn btn-primary">평점 등록</button>
-						      </div>
-						        </form>
-						    </div>
-						  </div>
-						</div> 
-                      </tr>
-                        <%
 							}
 						%>
 						<%
 							}
 						%>
-                      
-						
-						
-					
-					
-					<script>
-					$('.starRev span').click(function(){
-						  $(this).parent().children('span').removeClass('on');
-						  $(this).addClass('on').prevAll('span').addClass('on');
-						  $("#value11").val($(this).text());
-						  return false;
-						});
-					
-					$(function(){
-						$(".clickme").click(function(){
-						alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");						
-							
-						})
-						
-					})
-					function close111(){
-						location.href="<%=request.getContextPath()%>/buyList.sv"
-						
-					}
-					
-					$('#exampleModal').on('show.bs.modal', function (event) {
-						  var button = $(event.relatedTarget)
-						  var recipient = button.data('whatever')
-						  var modal = $(this)
-						  modal.find('.modal-body input').val(recipient)
-						})
-						
-					function submit11(){
-						alert("평점이 등록 되었습니다.");
-						return true;
-					}
-					
-					</script>	  
-                  </tbody>
-              </table>
-          </div>          
-        </div>
-      
 
-      <!------페이징 처리----->
-
-
-
-
-
-    </div>
-    </div>
-      <div class="page-center">
-        <ul class="pagination-t">
-
-            
-            <!-- disabled: 페이지 비활성화 -->
-            <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=1"><<</a></li>
-            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != 1){%><%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage - 1%>
-						<%}%>">Previous</a></li>
-			<%
-				for (int p = startPage; p <= endPage; p++) {
-			%>
-			<%if(p == currentPage) {%>
-					<li class="page-item-t active-t" aria-current="page-t">
-                <a class="page-link-t" disabled><%=p %></a>
-            </li>
-				<%}else{ %>
-					<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=p %>"><%=p %></a></li>
-				<%} %>
-			<%
-				}
-			%>
-			
-            <li class="page-item-t"><a class="page-link-t" href="<%if(currentPage != endPage){%>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%if (currentPage != endPage) {%>
 					<%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage + 1%>
 						<%}%>">Next</a></li>
-			<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=maxPage%>">>></a></li>
-			
-        </ul>
+						<li class="page-item-t"><a class="page-link-t"
+							href="<%=request.getContextPath()%>/buyList.sv?currentPage=<%=maxPage%>">>></a></li>
 
-    </div>
-    
-      <!--footer-->
-      <footer class="py-4 bg-light mt-auto">
-        <div class="container-fluid">
-          <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; Your Website 2019</div>
-            <div>
-              <a href="#">Privacy Policy</a>
-              &middot;
-              <a href="#">Terms &amp; Conditions</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-    
-    
-    
-    
-    
-    </div>
-    </div>
-    </div>
-    
+					</ul>
+
+				</div>
+
+				<!--footer-->
+				<footer class="py-4 bg-light mt-auto">
+					<div class="container-fluid">
+						<div
+							class="d-flex align-items-center justify-content-between small">
+							<div class="text-muted">Copyright &copy; Your Website 2019</div>
+							<div>
+								<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
+									&amp; Conditions</a>
+							</div>
+						</div>
+					</div>
+				</footer>
+
+
+
+
+
+			</div>
+		</div>
+	</div>
+
 </body>
 </html>

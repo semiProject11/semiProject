@@ -77,14 +77,12 @@ public class MpBuyListServlet extends HttpServlet {
 		// 화면에 뿌려줄 게시판 리스트 조회
 		ArrayList<ServiceBuyList> bsList = sService.selectBuyServiceList(currentPage, limit, userNo);
 		
-		ArrayList<Review>  re = sService.selectReviewList(userNo);
 		
 		RequestDispatcher view = null;
 		if(bsList != null) {
 			view = request.getRequestDispatcher("views/myPage/mp_buy_list.jsp");
 			request.setAttribute("bsList", bsList);
 			request.setAttribute("pn", pn);
-			request.setAttribute("reList", re);
 		}else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "buyList 조회 실패!!");

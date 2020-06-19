@@ -101,6 +101,10 @@ font-weight: normal; font-style: normal; }
     #cd_views {
       float: right;
     }
+    #cd_rankimg{
+      width: 20px; 
+      height: 18px;
+    }
     
   </style>
 
@@ -113,12 +117,12 @@ font-weight: normal; font-style: normal; }
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-light">
     <!-- <a class="navbar-brand" href="index.html">Start Bootstrap</a> -->
-    <img src="<%=request.getContextPath()%>/image/logo.png" usemap="#map1" style="width: 180px; height: 40px; margin-left: 23px; ">
+    <img src="<%=request.getContextPath()%>/image/logo.png" usemap="#map1" style="width: 180px; height: 40px; margin-left: 23px;">
     <map name="map1">
-      <area shape="rect" coords="00,00,180px,40px" href="home.html" target="_self" style="outline:none;">
+      <area shape="rect" coords="00,00,180px,40px" onclick="logomain();" target="_self" style="outline:none;">
     </map>
     <div style="padding-left: 20px;">
-      <h9 style="font-weight: bold;">Category</h9>
+      <h9 style="font-weight: bold;">카테고리</h9>
     </div>
 
 
@@ -130,18 +134,18 @@ font-weight: normal; font-style: normal; }
       <div class="input-group">
 
         <select class="form-control">
-          <option selected>All</option>
-          <option>Artist</option>
-          <option>Restaurant business</option>
-          <option>Medicine</option>
-          <option>Sports</option>
-          <option>Fashion</option>
+          <option selected>전체</option>
+          <option>예술</option>
+          <option>요식업</option>
+          <option>의료</option>
+          <option>스포츠</option>
+          <option>패션</option>
           <option>It</option>
-          <option>Finance</option>
-          <option>Public official</option>
-          <option>Business(foundation)</option>
-          <option>Marketing</option>
-          <option>Event</option>
+          <option>금융</option>
+          <option>공무원</option>
+          <option>창업</option>
+          <option>마케팅</option>
+          <option>이벤트</option>
         </select>
       
         <input class="form-control" type="text" placeholder="제목을 입력해주세요." aria-label="Search"
@@ -183,7 +187,7 @@ font-weight: normal; font-style: normal; }
   <script src="<%=request.getContextPath()%>/js/scripts.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>  
   <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>  
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> 
 </body>
 
   <script>
@@ -218,6 +222,11 @@ font-weight: normal; font-style: normal; }
   function logout(){
      location.href="<%=request.getContextPath()%>/logout.me";
       }
+  
+/*   타임셀러 로고클릭 시 메인페이지 이동 */
+  function logomain(){
+	    location.href="<%=request.getContextPath()%>/main.service";
+	 }
   </script>
 
 

@@ -10,11 +10,13 @@ public class ServiceBuyList {
 	private String sPhone;			// 판매자전화번호
 	private int serviceNo;			// 서비스번호
 	private String bUserNo;			// 구매자 번호
+	private String content;			// 리뷰내용
+	private int rating;				// 평점
 	public ServiceBuyList() {
 		super();
 	}
 	public ServiceBuyList(String changeName, String title, Date tradeDate, String sUserName, String sPhone,
-			int serviceNo, String bUserNo) {
+			int serviceNo, String bUserNo, String content, int rating) {
 		super();
 		this.changeName = changeName;
 		this.title = title;
@@ -23,10 +25,8 @@ public class ServiceBuyList {
 		this.sPhone = sPhone;
 		this.serviceNo = serviceNo;
 		this.bUserNo = bUserNo;
-	}
-	
-	public ServiceBuyList(String title) {
-		this.title = title;
+		this.content = content;
+		this.rating = rating;
 	}
 	public String getChangeName() {
 		return changeName;
@@ -70,11 +70,23 @@ public class ServiceBuyList {
 	public void setbUserNo(String bUserNo) {
 		this.bUserNo = bUserNo;
 	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	@Override
 	public String toString() {
 		return "ServiceBuyList [changeName=" + changeName + ", title=" + title + ", tradeDate=" + tradeDate
 				+ ", sUserName=" + sUserName + ", sPhone=" + sPhone + ", serviceNo=" + serviceNo + ", bUserNo="
-				+ bUserNo + "]";
+				+ bUserNo + ", content=" + content + ", rating=" + rating + "]";
 	}
 	
 	
