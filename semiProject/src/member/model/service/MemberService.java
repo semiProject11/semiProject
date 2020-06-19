@@ -536,9 +536,9 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	public Member selectMemberReview(int board_no) {
 		Connection conn =getConnection();
 
-		Member member=new MemberDao().selectMemberReview(conn,board_no);
+		Member member1=new MemberDao().selectMemberReview(conn,board_no);
 
-		return member;
+		return member1;
 	}
 
 
@@ -551,6 +551,15 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 		
 		return mList;
+	}
+
+
+	public Member selectSellerReview(int board_no) {
+		Connection conn =getConnection();
+
+		Member seller=new MemberDao().selectSellerReview(conn,board_no);
+
+		return seller;
 	}
 
 }
