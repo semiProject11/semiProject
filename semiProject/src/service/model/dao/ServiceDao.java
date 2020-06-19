@@ -223,9 +223,15 @@ public class ServiceDao {
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
-				ServiceBuyList service = new ServiceBuyList(rset.getString("CHANGE_NAME"), rset.getString("TITLE"),
-						rset.getDate("TRADE_DATE"), rset.getString("USER_NAME"), rset.getString("PHONE"),
-						rset.getInt("SERVICE_NO"), rset.getString("B_USER_NO"));
+				ServiceBuyList service = new ServiceBuyList(rset.getString("CHANGE_NAME"),
+						rset.getString("TITLE"),
+						rset.getDate("TRADE_DATE"),
+						rset.getString("USER_NAME"),
+						rset.getString("PHONE"),
+						rset.getInt("SERVICE_NO"),
+						rset.getString("B_USER_NO"),
+						rset.getString("CONTENT"),
+						rset.getInt("RATING"));
 
 				bsList.add(service);
 			}

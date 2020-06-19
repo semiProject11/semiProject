@@ -46,7 +46,7 @@ public class InsertReviewServlet extends HttpServlet {
 		String sUserNo = new BoardService().selectUserNo(serviceNo);
 		//판매자 등금 조회
 		int ratingTot = new MemberService().selectRating(sUserNo)+rating;
-		
+		System.out.println("sk skdhsl!??!>!>!>!>");
 		
 		
 		Review re = new Review(title, content, userNo);
