@@ -223,6 +223,7 @@ public class Service_Service {
 	public int deleteService(ArrayList<String> arr) {
 		Connection conn=getConnection();
 		
+		int result2=new ServiceDao().deleteServiceDate(conn,arr);
 		int result1=new ServiceDao().deleteServiceFile(conn,arr);
 		int result=new ServiceDao().deleteService(conn,arr);
 
