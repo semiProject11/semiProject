@@ -266,7 +266,7 @@ th, tr, td {
 										%>
 										<tr>
 											<input type="hidden" name="board_no" value="#">
-											<%if(s.getUserName()==null){ %>
+											<%if(s.getUserName()!=null){ %>
 											<td class="text-center" style="width: 5%"><input
 												type="checkbox" class="common" id="rowCheck" name="rowCheck"
 												style="width: 18px; height: 18px;"
