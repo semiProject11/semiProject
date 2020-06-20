@@ -360,7 +360,11 @@ th, tr, td {
   		}
   	//체크된 항목 삭제
 		function deleteService(){    		
-		
+			if($("input:checkbox[name='rowCheck']").is(":checked") == false){
+	            alert("삭제할 항목을 체크해주세요");
+	            return false;
+	            
+	         }
     		
     		if(confirm("삭제하시겠습니까?")){
     			
@@ -382,6 +386,9 @@ th, tr, td {
     		}
     		
     	}  
+  	
+		
+   
   		
   		
   		</script>
