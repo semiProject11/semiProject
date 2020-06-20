@@ -247,7 +247,7 @@ font-weight: normal; font-style: normal; }
 				var regHE = /^[가-힣]{2,6}$/;
 				
 				// 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자
-				var regP = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
+				var regP = /^(?=.*?[a-zA-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,16}$/;
                 
 				// 생년월일 8자 숫자만
 				var regB = /^[0-9]{8,8}$/;
@@ -558,7 +558,7 @@ font-weight: normal; font-style: normal; }
                     // 아이디 제약조건 : 영어 숫자만
                     $("#userId").change(function(){
                     if(!regI.test($(this).val())){
-                        $("#idcondition").html("아이디는 영문 대소문자와 숫자만으로  4~12자리로 입력해야합니다.").css("color","red");
+                        $("#idcondition").html("아이디는 영문자와 숫자만 사용 가능하며  4~12자리로 입력해야합니다.").css("color","red");
                         $(this).focus();
                     }
                     else{
@@ -571,7 +571,7 @@ font-weight: normal; font-style: normal; }
     			 	// 비밀번호 제약 조건 : 영대,소문자, 특수기호, 숫자 전부 포함 8~16자리
                     $("#userPwd").change(function(){
                     if(!regP.test($(this).val())) {
-                    $("#pwdresultcondition").html("비밀번호는 8자 이상 16자 이하 이어야 하며, 숫자/대문자/소문자/특수문자를 모두 포함해야 합니다.").css("color","red");                       
+                    $("#pwdresultcondition").html("비밀번호는 8자 이상 16자 이하 이어야 하며, 숫자/영문자/특수문자를 모두 포함해야 합니다.").css("color","red");                       
                         $(this).focus();
                     }
                     else {

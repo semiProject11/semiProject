@@ -19,9 +19,6 @@ import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
-
-import service.model.vo.Service_info;
-
 import service.model.vo.Service_SeviceFilesTable_oh;
 
 
@@ -107,8 +104,8 @@ public class Service_Service {
    }
 
 
-   
-   public int insertService(Service_ServiceTable_oh st, String[] day,
+
+	public int insertService(Service_ServiceTable_oh st, String[] day,
 	         ArrayList<Service_SeviceFilesTable_oh> servicefileList) {
 	      
 	      Connection conn = getConnection();
@@ -128,7 +125,12 @@ public class Service_Service {
 	      return result1;
 	   }
 
+
 	   
+
+	
+
+
 
 
    public Service selectServiceReview(int board_no) {

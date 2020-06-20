@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8" import="member.model.vo.*"%>
+<%
+Member loginUser = (Member)session.getAttribute("loginUser");
+%>
 
 
 
@@ -9,19 +12,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
- @font-face { font-family: 'SeoulNamsanM'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff'); 
-font-weight: normal; font-style: normal; }
-   *{   
-      font-family : 'SeoulNamsanM';   
-   }
-   p{
-      font-family : 'SeoulNamsanM';
-   }
-   div{
-      font-family : 'SeoulNamsanM';
-      font-size :medium;
-   }
-   
+
 #form-control {
    width: 100px;
    height: 100px;
@@ -140,7 +131,7 @@ h1.b {
       name="insertForm" encType="multipart/form-data" method="post"
       onsubmit="return checkForm();">
 
-      <br> <br> <br> <br>
+      <br> <br> 
       <div class="container">
       
       <!-- 카테고리 -->
@@ -152,16 +143,21 @@ h1.b {
             style="margin-left: 30px; width: 180px; height: 30px;">
             <select class="form-control" name="category" id="category">
                <option value="">카테고리 선택</option>
-               <option value="예술">예술</option>
-               <option value="요식업">요식업</option>
-               <option value="의료">의료</option>
-               <option value="스포츠">스포츠</option>
-               <option value="패션">패션</option>
-               <option value="IT">IT</option>
-               <option value="금융">금융</option>
-               <option value="공무원">공무원</option>
-               <option value="비즈니스">비즈니스(창업)</option>
-               <option value="창업">마케팅</option>
+               <option value="Ar">예술</option>
+               <option value="Re">요식업</option>
+               <option value="Me">의료</option>
+               <option value="Sp">스포츠</option>
+               <option value="Fa">패션</option>
+               <option value="It">IT</option>
+               <option value="Fi">금융</option>
+               <option value="Pu">공무원</option>
+               <option value="Bu">비즈니스(창업)</option>
+               <option value="Ma">마케팅</option>
+               <%if(loginUser.getUserId().equals("admin")){%> 
+                <option value="Ev">이벤트</option> 
+              <%} %>
+               
+ 
             </select>
          </div>
          
@@ -237,11 +233,13 @@ h1.b {
             <input type="text" class="form-control" id="subject" name="subject"
                style="width: 470px; height: 33px; margin-left: 30px;"
                placeholder="제공할 서비스의 주제를 입력하세요">
+               
          </div>
+       
 
-         <br> <br> <br> <br>
+         <br> <!-- <hr width="690px" style="margin-left:265px" size="100px"> --><br>
    
-         
+          <br>
          <!-- 서비스설명 -->
          <div class="form-group"
             style="width: 600px; margin-left: 300px; margin-top: -20px;">
@@ -255,19 +253,14 @@ h1.b {
                </div>
               <textarea class="form-control" style="resize: none; border:none"
                name="detailContent" id="detailContent"
-               placeholder="서비스 설명을 입력하세요" rows="9"></textarea>
-              
-              
-             
-              
+               placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="9"></textarea>
+
            </div>
          
             
          </div>
        
-         
-       
-         
+
 
          <!-- 서비스 설명 파일첨부1 -->
 
@@ -318,7 +311,7 @@ h1.b {
                for="exampleFormControlTextarea1"></label>
             <textarea class="form-control" style="resize: none"
                name="sellerInfo" id="sellerInfo"
-               placeholder="판매자의 정보를 입력하세요&#13;&#10;ex)경력사항, 스펙" rows="18"></textarea>
+               placeholder="판매자님의 정보를 입력해주세요&#13;&#10;ex)경력사항, 스펙" rows="18"></textarea>
          </div>
 
       
@@ -358,13 +351,12 @@ h1.b {
                      name="fileName4" class="form-control" id="find_file02"
                      style="position: absolute; opacity: 0;"
                      onchange="javascript: document.getElementById('fileName4').value = this.value">
-					<hr class="b">
+               
                </div>
+               <hr width="690px" style="margin-left:280px" size="100px">
             </div>
-			
-		
-			
-         <br> <br>
+   
+        
          
          <!-- 가능지역 -->
          <div class="area" style="margin-left: 300px; margin-top: 5px">
@@ -420,7 +412,6 @@ h1.b {
 
 
 
-
          <div class="form-group">
             <input type="submit" value="등록" id="registration"
                class="btn btn-primary" style="width: 100px; margin-left: 750px;">
@@ -429,6 +420,7 @@ h1.b {
 
       <br> <br>
    </form>
+
 
 
 <!-- 스크립트 -->
@@ -461,7 +453,9 @@ h1.b {
       }
          
       
+      
       /*경매 문자입력제한, 3자리수마다 콤마추가*/
+      
       
       $(document).ready(function() {
 
@@ -560,13 +554,30 @@ h1.b {
 
             return false;
          }//
+         
+         /*서비스 설명 유효성 검사*/
 
+         if ($("#detailContent").val().trim().length == 0) {
+            alert("제공할 서비스에 대한 설명을 입력해주세오");
+            return false;
+         }//
+         
+         
          /*이미지 유효성 검사*/
          if (!$("#fileName1").prop("value")) {
             alert("대표 이미지를 첨부해주세요");
             return false;
          }//
+         
+         
+         /*판매자 정보 유효성 검사*/
 
+         if ($("#sellerInfo").val().trim().length == 0) {
+            alert("판매자님의 정보를 입력해주세요");
+            return false;
+         }//
+
+         
          /*가능지역 유효성 검사*/
 
          if ($("#availableArea").val().trim().length == 0) {
@@ -593,12 +604,14 @@ h1.b {
 
          }//
          
+         /*시작 시간이 끝시간보다 적은 경우*/
          if($("#startTime").val() > $("#finishTime").val()){
             alert("연락가능시간대를 정확히 선택해주세요");
             return false;
-         }
+         }//
          
-         }
+         
+         } /*유효성검사 끝 */
       
       
       //이미지 미리보기
