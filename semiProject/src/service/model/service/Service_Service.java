@@ -18,6 +18,7 @@ import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
+import service.model.vo.Service_info;
 
 public class Service_Service {
 
@@ -381,6 +382,18 @@ public class Service_Service {
 		}
 
 		return result;
+	}
+
+
+	public ArrayList selectsvinfo(String sNo) {
+		Connection conn = getConnection();
+		ArrayList list = null;
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		list = svDao.selectsvinfo(conn, sNo);
+		
+		return list;
 	}
 
 

@@ -17,6 +17,7 @@ import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
 import service.model.vo.Service_SeviceFilesTable_oh;
+import service.model.vo.Service_info;
 
 public class ServiceDao {
 
@@ -1076,9 +1077,8 @@ public class ServiceDao {
 
 		System.out.println(sNo);
 
-		String query = "SELECT SERVICE_NO,S_USER_NO,CHANGE_NAME,SALEMETHOD,CATEGORY_CODE,CATEGORY_NAME,CHANGE_NAME\r\n"
-				+ "USER_ID,TITLE,PRICE_SALE,PRICE_BIDDING,GRADE_NAME,GRADE_NO,READCOUNT,TO_CHAR(DEADLINE,'YYYY-MM-DD HH24:MI') t,\r\n"
-				+ "SERVICE_STATUS\r\n" + "FROM SERVICE_PD WHERE SERVICE_NO = ?";
+		String query = "SELECT SERVICE_NO,S_USER_NO,CHANGE_NAME,SALEMETHOD,CATEGORY_CODE,CATEGORY_NAME,USER_ID,TITLE,PRICE_SALE,PRICE_BIDDING,GRADE_NAME,\r\n" + 
+				"GRADE_NO,READCOUNT,TO_CHAR(DEADLINE,'YYYY-MM-DD HH24:MI') t,SERVICE_STATUS FROM SERVICE_PD WHERE SERVICE_NO = ?";
 
 		try {
 
@@ -1126,6 +1126,49 @@ public class ServiceDao {
 
 		// System.out.println(result);
 		return result;
+	}
+
+	public ArrayList selectsvinfo(Connection conn, String sNo) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		Service_info svinfo = null;
+		
+		String query = "SELECT SERVICE_NO, S_USER_NO, CHANGE_NAME, PHONE,\r\n" + 
+				"TO_CHAR(CONTACTTIME_START,'YYYY-MM-DD HH24:MI') s,TO_CHAR(CONTACTTIME_FINISH,'YYYY-MM-DD HH24:MI') f,\r\n" + 
+				"SALE_INFO, S_EXPLAIN, AVAILABLE_AREA, AVAILABLE_DATE, SUBJECT\r\n" + 
+				"FROM SERVICE_INFO WHERE SERVICE_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				svinfo = new Service_info(rs.getInt("SERVICE_NO"),
+											rs.getString("S_USER_NO"),
+											rs.getString("CHANGE_NAME"),
+											rs.getString("PHONE"),
+											rs.getString("s"),
+											rs.getString("f"),
+											rs.getString("SALE_INFO"),
+											rs.getString("S_EXPLAIN"),
+											rs.getString("AVAILABLE_AREA"),
+											rs.getString("AVAILABLE_DATE"),
+											rs.getString("SUBJECT"));
+				list.add(svinfo);
+				
+			}
+			System.out.println("svinfo : " + list);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
 	}
 
 }
