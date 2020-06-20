@@ -74,9 +74,9 @@ public class MpSellListServlet extends HttpServlet {
 				}
 				
 				Pagination pn = new Pagination(currentPage, listCount, limit,  maxPage, startPage, endPage);
-				
 				// 화면에 뿌려줄 게시판 리스트 조회
 				ArrayList<ServiceSellList> bsList = sService.selectSellServiceList(currentPage, limit, userNo);
+				System.out.println("나 나오니?"+bsList);
 				
 				RequestDispatcher view = request.getRequestDispatcher("views/myPage/mp_sell_list.jsp");
 					request.setAttribute("bsList", bsList);
