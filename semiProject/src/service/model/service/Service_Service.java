@@ -108,21 +108,27 @@ public class Service_Service {
 
 
    
-    public int insertService(Service_ServiceTable_oh st, String[] day) {
-         Connection conn = getConnection();
-         ServiceDao sDao = new ServiceDao();
-         
-         int result = sDao.inssertService(conn,st);
-         int result2 = sDao.insertService1(conn, day);
-         
-         if(result >0 && result2 >0) {
-            commit(conn);
-         }else {
-            rollback(conn);
-         }
-         close(conn);
-         return result;
-      }
+   public int insertService(Service_ServiceTable_oh st, String[] day,
+	         ArrayList<Service_SeviceFilesTable_oh> servicefileList) {
+	      
+	      Connection conn = getConnection();
+	       ServiceDao sDao = new ServiceDao();
+	      
+	       int result1 = sDao.insertService1(conn,st);
+	       int result2 = sDao.insertService2(conn, day);
+	       int result3 = sDao.insertService3(conn,servicefileList);
+	       
+	       if(result1>0 && result2>0 && result3 >0) {
+	          commit(conn);
+	       }else {
+	          rollback(conn);
+	       }
+	       close(conn);
+	       
+	      return result1;
+	   }
+
+	   
 
 
    public Service selectServiceReview(int board_no) {
@@ -245,164 +251,165 @@ public class Service_Service {
 
 
 
-   //================================================================
-   public ArrayList selectsvList(String category, String salemethod) {
-      Connection conn = getConnection();
+	//================================================================
+	public ArrayList selectsvList(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.selectsvList(conn, category, salemethod);
+		list = svDao.selectsvList(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList selectfList() {
-      Connection conn = getConnection();
+	public ArrayList selectfList() {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.selectFList(conn);
+		list = svDao.selectFList(conn);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList selectgeneral(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList selectgeneral(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.selectgeneral(conn, category, salemethod);
+		list = svDao.selectgeneral(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList sortpricehigh(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList sortpricehigh(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.sortpricehigh(conn, category, salemethod);
+		list = svDao.sortpricehigh(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList sortpricelow(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList sortpricelow(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.sortpricelow(conn, category, salemethod);
+		list = svDao.sortpricelow(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList viewssort(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList viewssort(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.viewssort(conn, category, salemethod);
+		list = svDao.viewssort(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList newpdsort(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList newpdsort(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.newpdsort(conn, category, salemethod);
+		list = svDao.newpdsort(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList resetpd(String category, String salemethod) {
-      Connection conn = getConnection();
+	public ArrayList resetpd(String category, String salemethod) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.resetpd(conn, category, salemethod);
+		list = svDao.resetpd(conn, category, salemethod);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public ArrayList popitem(String[] category) {
-      Connection conn = getConnection();
+	public ArrayList popitem(String[] category) {
+		Connection conn = getConnection();
 
-      ArrayList list = null;
+		ArrayList list = null;
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      list = svDao.popitem(conn, category);
+		list = svDao.popitem(conn, category);
 
-      return list;
-   }
+		return list;
+	}
 
 
-   public CategoryListPd auctiondetail(String sNo) {
-      Connection conn = getConnection();
+	public CategoryListPd auctiondetail(String sNo) {
+		Connection conn = getConnection();
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      CategoryListPd clpd = svDao.auctiondetail(conn, sNo);
+		CategoryListPd clpd = svDao.auctiondetail(conn, sNo);
 
-      return clpd;
-   }
+		return clpd;
+	}
 
 
-   public int updateCount(int sNo2) {
-      Connection conn = getConnection();
+	public int updateCount(int sNo2) {
+		Connection conn = getConnection();
 
-      ServiceDao svDao = new ServiceDao();
+		ServiceDao svDao = new ServiceDao();
 
-      int result = svDao.updateCount(conn, sNo2);
+		int result = svDao.updateCount(conn, sNo2);
 
-      if(result > 0) {
-         commit(conn);
-      } else {
-         rollback(conn);
-      }
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
 
-      return result;
-   }
+		return result;
+	}
 
 
-   public ArrayList selectsvinfo(String sNo) {
-      Connection conn = getConnection();
-      ArrayList list = null;
-      
-      ServiceDao svDao = new ServiceDao();
-      
-      list = svDao.selectsvinfo(conn, sNo);
-      
-      return list;
-   }
+	public ArrayList selectsvinfo(String sNo) {
+		Connection conn = getConnection();
+		ArrayList list = null;
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		list = svDao.selectsvinfo(conn, sNo);
+		
+		return list;
+	}
 
 
 
 
 }
+

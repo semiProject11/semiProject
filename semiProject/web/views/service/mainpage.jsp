@@ -201,10 +201,16 @@
 								<li class="list-group-item cd_id_style"><%=clpd.getUserId() %></li>
 								<li class="list-group-item cd_title_style"><%=clpd.getsTitle() %></li>
 								<li class="list-group-item cd_timeoutprice_style">
-									<%if(clpd.getDeadLine() != null){ %> <span id="cd_timeout"><%=clpd.getDeadLine() %></span>
-									<%}else {%> <span id="cd_timeout"></span> <% } %> <%if(clpd.getPriceBidding() != 0){ %>
-									<span id="cd_price"><%=clpd.getPriceBidding() %>원</span> <%}else {%>
-									<span id="cd_price"><%=clpd.getPriceSale() %>원</span> <%} %>
+									<%if(clpd.getDeadLine() != null){ %> 
+									<span id="cd_timeout">경매 마감시간 : <%=clpd.getDeadLine() %></span>
+									<%}else {%>
+									 <span id="cd_timeout">경매 마감시간 없어서 엔터가 필요해</span> 
+									 <% } %> 
+									 <%if(clpd.getPriceBidding() != 0){ %>
+									<span id="cd_price">현재 입찰가 : <%=clpd.getPriceBidding() %>원</span>
+									 <%}else {%>
+									<span id="cd_price">구매가 : <%=clpd.getPriceSale() %>원</span> 
+									<%} %>
 								</li>
 								<li class="list-group-item cd_rankviews_style">
 								<span id="cd_rank"><img id="cd_rankimg" src="<%=request.getContextPath()%>/gradeIcon/<%=clpd.getGradeNo()%>.png">&nbsp;<%=clpd.getGradeName()%></span> 

@@ -69,7 +69,8 @@ public class GradeListServlet extends HttpServlet {
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
 	
-		
+		System.out.println("startPage"+startPage);
+		System.out.println("endPage"+endPage);
 		
 		
 		

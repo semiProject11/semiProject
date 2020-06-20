@@ -137,23 +137,20 @@ th, tr, td {
                            clip-rule="evenodd" />
                                 </svg> &nbsp;사용자 관리
 
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
-						</a>
-						<div class="collapse" id="collapseUsers"
-							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link"
-									href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
-									class="nav-link"
-									href="<%=request.getContextPath()%>/list.transaction">거래내역
-									관리</a> <a class="nav-link"
-									href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
-									class="nav-link"
-									href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
-							</nav>
-						</div>
+
+                     <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                     </div>
+                  </a>
+                  <div class="collapse" id="collapseUsers"
+                     aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                     <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
+                           class="nav-link" href="<%=request.getContextPath()%>/list.transaction">거래내역 관리</a> <a
+                           class="nav-link" href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
+                           class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
+                     </nav>
+                  </div>
 
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse"
@@ -205,8 +202,8 @@ th, tr, td {
                   <div class="collapse" id="collapsePoints"
                      aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                      <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="admin_point.html">포인트 관리</a><a
-                           class="nav-link" href="admin_refund.html">환불 관리</a>
+                        <a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
+									class="nav-link" href="#">환불 관리</a>
                      </nav>
                   </div>
 
@@ -222,22 +219,21 @@ th, tr, td {
                            clip-rule="evenodd" />
                                 </svg> &nbsp;공지사항/이벤트
 
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
-						</a>
-						<div class="collapse" id="collapseNotice"
-							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link"
-									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
-							</nav>
-						</div>
-					</div>
-				</div>
 
-
+                     <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                     </div>
+                  </a>
+                  <div class="collapse" id="collapseNotice"
+                     aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                     <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
+                           class="nav-link" href="admin_event.html">이벤트 관리</a>
+                     </nav>
+                  </div>
+               </div>
+            </div>
+            
             <!--side nav footer start-->
             <div class="sb-sidenav-footer">
                <div class="small">Logged in as:</div>
@@ -301,7 +297,6 @@ th, tr, td {
 
 
 
-
                   <!--회원등급 리스트-->
                   <div class="table-responsive mt-3">
                      <table class="table table-striped table-bordered table-hover"
@@ -324,21 +319,18 @@ th, tr, td {
                         <tbody name="tr" value="bbbb">
 
 
-
-                           <%
-                              if (gradeList.isEmpty()) {
-                           %>
-                           <tr>
-                              <td colspan="7">조회된 결과가 없습니다.</td>
-                           </tr>
-                           <%
-                              } else {
-                           %>
-                           <%
-                              for (int i = 0; i < gradeList.size(); i++) {
-                           %>
-
-
+									<%
+										if (gradeList.isEmpty()) {
+									%>
+									<tr>
+										<td colspan="7">조회된 결과가 없습니다.</td>
+									</tr>
+									<%
+										} else {
+									%>
+									<%
+										for (int i = gradeList.size()-1; i >=0; i--) {
+									%>
 
 									<tr id="tr" name="tr" value="trtr">
 										<%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
@@ -369,7 +361,7 @@ th, tr, td {
 												<option value="DIAMOND">DIAMOND</option>
 										</select></td>
 
-
+                      
                            </tr>
 
                            <%
@@ -380,12 +372,12 @@ th, tr, td {
                            %>
 
 
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</form>
 
-                        </tbody>
-                     </table>
-                  </div>
-            </div>
-            </form>
 
 
 
@@ -406,8 +398,6 @@ th, tr, td {
 						<%}else{ %>
 							<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
 
-
-
 						<%} %>
 						<%} %>
 
@@ -416,8 +406,6 @@ th, tr, td {
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=maxPage %>">>></a></li>
 
 					</ul>
-
-  
 
 
             </div>
@@ -445,9 +433,6 @@ th, tr, td {
 
 
 
-
-
-
 	<script>
 	
 
@@ -467,8 +452,7 @@ th, tr, td {
 			rowArr+=$(this).val()+",";
 			tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
 			
-			
-			
+
 		});
          
 
@@ -481,18 +465,7 @@ th, tr, td {
 	} 
 	
 	
-	
-
-		
-		
-
-   
-   
-   
-  
-//검색기능
-
-	
+	//검색
 	function searchData(){
 		location.href="<%=request.getContextPath() %>/search.member?word="+word;
 		
@@ -525,6 +498,40 @@ th, tr, td {
     		}
     		
     	} 
+
+   
+<%--    function searchData(){
+      location.href="<%=request.getContextPath() %>/search.member?word="+word;
+      
+   } --%>
+   
+   
+   
+   
+   //구매자 권한 변경
+   function changeBuy(){
+      
+   
+          if(confirm("선택한 사용자의 구매자 권한을 변경하시겠습니까?")){
+             
+             var arr=new Array();
+               $("input:checkbox[name=rowCheck]:checked").each(function(i){
+               
+                  var userNo=$(this).val();
+                  arr.push(userNo);
+      
+                  
+               })
+               
+               
+               location.href="<%=request.getContextPath()%>/changeB.member?arr="+ arr;
+                
+             
+             }else{
+             return false;
+          }
+          
+       } 
 
 
    
@@ -575,7 +582,6 @@ th, tr, td {
               });
       });
            
-
 
 	</script>
 

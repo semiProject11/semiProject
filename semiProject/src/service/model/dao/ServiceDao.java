@@ -272,50 +272,52 @@ public class ServiceDao {
       return result;
    }
 
-   public ArrayList<ServiceBuyList> selectBuyServiceList(Connection conn, int currentPage, int limit, String userNo) {
-      PreparedStatement pstmt = null;
-      ResultSet rset = null;
-      
-      ArrayList<ServiceBuyList> bsList = new ArrayList<>();
-      
-      int starRow = (currentPage-1)*limit+1;
-      int endRow = currentPage * limit;
-      
-      String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_BUY_LIST S WHERE B_USER_NO = ? ORDER BY 4 DESC) WHERE RNUM BETWEEN ? AND ?";
-      
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setString(1, userNo);
-         pstmt.setInt(2, starRow);
-         pstmt.setInt(3, endRow);
-         
-         rset = pstmt.executeQuery();
-         
-         while(rset.next()) {
-            ServiceBuyList service = 
-                  new ServiceBuyList(rset.getString("CHANGE_NAME"),
-                        rset.getString("TITLE"),
-                        rset.getDate("TRADE_DATE"),
-                        rset.getString("USER_NAME"),
-                        rset.getString("PHONE"),
-                        rset.getInt("SERVICE_NO"),
-                        rset.getString("B_USER_NO"),
-                        rset.getString("CONTENT"),
-                              rset.getInt("RATING"));
-            
-            bsList.add(service);
-         }
-         
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rset);
-      }
-      
-      
-      return bsList;
-   }
+
+	public ArrayList<ServiceBuyList> selectBuyServiceList(Connection conn, int currentPage, int limit, String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<ServiceBuyList> bsList = new ArrayList<>();
+		
+		int starRow = (currentPage-1)*limit+1;
+		int endRow = currentPage * limit;
+		
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_BUY_LIST S WHERE B_USER_NO = ? ORDER BY 4 DESC) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				ServiceBuyList service = 
+						new ServiceBuyList(rset.getString("CHANGE_NAME"),
+								rset.getString("TITLE"),
+								rset.getDate("TRADE_DATE"),
+								rset.getString("USER_NAME"),
+								rset.getString("PHONE"),
+								rset.getInt("SERVICE_NO"),
+								rset.getString("B_USER_NO"),
+								rset.getString("CONTENT"),
+		                        rset.getInt("RATING"));
+				
+				bsList.add(service);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bsList;
+	}
+
 
    public ArrayList<Review> selectReviewList(Connection conn, String userNo) {
       PreparedStatement pstmt = null;
@@ -809,499 +811,501 @@ public class ServiceDao {
       return result;
    }
 
-   public int deleteServiceDate(Connection conn, ArrayList<String> arr) {
-      PreparedStatement pstmt=null;
-      int result=0;
-      String query="DELETE FROM DAYS WHERE SERVICE_NO = ?";
-      try {
-         
-         for(int i=0; i<arr.size(); i++) {
-         pstmt=conn.prepareStatement(query);
-         
-         pstmt.setInt(1, Integer.valueOf(arr.get(i)));
-         
-         result+=pstmt.executeUpdate();
-         
-         }
-         
-      } catch (SQLException e) {
-         
-         e.printStackTrace();
-      }finally {
-         close(pstmt);
-      }
-      
-      return result;
-   }
-
-
-   // ===================================================================================
-
-   public ArrayList selectsvList(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-
-      System.out.println("serviceDao : " + salemethod);
-
-      // String query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '"+ category
-      // +"' AND salemethod = 'auction'";
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y'";
-      }
-      try {
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-
-            list.add(clpd);
-         }
-
-         // System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList selectFList(Connection conn) {
-      PreparedStatement pstmt = null;
-      ResultSet rs = null;
-      Service_SeviceFilesTable_oh sf = null;
-      ArrayList list = new ArrayList();
-
-      String query = "SELECT * FROM SERVICE_FILES WHERE STATUS = 'Y' AND FILE_LEVEL = 0";
-
-      try {
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-
-         while (rs.next()) {
-            sf = new Service_SeviceFilesTable_oh(rs.getInt("fid"), rs.getInt("service_no"),
-                  rs.getString("origin_name"), rs.getString("change_name"), rs.getString("file_path"),
-                  rs.getDate("upload_date"), rs.getInt("file_level"), rs.getInt("download_count"),
-                  rs.getString("status"));
-            list.add(sf);
-         }
-         System.out.println("sf : " + list);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
-
-      return list;
-   }
-
-   public ArrayList selectgeneral(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-
-      System.out.println(category);
-
-      // String query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '"+ category
-      // +"' AND salemethod = 'general'";
-      if (salemethod.equalsIgnoreCase("general")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "'AND SERVICE_STATUS = 'Y'";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList sortpricehigh(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-      System.out.println(category);
-
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_BIDDING DESC";
-      } else {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_SALE DESC";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList sortpricelow(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-      System.out.println(category);
-
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_BIDDING ASC";
-      } else {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_SALE ASC";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList viewssort(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-      System.out.println(category);
-
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC";
-      } else {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList newpdsort(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-      System.out.println(category);
-
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY SERVICE_NO DESC";
-      } else {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y' ORDER BY SERVICE_NO DESC";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList resetpd(Connection conn, String category, String salemethod) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      String query = "";
-      System.out.println(category);
-
-      if (salemethod.equalsIgnoreCase("auction")) {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y'";
-      } else {
-         query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
-               + "' AND SERVICE_STATUS = 'Y'";
-      }
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         rs = pstmt.executeQuery();
-         CategoryListPd clpd = null;
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                  rs.getString("SERVICE_STATUS"));
-            list.add(clpd);
-         }
-
-         System.out.println("list 잘들어왔나 ? " + list);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-   public ArrayList popitem(Connection conn, String[] category) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      CategoryListPd clpd = null;
-
-      String query = "SELECT ROWNUM, M.* FROM(SELECT * FROM SERVICE_PD where category_code=? AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC) M WHERE ROWNUM <= 4";
-      try {
-
-         for (int i = 0; i < category.length; i++) {
-            pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, category[i]);
-
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-               clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                     rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                     rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                     rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                     rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
-                     rs.getString("SERVICE_STATUS"));
-               list.add(clpd);
-            }
-         }
-         System.out.println("category : " + list);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return list;
-   }
-
-
-   public CategoryListPd auctiondetail(Connection conn, String sNo) {
-      PreparedStatement pstmt = null;
-      ResultSet rs = null;
-      CategoryListPd clpd = null;
-
-      System.out.println(sNo);
-
-      String query = "SELECT SERVICE_NO,S_USER_NO,CHANGE_NAME,SALEMETHOD,CATEGORY_CODE,CATEGORY_NAME,USER_ID,TITLE,PRICE_SALE,PRICE_BIDDING,GRADE_NAME,\r\n" + 
-            "GRADE_NO,READCOUNT,TO_CHAR(DEADLINE,'YYYY-MM-DD HH24:MI') t,SERVICE_STATUS FROM SERVICE_PD WHERE SERVICE_NO = ?";
-
-      try {
-
-         pstmt = conn.prepareStatement(query);
-         pstmt.setString(1, sNo);
-         rs = pstmt.executeQuery();
-
-         while (rs.next()) {
-            clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
-                  rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
-                  rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
-                  rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
-                  rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("t"),
-                  rs.getString("SERVICE_STATUS"));
-         }
-
-         System.out.println("검색된 sNo의 list 잘들어왔나 ? " + clpd);
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-
-      return clpd;
-   }
-
-   public int updateCount(Connection conn, int sNo2) {
-      PreparedStatement pstmt = null;
-      int result = 0;
-
-      String query = "UPDATE SERVICE SET READCOUNT = READCOUNT + 1 WHERE SERVICE_NO = ?";
-
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setInt(1, sNo2);
-         result = pstmt.executeUpdate();
-
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-      }
-
-      // System.out.println(result);
-      return result;
-   }
-
-
-
-   public ArrayList selectsvinfo(Connection conn, String sNo) {
-      PreparedStatement pstmt = null;
-      ArrayList list = new ArrayList();
-      ResultSet rs = null;
-      Service_info svinfo = null;
-      
-      String query = "SELECT SERVICE_NO, S_USER_NO, CHANGE_NAME, PHONE,\r\n" + 
-            "TO_CHAR(CONTACTTIME_START,'YYYY-MM-DD HH24:MI') s,TO_CHAR(CONTACTTIME_FINISH,'YYYY-MM-DD HH24:MI') f,\r\n" + 
-            "SALE_INFO, S_EXPLAIN, AVAILABLE_AREA, AVAILABLE_DATE, SUBJECT\r\n" + 
-            "FROM SERVICE_INFO WHERE SERVICE_NO = ?";
-      
-      try {
-         pstmt = conn.prepareStatement(query);
-         pstmt.setString(1, sNo);
-         rs = pstmt.executeQuery();
-         
-         while(rs.next()) {
-        	 svinfo = new Service_info(rs.getInt("SERVICE_NO"),
-        			 rs.getString("S_USER_NO"),
-        			 rs.getString("CHANGE_NAME"),
-        			 rs.getString("PHONE"),
-        			 rs.getString("s"),
-        			 rs.getString("f"),
-        			 rs.getString("SALE_INFO"),
-        			 rs.getString("S_EXPLAIN"),
-        			 rs.getString("AVAILABLE_AREA"),
-        			 rs.getString("AVAILABLE_DATE"),
-        			 rs.getString("SUBJECT"));
-            list.add(svinfo);
-            
-         }
-         System.out.println("svinfo : " + list);
-         
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rs);
-      }
-      
-      return list;
-   }
+
+	public int deleteServiceDate(Connection conn, ArrayList<String> arr) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		String query="DELETE FROM DAYS WHERE SERVICE_NO = ?";
+		try {
+			
+			for(int i=0; i<arr.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1, Integer.valueOf(arr.get(i)));
+			
+			result+=pstmt.executeUpdate();
+			
+			}
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+	// ===================================================================================
+
+	public ArrayList selectsvList(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+
+		System.out.println("serviceDao : " + salemethod);
+
+		// String query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '"+ category
+		// +"' AND salemethod = 'auction'";
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y'";
+		}
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+
+				list.add(clpd);
+			}
+
+			// System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList selectFList(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Service_SeviceFilesTable_oh sf = null;
+		ArrayList list = new ArrayList();
+
+		String query = "SELECT * FROM SERVICE_FILES WHERE STATUS = 'Y' AND FILE_LEVEL = 0";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				sf = new Service_SeviceFilesTable_oh(rs.getInt("fid"), rs.getInt("service_no"),
+						rs.getString("origin_name"), rs.getString("change_name"), rs.getString("file_path"),
+						rs.getDate("upload_date"), rs.getInt("file_level"), rs.getInt("download_count"),
+						rs.getString("status"));
+				list.add(sf);
+			}
+			System.out.println("sf : " + list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public ArrayList selectgeneral(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+
+		System.out.println(category);
+
+		// String query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '"+ category
+		// +"' AND salemethod = 'general'";
+		if (salemethod.equalsIgnoreCase("general")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "'AND SERVICE_STATUS = 'Y'";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList sortpricehigh(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+		System.out.println(category);
+
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_BIDDING DESC";
+		} else {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_SALE DESC";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList sortpricelow(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+		System.out.println(category);
+
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_BIDDING ASC";
+		} else {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY PRICE_SALE ASC";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList viewssort(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+		System.out.println(category);
+
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC";
+		} else {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList newpdsort(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+		System.out.println(category);
+
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY SERVICE_NO DESC";
+		} else {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y' ORDER BY SERVICE_NO DESC";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList resetpd(Connection conn, String category, String salemethod) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query = "";
+		System.out.println(category);
+
+		if (salemethod.equalsIgnoreCase("auction")) {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y'";
+		} else {
+			query = "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = '" + category + "' AND salemethod = '" + salemethod
+					+ "' AND SERVICE_STATUS = 'Y'";
+		}
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList popitem(Connection conn, String[] category) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		CategoryListPd clpd = null;
+
+		String query = "SELECT ROWNUM, M.* FROM(SELECT * FROM SERVICE_PD where category_code=? AND SERVICE_STATUS = 'Y' ORDER BY READCOUNT DESC) M WHERE ROWNUM <= 4";
+		try {
+
+			for (int i = 0; i < category.length; i++) {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, category[i]);
+
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+							rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+							rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+							rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+							rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+							rs.getString("SERVICE_STATUS"));
+					list.add(clpd);
+				}
+			}
+			System.out.println("category : " + list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+
+	public CategoryListPd auctiondetail(Connection conn, String sNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CategoryListPd clpd = null;
+
+		System.out.println(sNo);
+
+		String query = "SELECT SERVICE_NO,S_USER_NO,CHANGE_NAME,SALEMETHOD,CATEGORY_CODE,CATEGORY_NAME,USER_ID,TITLE,PRICE_SALE,PRICE_BIDDING,GRADE_NAME,\r\n" + 
+				"GRADE_NO,READCOUNT,TO_CHAR(DEADLINE,'YYYY-MM-DD HH24:MI') t,SERVICE_STATUS FROM SERVICE_PD WHERE SERVICE_NO = ?";
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("t"),
+						rs.getString("SERVICE_STATUS"));
+			}
+
+			System.out.println("검색된 sNo의 list 잘들어왔나 ? " + clpd);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return clpd;
+	}
+
+	public int updateCount(Connection conn, int sNo2) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SERVICE SET READCOUNT = READCOUNT + 1 WHERE SERVICE_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, sNo2);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		// System.out.println(result);
+		return result;
+	}
+
+
+
+	public ArrayList selectsvinfo(Connection conn, String sNo) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		Service_info svinfo = null;
+		
+		String query = "SELECT SERVICE_NO, S_USER_NO, CHANGE_NAME, PHONE,\r\n" + 
+				"TO_CHAR(CONTACTTIME_START,'YYYY-MM-DD HH24:MI') s,TO_CHAR(CONTACTTIME_FINISH,'YYYY-MM-DD HH24:MI') f,\r\n" + 
+				"SALE_INFO, S_EXPLAIN, AVAILABLE_AREA, AVAILABLE_DATE, SUBJECT\r\n" + 
+				"FROM SERVICE_INFO WHERE SERVICE_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				svinfo = new Service_info(rs.getInt("SERVICE_NO"),
+						rs.getString("S_USER_NO"),
+						rs.getString("CHANGE_NAME"),
+						rs.getString("PHONE"),
+						rs.getString("s"),
+						rs.getString("f"),
+						rs.getString("SALE_INFO"),
+						rs.getString("S_EXPLAIN"),
+						rs.getString("AVAILABLE_AREA"),
+						rs.getString("AVAILABLE_DATE"),
+						rs.getString("SUBJECT"));
+				list.add(svinfo);
+				
+			}
+			System.out.println("svinfo : " + list);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return list;
+	}
+
 
 }

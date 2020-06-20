@@ -70,11 +70,13 @@ public class PointListServlet extends HttpServlet {
 		
 		
 
-
+		System.out.println(currentPage);
+		System.out.println(limit);
 
 		ArrayList<Member> list= new MemberService().selectMember(currentPage,limit);
 
 
+		System.out.println(list);
 		if(!list.isEmpty()) {
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
