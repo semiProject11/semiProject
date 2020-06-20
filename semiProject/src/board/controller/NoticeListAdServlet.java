@@ -34,6 +34,7 @@ public class NoticeListAdServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//페이징 처리
 		
+		
 				int listCount=new BoardService().getNoticeListCount();
 				int currentPage;	// 현재 페이지를 표시 할 변수
 				int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
@@ -70,7 +71,9 @@ public class NoticeListAdServlet extends HttpServlet {
 		
 	
 	
-		ArrayList<Board> list= new BoardService().selectBoard();
+		ArrayList<Board> list= new BoardService().selectBoard(currentPage,limit);
+	
+
 	
 	
 		if(!list.isEmpty()) {

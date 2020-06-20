@@ -55,8 +55,8 @@ public class NoticeUpdateAdServlet extends HttpServlet {
 		String board_no= multiRequest.getParameter("board_no");
 		
 
-//		String user_no = Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_no = "1"; // 로그인유저를 쓸 수 없어서 임의로 함
+		//String user_no = Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
+		String user_no = "1"; //관리자 회원번호
 
 		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
 
@@ -80,7 +80,7 @@ public class NoticeUpdateAdServlet extends HttpServlet {
 		b.setBoard_no(Integer.valueOf(board_no));
 		b.setTitle(title);
 		b.setContent(content);
-		b.setUser_name(user_no);
+		b.setUser_id(user_no);
 		b.setBoard_code(board_code);
 
 		ArrayList<Files> fList = new ArrayList<>();

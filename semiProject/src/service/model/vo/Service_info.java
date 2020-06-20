@@ -24,6 +24,10 @@ public class Service_info implements Serializable{
 		super();
 	}
 
+	
+
+
+
 	public Service_info(int serviceNo, String sUserNo, String changeName, String phone, String timeStart,
 			String timeFinish, String saleInfo, String sExplain, String availableArea, String availableDate,
 			String subject) {
@@ -40,6 +44,8 @@ public class Service_info implements Serializable{
 		this.availableDate = availableDate;
 		this.subject = subject;
 	}
+
+
 
 
 

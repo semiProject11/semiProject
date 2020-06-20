@@ -76,9 +76,9 @@ public class GradeListServlet extends HttpServlet {
 		//필요한 정보 가져오기
 		
 		
-		ArrayList<Member> gradeList=new MemberService().selectGradeList();
+		ArrayList<Member> gradeList=new MemberService().selectGradeList(currentPage,limit);
 	
-		ArrayList<Seller> sellerList=new MemberService().selectSellerList();
+		ArrayList<Seller> sellerList=new MemberService().selectSellerList(currentPage,limit);
 	
 		
 	

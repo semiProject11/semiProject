@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.service.BoardService;
 import board.model.vo.Board;
 import board.model.vo.Inquiary;
+import board.model.vo.Pagination;
 
 /**
  * Servlet implementation class InquiarySearchServlet
@@ -35,15 +36,45 @@ public class InquiarySearchServlet extends HttpServlet {
 		String type=request.getParameter("search");
 		String word=request.getParameter("word");
 		
+		//페이징 처리
+		
+		int listCount=new BoardService().getGradeListCount();
+		int currentPage;	// 현재 페이지를 표시 할 변수
+		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
+		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
+		int startPage;		// 한번에 표시될 페이지가 시작 할 페이지
+		int endPage;		// 한번에 표시될 페이지가 끝나는 페이지
+
+		currentPage = 1;
+		
+		
+		if(request.getParameter("currentPage")!=null)
+		{		
+			currentPage = Integer.valueOf(request.getParameter("currentPage"));
+			
+		}
+		
+		limit = 10;
+		
+		maxPage = (int)((double)listCount/limit + 0.9);
+		
+		startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit +1;
+		
+		endPage = startPage + limit - 1;
+		
+		if(maxPage < endPage) {
+			endPage = maxPage;
+		}
+		
+		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
+		
 	
 		
-		ArrayList<Board> bList= new BoardService().searchInquiary(type,word);
-		ArrayList<Inquiary> inquiaryList=new BoardService().searchInquaryTypeList(type,word);
-		
-		
-		/* System.out.println("다 끝나고 서블릿 온 후:"+bList); */
+		ArrayList<Board> bList= new BoardService().searchInquiary(currentPage,limit,type,word);
+		ArrayList<Inquiary> inquiaryList=new BoardService().searchInquaryTypeList(currentPage,limit,type,word);
 		
 	
+		request.setAttribute("pn", pn);
 			request.setAttribute("bList", bList);
 			request.setAttribute("inquiaryList", inquiaryList);
 			

@@ -31,16 +31,17 @@ public class ReportDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String board_no=request.getParameter("arr");
 		
+		String board_no=request.getParameter("arr");
+		ArrayList<String> arr=new ArrayList();
 		
 		StringTokenizer st=new StringTokenizer(board_no,",");
-		ArrayList<String> arr=new ArrayList();
 		while(st.hasMoreTokens()) {
 			arr.add(st.nextToken());
 		
 		}
-
+			
+		
 	
 		int result=new BoardService().deleteBoard(arr);
 		

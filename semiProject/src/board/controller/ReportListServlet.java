@@ -70,8 +70,8 @@ public class ReportListServlet extends HttpServlet {
 			
 				
 				
-		ArrayList<Board> bList=new BoardService().selectReportBoard();
-		ArrayList<Report> rList=new BoardService().selectReportList();
+		ArrayList<Board> bList=new BoardService().selectReportBoard(currentPage,limit);
+		ArrayList<Report> rList=new BoardService().selectReportList(currentPage,limit);
 		
 		
 		

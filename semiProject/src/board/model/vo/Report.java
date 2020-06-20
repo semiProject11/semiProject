@@ -21,6 +21,35 @@ public class Report implements Serializable{
 	private String title;			//제목
 	private String content;			//내용
 	private Date write_date;		//작성날짜
+	private String writer_id;			//작성자 아이디
+	
+	
+	
+	public String getWriter_id() {
+		return writer_id;
+	}
+
+	public void setWriter_id(String writer_id) {
+		this.writer_id = writer_id;
+	}
+
+	public Report(int board_no, String re_content, String re_yn, Date re_date, int service_no, String report_type,
+			String report_name, String report_userId, String title, String content, Date write_date, String writer_id) {
+		super();
+		this.board_no = board_no;
+		this.re_content = re_content;
+		this.re_yn = re_yn;
+		this.re_date = re_date;
+		this.service_no = service_no;
+		this.report_type = report_type;
+		this.report_name = report_name;
+		this.report_userId = report_userId;
+		this.title = title;
+		this.content = content;
+		this.write_date = write_date;
+		this.writer_id = writer_id;
+	}
+	
 
 	
 	public Report() {
@@ -162,7 +191,7 @@ public class Report implements Serializable{
 		return "Report [board_no=" + board_no + ", re_content=" + re_content + ", re_yn=" + re_yn + ", re_date="
 				+ re_date + ", service_no=" + service_no + ", report_type=" + report_type + ", report_name="
 				+ report_name + ", report_userId=" + report_userId + ", title=" + title + ", content=" + content
-				+ ", write_date=" + write_date + "]";
+				+ ", write_date=" + write_date + ", writer_id=" + writer_id + "]";
 	}
 	
 	

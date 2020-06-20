@@ -35,8 +35,6 @@ public class InquiaryListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		ArrayList<Board> bList=new BoardService().selectInquiaryList();
-		ArrayList<Inquiary> inquiaryList=new BoardService().selectInquaryTypeList();
 
 		//페이징 처리
 		
@@ -70,8 +68,10 @@ public class InquiaryListServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
+		ArrayList<Board> bList=new BoardService().selectInquiaryList(currentPage,limit);
+		ArrayList<Inquiary> inquiaryList=new BoardService().selectInquaryTypeList(currentPage,limit);
 	
-		RequestDispatcher view=null;
+	
 		
 			request.setAttribute("pn", pn);
 			request.setAttribute("bList", bList);

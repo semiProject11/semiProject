@@ -8,7 +8,7 @@
 	ArrayList<Service> sList=(ArrayList<Service>)request.getAttribute("sList");
 	ArrayList<Service_List> slList=(ArrayList<Service_List>)request.getAttribute("slList");
 	ArrayList<Member> mList=(ArrayList<Member>)request.getAttribute("mList");
-  %>
+  %> 
 <!DOCTYPE html>
 <html>
 <head>
