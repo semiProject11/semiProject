@@ -271,7 +271,7 @@ tr.exline td{border-top: 1px solid black;}
 											if (bsList.isEmpty()) {
 										%>
 										<tr>
-											<td colspan="6">구매 내역이 없습니다.</td>
+											<td colspan="7">구매 내역이 없습니다.</td>
 										</tr>
 										<%
 											} else {

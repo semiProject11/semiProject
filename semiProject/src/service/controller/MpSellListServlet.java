@@ -9,7 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import member.model.vo.Member;
 import service.model.service.Service_Service;
 import service.model.vo.Pagination;
 import service.model.vo.ServiceSellList;
@@ -33,12 +35,12 @@ public class MpSellListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		HttpSession session = request.getSession();
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		
-//		String userNo = loginUser.getUserNo();
-		String userNo = "1";
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userNo = loginUser.getUserNo();
+		
 		
 		// 구매 리스트 총갯수 구하기
 		Service_Service sService = new Service_Service();
