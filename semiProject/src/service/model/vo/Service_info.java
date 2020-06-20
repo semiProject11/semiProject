@@ -8,12 +8,12 @@ public class Service_info implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 6240049378751279762L;
-	private String sUserNo;
 	private int serviceNo;
+	private String sUserNo;
 	private String changeName;
 	private String phone;
-	private Date timeStart;
-	private Date timeFinish;
+	private String timeStart;
+	private String timeFinish;
 	private String saleInfo;
 	private String sExplain;
 	private String availableArea;
@@ -24,11 +24,16 @@ public class Service_info implements Serializable{
 		super();
 	}
 
-	public Service_info(String sUserNo, int serviceNo, String changeName, String phone, Date timeStart, Date timeFinish,
-			String saleInfo, String sExplain, String availableArea, String availableDate, String subject) {
+	
+
+
+
+	public Service_info(int serviceNo, String sUserNo, String changeName, String phone, String timeStart,
+			String timeFinish, String saleInfo, String sExplain, String availableArea, String availableDate,
+			String subject) {
 		super();
-		this.sUserNo = sUserNo;
 		this.serviceNo = serviceNo;
+		this.sUserNo = sUserNo;
 		this.changeName = changeName;
 		this.phone = phone;
 		this.timeStart = timeStart;
@@ -39,6 +44,10 @@ public class Service_info implements Serializable{
 		this.availableDate = availableDate;
 		this.subject = subject;
 	}
+
+
+
+
 
 	public String getsUserNo() {
 		return sUserNo;
@@ -72,19 +81,19 @@ public class Service_info implements Serializable{
 		this.phone = phone;
 	}
 
-	public Date getTimeStart() {
+	public String getTimeStart() {
 		return timeStart;
 	}
 
-	public void setTimeStart(Date timeStart) {
+	public void setTimeStart(String timeStart) {
 		this.timeStart = timeStart;
 	}
 
-	public Date getTimeFinish() {
+	public String getTimeFinish() {
 		return timeFinish;
 	}
 
-	public void setTimeFinish(Date timeFinish) {
+	public void setTimeFinish(String timeFinish) {
 		this.timeFinish = timeFinish;
 	}
 
@@ -135,6 +144,7 @@ public class Service_info implements Serializable{
 				+ saleInfo + ", sExplain=" + sExplain + ", availableArea=" + availableArea + ", availableDate="
 				+ availableDate + ", subject=" + subject + "]";
 	}
+
 	
 	
 	

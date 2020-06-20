@@ -52,10 +52,11 @@ public class auctiondetailServlet extends HttpServlet {
 		
 		
 	      CategoryListPd clpd = svService.auctiondetail(sNo);
-//	      ArrayList<CategoryListPd> svlist = svService.auctiondetail(sNo);
 	      ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 	      
-//	      Service_info sinfo = svService.selectserviceinfo(sNo); // 서비스상품 정보 조회 메소드
+	      ArrayList<Service_info> infolist = svService.selectsvinfo(sNo);
+	      
+	      
 //	      ArrayList<Service_Review> rlist = svService.selectreview(sNo,)
 	      
 	      
@@ -63,14 +64,22 @@ public class auctiondetailServlet extends HttpServlet {
 	     if(result > 0) {
 	      
 	      
-	      if(clpd!=null&&!flist.isEmpty()) {
-				request.setAttribute("clpd", clpd);
-				request.setAttribute("flist", flist);
-				request.getRequestDispatcher("views/service/sv_detail.jsp").forward(request, response);
-			} else {
-				request.setAttribute("msg", "사진 게시판 상세 페이지 조회 실패");
-				request.getRequestDispatcher("view/common/errorPage.jsp");
-			}
+    	 if(clpd!=null&&!flist.isEmpty()) {
+    		 if(clpd.getDeadLine()!=null) {
+    			 request.setAttribute("clpd", clpd);
+    			 request.setAttribute("flist", flist);
+    			 request.setAttribute("infolist", infolist);
+    			 request.getRequestDispatcher("views/service/sv_detail.jsp").forward(request, response);
+    		 } else {
+    			 request.setAttribute("clpd", clpd);
+    			 request.setAttribute("flist", flist);
+    			 request.setAttribute("infolist", infolist);
+    			 request.getRequestDispatcher("views/service/sv_general_detail.jsp").forward(request, response);  
+    		 }
+    	 } else {
+    		 request.setAttribute("msg", "사진 게시판 상세 페이지 조회 실패");
+    		 request.getRequestDispatcher("view/common/errorPage.jsp");
+		}
 	      
 //	      if(!svlist.isEmpty()&&!flist.isEmpty()) {
 //				request.setAttribute("svlist", svlist);

@@ -19,7 +19,11 @@ import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
 import service.model.vo.Service_ServiceTable_oh;
+
+import service.model.vo.Service_info;
+
 import service.model.vo.Service_SeviceFilesTable_oh;
+
 
 public class Service_Service {
 
@@ -240,9 +244,165 @@ public class Service_Service {
 	}
 
 
-	
-	
-	
-	
-	
+
+	//================================================================
+	public ArrayList selectsvList(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.selectsvList(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList selectfList() {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.selectFList(conn);
+
+		return list;
+	}
+
+
+	public ArrayList selectgeneral(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.selectgeneral(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList sortpricehigh(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.sortpricehigh(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList sortpricelow(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.sortpricelow(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList viewssort(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.viewssort(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList newpdsort(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.newpdsort(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList resetpd(String category, String salemethod) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.resetpd(conn, category, salemethod);
+
+		return list;
+	}
+
+
+	public ArrayList popitem(String[] category) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.popitem(conn, category);
+
+		return list;
+	}
+
+
+	public CategoryListPd auctiondetail(String sNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		CategoryListPd clpd = svDao.auctiondetail(conn, sNo);
+
+		return clpd;
+	}
+
+
+	public int updateCount(int sNo2) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updateCount(conn, sNo2);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public ArrayList selectsvinfo(String sNo) {
+		Connection conn = getConnection();
+		ArrayList list = null;
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		list = svDao.selectsvinfo(conn, sNo);
+		
+		return list;
+	}
+
+
+
+
 }

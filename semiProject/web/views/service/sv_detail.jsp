@@ -2,9 +2,10 @@
     pageEncoding="UTF-8" import="service.model.vo.*, java.util.ArrayList"%>
     
 <%
-	/* ArrayList<CategoryListPd> svlist = (ArrayList<CategoryListPd>)request.getAttribute("svlist"); */
 	CategoryListPd clpd = (CategoryListPd)request.getAttribute("clpd");
  	ArrayList<Service_SeviceFilesTable_oh> flist = (ArrayList<Service_SeviceFilesTable_oh>)request.getAttribute("flist");
+ 	ArrayList<Service_info> infolist = (ArrayList<Service_info>)request.getAttribute("infolist");
+ 	
  	
  	
  	String deadline = clpd.getDeadLine();
@@ -13,7 +14,15 @@
     String day2 = deadline.substring(8, 10);
     String hour = deadline.substring(11, 13);
     String minute = deadline.substring(14, 16);
-
+    
+    
+    String timestart = infolist.get(0).getTimeStart();
+    String timest = timestart.substring(11, 13); // 연락가능 시작시간
+    String timefinish = infolist.get(0).getTimeFinish();
+    String timefs = timestart.substring(11, 13); // 연락가능 끝 시간
+    
+    
+ 	
 %> 
 <!DOCTYPE html>
 <html>
@@ -147,14 +156,12 @@
             <div class="container">
 
                 <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
-                   <%-- <label style="font-size: 20px;">카테고리 > <%= svlist.get(0).getCategoryName() %> </label> --%>
                    <label style="font-size: 20px;">카테고리 > <%= clpd.getCategoryName() %> </label>
                 </div>
                 <div class="row justify-content-between">
                     <div style="padding-left: 0px;" class="col-7">
                     <%for(int j=0; j<flist.size(); j++){
                          Service_SeviceFilesTable_oh sf = flist.get(j);%>
-                         <%-- <%if(svlist.get(0).getSeviceNo() == sf.getServiceNo()) {%> --%>
                          <%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
                         <img style="width: 100%;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName()%>" class="d-block" alt="...">
                                 <%} %>
@@ -172,16 +179,18 @@
                           </nav>
                           <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-ServiceDescription" role="tabpanel" aria-labelledby="nav-ServiceDescription-tab">
-								서비스 설명
+								<%=infolist.get(0).getsExplain()%>
                             </div>
                             <div class="tab-pane fade" id="nav-AvailableArea" role="tabpanel" aria-labelledby="nav-AvailableArea-tab">
-                            	가능지역
+                            	<%=infolist.get(0).getAvailableArea()%>
                             </div>
                             <div class="tab-pane fade" id="nav-AvailableDays" role="tabpanel" aria-labelledby="nav-AvailableDays-tab">
-                            	 가능요일.
+                            	<%for(int i=0; i<infolist.size(); i++){ %>
+                            	<%=infolist.get(i).getAvailableDate()%>
+                            	<%} %>
                             </div>
                             <div class="tab-pane fade" id="nav-Relatedtopics" role="tabpanel" aria-labelledby="nav-Relatedtopics-tab">
-								관련주제
+								<%=infolist.get(0).getSubject()%>
                             </div>
                             <div class="tab-pane fade" id="nav-RefundPolicy" role="tabpanel" aria-labelledby="nav-RefundPolicy-tab">
                             	구매 후 환불 규정(2일전 100%, 1일전 50%, 당일 환불X)
@@ -197,56 +206,23 @@
 
                     <div class="col-4">
 
-                        <%-- <div><%=svlist.get(0).getsTitle() %></div>
-                        <%if(svlist.get(0).getPriceBidding() != 0){ %>
-                              <h5 style="text-align: right;">현재 가격 : <%=svlist.get(0).getPriceBidding() %>원</h5>
-                                <%}else {%>
-                                <h5 style="text-align: right;">판매 가격 : <%=svlist.get(0).getPriceSale() %>원</h5>
-                                <%} %>
-                        <h6 style="text-align: right;">(VAT포함)</h6>
-                        
-                			<%if(svlist.get(0).getDeadLine() != null){ %>
-                            <h5>마감시간</h5>
-                            <span id="time" font-size:20px;font-weight:bold;line-height:36px;></span>
-                           <%}else {%>
-                           <span id="cd_timeout"></span>
-                           <% } %> --%>
-                           
-                           
                             <div><%=clpd.getsTitle() %></div>
-                        <%if(clpd.getPriceBidding() != 0){ %>
                               <h5 style="text-align: right;">현재 가격 : <%=clpd.getPriceBidding() %>원</h5>
-                                <%}else {%>
-                                <h5 style="text-align: right;">판매 가격 : <%=clpd.getPriceSale() %>원</h5>
-                                <%} %>
                         <h6 style="text-align: right;">(VAT포함)</h6>
                         
-                			<%if(clpd.getDeadLine() != null){ %>
+                			
                             <h5>마감시간</h5>
-                            <h5><%=clpd.getDeadLine() %></h5>
-                           
+                            
                             <span id="time" font-size:20px;font-weight:bold;line-height:36px;></span>
-                           <%}else {%>
+			        
                            <span id="cd_timeout"></span>
-                           <% } %>
-                           
-                           
-                            <!-- <span id= "ex"></span> -->
-                                   
-                            
-                        <!-- <div id="timeout" style="padding-left: 218px;"> -->
-                            
-                        <!-- </div> -->
-                        
-
 
                         <div style="padding: 20px 0 12px 0; border: 1px solid #e4e5ed;">
 
                             <div style=" top: 0; left: 0;" class="text-center">
                                 <img style="width: 50px; height: 50px; border-radius: 50%;"
-                                    src="<%=request.getContextPath()%>/image/bill.png" alt="...">
+                                    src="<%=request.getContextPath()%>/image/<%=infolist.get(0).getChangeName() %>" alt="...">
                             </div>
-                           <%--  <h1 style="text-align: center; font-size: 22px; margin: 16px 0 0 0;">판매자 아이디 : <%=svlist.get(0).getUserId() %></h1> --%>
                             <h1 style="text-align: center; font-size: 22px; margin: 16px 0 0 0;">판매자 아이디 : <%=clpd.getUserId() %></h1>
                             <hr style=" width: 30px;
                                         height: 2px;
@@ -256,7 +232,7 @@
                                         display: block;">
                             <ul style="text-align: center; padding-top: 10px; padding-left: 0px;">
                                 <li style="font-size: 12px; list-style-type: none;">
-                                    연락처
+                                  		  연락처 : <%=infolist.get(0).getPhone() %>
                                     <a id="test" style="font-family: 'Nanum Gothic'; text-decoration: none;" href="#">
                                         <img style="width:14px; padding-bottom: 2px;" src="<%=request.getContextPath()%>/image/qmark.png" alt="">
                                     </a>
@@ -285,7 +261,7 @@
                                             주문 전에는 판매자 문의하기를 통해 판매자에게 직접 문의를 할 수 있습니다.
                                         </p>
                                     </div>
-                                <h5 style="font-size: 12px;">연락 가능시간 : 12시 ~ 17시</h5>
+                                <h5 style="font-size: 12px;">연락 가능시간 : <%=timest %>시 ~ <%=timefs %>시</h5>
                             </ul>
                             <hr style=" width: 80%;
                                         background: lightgray;
@@ -308,22 +284,13 @@
                             padding-left: 46px;
                             padding-right: 46px;">
                             
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
-                            판매자 정보 내용 판매자 정보 내용 판매자 정보 내용
+                            <%=infolist.get(0).getSaleInfo() %>
                             </p>
                             
 
                         </div>
 
                        
-                       
-                       
-                       <%-- <%if(svlist.get(0).getSalemethod().equalsIgnoreCase("auction")){ %> --%>
-                       <%if(clpd.getSalemethod().equalsIgnoreCase("auction")){ %>
                         <div style="padding-left: 100px; padding-right: 100px;"> <!-- 입찰버튼 div 시작 -->
                             <button type="button" id="btn_style" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                                 입찰하기
@@ -366,32 +333,7 @@
                                 </div>
                             </div>
                     </div> <!-- 입찰버튼 div 끝 -->
-                    <%} else {%>
-                                            <div style="padding-left: 100px; padding-right: 100px;"> <!-- 구매버튼 div 시작 -->
-                            <button type="button" id="btn_style" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
-                                구매하기
-                            </button>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content" style="width: 70%;">
-                                    <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">해당 상품을 구매하시겠습니까?</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    </div>
-                                    <div class="modal-footer" style="padding-right: 95px;">
-                                        <button type="button" class="btn btn-primary">구매하기</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                    </div> <!-- 구매버튼 div 끝 -->
-                    
-                    <%} %>
+                   
                     </div>
                 </div>
             </div>
@@ -431,13 +373,11 @@
         var now = new Date(); // 현재 시간
         var open = new Date(now.getFullYear(),now.getMonth(),now.getDate(),now); // 시작 시간
         
-       /*  var end = new Date(now.getFullYear(),05,15,18,39,00); // 끝나는 시간 */
-        
-       var end = new Date(<%=year%>,<%=month%>-1,<%=day2%>,<%=hour%>,<%=minute%>,00); // 끝나는 시간
-      <%--  var end = new Date(<%=year%>,<%=month%>,<%=day2%>,18,55,00); // 끝나는 시간 --%>
+        /*  var end = new Date(now.getFullYear(),05,15,18,39,00); // 끝나는 시간  */
+       
+       var end = new Date(<%=year%>,<%=month%>-1,<%=day2%>,<%=hour%>,<%=minute%>,00); // 끝나는 시간 
         // (년, 월, 일, 시, 분, 초)
         // 2020-05-15 15:39:00
-       	
         
         
         // var end = new Date(now.getFullYear(),now.getMonth(),now.getDate(),48,42,00); // 끝나는 시간
@@ -480,8 +420,8 @@
         // $(".seconds").html(sec);
         // $(".nt").html(nt);
         // $(".et").html(et);
-        if (new Date(2020,05,10,21,48,00) <= 0 ) {
-        outputString += "경매정보를 수신중입니다.";
+        if (result <= 0 ) {
+        	outputString += "상품이 마감되었습니다.";
 
         } else {
 
