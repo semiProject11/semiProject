@@ -257,8 +257,7 @@ th, tr, td {
 				<head>
 <h2>공지사항 관리</h2>
 <hr>
-				</head>
-				<div class="container my-4">
+				</head>				<div class="container my-4">
 
 					<div>
 						<!--상단 버튼-->

@@ -10,6 +10,7 @@ public class Service_info implements Serializable{
 	private static final long serialVersionUID = 6240049378751279762L;
 	private String sUserNo;
 	private int serviceNo;
+
 	private String changeName;
 	private String phone;
 	private Date timeStart;
@@ -23,6 +24,8 @@ public class Service_info implements Serializable{
 	public Service_info() {
 		super();
 	}
+
+
 
 	public Service_info(String sUserNo, int serviceNo, String changeName, String phone, Date timeStart, Date timeFinish,
 			String saleInfo, String sExplain, String availableArea, String availableDate, String subject) {
@@ -39,6 +42,8 @@ public class Service_info implements Serializable{
 		this.availableDate = availableDate;
 		this.subject = subject;
 	}
+
+
 
 	public String getsUserNo() {
 		return sUserNo;

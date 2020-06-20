@@ -14,7 +14,20 @@ public class ServiceBuyList {
 	private int rating;				// 평점
 	public ServiceBuyList() {
 		super();
+		
 	}
+	
+	
+	
+	
+	public ServiceBuyList(String title) {
+		super();
+		this.title = title;
+	}
+
+
+
+
 	public ServiceBuyList(String changeName, String title, Date tradeDate, String sUserName, String sPhone,
 			int serviceNo, String bUserNo, String content, int rating) {
 		super();
