@@ -759,7 +759,7 @@ public class ServiceDao {
 			pstmt.setInt(3, endRow);
 			
 			rset = pstmt.executeQuery();
-			
+
 			while(rset.next()) {
 				
 					ServiceSellList service = 
