@@ -750,18 +750,16 @@ public class ServiceDao {
 		int endRow = currentPage * limit;
 		
 		
-		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = '1') WHERE RNUM BETWEEN 1 AND 5";
+		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
-//			pstmt.setString(1, userNo);
-//			pstmt.setInt(2, starRow);
-//			pstmt.setInt(3, endRow);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
 			
 			rset = pstmt.executeQuery();
-			System.out.println("test");
 			while(rset.next()) {
-				System.out.println("나 나오니?");
 				
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
