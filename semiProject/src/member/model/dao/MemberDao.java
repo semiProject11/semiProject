@@ -1705,7 +1705,6 @@ public class MemberDao {
 
 
 
-<<<<<<< HEAD
 	public ArrayList<Member> selectMember(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1756,7 +1755,6 @@ public class MemberDao {
 
 
 	
-=======
 	public Member selectSellerReview(Connection conn, int board_no) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1808,5 +1806,4 @@ public class MemberDao {
 
 
 	
->>>>>>> refs/remotes/origin/master
 	}
