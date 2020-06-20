@@ -1754,7 +1754,6 @@ public class MemberDao {
 
 
 
-	
 	public Member selectSellerReview(Connection conn, int board_no) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1805,5 +1804,4 @@ public class MemberDao {
 
 
 
-	
 	}
