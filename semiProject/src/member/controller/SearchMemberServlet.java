@@ -73,8 +73,8 @@ public class SearchMemberServlet extends HttpServlet {
 		String word=request.getParameter("word");
 		
 		
-		ArrayList<Member> gradeList= new MemberService().searchMember(word);
-		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word);
+		ArrayList<Member> gradeList= new MemberService().searchMember(word,currentPage,limit);
+		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word,currentPage,limit);
 		
 		
 		System.out.println("메소드 다녀온 후 마지막:"+gradeList);
@@ -87,6 +87,7 @@ public class SearchMemberServlet extends HttpServlet {
 		request.setAttribute("pn", pn);
 		request.setAttribute("gradeList", gradeList);
 		request.setAttribute("sellerList", sellerList);
+		
 		request.getRequestDispatcher("views/adminPage/Ad_grade_list.jsp").forward(request, response);
 	
 		

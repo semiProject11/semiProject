@@ -1386,11 +1386,12 @@ public class MemberDao {
 
 
 
-	public ArrayList<Member> searchMember(Connection conn, String word) {
+	public ArrayList<Member> searchMember(Connection conn, String word, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Member> list=new ArrayList<>();
-		
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
 	
 		System.out.println("dao에서는여:"+word);
 		
@@ -1398,12 +1399,14 @@ public class MemberDao {
 		
 		if(word=="") {
 	
-		String query="SELECT * FROM MEMBER";
+		String query="SELECT * from(select rownum rnum,q.* from(select * FROM MEMBER)q) where (rnum between ? and ?) ORDER BY RNUM DESC";
 		
 		try {
 			
 			System.out.println("쓴게 없을때");
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1438,13 +1441,16 @@ public class MemberDao {
 		
 		}else {
 				
-			String query="SELECT * FROM MEMBER WHERE USER_ID LIKE '%'||?||'%'";
+			
+			String query="SELECT * from(select rownum rnum,q.* from(select * FROM MEMBER WHERE USER_ID LIKE '%'||?||'%')q) where (rnum between ? and ?) ORDER BY RNUM DESC";
 		try {
 			
 			System.out.println("쓴 게 있을때:"+word);
 			
 			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, word);
+			pstmt.setInt(2,startRow);
+			pstmt.setInt(3, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1489,15 +1495,20 @@ public class MemberDao {
 
 
 
-	public ArrayList<Seller> searchSellerList(Connection conn, String word) {
+	public ArrayList<Seller> searchSellerList(Connection conn, String word, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
-		String query="SELECT * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y' AND USER_ID LIKE '%'||?||'%'";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		String query="select * from(SELECT rownum rnum,q.* FROM (select * from MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y' AND USER_ID LIKE '%'||?||'%')q) where (rnum between ? and ?) ORDER BY RNUM DESC";
 		ArrayList<Seller> sellerList=new ArrayList<>();
 		
 		try {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setString(1, word);
+			pstmt.setInt(2,startRow);
+			pstmt.setInt(3, endRow);
+			
 			rset=pstmt.executeQuery();
 			
 			while(rset.next()) {
@@ -1704,8 +1715,6 @@ public class MemberDao {
 
 
 
-
-
 	public ArrayList<Member> selectMember(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1720,7 +1729,7 @@ public class MemberDao {
 			pstmt.setInt(2, endRow);
 			rset = pstmt.executeQuery();
 			
-			if(rset.next()) {
+			while(rset.next()) {
 				Member m = new Member(rset.getString("USER_NO"),
 						rset.getString("USER_ID"),
 						rset.getString("USER_PWD"),
@@ -1752,8 +1761,6 @@ public class MemberDao {
 		
 		return member;
 	}
-
-
 
 
 	public Member selectSellerReview(Connection conn, int board_no) {
@@ -1806,4 +1813,40 @@ public class MemberDao {
 
 
 
+
+	public int minusPoint(ArrayList<String> userNo, ArrayList<String> point, Connection conn) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		
+		
+		String query="UPDATE MEMBER SET point=? WHERE USER_NO=?";
+		try {
+			
+			for(int i=0; i<point.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setString(1, point.get(i));
+			pstmt.setString(2, userNo.get(i));
+
+			result+=pstmt.executeUpdate();
+			System.out.println(result);
+			}
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
+
+
+
+
+
+	}
+
+
+
+

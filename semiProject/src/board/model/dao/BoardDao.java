@@ -1367,8 +1367,9 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1397,8 +1398,9 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1422,12 +1424,14 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 				close(pstmt);
 			}
 		}else if(type.equals("d")&&word!=""){
-String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1611,8 +1615,9 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1, word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1638,8 +1643,10 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1660,12 +1667,13 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 				close(pstmt);
 			}
 		}else if(type.equals("d")&&word!=""){
-String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
+String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -2473,11 +2481,15 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 	public int getGradeListCount(Connection conn) {
 		PreparedStatement pstmt = null;
-		int result = 0;
+		ResultSet rset=null;
+		int result=0;
 		String query = "SELECT COUNT(*) FROM MEMBER";
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
 		} catch (SQLException e) {
 		
 			e.printStackTrace();

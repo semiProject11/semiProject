@@ -279,8 +279,9 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 	public ArrayList<Member> selectTradeListS(int currentPage, int limit) {
 		Connection conn = getConnection();
-		
-		ArrayList<Member> memberList = new MemberDao().selectTradeS(conn,currentPage,limit);
+
+		ArrayList<Member> memberList = new MemberDao().selectTradeS(conn, currentPage, limit);
+
 		
 	
 		close(conn);
@@ -292,7 +293,9 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	public ArrayList<Member> selectTradeListB(int currentPage, int limit) {
 		Connection conn = getConnection();
 		
-		ArrayList<Member> memberList = new MemberDao().selectTradeB(conn,currentPage,limit);
+
+		ArrayList<Member> memberList = new MemberDao().selectTradeB(conn, currentPage, limit);
+
 		
 	
 		close(conn);
@@ -440,10 +443,10 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public ArrayList<Member> searchMember(String word) {
+	public ArrayList<Member> searchMember(String word, int currentPage, int limit) {
 		
 		Connection conn=getConnection();
-		ArrayList<Member> list=new MemberDao().searchMember(conn,word);
+		ArrayList<Member> list=new MemberDao().searchMember(conn,word,currentPage,limit);
 				
 		
 		close(conn);
@@ -451,9 +454,9 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public ArrayList<Seller> searchSellerList(String word) {
+	public ArrayList<Seller> searchSellerList(String word, int currentPage, int limit) {
 		Connection conn=getConnection();
-		ArrayList<Seller> sellerList=new MemberDao().searchSellerList(conn,word);
+		ArrayList<Seller> sellerList=new MemberDao().searchSellerList(conn,word,currentPage,limit);
 		close(conn);
 
 		return sellerList;
@@ -574,6 +577,20 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 		return seller;
 	}
+
+
+
+	public int minusPoint(ArrayList<String> userNo, ArrayList<String> point) {
+		Connection conn=getConnection();
+		
+		int result=new MemberDao().minusPoint(userNo, point,conn);
+		
+		close(conn);
+		return result;
+	}
+
+
+
 
 }
 

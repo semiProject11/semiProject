@@ -136,25 +136,8 @@ th, tr, td {
                            d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"
                            clip-rule="evenodd" />
                                 </svg> &nbsp;사용자 관리
-<<<<<<< HEAD
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
-						</a>
-						<div class="collapse" id="collapseUsers"
-							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link"
-									href="<%=request.getContextPath()%>/list.grade">판매자 등급 관리</a> <a
-									class="nav-link"
-									href="<%=request.getContextPath()%>/list.transaction">거래내역
-									관리</a> <a class="nav-link"
-									href="<%=request.getContextPath()%>/relist.bo">전체 리뷰 관리</a> <a
-									class="nav-link"
-									href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
-							</nav>
-						</div>
-=======
+
+
                      <div class="sb-sidenav-collapse-arrow">
                         <i class="fas fa-angle-down"></i>
                      </div>
@@ -168,7 +151,7 @@ th, tr, td {
                            class="nav-link" href="<%=request.getContextPath()%>/list.inquiary">문의 사항 관리</a>
                      </nav>
                   </div>
->>>>>>> refs/remotes/origin/master
+
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse"
                      data-target="#collapseReport" aria-expanded="false"
@@ -180,7 +163,7 @@ th, tr, td {
                            d="M4 11a4 4 0 118 0 .5.5 0 01-.5.5h-7A.5.5 0 014 11zm4-8a.5.5 0 01.5.5v2a.5.5 0 01-1 0v-2A.5.5 0 018 3zm8 8a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zM3 11a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zm10.657-5.657a.5.5 0 010 .707l-1.414 1.414a.5.5 0 11-.707-.707l1.414-1.414a.5.5 0 01.707 0zM4.464 7.464a.5.5 0 01-.707 0L2.343 6.05a.5.5 0 01.707-.707l1.414 1.414a.5.5 0 010 .707z"
                            clip-rule="evenodd" />
                                 </svg> &nbsp;신고처리
-<<<<<<< HEAD
+
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -192,18 +175,7 @@ th, tr, td {
 									href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
 							</nav>
 						</div>
-=======
-                     <div class="sb-sidenav-collapse-arrow">
-                        <i class="fas fa-angle-down"></i>
-                     </div>
-                  </a>
-                  <div class="collapse" id="collapseReport"
-                     aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="<%=request.getContextPath()%>/list.report">신고 내역 관리</a>
-                     </nav>
-                  </div>
->>>>>>> refs/remotes/origin/master
+
 
                   <a class="nav-link collapsed" href="#" data-toggle="collapse"
                      data-target="#collapsePoints" aria-expanded="false"
@@ -230,8 +202,8 @@ th, tr, td {
                   <div class="collapse" id="collapsePoints"
                      aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                      <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="admin_point.html">포인트 관리</a><a
-                           class="nav-link" href="admin_refund.html">환불 관리</a>
+                        <a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
+									class="nav-link" href="#">환불 관리</a>
                      </nav>
                   </div>
 
@@ -246,22 +218,8 @@ th, tr, td {
                            d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
                            clip-rule="evenodd" />
                                 </svg> &nbsp;공지사항/이벤트
-<<<<<<< HEAD
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
-						</a>
-						<div class="collapse" id="collapseNotice"
-							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link"
-									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
-							</nav>
-						</div>
-					</div>
-				</div>
-=======
+
+
                      <div class="sb-sidenav-collapse-arrow">
                         <i class="fas fa-angle-down"></i>
                      </div>
@@ -275,8 +233,7 @@ th, tr, td {
                   </div>
                </div>
             </div>
->>>>>>> refs/remotes/origin/master
-
+            
             <!--side nav footer start-->
             <div class="sb-sidenav-footer">
                <div class="small">Logged in as:</div>
@@ -297,7 +254,6 @@ th, tr, td {
          <!--contents-->
          <div class="container mt-5">
 
-<<<<<<< HEAD
 				<header>
 					<h2>사용자 등급 관리</h2>
 					<hr>
@@ -331,50 +287,13 @@ th, tr, td {
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
 									<button class="btn btn-primary mr-0" type="submit"
-										style="background: black; border: black;">
+										style="background: black; border: black;" onclick="searchData();">
 
 										<i class="fas fa-search"></i>
 									</button>
 								</div>
 							</div>
 						</div>
-=======
-            <header>
-               <h2>사용자 등급 관리</h2>
-               <hr>
-            </header>
-               <form action="<%=request.getContextPath() %>/search.member" method="post">
-            <div class="container my-4">
-                  <div>
-                     <!--상단 버튼-->
-                     <button type="button" class="btn" id="checkBtn"
-                        style="background: black; color: white" onclick="checkAll();">전체 선택</button>
-                     <button type="button" class="btn"
-                        style="background: black; color: white" onclick="updateGrade();">변경</button>
-                     <button type="button" class="btn"
-                        style="background: black; color: white" onclick="changeBuy();">구매자 제한</button>
-                     <button type="button" class="btn"
-                        style="background: black; color: white" onclick="changeSell();">판매자 제한</button>
-                  
-                  
-                  
-                     <!--상단 검색창-->
-                     
-                     <div
-                        class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        <div class="input-group">
-                           <input class="form-control" type="text" name="word" value=""
-                              placeholder="Search for..." aria-label="Search"
-                              aria-describedby="basic-addon2" />
-                           <div class="input-group-append"></div>
-                           <button class="btn btn-primary mr-0" type="submit" style="background:black; border:black;">
-                           
-                              <i class="fas fa-search"></i>
-                           </button>
-                        </div>
-                     </div>
-                  </div> 
->>>>>>> refs/remotes/origin/master
 
 
 
@@ -387,6 +306,7 @@ th, tr, td {
                               <th><input type="checkbox" class="common" id="checkAll"
                                  style="width: 18px; height: 18px;"></th>
                               <th>No</th>
+                              
                               <th>사용자 아이디</th>
                               <th>판매점수</th>
                               <th>신고받은 횟수</th>
@@ -399,7 +319,6 @@ th, tr, td {
                         <tbody name="tr" value="bbbb">
 
 
-<<<<<<< HEAD
 									<%
 										if (gradeList.isEmpty()) {
 									%>
@@ -412,22 +331,7 @@ th, tr, td {
 									<%
 										for (int i = gradeList.size()-1; i >=0; i--) {
 									%>
-=======
-                           <%
-                              if (gradeList.isEmpty()) {
-                           %>
-                           <tr>
-                              <td colspan="7">조회된 결과가 없습니다.</td>
-                           </tr>
-                           <%
-                              } else {
-                           %>
-                           <%
-                              for (int i = 0; i < gradeList.size(); i++) {
-                           %>
->>>>>>> refs/remotes/origin/master
 
-<<<<<<< HEAD
 									<tr id="tr" name="tr" value="trtr">
 										<%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
 										 --%>
@@ -456,42 +360,8 @@ th, tr, td {
 												<option value="PLATINUM">PLATINUM</option>
 												<option value="DIAMOND">DIAMOND</option>
 										</select></td>
-=======
-                           <tr id="tr" name="tr" value="trtr">
-                              <%-- <input type="hidden" name="userNo" id="userNo" value="<%=(gradeList.get(i)).getUserNo()%>">
-                               --%>
-                              <td><input type="checkbox" class="common" id="rowCheck"
-                                 name="rowCheck" style="width: 18px; height: 18px;" value=<%=(sellerList.get(i)).getUserNo()%>>
 
-
-                              </td>
-                              <!-- 게시물번호-->
-                              <td val="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td>
-                              <!-- 유저아이디 -->
-                              <td><%=(gradeList.get(i)).getUserId()%></td>
-                              <!-- 점수  -->
-                              <td><%=(gradeList.get(i)).getGradeTot()%></td>
-                              <!-- 신고받은 횟수 -->
-                              <td><%=(sellerList.get(i)).getReportNum()%></td>
-                              <!-- 현재 등급 -->
-                              <td><%=(gradeList.get(i)).getGrade()%></td>
-                              
-                              
-                              
-                              <!-- 변경될 등급 -->
-                              <td><select name="grade" id="grade" class="custom-select grade">
-                                    <option value="BRONZE">BRONZE</option>
-                                    <option value="SILVER">SILVER</option>
-                                    <option value="GOLD">GOLD</option>
-                                    <option value="PLATINUM">PLATINUM</option>
-                                    <option value="DIAMOND">DIAMOND</option>
-                              </select>
-                              
-                           
-                              
-                              </td>
->>>>>>> refs/remotes/origin/master
-
+                      
                            </tr>
 
                            <%
@@ -502,19 +372,13 @@ th, tr, td {
                            %>
 
 
-<<<<<<< HEAD
 								</tbody>
 							</table>
 						</div>
 					</div>
 				</form>
-=======
-                        </tbody>
-                     </table>
-                  </div>
-            </div>
-            </form>
->>>>>>> refs/remotes/origin/master
+
+
 
 
 
@@ -524,7 +388,7 @@ th, tr, td {
             <div class="page-center">
                <ul class="pagination-t">
 
-<<<<<<< HEAD
+
 						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=1"><<</a></li>
 						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
 						<% for(int p = startPage ; p <= endPage; p ++) {%>
@@ -533,18 +397,7 @@ th, tr, td {
 							<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
 						<%}else{ %>
 							<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
-=======
-                    <li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=1"><<</a></li>
-                    <li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage-1 %>">Previous</a></li>
-         <% for(int p = startPage ; p <= endPage ; p ++) {%>
-            <%if(p == currentPage) {%>
-                  <!-- disabled: 페이지 비활성화 -->
-                  <li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
-            <%}else{ %>
-                  <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=p %>"><%=p %></a></li>
->>>>>>> refs/remotes/origin/master
 
-<<<<<<< HEAD
 						<%} %>
 						<%} %>
 
@@ -553,18 +406,7 @@ th, tr, td {
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=maxPage %>">>></a></li>
 
 					</ul>
-=======
-         <%} %>
-         <%} %>
-               
-                  
-                  <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=currentPage+1%>">Next</a></li>
-                  <li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.grade?currentPage=<%=maxPage %>">>></a></li>
-               
-               
-               
-               </ul>
->>>>>>> refs/remotes/origin/master
+
 
             </div>
 
@@ -591,18 +433,16 @@ th, tr, td {
 
 
 
-
-
-<<<<<<< HEAD
 	<script>
 	
-	
+
 	//등급변경
 	 function updateGrade(){
 		
 		var check= $("input:checkbox[name=rowCheck]:checked").val();
 		
  		if (check){		
+ 			
  		var rowArr=new Array();
 		var tdArr=new Array();
 		
@@ -612,93 +452,20 @@ th, tr, td {
 			rowArr+=$(this).val()+",";
 			tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
 			
-			
-			
-=======
-   <script>
-   
-   
-   //등급변경
-    function updateGrade(){
-      
 
-      var rowArr=new Array();
-      var tdArr=new Array();
-      
-      
-      $("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
-      
-         rowArr+=$(this).val()+",";
-         tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
-         
-         
-         
->>>>>>> refs/remotes/origin/master
-
-<<<<<<< HEAD
 		});
-		
+         
+
 			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
+			
  		}else{
- 			alert('등급을 변경할 아이디를 선택해주세요.')
+ 			alert('등급을 변경할 아이디를 선택해주세요.');
  		}
 	
 	} 
 	
 	
-	
-
-		
-		
-		
-=======
-      });
-      
-         location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
-   
-   
-   } 
-   
-   
-   
-   <%--    if(confirm("해당 아이디의 등급을 변경하시겠습니까?")){
-         
-         var rowArr=new Array();
-         var tdArr=new Array();
-         
-         $("input:checkbox[name=rowCheck]:checked").each(function(i){
-            
-            var tr=$(this).parent().parent().eq(i); //tr 전체 값
-            var td=tr.children();   //td 값
-            
-            rowArr.push(tr.text());
-            
-            var userNo=td.eq(0).text()+",";
-            var grade=td.eq(6).text()+",";
-            
-            tdArr.push(userNo);
-            tdArr.push(grade);
-            
-               
-            });
-            
-            
-            
-         
-         }else{
-         return false;
-      
-      
-   }  
-    }
-      --%>
-      
-      
-      
->>>>>>> refs/remotes/origin/master
-//검색기능
-<<<<<<< HEAD
-	
+	//검색
 	function searchData(){
 		location.href="<%=request.getContextPath() %>/search.member?word="+word;
 		
@@ -731,7 +498,7 @@ th, tr, td {
     		}
     		
     	} 
-=======
+
    
 <%--    function searchData(){
       location.href="<%=request.getContextPath() %>/search.member?word="+word;
@@ -765,7 +532,6 @@ th, tr, td {
           }
           
        } 
->>>>>>> refs/remotes/origin/master
 
 
    
@@ -796,7 +562,7 @@ th, tr, td {
        }  
    
    
-   
+  
 
    
       
@@ -817,16 +583,9 @@ th, tr, td {
       });
            
 
-<<<<<<< HEAD
 	</script>
 
 
 
-=======
-   </script>
-   
-   
-   
->>>>>>> refs/remotes/origin/master
 </body>
 </html>

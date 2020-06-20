@@ -209,8 +209,8 @@ th, tr, td {
 						<div class="collapse" id="collapsePoints"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_point.html">포인트 관리</a><a
-									class="nav-link" href="admin_refund.html">환불 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
+									class="nav-link" href="#">환불 관리</a>
 							</nav>
 						</div>
 
@@ -257,8 +257,7 @@ th, tr, td {
 				<head>
 <h2>공지사항 관리</h2>
 <hr>
-				</head>
-				<div class="container my-4">
+				</head>				<div class="container my-4">
 
 					<div>
 						<!--상단 버튼-->

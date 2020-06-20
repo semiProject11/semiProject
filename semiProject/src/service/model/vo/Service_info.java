@@ -24,6 +24,7 @@ public class Service_info implements Serializable{
 		super();
 	}
 
+
 	
 
 
@@ -44,9 +45,6 @@ public class Service_info implements Serializable{
 		this.availableDate = availableDate;
 		this.subject = subject;
 	}
-
-
-
 
 
 	public String getsUserNo() {

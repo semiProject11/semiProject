@@ -200,8 +200,8 @@ th, tr, td {
 						<div class="collapse" id="collapsePoints"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_point.html">포인트 관리</a><a
-									class="nav-link" href="admin_refund.html">환불 관리</a>
+							<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
+									class="nav-link" href="#">환불 관리</a>
 							</nav>
 						</div>
 
@@ -260,12 +260,12 @@ th, tr, td {
 					<div class="container my-4">
 						<div>
 							<!--상단 버튼-->
-							<button type="button" class="btn" id="checkBtn"
-								style="background: black; color: white" onclick="checkAll();">전체 선택</button>
+							 <button type="button" class="btn" id="checkBtn"
+							style="background: black; color: white;">전체 선택</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="updateGrade();">포인트 충전</button>
+								style="background: black; color: white" onclick="plusP();">포인트 충전</button>
 							<button type="button" class="btn"
-								style="background: black; color: white" onclick="changeBuy();">포인트 차감</button>
+								style="background: black; color: white" onclick="minusP();">포인트 차감</button>
 							
 
 
@@ -296,9 +296,8 @@ th, tr, td {
 								id="gListArea" method="post">
 								<thead>
 									<tr>
-										<th><div class="form-check form-check-inline"></div>
-												<input type="checkbox" class="form-check-input"
-													id="checkall" style="width: 18px; height: 18px;"></th>
+										 <th><input type="checkbox" class="common" id="checkAll"
+										style="width: 18px; height: 18px;"></th>
 										<th>No</th>
 										<th>가용 포인트</th>
 										<th>충전 포인트</th>
@@ -333,8 +332,16 @@ th, tr, td {
 										<!-- 가용 포인트 -->
 										<td><%=((Member)m.get(i)).getPoint()%></td>
 										<!-- 충전 포인트 -->
-										<td><input type="text" id="chargePoint"
-											name="chargePoint"></td>
+										<td><select name="grade" id="grade"
+											class="custom-select grade">
+												<option value="0" selected>----</option>
+												<option value="10000">10,000</option>
+												<option value="30000">30,000</option>
+												<option value="50000">50,000</option>
+												<option value="100000">100,000</option>
+												<option value="150000">150,000</option>
+												<option value="300000">300,000</option>
+										</select></td>
 										<!-- 회원아이디 -->
 										<td><%=((Member)m.get(i)).getUserId()%></td>
 
@@ -398,36 +405,64 @@ th, tr, td {
 		</div>
 	</div>
 
+<script>
+//포인트 충전
 
 
 
-			<script>
-            
-            //선택된 회원 포인트 충전
-          /*   function chargePoint(){
-            	
-            
-            
-            
-          
-            } */
-            
-            
-  //모두 체크
-    		
-			$(function() {
-				$("#checkAll").hide();
-				$("#checkBtn").click(function() {
-					$("#checkAll").click();
-				});
+
+
+//포인트 차감
+
+	 function minusP(){
+		
+		var check= $("input:checkbox[name=rowCheck]:checked").val();
+		
+ 		if (check){		
+ 			
+ 		var rowArr=new Array();
+		var tdArr=new Array();
+		
+		
+		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
+		
+			rowArr+=$(this).val()+",";
+			tdArr+=$(this).parent().parent().children().eq(3).children("select").val()+",";
+			
+
+		});
+         
+
+			location.href="<%=request.getContextPath()%>/withdrawAd.me?rowArr="+rowArr+"&tdArr="+tdArr;
+			
+ 		}else{
+ 			alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
+ 		}
 	
-				$("#checkAll").click(function() {
-					var bool = $(this).prop("checked");
-					$(".common").prop('checked', bool);
-				});
-			}); 
-            
-            </script>
+	} 
+
+
+
+
+//모두 체크
+
+$(function() {
+	$("#checkAll").hide();
+	$("#checkBtn").click(function() {
+		$("#checkAll").click();
+	});
+
+	$("#checkAll").click(function() {
+		var bool = $(this).prop("checked");
+		$(".common").prop('checked', bool);
+	});
+}); 
+
+
+
+</script>
+
+
 
 </body>
 </html>
