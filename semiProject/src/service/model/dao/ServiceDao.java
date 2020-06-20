@@ -374,33 +374,31 @@ public class ServiceDao {
 		return result;
 	}
 	
-	
-	public int inssertService(Connection conn, Service_ServiceTable_oh st) {
-	      
+	public int insertService1(Connection conn, Service_ServiceTable_oh st) {
 	      
 	      PreparedStatement pstmt = null;
 	      int result1 = 0;
-	      
-	 //데이터가 없어서 임의의 값 넣음 
-	   String query = "INSERT INTO SERVICE VALUES(SEQ_SERVICE.NEXTVAL,'서비스유저넘버',?,?,\r\n" + 
-	         "DEFAULT,DEFAULT,DEFAULT,'게시판유저넘버',?,?,?,TO_DATE(?,'YYYYMMDD HH24:MI'),?,?,TO_DATE(?,'HH24:MI') ,\r\n" + 
-	         "TO_DATE(?,'HH24:MI'),?,SYSDATE,?)";
+	   
+	   String query = "INSERT INTO SERVICE VALUES(SEQ_SERVICE.NEXTVAL,?,?,?,\r\n" + 
+	         "DEFAULT,DEFAULT,DEFAULT,0,?,?,?,TO_DATE(?,'YYYYMMDD HH24:MI'),?,?,TO_DATE(?,'HH24:MI') ,\r\n" + 
+	         "TO_DATE(?,'HH24:MI'),?,SYSDATE,?,'Y')";
 	      
 	   
 	      try {
 	         pstmt = conn.prepareStatement(query);
-	         pstmt.setString(1, st.getSaleInfo());
-	         pstmt.setString(2, st.getAvailableArea());
-	         pstmt.setString(3, st.getSaleMethod());
-	         pstmt.setString(4, st.getSubject());
-	         pstmt.setString(5,st.getCategoryCode());
-	         pstmt.setString(6, st.getDeadline());
-	         pstmt.setInt(7,Integer.valueOf(st.getPriceBidding()));
-	         pstmt.setInt(8, Integer.valueOf(st.getPriceSale()));
-	         pstmt.setString(9, st.getContactTime_start());
-	         pstmt.setString(10, st.getContactTime_finish());
-	         pstmt.setString(11, st.getTitle());
-	         pstmt.setString(12, st.getsExplain());
+	         pstmt.setString(1, st.getsUserNo());
+	         pstmt.setString(2, st.getSaleInfo());
+	         pstmt.setString(3, st.getAvailableArea());
+	         pstmt.setString(4, st.getSaleMethod());
+	         pstmt.setString(5, st.getSubject());
+	         pstmt.setString(6,st.getCategoryCode());
+	         pstmt.setString(7, st.getDeadline());
+	         pstmt.setInt(8,Integer.valueOf(st.getPriceBidding()));
+	         pstmt.setInt(9, Integer.valueOf(st.getPriceSale()));
+	         pstmt.setString(10, st.getContactTime_start());
+	         pstmt.setString(11, st.getContactTime_finish());
+	         pstmt.setString(12, st.getTitle());
+	         pstmt.setString(13, st.getsExplain());
 	         
 	         result1 = pstmt.executeUpdate();
 	         System.out.println("반환값은 : " + result1);
@@ -413,44 +411,72 @@ public class ServiceDao {
 	      return result1;
 	   
 	      /* 스플릿으로 잘라서 배열에 넣어줘서 배열 숫자만큼 돌려주기  */
-	      
-	      
+	
 	   }
 
-	   public int insertService1(Connection conn, String[] day) {
-	      PreparedStatement pstmt = null;
-	         int result2 = 0;
-	         String aaa = "";
-	         
-	         
-	       //데이터 없어서 임의의 값 넣음 
-	            String query = "INSERT INTO DAYS VALUES(?,5)";
-	            //서비스번호 임시로 넣어둠 !
+	public int insertService2(Connection conn, String[] day) {
+	        PreparedStatement pstmt = null;
+	            int result2 = 0;
+	            String aaa = "";
 	            
-	         try {
-	            for(int i=0; i < day.length; i++) {
-	            pstmt = conn.prepareStatement(query);
-	                aaa = day[i];
-	               pstmt.setString(1, aaa);
+	               String query = "INSERT INTO DAYS VALUES(?,SEQ_SERVICE.CURRVAL)";
+	               //서비스번호 임시로 넣어둠 !
+	               
+	            try {
+	               for(int i=0; i < day.length; i++) {
+	               pstmt = conn.prepareStatement(query);
+	                   aaa = day[i];
+	                  pstmt.setString(1, aaa);
 
-	               result2 = pstmt.executeUpdate();
+	                  result2 = pstmt.executeUpdate();
 
-	            System.out.println("가능 날짜 반환값은 : " + result2);
-	            
+	               System.out.println("가능 날짜 반환값은 : " + result2);
+	               
+	               }
+	            } catch (SQLException e) {
+	               e.printStackTrace();
+	            }finally {
+	               close(pstmt);
 	            }
-	         } catch (SQLException e) {
-	            e.printStackTrace();
-	         }finally {
-	            close(pstmt);
-	         }
-	         return result2;
-	      
-	      
-	      
+	            return result2;
+	         
 
-	   
-	   }
+	      
+	      }
 
+	 public int insertService3(Connection conn, ArrayList<Service_SeviceFilesTable_oh> servicefileList) {
+         PreparedStatement pstmt = null;
+               
+         int result3 = 0;
+      
+         System.out.println("servicefileList : " + servicefileList);
+         
+           String query = "INSERT INTO SERVICE_FILES VALUES(SEQ_SFID.NEXTVAL,SEQ_SERVICE.CURRVAL,?,?,?,SYSDATE,?,0,'Y')";
+      
+         try {
+            for(int i=0; i<servicefileList.size(); i++) {
+               Service_SeviceFilesTable_oh sf = servicefileList.get(i);
+               
+               pstmt = conn.prepareStatement(query);
+               
+               pstmt.setString(1, sf.getOriginName());
+               pstmt.setString(2, sf.getChangeName());
+               pstmt.setString(3, sf.getFilePath());
+               pstmt.setInt(4, sf.getFileLevel());
+               
+               result3 += pstmt.executeUpdate();
+            }
+         }catch (SQLException e) {
+            e.printStackTrace();
+         }finally {
+            close(pstmt);
+         }
+         System.out.println("파일이 등록됨" + result3);
+         
+         return result3;
+   }
+
+	 
 	public Service selectServiceReview(Connection conn, int board_no) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
