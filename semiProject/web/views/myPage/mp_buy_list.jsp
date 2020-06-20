@@ -264,6 +264,7 @@ tr.exline td{border-top: 1px solid black;}
 											<th>연락처</th>
 											<th>평점등록</th>
 
+
 										</tr>
 									</thead>
 									<tbody>

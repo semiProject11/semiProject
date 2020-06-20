@@ -764,50 +764,49 @@ public class ServiceDao {
       return result;
    }
 
-   public ArrayList<ServiceSellList> selectSellServiceList(Connection conn, int currentPage, int limit,
-         String userNo) {
-      PreparedStatement pstmt = null;
-      ResultSet rset = null;
-      
-      ArrayList<ServiceSellList> bsList = new ArrayList<>();
-      
-      int starRow = (currentPage-1)*limit+1;
-      int endRow = currentPage * limit;
-      
-      
-      String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = '1') WHERE RNUM BETWEEN 1 AND 5";
-      
-      try {
-         pstmt = conn.prepareStatement(query);
-//         pstmt.setString(1, userNo);
-//         pstmt.setInt(2, starRow);
-//         pstmt.setInt(3, endRow);
-         
-         rset = pstmt.executeQuery();
-         System.out.println("test");
-         while(rset.next()) {
-            System.out.println("나 나오니?");
-            
-               ServiceSellList service = 
-                     new ServiceSellList(rset.getInt("SERVICE_NO"),
-                           rset.getString("TITLE"),
-                           rset.getString("SERVICE_STATUS"));
-               
-               bsList.add(service);
-               
-               
-         }
-         System.out.println(bsList);
-      } catch (SQLException e) {
-         e.printStackTrace();
-      } finally {
-         close(pstmt);
-         close(rset);
-      }
-      
-      
-      return bsList;
-   }
+  public ArrayList<ServiceSellList> selectSellServiceList(Connection conn, int currentPage, int limit,
+			String userNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		ArrayList<ServiceSellList> bsList = new ArrayList<>();
+		
+		int starRow = (currentPage-1)*limit+1;
+		int endRow = currentPage * limit;
+		
+		
+		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, userNo);
+			pstmt.setInt(2, starRow);
+			pstmt.setInt(3, endRow);
+			
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				
+					ServiceSellList service = 
+							new ServiceSellList(rset.getInt("SERVICE_NO"),
+									rset.getString("TITLE"),
+									rset.getString("SERVICE_STATUS"));
+					
+					bsList.add(service);
+					
+					
+			}
+			System.out.println(bsList);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bsList;
+	}
+
 
    public int deleteService(Connection conn, ArrayList<String> arr) {
       PreparedStatement pstmt=null;
