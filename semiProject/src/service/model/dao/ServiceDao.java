@@ -301,11 +301,7 @@ public class ServiceDao {
 								rset.getInt("SERVICE_NO"),
 								rset.getString("B_USER_NO"),
 								rset.getString("CONTENT"),
-<<<<<<< HEAD
-								rset.getInt("RATING"));
-=======
 		                        rset.getInt("RATING"));
->>>>>>> refs/remotes/origin/master
 				
 				bsList.add(service);
 			}
