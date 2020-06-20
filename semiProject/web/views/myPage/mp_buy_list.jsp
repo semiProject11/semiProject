@@ -253,9 +253,10 @@ tr.exline td{border-top: 1px solid black;}
 					<div class="card mb-4">
 						<div class="card-body">
 							<div class="table-responsive mt-3">
-								<table class="table   table-hover">
+								<table class="table table-hover">
 									<thead>
 										<tr>
+											<th>서비스번호</th>
 											<th>서비스이미지</th>
 											<th>제목</th>
 											<th>구입일</th>
@@ -280,6 +281,7 @@ tr.exline td{border-top: 1px solid black;}
 													ServiceBuyList s = bsList.get(i);													
 										%>
 										<tr class="exline">
+											<td><%=s.getServiceNo()%></td>
 											<td class="clickme">
 												<div>
 													<img src="image/<%=s.getChangeName() %>" alt=""
@@ -303,7 +305,7 @@ tr.exline td{border-top: 1px solid black;}
 										</tr>
 										<tr>
 											<td colspan="2" style="">평점 : <%=s.getRating() %></td>
-											<td colspan="4">리뷰 : <%=s.getContent() %></td>
+											<td colspan="5">리뷰 : <%=s.getContent() %></td>
 										</tr>
 											<%
 												} else {
