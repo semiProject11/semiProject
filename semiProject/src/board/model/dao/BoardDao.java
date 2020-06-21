@@ -16,6 +16,7 @@ import board.model.vo.Report;
 import board.model.vo.Review;
 import board.model.vo.ReviewAd;
 import member.model.vo.Member;
+import service.model.vo.CategoryListPd;
 import service.model.vo.Service;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
@@ -2878,6 +2879,8 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 		return result;
 	}
+
+	
 	
 
 

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import board.model.dao.BoardDao;
+import board.model.vo.Board;
 import board.model.vo.Inquiary;
 import board.model.vo.Review;
 import service.model.dao.ServiceDao;
@@ -461,6 +462,19 @@ public class Service_Service {
 		}
 		close(conn);
 		return result;
+	}
+
+
+	public ArrayList<CategoryListPd> searchService(String category, String word, String salemethod) {
+		Connection conn = getConnection();
+
+		
+		ArrayList<CategoryListPd> sList = new ServiceDao().searchService(conn,category,word,salemethod);
+
+		close(conn);
+		return sList;
+		
+		
 	}
 
 

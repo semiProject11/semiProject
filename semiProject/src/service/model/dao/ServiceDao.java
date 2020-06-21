@@ -1442,5 +1442,45 @@ public class ServiceDao {
 		return result;
 	}
 
+	public ArrayList<CategoryListPd> searchService(Connection conn, String category, String word, String salemethod) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<CategoryListPd> list = new ArrayList<CategoryListPd>();
+		CategoryListPd clpd = null;
+		
+		
+		String query= "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = ? AND salemethod = ? AND SERVICE_STATUS = 'Y' AND (TITLE LIKE '%'||?||'%')";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, category);
+			pstmt.setString(2, salemethod);
+			pstmt.setString(3, word);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+
+				list.add(clpd);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return list;
+		
+	}
+
 
 }
