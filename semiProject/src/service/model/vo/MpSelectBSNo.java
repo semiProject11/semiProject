@@ -1,6 +1,12 @@
 package service.model.vo;
 
-public class MpSelectBSNo {
+import java.io.Serializable;
+
+public class MpSelectBSNo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1228138414534149143L;
 	private String buyerNo;			// 구매자 번호
 	private String sellerNo;		// 판매자 번호
 	private int price;				// 가격

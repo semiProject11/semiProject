@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import board.model.vo.Review;
+import member.model.vo.Member;
 import service.model.vo.CategoryListPd;
 import service.model.vo.MpSelectBSNo;
 import service.model.vo.Service;
@@ -16,6 +17,7 @@ import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
+import service.model.vo.Service_Review;
 import service.model.vo.Service_ServiceTable_oh;
 import service.model.vo.Service_SeviceFilesTable_oh;
 import service.model.vo.Service_info;
@@ -317,6 +319,7 @@ public class ServiceDao {
 		
 		return bsList;
 	}
+
 
 
    public ArrayList<Review> selectReviewList(Connection conn, String userNo) {
@@ -773,7 +776,8 @@ public class ServiceDao {
 			
 			rset = pstmt.executeQuery();
 
-			while(rset.next()) {
+			
+while(rset.next()) {
 				
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
@@ -1344,7 +1348,358 @@ public class ServiceDao {
 		return list;
 	}
 
-	public MpSelectBSNo selectBSNo(Connection conn, String sn) {
+	
+		public ArrayList selectreview(Connection conn, String suserNo) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		Service_Review sr = null;
+		
+		String query ="SELECT * FROM SERVICE_REVIEW_INFO WHERE S_USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, suserNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				sr = new Service_Review(rs.getString("S_USER_NO"),
+										rs.getString("USER_NO"),
+										rs.getString("USER_ID"),
+										rs.getString("CONTENT"),
+										rs.getString("BOARD_STATUS"),
+										rs.getInt("RATING"),
+										rs.getDate("WRITE_DATE"));
+				list.add(sr);
+				
+			}
+			System.out.println("리뷰정보 list : " + list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		return list;
+	}
+
+	public Member pointcheck(Connection conn, String loginUserNo) {
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Member member = null;
+		
+		String query = "SELECT USER_NO, POINT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, loginUserNo);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				member = new Member(rs.getString("USER_NO"),
+									rs.getInt("POINT"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return member;
+	}
+
+	public Service selectbuserNo(Connection conn, String sNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Service sv = null;
+		
+		String query = "SELECT B_USER_NO FROM SERVICE WHERE SERVICE_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				sv = new Service(rs.getString("B_USER_NO"));
+			}
+			
+			
+			System.out.println(sNo + "게시물의 현재 구매자 번호는 " + sv);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return sv;
+	}
+
+	public int updateMinusPoint(Connection conn, String insertprice, String loginUserNo) {
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE MEMBER SET POINT = POINT - ? WHERE USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, insertprice);
+			pstmt.setString(2, loginUserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int salePriceMinusPoint(Connection conn, String saleprice, String loginUserNo) {
+
+		
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE MEMBER SET POINT = POINT - ? WHERE USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, saleprice);
+			pstmt.setString(2, loginUserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int changebuser(Connection conn, String sNo, String loginUserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SERVICE SET B_USER_NO = ?, SERVICE_STATUS='N' WHERE SERVICE_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, loginUserNo);
+			pstmt.setString(2, sNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int salePricePlusPoint(Connection conn, String saleprice, String suserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE MEMBER SET POINT = POINT + ? WHERE USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, saleprice);
+			pstmt.setString(2, suserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+
+	public int insertlist(Connection conn, String sNo, String suserNo, String loginUserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "INSERT INTO LIST VALUES(?,SYSDATE,?,?,DEFAULT)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			pstmt.setString(2, suserNo);
+			pstmt.setString(3, loginUserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		 
+		return result;
+	}
+
+	public int updatebindding(Connection conn, String sNo, String insertprice, String loginUserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SERVICE SET B_USER_NO = ?, PRICE_BIDDING = ? WHERE SERVICE_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, loginUserNo);
+			pstmt.setString(2, insertprice);
+			pstmt.setString(3, sNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int updatePlusPoint(Connection conn, String price, String buserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE MEMBER SET POINT = POINT + ? WHERE USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, price);
+			pstmt.setString(2, buserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	
+	}
+
+	public int suserPointPlus(Connection conn, String price, String suserNo) {
+
+	
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE MEMBER SET POINT = POINT + ? WHERE USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, price);
+			pstmt.setString(2, suserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+
+		}
+
+	public int snoStatusUpdate(Connection conn, String sNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SERVICE SET SERVICE_STATUS = 'N' WHERE SERVICE_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int biddingchangeupdate(Connection conn, String sNo, String price) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SERVICE SET PRICE_SALE = ? WHERE SERVICE_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, price);
+			pstmt.setString(2, sNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		return result;
+	}
+
+	public int insertbidbuylist(Connection conn, String sNo, String suserNo, String buserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "INSERT INTO LIST VALUES(?,SYSDATE,?,?,DEFAULT)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			pstmt.setString(2, suserNo);
+			pstmt.setString(3, buserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println(result);
+		 
+		return result;
+	}
+
+
+public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		MpSelectBSNo bs = null;
@@ -1812,9 +2167,82 @@ String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L L
 	    	  	  
 	     
 	      }
+	      
 	      return tradeList;
 	 
-	   }
+	
+	}
+
+	                           
+	                           
+	                 
+	public ArrayList<CategoryListPd> searchService(Connection conn, String category, String word, String salemethod) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<CategoryListPd> list = new ArrayList<CategoryListPd>();
+		CategoryListPd clpd = null;
+		String query= "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = ? AND salemethod = ? AND SERVICE_STATUS = 'Y' AND (TITLE LIKE '%'||?||'%')";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);			
+				pstmt.setString(1, category);
+				pstmt.setString(2, salemethod);
+				pstmt.setString(3, word);
+				
+			
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+
+				
+				list.add(clpd);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return list;
+		
+	}
+
+
+
+	  
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+	
+
+	
+
+	
+
+
+	
+	
+	
+	
 	
 	}
 	

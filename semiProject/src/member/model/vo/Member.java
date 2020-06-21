@@ -35,8 +35,12 @@ public class Member implements Serializable {
 		this.userPwd = userPwd;
 	}
 
-
-
+	// 동원이가  상세정보에서 포인트 값 사용하려고 만듬
+	public Member(String userNo, int point) {
+		super();
+		this.userNo = userNo;
+		this.point = point;
+	}
 
 
 	public Member(String userId, String userName, String email , String userPwd) {

@@ -39,7 +39,7 @@ public class mainpageServlet extends HttpServlet {
 
 
 		ArrayList<CategoryListPd> svlist =svService.popitem(category);
-
+				
 		ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 
 

@@ -9,8 +9,10 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import board.model.dao.BoardDao;
+import board.model.vo.Board;
 import board.model.vo.Inquiary;
 import board.model.vo.Review;
+import member.model.vo.Member;
 import service.model.dao.ServiceDao;
 import service.model.vo.CategoryListPd;
 import service.model.vo.MpSelectBSNo;
@@ -19,6 +21,7 @@ import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
+import service.model.vo.Service_Review;
 import service.model.vo.Service_ServiceTable_oh;
 import service.model.vo.Service_SeviceFilesTable_oh;
 
@@ -412,6 +415,231 @@ public class Service_Service {
 	}
 
 
+	public ArrayList selectreview(String suserNo) {
+		
+		Connection conn = getConnection();
+		ArrayList list = null;
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		list = svDao.selectreview(conn, suserNo);
+		
+		return list;
+	}
+
+
+	public Member pointcheck(String loginUserNo) {
+		
+		Connection conn = getConnection();
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		Member member = svDao.pointcheck(conn, loginUserNo);
+		
+		return member;
+	}
+
+
+	public Service selectbuserNo(String sNo) {
+		Connection conn = getConnection();
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		Service sv = svDao.selectbuserNo(conn, sNo);
+		
+		return sv;
+	}
+
+
+	public int updateMinusPoint(String insertprice, String loginUserNo) {
+		
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updateMinusPoint(conn, insertprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int salePriceMinusPoint(String saleprice, String loginUserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.salePriceMinusPoint(conn, saleprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int changebuser(String sNo, String loginUserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.changebuser(conn, sNo, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int salePricePlusPoint(String saleprice, String suserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.salePricePlusPoint(conn, saleprice, suserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int insertlist(String sNo, String suserNo, String loginUserNo) {
+
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.insertlist(conn, sNo, suserNo, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int updatebindding(String sNo, String insertprice, String loginUserNo) {
+		
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updatebindding(conn, sNo, insertprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int updatePlusPoint(String price, String buserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updatePlusPoint(conn, price, buserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int suserPointPlus(String price, String suserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.suserPointPlus(conn, price, suserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int snoStatusUpdate(String sNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.snoStatusUpdate(conn, sNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int biddingchangeupdate(String sNo, String price) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.biddingchangeupdate(conn, sNo, price);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int insertbidbuylist(String sNo, String suserNo, String buserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.insertbidbuylist(conn, sNo, suserNo, buserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+	
 	public MpSelectBSNo selectBSNo(String sn) {
 		Connection conn = getConnection();
 		
@@ -464,6 +692,7 @@ public class Service_Service {
 	}
 
 
+
 	public ArrayList<Service_List> searchTradeList(int currentPage, int limit, String type, String word) {
 		 Connection conn=getConnection();
 	      ArrayList<Service_List> tradeList=new ServiceDao().searchTradeList(conn,currentPage, limit,type,word);
@@ -480,6 +709,19 @@ public class Service_Service {
 	     
 	      return list;
 	}
+
+	public ArrayList<CategoryListPd> searchService(String category, String word, String salemethod) {
+		Connection conn = getConnection();
+
+		
+		ArrayList<CategoryListPd> sList = new ServiceDao().searchService(conn,category,word,salemethod);
+
+		close(conn);
+		return sList;
+		
+
+	}
+	
 
 
 

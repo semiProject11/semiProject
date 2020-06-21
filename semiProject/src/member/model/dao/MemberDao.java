@@ -1369,6 +1369,7 @@ public class MemberDao {
 		return result5;
 	}
 
+
 	public ArrayList<Member> selectMember(Connection conn, int currentPage, int limit) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -1405,6 +1406,7 @@ public class MemberDao {
 
 		return member;
 	}
+
 
 	public Member selectSellerReview(Connection conn, int board_no) {
 		PreparedStatement pstmt = null;
