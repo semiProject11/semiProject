@@ -60,6 +60,8 @@ public class GradeListServlet extends HttpServlet {
 		
 		startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit +1;
 		
+	
+		
 		endPage = startPage + limit - 1;
 		
 		if(maxPage < endPage) {

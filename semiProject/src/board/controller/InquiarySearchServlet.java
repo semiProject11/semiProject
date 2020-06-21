@@ -43,7 +43,7 @@ public class InquiarySearchServlet extends HttpServlet {
 		
 		//페이징 처리
 		
-		int listCount=new BoardService().getGradeListCount();
+		int listCount=new BoardService().searchInqCount(type,word);
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
 		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
@@ -61,6 +61,13 @@ public class InquiarySearchServlet extends HttpServlet {
 		
 		limit = 10;
 		
+		
+		ArrayList<Board> bList= new BoardService().searchInquiary(currentPage,limit,type,word);
+		
+		
+		
+		System.out.println(listCount);
+		
 		maxPage = (int)((double)listCount/limit + 0.9);
 		
 		startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit +1;
@@ -71,14 +78,14 @@ public class InquiarySearchServlet extends HttpServlet {
 			endPage = maxPage;
 		}
 		
+		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-	
 		
-		
-		ArrayList<Board> bList= new BoardService().searchInquiary(currentPage,limit,type,word);
 		ArrayList<Inquiary> inquiaryList=new BoardService().searchInquaryTypeList(currentPage,limit,type,word);
 		
+		
+		System.out.println(currentPage);
 	System.out.println(bList);
 	System.out.println(inquiaryList);
 		

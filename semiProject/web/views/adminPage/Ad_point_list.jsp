@@ -269,7 +269,7 @@ th, tr, td {
 
 
 							<!--상단 검색창-->
-							<form method="post" action="<%=request.getContextPath() %>/search.point">
+							
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
@@ -363,8 +363,8 @@ th, tr, td {
 					<div class="page-center">
 					<ul class="pagination-t">
 
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=1"><<</a></li>
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=currentPage-1 %>">Previous</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=1"><<</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.point?currentPage=<%=currentPage-1 %>">Previous</a></li>
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
@@ -415,7 +415,7 @@ th, tr, td {
 
 	 function minusP(){
 	
-	
+		
 		 if($("#usePoint").val()>$("#point").val()){ 
 		
 			var check= $("input:checkbox[name=rowCheck]:checked").val();

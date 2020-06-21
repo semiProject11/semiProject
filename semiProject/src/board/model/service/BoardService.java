@@ -757,6 +757,67 @@ public class BoardService {
 		return count;
 	}
 
+	public int searchInqCount(String type, String word) {
+		Connection conn = getConnection();
+
+		
+		int result = new BoardDao().searchInqCount(conn,type,word);
+
+		close(conn);
+		return result;
+	}
+
+	public int getInqCount() {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getInqCount(conn);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getNotCount(String type, String word) {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getNotCount(conn,type,word);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getGradCount(String word) {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getGradCount(conn,word);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+	
+
+	
+
 
 
 	
