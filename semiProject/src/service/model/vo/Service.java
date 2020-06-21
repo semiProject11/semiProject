@@ -36,6 +36,29 @@ public class Service implements Serializable{
 
 	
 	
+	
+	public Service(int serviceNo, int s_user_no, String sale_info, String available_area, int readCount, int file_count,
+			String file_YN, String b_user_no, String saleMethod, Date deadline, int price_bidding, int price_sale,
+			String subject, String category_code) {
+		this.serviceNo = serviceNo;
+		this.s_user_no = s_user_no;
+		this.sale_info = sale_info;
+		this.available_area = available_area;
+		this.readCount = readCount;
+		this.file_count = file_count;
+		this.file_YN = file_YN;
+		this.b_user_no = b_user_no;
+		this.saleMethod = saleMethod;
+		this.deadline = deadline;
+		this.price_bidding = price_bidding;
+		this.price_sale = price_sale;
+		this.subject = subject;
+		this.category_code = category_code;
+	}
+
+
+
+
 	public Service(String b_user_no) {
 		super();
 		this.b_user_no = b_user_no;

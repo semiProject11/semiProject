@@ -564,7 +564,7 @@ public class ServiceDao {
                            , rset.getInt("readCount")
                            , rset.getInt("file_count")
                            , rset.getString("file_YN")
-                           , rset.getInt("b_user_no")
+                           , rset.getString("b_user_no")
                            , rset.getString("saleMethod")
                            , rset.getDate("deadline")
                            , rset.getInt("price_bidding")
