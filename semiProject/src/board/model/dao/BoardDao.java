@@ -1343,8 +1343,10 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1594,8 +1596,9 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				

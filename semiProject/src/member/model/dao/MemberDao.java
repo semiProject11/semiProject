@@ -14,6 +14,8 @@ import member.model.vo.Account;
 import member.model.vo.Member;
 import member.model.vo.Profile;
 import member.model.vo.Seller;
+import service.model.vo.Service_List;
+import service.model.vo.Service_ServiceTable_oh;
 
 public class MemberDao {
 
@@ -1629,5 +1631,325 @@ public class MemberDao {
 		  System.out.println("dao 담고나서:"+list);
 		return list;
 	}
+	
+	
+	
+	
+	
+	
+
+	public ArrayList<Member> searchTradeListS(Connection conn, int currentPage, int limit, String word, String type) {
+		PreparedStatement pstmt=null;
+	      ResultSet rset=null;
+	      ArrayList<Member> tradeList=new ArrayList<>();
+	      int startRow = (currentPage-1) * limit + 1;
+	      int endRow = currentPage * limit;
+	      
+
+	      if(type.equals("a")&&word=="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) )Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+  	    	  
+  	    	  try {
+  	 	         pstmt=conn.prepareStatement(query);
+  	 	  
+  	 	         pstmt.setInt(1,startRow);
+  	 	         pstmt.setInt(2, endRow);
+  	 	         rset=pstmt.executeQuery();
+  	 	         
+  	 	         while(rset.next()) {
+  	 	            
+  	 	        	 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+ 							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+ 							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+ 							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+ 							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+ 							rset.getString("REVIEW_YN"));
+ 	      
+ 	 	            tradeList.add(m);
+  	 	         }
+  	 
+  	 	         
+  	 	      } catch (SQLException e) {
+  	 	         
+  	 	         e.printStackTrace();
+  	 	      }finally {
+  	 	         close(pstmt);
+  	 	         close(rset);
+  	 	      }
+
+	}else if(type.equals("a")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE ((s.service_no LIKE '%'||?||'%') or (user_id LIKE '%'||?||'%')))Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setString(2,word);
+	 	         pstmt.setInt(3,startRow);
+	 	         pstmt.setInt(4, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	   		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+							rset.getString("REVIEW_YN"));
+	      
+	 	            tradeList.add(m);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	    	  
+	      }else if(type.equals("b")&&word!="") {
+	    	  String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setInt(2,startRow);
+	 	         pstmt.setInt(3, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	   		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+							rset.getString("REVIEW_YN"));
+	      
+	 	            tradeList.add(m);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	      }else if(type.equals("c")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))Q  ORDER BY TRADE_DATE DESC) WHERE (user_id LIKE '%'||?||'%') and RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  	    	  try {
+	    	  	 	         pstmt=conn.prepareStatement(query);
+	    	  	 	         pstmt.setString(1,word);
+	    	  	 	         pstmt.setInt(2,startRow);
+	    	  	 	         pstmt.setInt(3, endRow);
+	    	  	 	         rset=pstmt.executeQuery();
+	    	  	 	         
+	    	  	 	         while(rset.next()) {
+	    	  	 	            
+	    	  	 	 		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+	    								rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+	    								rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+	    								rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+	    								rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+	    								rset.getString("REVIEW_YN"));
+	    		      
+	    		 	            tradeList.add(m);
+	            
+	    	  	 	            
+	    	  	 	         }
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	      } catch (SQLException e) {
+	    	  	 	         
+	    	  	 	         e.printStackTrace();
+	    	  	 	      }finally {
+	    	  	 	         close(pstmt);
+	    	  	 	         close(rset);
+	    	  	 	      }
+	    	  	  
+	     
+	      }
+	      return tradeList;
+	 
+	   }
+
+	public ArrayList<Member> searchTradeListB(Connection conn, int currentPage, int limit, String word, String type) {
+		PreparedStatement pstmt=null;
+	      ResultSet rset=null;
+	      ArrayList<Member> tradeList=new ArrayList<>();
+	      int startRow = (currentPage-1) * limit + 1;
+	      int endRow = currentPage * limit;
+
+	      if(type.equals("a")&&word=="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) )Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+  	    	  
+  	    	  try {
+  	 	         pstmt=conn.prepareStatement(query);
+  	 	  
+  	 	         pstmt.setInt(1,startRow);
+  	 	         pstmt.setInt(2, endRow);
+  	 	         rset=pstmt.executeQuery();
+  	 	         
+  	 	         while(rset.next()) {
+  	 	            
+  	 	        	 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+ 							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+ 							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+ 							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+ 							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+ 							rset.getString("REVIEW_YN"));
+ 	      
+ 	 	            tradeList.add(m);
+  	 	         
+  	 	         }
+  	 	         
+  	 	      } catch (SQLException e) {
+  	 	         
+  	 	         e.printStackTrace();
+  	 	      }finally {
+  	 	         close(pstmt);
+  	 	         close(rset);
+  	 	      }
+
+
+	}else if(type.equals("a")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%') or (user_id LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setString(2,word);
+	 	         pstmt.setInt(3,startRow);
+	 	         pstmt.setInt(4, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	   		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+							rset.getString("REVIEW_YN"));
+	      
+	 	            tradeList.add(m);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	    	  
+	      }else if(type.equals("b")&&word!="") {
+	    	  String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setInt(2,startRow);
+	 	         pstmt.setInt(3, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	   		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+							rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+							rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+							rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+							rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+							rset.getString("REVIEW_YN"));
+	      
+	 	            tradeList.add(m);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	      }else if(type.equals("c")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))Q  ORDER BY TRADE_DATE DESC) WHERE (user_id LIKE '%'||?||'%') and RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  	    	  try {
+	    	  	 	         pstmt=conn.prepareStatement(query);
+	    	  	 	         pstmt.setString(1,word);
+	    	  	 	         pstmt.setInt(2,startRow);
+	    	  	 	         pstmt.setInt(3, endRow);
+	    	  	 	         rset=pstmt.executeQuery();
+	    	  	 	         
+	    	  	 	         while(rset.next()) {
+	    	  	 	            
+	    	  	 	 		 Member m = new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+	    								rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+	    								rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+	    								rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+	    								rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+	    								rset.getString("REVIEW_YN"));
+	    		      
+	    		 	            tradeList.add(m);
+	            
+	    	  	 	            
+	    	  	 	         }
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	      } catch (SQLException e) {
+	    	  	 	         
+	    	  	 	         e.printStackTrace();
+	    	  	 	      }finally {
+	    	  	 	         close(pstmt);
+	    	  	 	         close(rset);
+	    	  	 	      }
+	    	  	  
+	     
+	      }
+	      return tradeList;
+	 
+	   }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
