@@ -1,6 +1,12 @@
 package member.model.vo;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3459518965162170721L;
 	private String bank;			// 은행명
 	private String account_hold;	// 예금주
 	private String account;			// 계좌번호

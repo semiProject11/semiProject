@@ -1,6 +1,12 @@
 package service.model.vo;
 
-public class Pagination {
+import java.io.Serializable;
+
+public class Pagination implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 40307648633940241L;
 	private int currentPage;	// 현제페이지
 	private int listCount;		// 저장된 개시물 개수
 	private int limit;			// 연산에 사용된 수
