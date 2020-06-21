@@ -1844,6 +1844,70 @@ public class MemberDao {
 
 
 
+	public int selectPB(String bNo,Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int point = 0;
+		
+		String query = "SELECT POINT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, bNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				point = rset.getInt("POINT");
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return point;
+	}
+
+
+
+
+	public int selectPS(String sNo,Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		int point = 0;
+		
+		String query = "SELECT POINT FROM MEMBER WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				point = rset.getInt("POINT");
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		return point;
+	}
+
+
+
+
 
 	}
 

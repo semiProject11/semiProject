@@ -1381,7 +1381,7 @@ public class ServiceDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET POINT + ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1403,7 +1403,7 @@ public class ServiceDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET POINT - ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1418,6 +1418,27 @@ public class ServiceDao {
 		}finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+	public int deleteTH(Connection conn, String sn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query="UPDATE LIST SET REFUND_YN= 'Y' WHERE SERVICE_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sn);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
 		return result;
 	}
 

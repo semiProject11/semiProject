@@ -450,6 +450,20 @@ public class Service_Service {
 	}
 
 
+	public int deleteTH(String sn) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().deleteTH(conn, sn);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
 
 
 }
