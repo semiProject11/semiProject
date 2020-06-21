@@ -76,7 +76,7 @@ public class InquiarySearchServlet extends HttpServlet {
 		ArrayList<Inquiary> inquiaryList=new BoardService().searchInquaryTypeList(currentPage,limit,type,word);
 		
 	
-		request.setAttribute("pn", pn);
+			request.setAttribute("pn", pn);
 			request.setAttribute("bList", bList);
 			request.setAttribute("inquiaryList", inquiaryList);
 			

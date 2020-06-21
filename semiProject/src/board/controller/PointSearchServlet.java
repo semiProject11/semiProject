@@ -34,6 +34,11 @@ public class PointSearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
+		
+		System.out.println("포인트 서블릿 왓sd");
+		String word=request.getParameter("word");
+		System.out.println("포인트 서블릿 왓나"+word);
 		//페이징 처리
 		
 		int listCount=new BoardService().getMemberCount();
@@ -66,17 +71,19 @@ public class PointSearchServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-	
-		
+
 		
 
 		System.out.println(currentPage);
 		System.out.println(limit);
 
-		ArrayList<Member> list= new MemberService().searchPoint(currentPage,limit);
+		System.out.println("list메소드 가기전");
+		ArrayList<Member> list= new MemberService().searchPoint(word,currentPage,limit);
 
 
-		System.out.println(list);
+		
+		System.out.println("list:"+list);
+		
 		if(!list.isEmpty()) {
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);

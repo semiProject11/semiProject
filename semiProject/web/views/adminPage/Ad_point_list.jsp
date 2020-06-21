@@ -273,12 +273,12 @@ th, tr, td {
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
-									<input class="form-control" type="text" name="word" value=""
+									<input class="form-control" id="word" type="text" name="word" value=""
 										placeholder="Search for..." aria-label="Search"
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
-									<button class="btn btn-primary mr-0" type="submit"
-										style="background: black; border: black;">
+									<button class="btn btn-primary mr-0" type="button"
+										style="background: black; border: black;" onclick="search();">
 
 										<i class="fas fa-search"></i>
 									</button>
@@ -493,6 +493,15 @@ $(function() {
 	});
 }); 
 
+
+//검색
+function search(){
+	
+	var word=$("#word").val();
+	location.href="<%=request.getContextPath() %>/search.point?word="+word;
+	
+	
+}
 
 
 </script>

@@ -634,11 +634,11 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-	public ArrayList<Member> searchPoint(int currentPage, int limit) {
+	public ArrayList<Member> searchPoint(String word, int currentPage, int limit) {
 		
 		Connection conn=getConnection();
-		ArrayList<Member> list=new MemberDao().searchPoint(conn,currentPage,limit);
-	
+		ArrayList<Member> list=new MemberDao().searchPoint(conn,currentPage,limit,word);
+	System.out.println("service:"+list);
 		close(conn);
 		return list;
 
