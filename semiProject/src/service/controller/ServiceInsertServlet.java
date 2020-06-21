@@ -1,3 +1,4 @@
+
 package service.controller;
 
 import java.io.IOException;
@@ -41,9 +42,9 @@ public class ServiceInsertServlet extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public ServiceInsertServlet() {
-    	
-    	
-    	
+       
+       
+       
         super();
         // TODO Auto-generated constructor stub
     }
@@ -53,31 +54,31 @@ public class ServiceInsertServlet extends HttpServlet {
     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
     */
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   request.setCharacterEncoding("utf-8");
-	   // 유저 번호
-//	   HttpSession session = request.getSession();
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		String userNo =loginUser.getUserNo();
-		String userNo = "1";
-	   
-	   
-	   // 전송 용량
-	   int maxSize = 1024 * 1024 * 10;		//10mbyte로 용량 제한 
-	   
-	   // 저장할 경로 지정
-	   String root = request.getSession().getServletContext().getRealPath("/");
-	   System.out.println(root);		//경로출력
-	   String savePath = root + "service_uploadFiles/";
-	   
-	   MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "utf-8",
-			   new DefaultFileRenamePolicy());
-	   
-	   
-   	Service_DaysTable_oh sd = new Service_DaysTable_oh();
+      request.setCharacterEncoding("utf-8");
+      // 유저 번호
+      HttpSession session = request.getSession();
+      
+      Member loginUser = (Member)session.getAttribute("loginUser");
+      String userNo =loginUser.getUserNo();
+      
+      
+      
+      // 전송 용량
+      int maxSize = 1024 * 1024 * 10;      //10mbyte로 용량 제한 
+      
+      // 저장할 경로 지정
+      String root = request.getSession().getServletContext().getRealPath("/");
+      System.out.println(root);      //경로출력
+      String savePath = root + "service_uploadFiles/";
+      
+      MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "utf-8",
+            new DefaultFileRenamePolicy());
+      
+      
+      Service_DaysTable_oh sd = new Service_DaysTable_oh();
   
 
-  String category = multiRequest.getParameter("category");               		 //카테고리
+  String category = multiRequest.getParameter("category");                      //카테고리
   String title = multiRequest.getParameter("title");                           //제목
   String saleMethod = multiRequest.getParameter("saleMethod");                  //판매방식
   String subject = multiRequest.getParameter("subject");                        //관련주제
@@ -87,7 +88,7 @@ public class ServiceInsertServlet extends HttpServlet {
   String startTime = multiRequest.getParameter("startTime");                  //연락가능시간_시작
   String finishTime = multiRequest.getParameter("finishTime");                  //연락가능시간_마감
    
-  String[] day = multiRequest.getParameterValues("day");                  		//가능요일
+  String[] day = multiRequest.getParameterValues("day");                        //가능요일
   
   //서비스 vo
    Service_ServiceTable_oh st = new Service_ServiceTable_oh();
@@ -119,16 +120,16 @@ public class ServiceInsertServlet extends HttpServlet {
    
    if(saleMethod.equals("auction")) {
       
-	   String biddingPriceComma = multiRequest.getParameter("biddingPrice");
-	   
-	   String[] numberArr = biddingPriceComma.split(",");
-	   
-	   String sum = "";
-	   for(String s : numberArr) {
-		   sum+=s;
-	   }
-	   
-	   int biddingPrice = Integer.valueOf(sum);
+      String biddingPriceComma = multiRequest.getParameter("biddingPrice");
+      
+      String[] numberArr = biddingPriceComma.split(",");
+      
+      String sum = "";
+      for(String s : numberArr) {
+         sum+=s;
+      }
+      
+      int biddingPrice = Integer.valueOf(sum);
 
      st.setPriceBidding(biddingPrice);
       
@@ -153,16 +154,16 @@ public class ServiceInsertServlet extends HttpServlet {
       
       
    }else {
-	   
-	   String salePriceComma = multiRequest.getParameter("salePrice");
-	   
-	   String[] numberArr = salePriceComma.split(",");
-	   
-	   String sum = "";
-	   for(String s : numberArr) {
-		   sum+=s;
-	   }
-	   int salePrice = Integer.valueOf(sum);
+      
+      String salePriceComma = multiRequest.getParameter("salePrice");
+      
+      String[] numberArr = salePriceComma.split(",");
+      
+      String sum = "";
+      for(String s : numberArr) {
+         sum+=s;
+      }
+      int salePrice = Integer.valueOf(sum);
 
             st.setPriceSale(salePrice);
             
@@ -181,17 +182,17 @@ public class ServiceInsertServlet extends HttpServlet {
    //한번에 input파일테그를 통해 넘어온 것들을 한번에 꺼내내주기 위해  리스트들의 name들을 반환 
    Enumeration<String> files = multiRequest.getFileNames();
    while(files.hasMoreElements()) {
-	   
-	   //전송순서 역순으로 파일 가져옴
-	   String name = files.nextElement();
-	   
-	   if(multiRequest.getFilesystemName(name) != null) {
-		   //getFilesystemName() - 변화된 파일명(rename된 파일명을 가져옴)
-		   saveFiles.add(multiRequest.getFilesystemName(name));
-		   //getOriginalFileName() - 실제 사용자가 업로드 했던 파일명
-		   originFiles.add(multiRequest.getOriginalFileName(name));
-	   }
-	   //ArrayList안에 파일이 역순으로 들어있음 
+      
+      //전송순서 역순으로 파일 가져옴
+      String name = files.nextElement();
+      
+      if(multiRequest.getFilesystemName(name) != null) {
+         //getFilesystemName() - 변화된 파일명(rename된 파일명을 가져옴)
+         saveFiles.add(multiRequest.getFilesystemName(name));
+         //getOriginalFileName() - 실제 사용자가 업로드 했던 파일명
+         originFiles.add(multiRequest.getOriginalFileName(name));
+      }
+      //ArrayList안에 파일이 역순으로 들어있음 
    }
    
    System.out.println("saveFiles : " + saveFiles);
@@ -200,32 +201,32 @@ public class ServiceInsertServlet extends HttpServlet {
    ArrayList<Service_SeviceFilesTable_oh> servicefileList = new ArrayList<>();
    //이름외에도 파일과 관련된 정보를 싸서 관리, 역순을 정방향으로 변경 
    for(int i = originFiles.size()-1; i >=0; i--) {
-	   Service_SeviceFilesTable_oh serviceFiles = new Service_SeviceFilesTable_oh();
-	   serviceFiles.setFilePath(savePath);
-	   serviceFiles.setOriginName(originFiles.get(i));
-	   serviceFiles.setChangeName(saveFiles.get(i));
-	   
-	   
-	   if(i==originFiles.size()-1) {
-		   serviceFiles.setFileLevel(0);
-		   //대표이미지 !
-	   }else {
-		   serviceFiles.setFileLevel(1);
-		   //나머지는 대표이미지 아님 ! 
-	   }
-	   
-	   servicefileList.add(serviceFiles);
+      Service_SeviceFilesTable_oh serviceFiles = new Service_SeviceFilesTable_oh();
+      serviceFiles.setFilePath(savePath);
+      serviceFiles.setOriginName(originFiles.get(i));
+      serviceFiles.setChangeName(saveFiles.get(i));
+      
+      
+      if(i==originFiles.size()-1) {
+         serviceFiles.setFileLevel(0);
+         //대표이미지 !
+      }else {
+         serviceFiles.setFileLevel(1);
+         //나머지는 대표이미지 아님 ! 
+      }
+      
+      servicefileList.add(serviceFiles);
    }
    
    int result = new Service_Service().insertService(st,day,servicefileList);
    
    if(result > 0) {
-	   request.setAttribute("msg", "등록이 완료되었습니다.");
-	   request.getRequestDispatcher("/views/service/service_register_success.jsp").forward(request, response);
-	   
+      request.setAttribute("msg", "등록이 완료되었습니다.");
+      request.getRequestDispatcher("/views/service/service_register_success.jsp").forward(request, response);
+      
    }else {
-	   request.setAttribute("msg", "실패 !");
-	   request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+      request.setAttribute("msg", "실패 !");
+      request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
    }
 
    

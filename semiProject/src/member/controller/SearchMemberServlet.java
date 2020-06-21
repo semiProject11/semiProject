@@ -35,6 +35,7 @@ public class SearchMemberServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("등급조회 서블릿임, 여기 도착하긴함?");
 		
 		//페이징 처리
 		
@@ -73,8 +74,8 @@ public class SearchMemberServlet extends HttpServlet {
 		String word=request.getParameter("word");
 		
 		
-		ArrayList<Member> gradeList= new MemberService().searchMember(word);
-		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word);
+		ArrayList<Member> gradeList= new MemberService().searchMember(word,currentPage,limit);
+		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word,currentPage,limit);
 		
 		
 		System.out.println("메소드 다녀온 후 마지막:"+gradeList);
@@ -87,6 +88,7 @@ public class SearchMemberServlet extends HttpServlet {
 		request.setAttribute("pn", pn);
 		request.setAttribute("gradeList", gradeList);
 		request.setAttribute("sellerList", sellerList);
+		
 		request.getRequestDispatcher("views/adminPage/Ad_grade_list.jsp").forward(request, response);
 	
 		

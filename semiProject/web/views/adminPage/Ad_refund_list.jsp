@@ -1,6 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%!int page11 = 3;%>	
+    pageEncoding="UTF-8" import="board.model.vo.Pagination,service.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
+
+<%
+ArrayList<Service_List> tradeList = (ArrayList<Service_List>) request.getAttribute("tradeList");
+ArrayList<Service_ServiceTable_oh> serviceList = (ArrayList<Service_ServiceTable_oh>) request.getAttribute("serviceList");
+ArrayList<Member> buyerList = (ArrayList<Member>) request.getAttribute("buyerList");
+ArrayList<Member> sellerList = (ArrayList<Member>) request.getAttribute("sellerList");
+
+Pagination pn = (Pagination)request.getAttribute("pn");
+int listCount = pn.getListCount();
+int currentPage = pn.getCurrentPage();
+int maxPage = pn.getMaxPage();
+int startPage = pn.getStartPage();
+int endPage = pn.getEndPage();
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -193,8 +208,8 @@
 						<div class="collapse" id="collapsePoints"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="admin_point.html">포인트 관리</a><a
-									class="nav-link" href="admin_refund.html">환불 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
+									class="nav-link" href="<%=request.getContextPath()%>/list.refund">환불 관리</a>
 							</nav>
 						</div>
 
@@ -208,7 +223,7 @@
                                     <path fill-rule="evenodd"
 									d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
 									clip-rule="evenodd" />
-                                </svg> &nbsp;공지사항/이벤트
+                               </svg> &nbsp;공지사항
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -216,8 +231,7 @@
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a>
 							</nav>
 						</div>
 					</div>
@@ -243,121 +257,136 @@
                     <hr>
                 </head>
                 <div class="container my-4">
-                    <div>
-                        <!--상단 버튼-->
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">전체
-                            선택</button>
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">확
-                            인</button>
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;">선택
-                            취소</button>
+                    <div class="container" >
+                       
                         <!--상단 검색창-->
                         <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-auto mr-md-3 my-2 my-md-0">
 
                             <div class="input-group">
 
-                                <select class="form-control" id="category">
-                                    <option selected>전체</option>
-                                    <option>서비스 번호</option>
-                                    <option>구매자</option>
-                                </select>
+            
 
-                                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search"
-                                    aria-describedby="basic-addon2" />
+                                 <input class="form-control" type="text" style="width:300px" placeholder="환불할 서비스 번호를 입력해주세요." aria-label="Search"
+                                    aria-describedby="basic-addon2" id="refundNo" name="refundNo" value=""/>
                                 <div class="input-group-append"></div>
-                                <button class="btn btn-primary" type="button" id="jin">
-                                    <i class="fas fa-search"></i></i></button>
+                                 <!--환불 버튼-->
+                        <button type="button" class="btn" style="background:black; color:white; width:95px;" onclick="refund();">환불</button>
                             </div>
                         </form>
                     </div>
 
 
 
-                    <!--유저 리스트-->
-                    <div class="table-responsive mt-3">
-                        <table class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>No</th>
-                                    <th>서비스 번호</th>
-                                    <th>구매 포인트</th>
-                                    <th>요청 일시</th>
-                                    <th>판매자</th>
-                                    <th>확인 여부</th>
+                	<!--게시판-->
+					<div class="table-responsive">
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
-                                                style="width:18px; height:18px;">
+						<table class="table table-striped table-bordered table-hover mt-2" id="listArea">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>제목</th>
+									<th>서비스번호</th>
+									<th>포인트(점)</th>
+									<th>판매자</th>
+									<th>거래일시</th>
+								</tr>
+							</thead>
+							<tbody>
+								<%
+									if (tradeList.isEmpty()) {
+								%>
+							
+								<tr>
+									<td colspan="6">조회된 결과가 없습니다.</td>
+								</tr>
+								<%
+									} else {
+								%>
+								<%
+									for (int i = 0; i < tradeList.size(); i++) {
+								%>
 
-                                        </div>
-                                    </td>
-                                    <td>1</td>
-                                    <td>12-458264</td>
-                                    <td>1,000,000,000</td>
-                                    <td>2020-05-14</td>
-                                    <td>김퍼블</td>
-                                    <td>X</td>
+								<tr>
 
-                                </tr>
+									<input type="hidden" value="<%=(serviceList.get(i)).getServiceNo()%>">
+									<td><%=(serviceList.get(i)).getDeadline()%></td> <!-- 마감시간 대신 dao에서 게시글 순번넣어옴  -->
+									<td><%=(serviceList.get(i)).getTitle()%></td>
+									<td><%=(serviceList.get(i)).getServiceNo()%></td>
+									<td><%=(serviceList.get(i)).getPriceSale()%></td>
+									<td><%=(sellerList.get(i)).getUserId()%></td>
+									<td><%=(tradeList.get(i)).getTrade_date()%></td>
 
+								</tr>
 
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-inline">
-                                            <input type="checkbox" class="form-check-input" id="checkall"
-                                                style="width:18px; height:18px;">
-
-                                        </div>
-                                    </td>
-                                    <td>2</td>
-                                    <td>12-155245</td>
-                                    <td>20,000,000</td>
-                                    <td>2020-05-14</td>
-                                    <td>만두</td>
-                                    <td>X</td>
-
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
+								<%
+									}
+								%>
+								<%
+									}
+								%>
 
 
 
 
-                <!------페이징 처리----->
-                <div class="page-center">
-                    <ul class="pagination-t">
+							</tbody>
+						</table>
+					</div>
 
-                        <!-- disabled: 페이지 비활성화 -->
-                        <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
-
-                        <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-                        <!-- disabled: 해당 버튼 활성화 -->
-                        <li class="page-item-t active-t" aria-current="page-t">
-                            <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-                    </ul>
-
-                </div>
+				</div>
 
 
 
-            </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             	<!------페이징 처리----->
+				<div class="page-center">
+					<ul class="pagination-t">
+
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.refund?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.refund?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.refund?currentPage=<%=p %>"><%=p %></a></li>
+
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.refund?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.refund?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
+
+				</div>
+
+			</div>
 
 
 
@@ -398,6 +427,22 @@
             </footer>
             </div>
             </div>
+
+    <script>
+            
+            function refund(){
+            	
+            	var serviceNo=$("#refundNo").val();
+            	
+            	location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ serviceNo;
+            	
+            	
+            }
+            
+            
+            </script>
+
+
 
 </body>
 </html>

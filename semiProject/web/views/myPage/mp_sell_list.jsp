@@ -233,9 +233,45 @@ th, tr, td {
 						<li class="breadcrumb-item"><a href="test.html">마이페이지</a></li>
 						<li class="breadcrumb-item active">판매내역</li>
 					</ol>
-
+					<div class="card md-4">						
+						<div class="card-body">
+						<h3>환불</h3>
+						<hr>
+						<table>
+							<tr>
+								<td style="width: 150px;">서비스 번호 :</td>
+								<td style="width: 150px;">
+									<select style="width: 150px;" id="cPoint">
+										<%
+										if (bsList.isEmpty()){
+										%>										
+											<option></option>										
+										<%
+											} else {
+										%>
+										<%
+											for (int i = 0; i < bsList.size(); i++) {
+												ServiceSellList s = bsList.get(i);	
+												if(s.getServiceStatus().equals("N")){
+										%>
+										<option value="<%=s.getServiceNo() %>"><%=s.getServiceNo() %></option>
+										<%} %>
+										<%} %>
+										<%} %>
+									</select>
+								</td>
+								<td style="width: 150px;"><button type="button" class="btn float-right mr-3"
+								style="background: black; color: white; width: 95px; font-size: small;"
+								onclick="canclePoint();">환불</button></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+					
 					<div class="card mb-4">
 						<div class="card-body">
+							<h3>판매내역</h3>
+							<hr>
 							<div class="table-responsive mt-3">
 								<table class="table   table-hover">
 									<thead>
@@ -280,7 +316,7 @@ th, tr, td {
 											<td><%=s.getServiceNo()%></td>
 											<td style="width: 300px;"><a href="index.html"
 												style="color: black;"><%=s.getTitle()%></a></td>
-											<%if(s.getUserName()==null){ %>
+											<%if(s.getServiceStatus().equals("Y")){ %>
 											<td>-</td>
 											<td>-</td>
 											<%}else{ %>
@@ -354,34 +390,55 @@ th, tr, td {
 				</div>
 
 				<script>
-  		function result1(){
-  			$("#result").val($("#service").val());
-  			
-  		}
-  	//체크된 항목 삭제
-		function deleteService(){    		
-		
-    		
-    		if(confirm("삭제하시겠습니까?")){
-    			
-    			var arr=new Array();
-					$("input:checkbox[name=rowCheck]:checked").each(function(i){
+			  		function result1(){
+			  			$("#result").val($("#service").val());
+			  			
+			  		}
+			  	//체크된 항목 삭제
+					function deleteService(){    		
+						if($("input:checkbox[name='rowCheck']").is(":checked") == false){
+				            alert("삭제할 항목을 체크해주세요");
+				            return false;
+				            
+				         }
+			    		
+			    		if(confirm("삭제하시겠습니까?")){
+			    			
+			    			var arr=new Array();
+								$("input:checkbox[name=rowCheck]:checked").each(function(i){
+								
+									var board_no=$(this).val();
+									arr.push(board_no);
 					
-						var board_no=$(this).val();
-						arr.push(board_no);
-		
+									
+								})
+								
+								
+								location.href="<%=request.getContextPath()%>/delete.sv?arr="+ arr;
+			    				
+			    			
+			    			}else{
+			    			return false;
+			    		}
+			    		
+			    	}  
+  				
+					function insertService(){
 						
-					})
-					
-					
-					location.href="<%=request.getContextPath()%>/delete.sv?arr="+ arr;
-    				
-    			
-    			}else{
-    			return false;
-    		}
-    		
-    	}  
+					}
+					function canclePoint(){
+						
+						var cp = $("#cPoint").val();
+						if(cp==null){
+							alert("환불 서비스 번호를 선택해 주세요")
+						}else{
+						location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ cp;						
+							
+						}
+					}
+			  	
+		
+   
   		
   		
   		</script>

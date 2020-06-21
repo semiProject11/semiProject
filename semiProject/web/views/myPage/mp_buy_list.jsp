@@ -271,7 +271,7 @@ tr.exline td{border-top: 1px solid black;}
 											if (bsList.isEmpty()) {
 										%>
 										<tr>
-											<td colspan="6">구매 내역이 없습니다.</td>
+											<td colspan="7">구매 내역이 없습니다.</td>
 										</tr>
 										<%
 											} else {
@@ -350,7 +350,7 @@ tr.exline td{border-top: 1px solid black;}
 																		<span class="starR">1</span> <span class="starR">2</span>
 																		<span class="starR">3</span> <span class="starR">4</span>
 																		<span class="starR">5</span> <input type="text"
-																			id="title" name="sNO">
+																			id="title" name="sNO" style="display: none;">
 																		<textarea id="value11" name="value11"
 																			style="display: none;"></textarea>
 																	</div>

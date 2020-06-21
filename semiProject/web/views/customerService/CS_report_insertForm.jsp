@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" import="member.model.vo.*"%>
-	
-	<%
-	Member member=(Member)request.getAttribute("member");
-	%>
+
+<%
+HttpSession session1 = request.getSession();
+
+Member loginUser = (Member)session1.getAttribute("loginUser");
+
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,11 +42,7 @@ label {
 	padding: 5px;
 }
 
-.btn:focus, .btn:hover {
-	background: gold !important;
-	color: black !important;
-	font-weight: bold;
-}
+
 </style>
 </head>
 <body>
@@ -265,12 +265,6 @@ label {
 			</div>
 
 
-
-
-
-
-
-
 			<!--footer-->
 			<footer class="py-4 bg-light mt-auto">
 				<div class="container-fluid">
@@ -325,6 +319,19 @@ label {
 
 		};
 		
+		
+		
+		
+		//로그인해야 작성가능
+		
+	      $(function(){
+              
+          	if(<%=loginUser==null%>){
+          		alert("로그인 후 작성 할 수 있습니다.")
+          		location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp"
+          	}
+          	
+          })
 		
 		
 		//여기서 유효성 검사 해줘야함
