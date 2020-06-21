@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import member.model.vo.Member;
 import service.model.service.Service_Service;
 import service.model.vo.CategoryListPd;
+import service.model.vo.Service;
+import service.model.vo.Service_Review;
 import service.model.vo.Service_SeviceFilesTable_oh;
 import service.model.vo.Service_info;
 
@@ -50,16 +53,17 @@ public class auctiondetailServlet extends HttpServlet {
 		 
 		
 		
-		
 	      CategoryListPd clpd = svService.auctiondetail(sNo);
 	      ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 	      
 	      ArrayList<Service_info> infolist = svService.selectsvinfo(sNo);
 	      
 	      
-//	      ArrayList<Service_Review> rlist = svService.selectreview(sNo,)
+	      ArrayList<Service_Review> rlist = svService.selectreview(suserNo);
 	      
+	      Member member = svService.pointcheck(loginUserNo);
 	      
+	      Service sv = svService.selectbuserNo(sNo);
 	      
 	     if(result > 0) {
 	      
@@ -69,11 +73,18 @@ public class auctiondetailServlet extends HttpServlet {
     			 request.setAttribute("clpd", clpd);
     			 request.setAttribute("flist", flist);
     			 request.setAttribute("infolist", infolist);
+    			 request.setAttribute("rlist", rlist);
+    			 request.setAttribute("member", member);
+    			 request.setAttribute("sv", sv);
+    			 
     			 request.getRequestDispatcher("views/service/sv_detail.jsp").forward(request, response);
     		 } else {
     			 request.setAttribute("clpd", clpd);
     			 request.setAttribute("flist", flist);
     			 request.setAttribute("infolist", infolist);
+    			 request.setAttribute("rlist", rlist);
+    			 request.setAttribute("member", member);
+    			 request.setAttribute("sv", sv);
     			 request.getRequestDispatcher("views/service/sv_general_detail.jsp").forward(request, response);  
     		 }
     	 } else {
@@ -81,14 +92,6 @@ public class auctiondetailServlet extends HttpServlet {
     		 request.getRequestDispatcher("view/common/errorPage.jsp");
 		}
 	      
-//	      if(!svlist.isEmpty()&&!flist.isEmpty()) {
-//				request.setAttribute("svlist", svlist);
-//				request.setAttribute("flist", flist);
-//				request.getRequestDispatcher("views/service/sv_detail.jsp").forward(request, response);
-//			} else {
-//				request.setAttribute("msg", "사진 게시판 상세 페이지 조회 실패");
-//				request.getRequestDispatcher("view/common/errorPage.jsp");
-//			}
 	     }
 	}
 
