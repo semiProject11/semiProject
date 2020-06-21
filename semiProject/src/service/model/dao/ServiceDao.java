@@ -3,7 +3,6 @@ package service.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 
 import board.model.vo.Review;
 import service.model.vo.CategoryListPd;
+import service.model.vo.MpSelectBSNo;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
@@ -419,7 +419,9 @@ public class ServiceDao {
 
 
 
+
      
+
 
 	public int insertService2(Connection conn, String[] day) {
 	        PreparedStatement pstmt = null;
@@ -1340,6 +1342,100 @@ public class ServiceDao {
 		}
 		
 		return list;
+	}
+
+	public MpSelectBSNo selectBSNo(Connection conn, String sn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		MpSelectBSNo bs = null;
+		String query = "SELECT * FROM SERVICE WHERE SERVICE_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sn);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				bs = new MpSelectBSNo(rset.getString("B_USER_NO"),
+										rset.getString("S_USER_NO"),
+										rset.getInt("PRICE_SALE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bs;
+	}
+
+	public int cancelPointb(Connection conn, String bNo, int price) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, bNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int cancelPoints(Connection conn, String sNo, int price) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, sNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int deleteTH(Connection conn, String sn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query="UPDATE LIST SET REFUND_YN= 'Y' WHERE SERVICE_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sn);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
 	}
 
 

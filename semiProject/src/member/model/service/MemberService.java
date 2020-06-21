@@ -590,6 +590,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+
 	public ArrayList selectPoint(ArrayList<String> userNo) {
 		Connection conn=getConnection();
 		
@@ -612,6 +613,27 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 
 	
+
+	public int selectPB(String bNo) {
+		Connection conn = getConnection();
+		
+		
+		int point = new MemberDao().selectPB(bNo, conn);
+		close(conn);
+		return point;
+	}
+
+
+	public int selectPS(String sNo) {
+		Connection conn = getConnection();
+		
+		int point = new MemberDao().selectPS(sNo, conn);
+		
+		close(conn);
+		return point;
+	}
+
+
 
 
 

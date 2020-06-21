@@ -13,6 +13,7 @@ import board.model.vo.Inquiary;
 import board.model.vo.Review;
 import service.model.dao.ServiceDao;
 import service.model.vo.CategoryListPd;
+import service.model.vo.MpSelectBSNo;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
@@ -408,6 +409,58 @@ public class Service_Service {
 		list = svDao.selectsvinfo(conn, sNo);
 		
 		return list;
+	}
+
+
+	public MpSelectBSNo selectBSNo(String sn) {
+		Connection conn = getConnection();
+		
+		MpSelectBSNo bs = new ServiceDao().selectBSNo(conn,sn);
+		
+		close(conn);
+		return bs;
+	}
+
+
+	public int cancelPointb(String bNo, int price) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().cancelPointb(conn, bNo, price);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int cancelPoints(String sNo, int price) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().cancelPoints(conn, sNo, price);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int deleteTH(String sn) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().deleteTH(conn, sn);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
 	}
 
 
