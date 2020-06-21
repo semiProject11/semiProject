@@ -128,14 +128,23 @@ font-weight: normal; font-style: normal; }
 
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#" style="color:black">
       <i class="fas fa-bars"></i></button><!-- Navbar Search-->
+      <script>
+      	function serchService(){
+      		if($("#content33").val()==""){
+      			alert("검색어를 입력해주세요")
+      			return false;
+      		}else{
+      			return true;
+      		}
+      	}
+      </script>
       
     
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" action="<%=request.getContextPath()%>/search.service">
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" onsubmit="return serchService();" action="<%=request.getContextPath()%>/search.service">
       <div class="input-group">
 
         <select class="form-control" name="search">
-          <option selected value="All">전체</option>
-          <option value="Ar">예술</option>
+          <option value="Ar" selected>예술</option>
           <option value="Re">요식업</option>
           <option value="Me">의료</option>
           <option value="Sp">스포츠</option>
@@ -153,7 +162,7 @@ font-weight: normal; font-style: normal; }
         </select>
       
         <input class="form-control" type="text" placeholder="제목을 입력해주세요." aria-label="Search"
-          aria-describedby="basic-addon2" name="word"/>
+          aria-describedby="basic-addon2" name="word" id="content33"/>
         <div class="input-group-append"></div>
         <button class="btn btn-primary" type="submit" id="jin">
           <i class="fas fa-search"></i>

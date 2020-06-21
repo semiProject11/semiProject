@@ -1443,15 +1443,16 @@ public class ServiceDao {
 		ResultSet rs = null;
 		ArrayList<CategoryListPd> list = new ArrayList<CategoryListPd>();
 		CategoryListPd clpd = null;
-		
-		
 		String query= "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = ? AND salemethod = ? AND SERVICE_STATUS = 'Y' AND (TITLE LIKE '%'||?||'%')";
 		
+		
 		try {
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, category);
-			pstmt.setString(2, salemethod);
-			pstmt.setString(3, word);
+			pstmt = conn.prepareStatement(query);			
+				pstmt.setString(1, category);
+				pstmt.setString(2, salemethod);
+				pstmt.setString(3, word);
+				
+			
 			
 			rs = pstmt.executeQuery();
 			
