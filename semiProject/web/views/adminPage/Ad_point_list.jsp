@@ -201,7 +201,7 @@ th, tr, td {
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 							<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
-									class="nav-link" href="#">환불 관리</a>
+															class="nav-link" href="<%=request.getContextPath()%>/list.refund">환불 관리</a>
 							</nav>
 						</div>
 
@@ -215,7 +215,7 @@ th, tr, td {
                                     <path fill-rule="evenodd"
 									d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
 									clip-rule="evenodd" />
-                                </svg> &nbsp;공지사항/이벤트
+                                </svg> &nbsp;공지사항
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -223,9 +223,7 @@ th, tr, td {
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link"
-									href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a>
 							</nav>
 						</div>
 					</div>
@@ -271,16 +269,16 @@ th, tr, td {
 
 
 							<!--상단 검색창-->
-
+							<form method="post" action="<%=request.getContextPath() %>/search.point">
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
-									<input class="form-control" type="text" name="word" value=""
+									<input class="form-control" id="word" type="text" name="word" value=""
 										placeholder="Search for..." aria-label="Search"
 										aria-describedby="basic-addon2" />
 									<div class="input-group-append"></div>
-									<button class="btn btn-primary mr-0" type="submit"
-										style="background: black; border: black;">
+									<button class="btn btn-primary mr-0" type="button"
+										style="background: black; border: black;" onclick="search();">
 
 										<i class="fas fa-search"></i>
 									</button>
@@ -288,7 +286,7 @@ th, tr, td {
 							</div>
 						</div>
 
-
+</form>
 
 						<!--회원등급 리스트-->
 						<div class="table-responsive mt-3">
@@ -299,9 +297,9 @@ th, tr, td {
 										 <th><input type="checkbox" class="common" id="checkAll"
 										style="width: 18px; height: 18px;"></th>
 										<th>No</th>
-										<th>가용 포인트</th>
-										<th>충전 포인트</th>
 										<th>아이디</th>
+										<th>가용 포인트</th>
+										<th>충전/차감 포인트</th>
 
 
 									</tr>
@@ -329,10 +327,14 @@ th, tr, td {
 											value="<%=((Member)m.get(i)).getUserNo()%>"></td>
 										<!-- 순서 -->
 										<td><%=((Member)m.get(i)).getUserNo()%></td>
+										<!-- 회원아이디 -->
+										<td><%=((Member)m.get(i)).getUserId()%></td>
 										<!-- 가용 포인트 -->
-										<td><%=((Member)m.get(i)).getPoint()%></td>
+										<td>
+										<input type="hidden" name="usePoint" id="usePoint" value="<%=((Member)m.get(i)).getPoint()%>">
+										<%=((Member)m.get(i)).getPoint()%></td>
 										<!-- 충전 포인트 -->
-										<td><select name="grade" id="grade"
+										<td><select name="point" id="point"
 											class="custom-select grade">
 												<option value="0" selected>----</option>
 												<option value="10000">10,000</option>
@@ -342,8 +344,6 @@ th, tr, td {
 												<option value="150000">150,000</option>
 												<option value="300000">300,000</option>
 										</select></td>
-										<!-- 회원아이디 -->
-										<td><%=((Member)m.get(i)).getUserId()%></td>
 
 									</tr>
 									<% } %>
@@ -406,7 +406,6 @@ th, tr, td {
 	</div>
 
 <script>
-//포인트 충전
 
 
 
@@ -415,33 +414,69 @@ th, tr, td {
 //포인트 차감
 
 	 function minusP(){
+	
+	
+		 if($("#usePoint").val()>$("#point").val()){ 
 		
-		var check= $("input:checkbox[name=rowCheck]:checked").val();
+			var check= $("input:checkbox[name=rowCheck]:checked").val();
 		
- 		if (check){		
+ 				if (check){		
  			
- 		var rowArr=new Array();
-		var tdArr=new Array();
+ 				var rowArr=new Array();
+				var tdArr=new Array();
+			
 		
+				$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
 		
-		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
-		
-			rowArr+=$(this).val()+",";
-			tdArr+=$(this).parent().parent().children().eq(3).children("select").val()+",";
+				rowArr+=$(this).val()+",";
+				tdArr+=$(this).parent().parent().children().eq(4).children("select").val()+",";
 			
 
-		});
+				});
          
 
-			location.href="<%=request.getContextPath()%>/withdrawAd.me?rowArr="+rowArr+"&tdArr="+tdArr;
+				location.href="<%=request.getContextPath()%>/withdrawAd.me?rowArr="+rowArr+"&tdArr="+tdArr;
 			
- 		}else{
- 			alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
- 		}
+ 				}else{
+ 					
+ 					alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
+ 				}
+ 		
+		 	}else{
+				alert('차감할 포인트를 다시 확인해주세요.');
+			}   
 	
 	} 
 
 
+
+//포인트 충전
+	 function plusP(){
+			
+			var check= $("input:checkbox[name=rowCheck]:checked").val();
+			
+	 		if (check){		
+	 			
+	 		var rowArr=new Array();
+			var tdArr=new Array();
+			
+			
+			$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
+			
+				rowArr+=$(this).val()+",";
+				tdArr+=$(this).parent().parent().children().eq(4).children("select").val()+",";
+				
+
+			});
+	         
+
+				location.href="<%=request.getContextPath()%>/deposit.me?rowArr="+rowArr+"&tdArr="+tdArr;
+				
+	 		}else{
+	 			alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
+	 		}
+		
+		} 
 
 
 //모두 체크
@@ -458,6 +493,15 @@ $(function() {
 	});
 }); 
 
+
+//검색
+function search(){
+	
+	var word=$("#word").val();
+	location.href="<%=request.getContextPath() %>/search.point?word="+word;
+	
+	
+}
 
 
 </script>

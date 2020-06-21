@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.*, service.model.vo.*, member.model.vo.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.*,board.model.vo.Pagination, service.model.vo.*, member.model.vo.*, java.util.ArrayList"%>
 
  <% 
+ 
+
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+	
 	ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
 	ArrayList<ReviewAd> rList=(ArrayList<ReviewAd>)request.getAttribute("rList");
 	ArrayList<Service_Category> scList=(ArrayList<Service_Category>)request.getAttribute("scList");
@@ -218,7 +227,7 @@
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
-									class="nav-link" href="#">환불 관리</a>
+															class="nav-link" href="<%=request.getContextPath()%>/list.refund">환불 관리</a>
 							</nav>
 						</div>
 
@@ -232,7 +241,7 @@
                                     <path fill-rule="evenodd"
 									d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
 									clip-rule="evenodd" />
-                                </svg> &nbsp;공지사항/이벤트
+                            </svg> &nbsp;공지사항
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -240,8 +249,7 @@
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a>
 							</nav>
 						</div>
 					</div>
@@ -333,25 +341,33 @@
 
 
 
-                <!------페이징 처리----->
-                <div class="page-center">
-                    <ul class="pagination-t">
+             <%--   <!------페이징 처리----->
+				<div class="page-center">
+					<ul class="pagination-t">
 
-                        <!-- disabled: 페이지 비활성화 -->
-                        <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=p %>"><%=p %></a></li>
 
-                        <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
 
-                        <!-- disabled: 해당 버튼 활성화 -->
-                        <li class="page-item-t active-t" aria-current="page-t">
-                            <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-                    </ul>
+				</div> --%>
 
-                </div>
-            </div>
+			</div>
 
 
 

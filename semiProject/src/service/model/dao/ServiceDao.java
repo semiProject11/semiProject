@@ -3,7 +3,6 @@ package service.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -421,6 +420,9 @@ public class ServiceDao {
 
 
 
+     
+
+
 	public int insertService2(Connection conn, String[] day) {
 	        PreparedStatement pstmt = null;
 	            int result2 = 0;
@@ -760,11 +762,8 @@ public class ServiceDao {
 		int starRow = (currentPage-1)*limit+1;
 		int endRow = currentPage * limit;
 		
-		System.out.println(userNo);
-		System.out.println(currentPage);
-		System.out.println(limit);
 		
-		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -779,10 +778,7 @@ public class ServiceDao {
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
 									rset.getString("TITLE"),
-									rset.getString("SERVICE_STATUS"),
-									rset.getString("USER_NAME"),
-									rset.getString("PHONE"),
-									rset.getInt("RATING"));
+									rset.getString("SERVICE_STATUS"));
 					
 					bsList.add(service);
 					
@@ -1381,7 +1377,7 @@ public class ServiceDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET POINT + ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1403,7 +1399,7 @@ public class ServiceDao {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET POINT - ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1419,6 +1415,68 @@ public class ServiceDao {
 			close(pstmt);
 		}
 		return result;
+	}
+
+	public int deleteTH(Connection conn, String sn) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query="UPDATE LIST SET REFUND_YN= 'Y' WHERE SERVICE_NO=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sn);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<CategoryListPd> searchService(Connection conn, String category, String word, String salemethod) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<CategoryListPd> list = new ArrayList<CategoryListPd>();
+		CategoryListPd clpd = null;
+		String query= "SELECT * FROM SERVICE_PD WHERE CATEGORY_CODE = ? AND salemethod = ? AND SERVICE_STATUS = 'Y' AND (TITLE LIKE '%'||?||'%')";
+		
+		
+		try {
+			pstmt = conn.prepareStatement(query);			
+				pstmt.setString(1, category);
+				pstmt.setString(2, salemethod);
+				pstmt.setString(3, word);
+				
+			
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+
+				list.add(clpd);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		
+		return list;
+		
 	}
 
 

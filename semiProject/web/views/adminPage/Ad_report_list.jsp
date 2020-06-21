@@ -210,7 +210,7 @@
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
-									class="nav-link" href="#">환불 관리</a>
+														class="nav-link" href="<%=request.getContextPath()%>/list.refund">환불 관리</a>
 							</nav>
 						</div>
 
@@ -224,7 +224,7 @@
                                     <path fill-rule="evenodd"
 									d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
 									clip-rule="evenodd" />
-                                </svg> &nbsp;공지사항/이벤트
+                              </svg> &nbsp;공지사항
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -232,8 +232,7 @@
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a>
 							</nav>
 						</div>
 					</div>
@@ -274,8 +273,9 @@
                   
                   
                     <!--상단 검색창-->
-                <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0" method='post' action="<%=request.getContextPath() %>/search.report">
+                <div
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                            <form method='post' action="<%=request.getContextPath() %>/search.report">
                             
                             <div class="input-group">
                                 <select class="form-control" name="search">
@@ -288,9 +288,10 @@
                                 <input class="form-control" type="text"  name="word" value="" placeholder="Search for..." aria-label="Search"
                                     aria-describedby="basic-addon2" />
                                 <div class="input-group-append"></div>
-                                <button class="btn btn-primary mr-0" type="submit" id="jin">
+                                <button class="btn btn-primary mr-0" type="button" id="jin">
                                     <i class="fas fa-search"></i></button>
                             </div>
+                        </div>
                         </form>
                     </div>
 
@@ -419,6 +420,9 @@
             </footer>
             </div>
             </div>
+   
+   
+   
     <script>
             
             

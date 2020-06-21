@@ -217,7 +217,7 @@
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
                             	<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
                             <img class="card-img-top transform1"
-                                src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+                                src="<%=request.getContextPath()%>/image/<%=clpd.getChageName() %>"></a>
                                 <%} %>
                           <%} %>      
                           </div>

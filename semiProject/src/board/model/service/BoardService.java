@@ -120,11 +120,11 @@ public class BoardService {
 	
 	
 
-	public ArrayList<Board> selectBoardNotice() {
+	public ArrayList<Board> selectBoardNotice(int currentPage, int limit) {
 
 		Connection conn = getConnection();
 
-		ArrayList<Board> list = new BoardDao().selectBoardNotice(conn);
+		ArrayList<Board> list = new BoardDao().selectBoardNotice(conn,currentPage,limit);
 		close(conn);
 
 		return list;
@@ -469,10 +469,10 @@ public class BoardService {
 		return inquiary;
 	}
 
-	public ArrayList<Board> selectFaq(int board_code) {
+	public ArrayList<Board> selectFaq(int board_code, int currentPage, int limit) {
 		Connection conn = getConnection();
 
-		ArrayList<Board> list = new BoardDao().selectFaq(conn,board_code);
+		ArrayList<Board> list = new BoardDao().selectFaq(conn,board_code,currentPage,limit);
 		close(conn);
 
 		return list;
@@ -683,10 +683,10 @@ public class BoardService {
 		return listCount;
 	}
 
-	public int getNoticeListCount() {
+	public int getNoticeListCount(int board_code) {
 		Connection conn = getConnection();
 
-		int listCount = new BoardDao().getNoticeListCount(conn);
+		int listCount = new BoardDao().getNoticeListCount(conn,board_code);
 
 		if (listCount > 0) {
 			System.out.println("커밋됨");
@@ -756,6 +756,8 @@ public class BoardService {
 		close(conn);
 		return count;
 	}
+
+
 
 	
 	

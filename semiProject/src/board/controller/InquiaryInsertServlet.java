@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -53,18 +54,19 @@ public class InquiaryInsertServlet extends HttpServlet {
 
 		String title = multiRequest.getParameter("inquiaryTitle");
 		String content = multiRequest.getParameter("inquiaryContent");
-//		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_id = "admin";
+
+		
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		
 		String board_type = multiRequest.getParameter("inquiaryName");
 		
 		
 		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
 
-		// 왜 값이 안담겨옴??
-		System.out.println("이건 뭐들어있지" + user_id);
-		System.out.println("title:" + title);
-		System.out.println("content:" + content);
-		System.out.println("board_type:" + board_type);
+	
 
 		// 저장할 파일 이름 리스트
 		ArrayList<String> saveFiles = new ArrayList<>();
@@ -88,8 +90,8 @@ public class InquiaryInsertServlet extends HttpServlet {
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
-
-		b.setuser_id(user_id);
+		b.setUser_no(Integer.valueOf(loginUser.getUserNo()));
+		b.setuser_id(loginUser.getUserId());
 		b.setBoard_code(board_code);
 
 		Inquiary inq = new Inquiary();

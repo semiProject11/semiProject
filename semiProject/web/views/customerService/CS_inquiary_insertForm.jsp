@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="member.model.vo.*"%>
+
+<%
+HttpSession session1 = request.getSession();
+
+Member loginUser = (Member)session1.getAttribute("loginUser");
+
+
+%>
 
 <!DOCTYPE html>
 <html>
@@ -49,19 +57,12 @@
 
         }
 
-        .btn:focus,
-        .btn:hover {
-            background: gold !important;
-            color: black !important;
-            font-weight: bold;
-        }
+  
     </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar3.jsp" />
+	<jsp:include page="../common/menubar2.jsp" />
 
-	
-	
 	<div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -99,9 +100,9 @@
                 </svg></div>
               FAQ
             </a>
-            <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
+            <a class="nav-link">
               <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
-                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  fill="currentColor" xmlns="http://www.w3.org/2000/svg" onclick="checkLogin();" >
                   <path fill-rule="evenodd"
                     d="M4 1.5H3a2 2 0 00-2 2V14a2 2 0 002 2h10a2 2 0 002-2V3.5a2 2 0 00-2-2h-1v1h1a1 1 0 011 1V14a1 1 0 01-1 1H3a1 1 0 01-1-1V3.5a1 1 0 011-1h1v-1z"
                     clip-rule="evenodd" />
@@ -111,6 +112,13 @@
                 </svg></i></div>
               1:1 문의
             </a>
+            
+                   
+    
+            
+     
+            
+            
             <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -144,7 +152,6 @@
     </div>
     
     <div id="layoutSidenav_content">
-
 
 
 
@@ -271,7 +278,17 @@
             	
             };
             
+           
+            $(function(){
+                
+            	if(<%=loginUser==null%>){
+            		alert("로그인 후 작성 할 수 있습니다.")
+            		location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp"
+            	}
+            	
+            })
             
+
             
             </script>
             

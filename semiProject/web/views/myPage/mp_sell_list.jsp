@@ -427,8 +427,14 @@ th, tr, td {
 						
 					}
 					function canclePoint(){
+						
 						var cp = $("#cPoint").val();
-						location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ cp;
+						if(cp==null){
+							alert("환불 서비스 번호를 선택해 주세요")
+						}else{
+						location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ cp;						
+							
+						}
 					}
 			  	
 		

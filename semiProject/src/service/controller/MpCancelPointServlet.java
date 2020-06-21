@@ -8,7 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import member.model.service.MemberService;
+import member.model.vo.Member;
 import service.model.service.Service_Service;
 import service.model.vo.MpSelectBSNo;
 
@@ -31,6 +34,13 @@ public class MpCancelPointServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userId =loginUser.getUserId();
+		
+		
 		String sn = request.getParameter("serviceNo");
 		
 		MpSelectBSNo bs = new Service_Service().selectBSNo(sn);
@@ -38,13 +48,22 @@ public class MpCancelPointServlet extends HttpServlet {
 		String sNo = bs.getSellerNo();
 		int price = bs.getPrice();
 		
-		int result = new Service_Service().cancelPointb(bNo, price);
-		int result1 = new Service_Service().cancelPoints(sNo, price);
+		int pointB = new MemberService().selectPB(bNo)+price;
+		int pointS = new MemberService().selectPS(sNo)-price;
+		
+		
+		int result = new Service_Service().cancelPointb(bNo, pointB);
+		int result1 = new Service_Service().cancelPoints(sNo, pointS);
+		int result2 = new Service_Service().deleteTH(sn);
 		
 		RequestDispatcher view = null;
 		if(result>0 && result1>0) {
-			view = request.getRequestDispatcher("/delete.sv");
-			request.setAttribute("arr", sn);
+			if(userId.equals("admin")) {
+				
+			}
+			view = request.getRequestDispatcher("/sellList.sv");
+			
+			
 		}else {
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "환불 실패!!");
