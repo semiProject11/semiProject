@@ -1990,6 +1990,57 @@ public class MemberDao {
 
 
 
+	public ArrayList<Member> searchPoint(Connection conn, int currentPage, int limit) { //아이디검색
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		String query="select * from(select rownum rnum,q.* from(select * from member where status='Y')q order by user_no desc) where rnum between ? and ?";
+		ArrayList<Member> list=new ArrayList<>();
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		
+		try {
+			pstmt=conn.prepareStatement(query);
+			pstmt.setString(1, word);
+			pstmt.setInt(2,startRow);
+			pstmt.setInt(3, endRow);
+			
+			rset=pstmt.executeQuery();
+			
+			while(rset.next()) {
+				
+				Seller s=new Seller(rset.getInt("s_user_No"),
+									rset.getInt("report_Num"),
+									rset.getInt("sellCount")
+									
+						
+						);
+				sellerList.add(s);
+			
+			}
+			
+		} catch (SQLException e) {
+	
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+	
+		
+		
+
+		
+		
+		
+		
+		
+		return list;
+	}
+
+
+
+
 
 	}
 

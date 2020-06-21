@@ -2772,19 +2772,24 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 	public int getinquiaryListCount(Connection conn) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT COUNT(*) FROM inquiary";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 
@@ -2819,37 +2824,47 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 	
 
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 
 	public int getReportListCount(Connection conn) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 

@@ -209,7 +209,7 @@ int endPage = pn.getEndPage();
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="<%=request.getContextPath()%>/list.point">포인트 관리</a><a
-									class="nav-link" href="#">환불 관리</a>
+									class="nav-link" href="<%=request.getContextPath()%>/list.refund">환불 관리</a>
 							</nav>
 						</div>
 
@@ -223,7 +223,7 @@ int endPage = pn.getEndPage();
                                     <path fill-rule="evenodd"
 									d="M8 1.918l-.797.161A4.002 4.002 0 004 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 00-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 111.99 0A5.002 5.002 0 0113 6c0 .88.32 4.2 1.22 6z"
 									clip-rule="evenodd" />
-                                </svg> &nbsp;공지사항/이벤트
+                               </svg> &nbsp;공지사항
 							<div class="sb-sidenav-collapse-arrow">
 								<i class="fas fa-angle-down"></i>
 							</div>
@@ -231,8 +231,7 @@ int endPage = pn.getEndPage();
 						<div class="collapse" id="collapseNotice"
 							aria-labelledby="headingOne" data-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a><a
-									class="nav-link" href="admin_event.html">이벤트 관리</a>
+								<a class="nav-link" href="<%=request.getContextPath()%>/listAd.notice">공지사항 관리</a>
 							</nav>
 						</div>
 					</div>
@@ -258,17 +257,17 @@ int endPage = pn.getEndPage();
                     <hr>
                 </head>
                 <div class="container my-4">
-                    <div>
+                    <div class="container" >
                        
                         <!--상단 검색창-->
                         <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-auto mr-md-3 my-2 my-md-0">
 
                             <div class="input-group">
 
             
 
-                                 <input class="form-control" type="text" placeholder="환불할 서비스 번호를 입력해주세요." aria-label="Search"
+                                 <input class="form-control" type="text" style="width:300px" placeholder="환불할 서비스 번호를 입력해주세요." aria-label="Search"
                                     aria-describedby="basic-addon2" id="refundNo" name="refundNo" value=""/>
                                 <div class="input-group-append"></div>
                                  <!--환불 버튼-->
@@ -435,7 +434,7 @@ int endPage = pn.getEndPage();
             	
             	var serviceNo=$("#refundNo").val();
             	
-            	location.href="<%=request.getContextPath()%>/cancle.point?serviceNo="+ serviceNo;
+            	location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ serviceNo;
             	
             	
             }

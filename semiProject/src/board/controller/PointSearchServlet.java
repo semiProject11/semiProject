@@ -10,20 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
-import board.model.vo.Board;
 import board.model.vo.Pagination;
+import member.model.service.MemberService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class NoticeSearchServlet
+ * Servlet implementation class PointListServlet
  */
-@WebServlet("/search.notice")
-public class NoticeSearchServlet extends HttpServlet {
+@WebServlet("/search.point")
+public class PointSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeSearchServlet() {
+    public PointSearchServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,12 +34,9 @@ public class NoticeSearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String type=request.getParameter("search");
-		String word=request.getParameter("word");
-		
 		//페이징 처리
-		int board_code=20;
-		int listCount=new BoardService().getNoticeListCount(board_code);
+		
+		int listCount=new BoardService().getMemberCount();
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
 		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
@@ -68,22 +66,26 @@ public class NoticeSearchServlet extends HttpServlet {
 		
 		Pagination pn = new Pagination(currentPage, listCount, limit, maxPage, startPage, endPage);
 		
-
-		
-		
-		ArrayList<Board> list= new BoardService().searchNotice(type,word,currentPage, limit);
-		
-		System.out.println(list);
-		
 	
-			request.setAttribute("list", list);
+		
+		
+
+		System.out.println(currentPage);
+		System.out.println(limit);
+
+		ArrayList<Member> list= new MemberService().searchPoint(currentPage,limit);
+
+
+		System.out.println(list);
+		if(!list.isEmpty()) {
 			request.setAttribute("pn", pn);
-			request.getRequestDispatcher("views/adminPage/Ad_notice_list.jsp").forward(request, response);
-		
-		
-		
-		
-		
+			request.setAttribute("list", list);
+			request.getRequestDispatcher("views/adminPage/Ad_point_list.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+		}
+
+
 	}
 
 	/**

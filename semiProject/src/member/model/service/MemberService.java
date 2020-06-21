@@ -634,6 +634,17 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public ArrayList<Member> searchPoint(int currentPage, int limit) {
+		
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchPoint(conn,currentPage,limit);
+	
+		close(conn);
+		return list;
+
+	}
+
+
 
 
 
