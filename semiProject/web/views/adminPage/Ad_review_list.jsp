@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.*, service.model.vo.*, member.model.vo.*, java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.*,board.model.vo.Pagination, service.model.vo.*, member.model.vo.*, java.util.ArrayList"%>
 
  <% 
+ 
+
+	Pagination pn = (Pagination)request.getAttribute("pn");
+	int listCount = pn.getListCount();
+	int currentPage = pn.getCurrentPage();
+	int maxPage = pn.getMaxPage();
+	int startPage = pn.getStartPage();
+	int endPage = pn.getEndPage();
+	
 	ArrayList<Board> bList=(ArrayList<Board>)request.getAttribute("bList");
 	ArrayList<ReviewAd> rList=(ArrayList<ReviewAd>)request.getAttribute("rList");
 	ArrayList<Service_Category> scList=(ArrayList<Service_Category>)request.getAttribute("scList");
@@ -333,25 +342,33 @@
 
 
 
-                <!------페이징 처리----->
-                <div class="page-center">
-                    <ul class="pagination-t">
+             <%--   <!------페이징 처리----->
+				<div class="page-center">
+					<ul class="pagination-t">
 
-                        <!-- disabled: 페이지 비활성화 -->
-                        <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=1"><<</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=p %>"><%=p %></a></li>
 
-                        <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/relist.bo?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
 
-                        <!-- disabled: 해당 버튼 활성화 -->
-                        <li class="page-item-t active-t" aria-current="page-t">
-                            <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                        <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-                    </ul>
+				</div> --%>
 
-                </div>
-            </div>
+			</div>
 
 
 

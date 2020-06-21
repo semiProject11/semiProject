@@ -33,6 +33,8 @@ public class InquiarySearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("여기 오긴하나?");
 		String type=request.getParameter("search");
 		String word=request.getParameter("word");
 		

@@ -419,21 +419,7 @@ public class ServiceDao {
 
 
 
-      public int insertService1(Connection conn, String[] day) {
-         PreparedStatement pstmt = null;
-            int result2 = 0;
-            String aaa = "";
-            
-            
-          //데이터 없어서 임의의 값 넣음 
-               String query = "INSERT INTO DAYS VALUES(?,5)";
-               //서비스번호 임시로 넣어둠 !
-               
-            try {
-               for(int i=0; i < day.length; i++) {
-               pstmt = conn.prepareStatement(query);
-                   aaa = day[i];
-                  pstmt.setString(1, aaa);
+     
 
 	public int insertService2(Connection conn, String[] day) {
 	        PreparedStatement pstmt = null;

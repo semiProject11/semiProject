@@ -580,7 +580,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 
 
 
-	public int minusPoint(ArrayList<String> userNo, ArrayList<String> point) {
+	public int minusPoint(ArrayList<String> userNo, ArrayList point) {
 		Connection conn=getConnection();
 		
 		int result=new MemberDao().minusPoint(userNo, point,conn);
@@ -589,6 +589,29 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		return result;
 	}
 
+
+	public ArrayList selectPoint(ArrayList<String> userNo) {
+		Connection conn=getConnection();
+		
+		ArrayList beforeUser=new MemberDao().selectPoint(conn,userNo);
+		
+		
+		close(conn);
+		return beforeUser;
+	}
+
+
+	public int plusPoint(ArrayList<String> userNo, ArrayList afterPoint) {
+		Connection conn=getConnection();
+		
+		int result=new MemberDao().plusPoint(userNo, afterPoint,conn);
+		
+		close(conn);
+		return result;
+	}
+
+
+	
 
 
 

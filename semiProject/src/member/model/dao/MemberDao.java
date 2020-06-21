@@ -1303,7 +1303,7 @@ public class MemberDao {
 			pstmt.setString(2, userNo.get(i));
 
 			result+=pstmt.executeUpdate();
-			System.out.println(result);
+		
 			}
 			
 		} catch (SQLException e) {			
@@ -1814,7 +1814,7 @@ public class MemberDao {
 
 
 
-	public int minusPoint(ArrayList<String> userNo, ArrayList<String> point, Connection conn) {
+	public int minusPoint(ArrayList<String> userNo, ArrayList point, Connection conn) {
 		int result=0;
 		PreparedStatement pstmt=null;
 		
@@ -1825,7 +1825,89 @@ public class MemberDao {
 			for(int i=0; i<point.size(); i++) {
 			pstmt=conn.prepareStatement(query);
 			
-			pstmt.setString(1, point.get(i));
+			pstmt.setInt(1,(int) point.get(i));
+			pstmt.setString(2, userNo.get(i));
+
+			result+=pstmt.executeUpdate();
+			System.out.println(result);
+			}
+			
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+
+
+
+	public ArrayList selectPoint(Connection conn, ArrayList<String> userNo) {
+		PreparedStatement pstmt=null;
+		ResultSet rset=null;
+		ArrayList list = new ArrayList<>();
+		Member m=null;
+		
+		try {
+			
+			for(int i=0;i<userNo.size(); i++) {
+				
+			String query="SELECT * FROM MEMBER WHERE USER_NO=?";
+			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1, Integer.valueOf(userNo.get(i)));
+			rset=pstmt.executeQuery();
+	
+			while (rset.next()) {
+
+				m = new Member(rset.getString("USER_NO"),
+						rset.getString("USER_ID"),
+						rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"),
+						rset.getString("BIRTH"),
+						rset.getString("PHONE"),
+						rset.getString("EMAIL"),
+						rset.getInt("POINT"),
+						rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"),
+						rset.getString("STATUS"),
+						rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"),
+						rset.getString("PROFILE"),
+						rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
+			
+				list.add(m);
+
+			}
+			}
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+		}
+		
+		
+		
+		return list;
+	}
+
+
+
+
+	public int plusPoint(ArrayList<String> userNo, ArrayList afterPoint, Connection conn) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		
+		
+		String query="UPDATE MEMBER SET point=? WHERE USER_NO=?";
+		try {
+			
+			for(int i=0; i<afterPoint.size(); i++) {
+			pstmt=conn.prepareStatement(query);
+			
+			pstmt.setInt(1,(int) afterPoint.get(i));
 			pstmt.setString(2, userNo.get(i));
 
 			result+=pstmt.executeUpdate();

@@ -20,7 +20,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <style>
-        #jin {
+ 
+    #jin {
             background: black;
             border: none;
         }
@@ -287,8 +288,8 @@
                        
                        
                         <!--상단 검색창-->
-                        <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0" method='post' action="<%=request.getContextPath() %>/search.inquiary">
+                        <form method='post' action="<%=request.getContextPath() %>/search.inquiary">
+                        <div class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
                             
                             <div class="input-group">
                                 <select class="form-control" name="search">
@@ -305,6 +306,7 @@
                                     <i class="fas fa-search"></i></button>
                             </div>
                         </form>
+                    </div>
                     </div>
 
                     <!--유저 리스트-->

@@ -274,8 +274,9 @@
                   
                   
                     <!--상단 검색창-->
-                <form
-                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0" method='post' action="<%=request.getContextPath() %>/search.report">
+                <div
+                            class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                            <form method='post' action="<%=request.getContextPath() %>/search.report">
                             
                             <div class="input-group">
                                 <select class="form-control" name="search">
@@ -288,9 +289,10 @@
                                 <input class="form-control" type="text"  name="word" value="" placeholder="Search for..." aria-label="Search"
                                     aria-describedby="basic-addon2" />
                                 <div class="input-group-append"></div>
-                                <button class="btn btn-primary mr-0" type="submit" id="jin">
+                                <button class="btn btn-primary mr-0" type="button" id="jin">
                                     <i class="fas fa-search"></i></button>
                             </div>
+                        </div>
                         </form>
                     </div>
 
@@ -419,6 +421,9 @@
             </footer>
             </div>
             </div>
+   
+   
+   
     <script>
             
             

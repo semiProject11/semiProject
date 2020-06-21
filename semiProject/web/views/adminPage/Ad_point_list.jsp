@@ -271,7 +271,7 @@ th, tr, td {
 
 
 							<!--상단 검색창-->
-
+							<form method="post" action="<%=request.getContextPath() %>/search.point">
 							<div
 								class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
 								<div class="input-group">
@@ -288,7 +288,7 @@ th, tr, td {
 							</div>
 						</div>
 
-
+</form>
 
 						<!--회원등급 리스트-->
 						<div class="table-responsive mt-3">
@@ -299,9 +299,9 @@ th, tr, td {
 										 <th><input type="checkbox" class="common" id="checkAll"
 										style="width: 18px; height: 18px;"></th>
 										<th>No</th>
-										<th>가용 포인트</th>
-										<th>충전 포인트</th>
 										<th>아이디</th>
+										<th>가용 포인트</th>
+										<th>충전/차감 포인트</th>
 
 
 									</tr>
@@ -329,10 +329,14 @@ th, tr, td {
 											value="<%=((Member)m.get(i)).getUserNo()%>"></td>
 										<!-- 순서 -->
 										<td><%=((Member)m.get(i)).getUserNo()%></td>
+										<!-- 회원아이디 -->
+										<td><%=((Member)m.get(i)).getUserId()%></td>
 										<!-- 가용 포인트 -->
-										<td><%=((Member)m.get(i)).getPoint()%></td>
+										<td>
+										<input type="hidden" name="usePoint" id="usePoint" value="<%=((Member)m.get(i)).getPoint()%>">
+										<%=((Member)m.get(i)).getPoint()%></td>
 										<!-- 충전 포인트 -->
-										<td><select name="grade" id="grade"
+										<td><select name="point" id="point"
 											class="custom-select grade">
 												<option value="0" selected>----</option>
 												<option value="10000">10,000</option>
@@ -342,8 +346,6 @@ th, tr, td {
 												<option value="150000">150,000</option>
 												<option value="300000">300,000</option>
 										</select></td>
-										<!-- 회원아이디 -->
-										<td><%=((Member)m.get(i)).getUserId()%></td>
 
 									</tr>
 									<% } %>
@@ -406,7 +408,6 @@ th, tr, td {
 	</div>
 
 <script>
-//포인트 충전
 
 
 
@@ -415,33 +416,69 @@ th, tr, td {
 //포인트 차감
 
 	 function minusP(){
+	
+	
+		 if($("#usePoint").val()>$("#point").val()){ 
 		
-		var check= $("input:checkbox[name=rowCheck]:checked").val();
+			var check= $("input:checkbox[name=rowCheck]:checked").val();
 		
- 		if (check){		
+ 				if (check){		
  			
- 		var rowArr=new Array();
-		var tdArr=new Array();
+ 				var rowArr=new Array();
+				var tdArr=new Array();
+			
 		
+				$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
 		
-		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
-		
-			rowArr+=$(this).val()+",";
-			tdArr+=$(this).parent().parent().children().eq(3).children("select").val()+",";
+				rowArr+=$(this).val()+",";
+				tdArr+=$(this).parent().parent().children().eq(4).children("select").val()+",";
 			
 
-		});
+				});
          
 
-			location.href="<%=request.getContextPath()%>/withdrawAd.me?rowArr="+rowArr+"&tdArr="+tdArr;
+				location.href="<%=request.getContextPath()%>/withdrawAd.me?rowArr="+rowArr+"&tdArr="+tdArr;
 			
- 		}else{
- 			alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
- 		}
+ 				}else{
+ 					
+ 					alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
+ 				}
+ 		
+		 	}else{
+				alert('차감할 포인트를 다시 확인해주세요.');
+			}   
 	
 	} 
 
 
+
+//포인트 충전
+	 function plusP(){
+			
+			var check= $("input:checkbox[name=rowCheck]:checked").val();
+			
+	 		if (check){		
+	 			
+	 		var rowArr=new Array();
+			var tdArr=new Array();
+			
+			
+			$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
+			
+				rowArr+=$(this).val()+",";
+				tdArr+=$(this).parent().parent().children().eq(4).children("select").val()+",";
+				
+
+			});
+	         
+
+				location.href="<%=request.getContextPath()%>/deposit.me?rowArr="+rowArr+"&tdArr="+tdArr;
+				
+	 		}else{
+	 			alert('포인트를 충전/차감 할 아이디를 선택해주세요.');
+	 		}
+		
+		} 
 
 
 //모두 체크

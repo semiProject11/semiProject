@@ -245,8 +245,10 @@ th, tr, td {
 
 				<div class="container my-3">
 					<div>
+					
+					
 						<!--상단 검색창-->
-						<form
+						<div
 							class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
 							<div class="input-group">
 								<select class="form-control" id="category">
@@ -260,10 +262,10 @@ th, tr, td {
 									aria-describedby="basic-addon2" />
 								<div class="input-group-append"></div>
 								<button class="btn btn-primary mr-0" type="button" id="jin">
-									<i class="fas fa-search"></i></i>
+									<i class="fas fa-search"></i>
 								</button>
 							</div>
-						</form>
+						</div>
 					</div>
 
 					<!--게시판-->
