@@ -36,17 +36,10 @@ public class Service implements Serializable{
 
 	
 	
-	public Service(String b_user_no) {
-		super();
-		this.b_user_no = b_user_no;
-	}
 	
-
-
 	public Service(int serviceNo, int s_user_no, String sale_info, String available_area, int readCount, int file_count,
 			String file_YN, String b_user_no, String saleMethod, Date deadline, int price_bidding, int price_sale,
 			String subject, String category_code) {
-		super();
 		this.serviceNo = serviceNo;
 		this.s_user_no = s_user_no;
 		this.sale_info = sale_info;
@@ -62,6 +55,15 @@ public class Service implements Serializable{
 		this.subject = subject;
 		this.category_code = category_code;
 	}
+
+
+
+
+	public Service(String b_user_no) {
+		super();
+		this.b_user_no = b_user_no;
+	}
+	
 
 
 
