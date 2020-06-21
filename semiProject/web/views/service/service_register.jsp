@@ -89,8 +89,8 @@ form>div>.container>* {
 
 #serviceExample {
    border: 1px solid rgb(206, 212, 218);
-   width: 600px;
-   height: 494px;
+   width: 610px;
+   height: 484px;
    border-top-left-radius: 0.3em;
    border-top-right-radius: 0.3em;
    border-bottom-right-radius: 0.3em;
@@ -142,6 +142,7 @@ h1.b {
          <div class="category"
             style="margin-left: 30px; width: 180px; height: 30px;">
             <select class="form-control" name="category" id="category">
+               <%if(!loginUser.getUserId().equals("admin")){%> 
                <option value="">카테고리 선택</option>
                <option value="Ar">예술</option>
                <option value="Re">요식업</option>
@@ -153,6 +154,8 @@ h1.b {
                <option value="Pu">공무원</option>
                <option value="Bu">비즈니스(창업)</option>
                <option value="Ma">마케팅</option>
+               <%} %>
+               
                <%if(loginUser.getUserId().equals("admin")){%> 
                 <option value="Ev">이벤트</option> 
               <%} %>
@@ -253,7 +256,7 @@ h1.b {
                </div>
               <textarea class="form-control" style="resize: none; border:none"
                name="detailContent" id="detailContent"
-               placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="9"></textarea>
+               placeholder="제공할 서비스에 대한 설명을 입력하세요" rows="11"></textarea>
 
            </div>
          
@@ -263,7 +266,7 @@ h1.b {
 
 
          <!-- 서비스 설명 파일첨부1 -->
-
+		   <%if(!loginUser.getUserId().equals("admin")){%> 
          <div class="row mt-2" id="file1" class="fileput">
             <div class="text-center" style="margin-left: 320px; width: 115px">
                <label for="find_file01">대표 이미지 첨부</label>
@@ -280,6 +283,7 @@ h1.b {
 
             </div>
          </div>
+         <%} %>
 
          <!-- 서비스 설명 파일첨부2 -->
 
@@ -399,7 +403,7 @@ h1.b {
                <label for="time">연락가능 시간</label>
             </div>
             <div class="contact">
-               <input type="time" class="form-control" name="startTime"
+               <input type="time" value="HH24" class="form-control" name="startTime"
                   id="startTime"
                   style="width: 140px; height: 33px; margin-left: 20px;">&nbsp;&nbsp;&nbsp;부터
 
@@ -569,6 +573,14 @@ h1.b {
             return false;
          }//
          
+         <%if(loginUser.getUserId().equals("admin")){%> 
+         /*이미지 유효성 검사*/
+         if (!$("#fileName2").prop("value")) {
+            alert("이미지를 첨부해주세요");
+            return false;
+         }//
+         <%}%>
+         
          
          /*판매자 정보 유효성 검사*/
 
@@ -585,6 +597,7 @@ h1.b {
             return false;
          }//
          
+         /*가능요일 유효성 검사*/
          if($("input:checkbox[name='day']").is(":checked") == false){
             alert("만남이 가능한 요일을 체크해주세요");
             return false;
@@ -634,20 +647,7 @@ h1.b {
     
   </script>
 
-    
-      
-      
-     
-  
-     
-
-
-
-     
  
-    
-         
-
 
    <!-- ServiceInsertServlet만들러 간다 !  -->
 
