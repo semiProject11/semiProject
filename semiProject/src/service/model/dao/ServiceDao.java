@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import board.model.vo.Review;
 import service.model.vo.CategoryListPd;
+import service.model.vo.MpSelectBSNo;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
@@ -759,8 +760,11 @@ public class ServiceDao {
 		int starRow = (currentPage-1)*limit+1;
 		int endRow = currentPage * limit;
 		
+		System.out.println(userNo);
+		System.out.println(currentPage);
+		System.out.println(limit);
 		
-		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -775,7 +779,10 @@ public class ServiceDao {
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
 									rset.getString("TITLE"),
-									rset.getString("SERVICE_STATUS"));
+									rset.getString("SERVICE_STATUS"),
+									rset.getString("USER_NAME"),
+									rset.getString("PHONE"),
+									rset.getInt("RATING"));
 					
 					bsList.add(service);
 					
@@ -1339,6 +1346,79 @@ public class ServiceDao {
 		}
 		
 		return list;
+	}
+
+	public MpSelectBSNo selectBSNo(Connection conn, String sn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		MpSelectBSNo bs = null;
+		String query = "SELECT * FROM SERVICE WHERE SERVICE_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, sn);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				bs = new MpSelectBSNo(rset.getString("B_USER_NO"),
+										rset.getString("S_USER_NO"),
+										rset.getInt("PRICE_SALE"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+		
+		return bs;
+	}
+
+	public int cancelPointb(Connection conn, String bNo, int price) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET POINT + ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, bNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
+	public int cancelPoints(Connection conn, String sNo, int price) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String query = "UPDATE MEMBER SET POINT - ? WHERE USER_NO = ?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, price);
+			pstmt.setString(2, sNo);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return result;
 	}
 
 
