@@ -35,6 +35,7 @@ public class SearchMemberServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		System.out.println("등급조회 서블릿임, 여기 도착하긴함?");
 		
 		//페이징 처리
 		

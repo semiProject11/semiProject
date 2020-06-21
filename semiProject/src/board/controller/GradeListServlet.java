@@ -81,7 +81,7 @@ public class GradeListServlet extends HttpServlet {
 	
 		ArrayList<Seller> sellerList=new MemberService().selectSellerList(currentPage,limit);
 	
-		
+		System.out.println(gradeList);
 	
 		if(!gradeList.isEmpty()&&!sellerList.isEmpty()) {
 		

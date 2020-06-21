@@ -3,7 +3,6 @@ package service.model.dao;
 import static common.JDBCTemplate.close;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -421,6 +420,9 @@ public class ServiceDao {
 
 
 
+     
+
+
 	public int insertService2(Connection conn, String[] day) {
 	        PreparedStatement pstmt = null;
 	            int result2 = 0;
@@ -760,11 +762,8 @@ public class ServiceDao {
 		int starRow = (currentPage-1)*limit+1;
 		int endRow = currentPage * limit;
 		
-		System.out.println(userNo);
-		System.out.println(currentPage);
-		System.out.println(limit);
 		
-		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -779,10 +778,7 @@ public class ServiceDao {
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
 									rset.getString("TITLE"),
-									rset.getString("SERVICE_STATUS"),
-									rset.getString("USER_NAME"),
-									rset.getString("PHONE"),
-									rset.getInt("RATING"));
+									rset.getString("SERVICE_STATUS"));
 					
 					bsList.add(service);
 					

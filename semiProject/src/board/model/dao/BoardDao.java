@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
+
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Inquiary;
@@ -288,16 +290,21 @@ public class BoardDao {
 	
 	
 
-	public ArrayList<Board> selectBoardNotice(Connection conn) { //고객센터용 공지사항
+	public ArrayList<Board> selectBoardNotice(Connection conn, int currentPage, int limit) { //고객센터용 공지사항
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM BOARD WHERE BOARD_CODE=20 AND BOARD_STATUS='Y'";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		
+		String query="select * from(select rownum rnum,q.* from(SELECT * FROM BOARD WHERE BOARD_CODE=20 AND BOARD_STATUS='Y' order by board_no desc)q) where rnum between ? and ?";
 		
 		
 		
 		try {
 			pstmt=conn.prepareStatement(query);
+			pstmt.setInt(1,startRow);
+			pstmt.setInt(2, endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -1772,15 +1779,19 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 		return inquiary;
 	}
 
-	public ArrayList<Board> selectFaq(Connection conn, int board_code) {
+	public ArrayList<Board> selectFaq(Connection conn, int board_code, int currentPage, int limit) {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		ArrayList<Board> list=new ArrayList<Board>();
-		String query="SELECT * FROM BOARD WHERE board_code=? and board_status='Y'";
+		int startRow = (currentPage-1) * limit + 1;
+		int endRow = currentPage * limit;
+		String query="   select * from(select rownum rnum,q.* from(SELECT * FROM BOARD WHERE board_code=? and board_status='Y' order by board_no desc)q) where rnum between ? and ?";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1,board_code);
+			pstmt.setInt(2,startRow);
+			pstmt.setInt(3,endRow);
 			
 			rset=pstmt.executeQuery();
 			
@@ -2762,76 +2773,99 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 	public int getinquiaryListCount(Connection conn) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT COUNT(*) FROM inquiary";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 
-	public int getNoticeListCount(Connection conn) {
+	public int getNoticeListCount(Connection conn, int board_code) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
-		String query = "SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+		String query = "SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=?) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			pstmt.setInt(1, board_code);
+			rset = pstmt.executeQuery();
+		
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
-		return result;
 		
+			return result;
 		
+	
+	}
 		
-	}public int getTradeListCount(Connection conn) {
+		public int getTradeListCount(Connection conn) {
 	
 
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 
 	public int getReportListCount(Connection conn) {
 		PreparedStatement pstmt = null;
+		ResultSet rset=null;
 		int result = 0;
 		String query = "SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L ORDER BY TRADE_DATE DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			result = pstmt.executeUpdate();
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			close(pstmt);
+			close(rset);
 		}
-
+		
 		return result;
 	}
 

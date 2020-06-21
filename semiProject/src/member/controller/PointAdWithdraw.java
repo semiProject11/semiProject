@@ -36,9 +36,12 @@ public class PointAdWithdraw extends HttpServlet {
 		
 		String rowArr = request.getParameter("rowArr");	//회원 번호
 		String tdArr =request.getParameter("tdArr");		// 충전할 금액
-		System.out.println("회워번호:"+rowArr);
-		System.out.println("충전할 금액:"+tdArr);
+
 		
+		String a=request.getParameter("a");
+		String b=request.getParameter("b");
+
+		System.out.println("a랑 b"+a+"+"+b);
 		
 		StringTokenizer st1 = new StringTokenizer(rowArr,",");
 		ArrayList<String> userNo = new ArrayList<String>();
@@ -48,22 +51,35 @@ public class PointAdWithdraw extends HttpServlet {
 		}
 		
 		StringTokenizer st2 = new StringTokenizer(tdArr,",");
-		ArrayList<String> point = new ArrayList<String>();
+		ArrayList<String> point = new ArrayList<>();
 		while(st2.hasMoreTokens()) {
 			point.add(st2.nextToken());
 		
 		}
-		  
-		//선택된 회원들의 포인트를 dao에서 뽑아와서 입력한 포인트를 뺴주고 다시 넣기 (진행중임)
+		 
 		
-		ArrayList<int> afterUser=new 
+	
+		//선택된 회원들의 포인트를 dao에서 뽑아와서 입력한 포인트를 뺴주고 다시 넣기 (진행중임);
+		//1.선택된 회원의 포인트 정보를 배열에 담음
+		ArrayList<Member> beforeUser=new MemberService().selectPoint(userNo); 
+	
+		ArrayList afterPoint=new ArrayList<>();
+		int plist=0;
 		
-		
-		
-		
-		int result=new MemberService().minusPoint(userNo, point);
+		//2.가져온 배열의 포인트 - 입력한 배열의 포인트 
 
-		System.out.println("DAO다녀온 후 RESULT:"+result);
+	
+		for(int i=0;i<beforeUser.size();i++) {
+		plist=(beforeUser.get(i).getPoint())-(Integer.valueOf(point.get(i)));
+
+		afterPoint.add(plist);
+		
+		}
+		
+		
+		int result=new MemberService().minusPoint(userNo, afterPoint);
+
+
 		
 			if (result > 0) {
 			request.getRequestDispatcher("/list.point").forward(request, response);
@@ -74,6 +90,8 @@ public class PointAdWithdraw extends HttpServlet {
 
 	
 	}
+
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
