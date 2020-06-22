@@ -128,19 +128,19 @@ font-weight: normal; font-style: normal; }
                 {
                 alert("아이디와 비밀번호를 입력해주세요");
                 $("#userId").focus();
-                flag = false;
+                return false;
                 }
                 else if($("#userId").val().trim().length == 0)
                 {
                 alert("아이디를 입력해주세요");
                 $("#userId").focus();
-                flag = false;
+                return false;
                 }
                 else if($("#userPwd").val().trim().length == 0) 
                 {
                 alert('비밀번호를 입력하세요');
                 $("#userPwd").focus();
-                flag = false;
+                return false;
                 }
                 else {
             	

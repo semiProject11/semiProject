@@ -766,7 +766,7 @@ public class ServiceDao {
 		int endRow = currentPage * limit;
 		
 		
-		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -777,12 +777,16 @@ public class ServiceDao {
 			rset = pstmt.executeQuery();
 
 			
-while(rset.next()) {
+			while(rset.next()) {
 				
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
 									rset.getString("TITLE"),
-									rset.getString("SERVICE_STATUS"));
+									rset.getString("SERVICE_STATUS"),
+									rset.getString("USER_NAME"),
+									rset.getString("PHONE"),
+									rset.getInt("RATING"),
+									rset.getString("REFUND_YN"));
 					
 					bsList.add(service);
 					
@@ -1282,7 +1286,7 @@ while(rset.next()) {
 		return clpd;
 	}
 
-	public int updateCount(Connection conn, int sNo2) {
+	public int updateCount(Connection conn, String sNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
@@ -1290,7 +1294,7 @@ while(rset.next()) {
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, sNo2);
+			pstmt.setString(1, sNo);
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -1754,7 +1758,7 @@ public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -2216,6 +2220,69 @@ String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L L
 		
 		return list;
 		
+	}
+
+	public int sellCountPlus(Connection conn, String suserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SELLER SET SELLCOUNT = SELLCOUNT+1 WHERE S_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, suserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("판매횟수 증가 성공" + result);
+		return result;
+	}
+
+	public int buyCountPlus(Connection conn, String loginUserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BUYER SET BUYCOUNT = BUYCOUNT+1 WHERE B_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, loginUserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("구매횟수 증가 성공" + result);
+		return result;
+	}
+
+	public int buyCountPlusbid(Connection conn, String buserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BUYER SET BUYCOUNT = BUYCOUNT+1 WHERE B_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, buserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("입찰상품 구매횟수 증가 성공" + result);
+		return result;
 	}
 
 

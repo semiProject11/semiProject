@@ -125,25 +125,25 @@ font-weight: normal; font-style: normal; }
 	            {
 	                alert("이름과 이메일을 입력해주세요");
 	                $("#userName").focus();
-	                flag = false;
+	            return false;
 	            }
 	            else if($("#userName").val().trim().length==0)
 	            {
 	            alert("이름을 입력해주세요");
 	            $("#userName").focus();
-	            flag = false;
+	            return false;
 	            }
 	            else if($("#email").val().trim().length==0)
 	            {
 	            alert('이메일을 입력하세요');
 	            $("#email").focus();
-	            flag = false;
+	            return false;
 	            }
 	            else if(reg.test($("#email").val()) == false) 
 	            {
 	            alert('이메일 양식을 확인 해주세요');
 	            $("#email").focus();
-	            flag = false;
+	            return false;
 	            }
 	            else{
 	            	$.ajax({
@@ -170,6 +170,8 @@ font-weight: normal; font-style: normal; }
 	                return flag;
 	            }
 	        }
+            
+            
         </script> 
       
 </body>

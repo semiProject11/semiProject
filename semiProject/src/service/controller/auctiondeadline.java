@@ -44,6 +44,8 @@ public class auctiondeadline extends HttpServlet {
 		int result2 = svService.snoStatusUpdate(sNo);
 		int result3 = svService.biddingchangeupdate(sNo, price); // 최종 입찰금액 -> price_sale
 		int result4 = svService.insertbidbuylist(sNo,suserNo,buserNo); // list테이블에 상품구매 시 추가하는 메소드
+		int result5 = svService.sellCountPlus(suserNo); // 상품 판매 시 판매자 카운트 1 증가
+		int result6 = svService.buyCountPlusbid(buserNo); // 상품 구매 시 구매자 카운트 1 증가
 		
 		// getparmeter로 마감시간 함수의 result값을 받아오고
 				// if(result < 0){

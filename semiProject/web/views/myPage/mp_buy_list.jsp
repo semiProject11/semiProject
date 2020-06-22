@@ -284,7 +284,7 @@ tr.exline td{border-top: 1px solid black;}
 											<td><%=s.getServiceNo()%></td>
 											<td class="clickme">
 												<div>
-													<img src="image/<%=s.getChangeName() %>" alt=""
+													<img src="service_uploadFiles/<%=s.getChangeName() %>" alt=""
 														style="width: 100px; height: 100px;">
 												</div>
 											</td>
@@ -297,7 +297,7 @@ tr.exline td{border-top: 1px solid black;}
 											
 
 											<%
-												if (s.getContent()!=null) {
+												if (s.getContent()!=null) {		// 구매리뷰가 달려있는지 조건문 처리
 											%>
 											<td>
 												<button type="button" style="background: black; color: white; width: 110px;" class="btn btn-primary" disabled>평점주기</button>
