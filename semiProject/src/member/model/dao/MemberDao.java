@@ -988,16 +988,17 @@ public class MemberDao {
 		return pwd;
 	}
 
-	public int memberGradeTot(Connection conn, String sUserNo, int rating) {
+	public int memberGradeTot(Connection conn, String sUserNo, int rating, String grade) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
-		String query = "UPDATE MEMBER SET GRADE_TOT = ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET GRADE_TOT = ?,GRADE=?  WHERE USER_NO = ?";
 
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, rating);
-			pstmt.setString(2, sUserNo);
+			pstmt.setString(2, grade);
+			pstmt.setString(3, sUserNo);
 
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
