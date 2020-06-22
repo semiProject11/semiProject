@@ -282,7 +282,7 @@ tr.exline td{border-top: 1px solid black;}
 													ServiceBuyList s = bsList.get(i);													
 										%>
 										<%
-												if (s.getPrice()!=null) {		
+												if (!s.getPrice().equals("0")) {		
 											%>
 										<tr class="exline">
 											<td><%=s.getServiceNo()%></td>
@@ -391,7 +391,6 @@ tr.exline td{border-top: 1px solid black;}
 											
 											$(function(){
 												$(".clickme").click(function(){
-												alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");
 												var bid = $(this).parent().children("input").val();
 												location.href="<%=request.getContextPath()%>/auction.detail?sNo=" + bid;
 													

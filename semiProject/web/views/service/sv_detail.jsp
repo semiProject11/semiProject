@@ -180,7 +180,7 @@
                     <%for(int j=0; j<flist.size(); j++){
                          Service_SeviceFilesTable_oh sf = flist.get(j);%>
                          <%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
-                        <img style="width: 100%;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName()%>" class="d-block" alt="...">
+                        <img style="width: 650px; height: 450px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName()%>" class="d-block">
                                 <%} %>
                           <%} %>      
 						

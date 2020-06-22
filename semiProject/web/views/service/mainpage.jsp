@@ -121,7 +121,7 @@
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
                            <%if(svlist.get(40).getSeviceNo() == sf.getServiceNo()) {%> 
-                     <img style="height: 370px;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>" class="d-block w-100">
+                     <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
@@ -141,7 +141,7 @@
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
                            <%if(svlist.get(41).getSeviceNo() == sf.getServiceNo()) {%> 
-                     <img style="height: 370px;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>" class="d-block w-100">
+                     <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
@@ -161,7 +161,7 @@
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
                            <%if(svlist.get(42).getSeviceNo() == sf.getServiceNo()) {%> 
-                     <img style="height: 370px;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>" class="d-block w-100">
+                     <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
@@ -181,7 +181,7 @@
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
                            <%if(svlist.get(43).getSeviceNo() == sf.getServiceNo()) {%> 
-                     <img style="height: 370px;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>" class="d-block w-100">
+                     <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>

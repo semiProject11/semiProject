@@ -57,11 +57,15 @@
 
 
  
-  <a class="btn btn-primary btn-block-" href="sv_detail.jsp" id="check" class="btn btn-primary"  style="width: 150px; margin-left:480px">게시글 확인하기</a>
+  <a class="btn btn-primary btn-block-" onclick="generaldetail();" id="check" class="btn btn-primary"  style="width: 150px; margin-left:480px">게시글 확인하기</a>
 <!--   <a class="btn btn-primary btn-block-" href="/views/index.jsp" id="check" role="button" style="margin-left : 20px">홈으로</a> -->
 </div>
 
-
+<script>
+function generaldetail(){
+	   location.href="<%=request.getContextPath()%>/sellList.sv";
+	 }
+</script>
 
 
 

@@ -82,7 +82,7 @@ public class PointAdWithdraw extends HttpServlet {
 
 		
 			if (result > 0) {
-			request.getRequestDispatcher("/list.point").forward(request, response);
+			response.sendRedirect("list.point");
 			  
 			} else {
 			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request,response);

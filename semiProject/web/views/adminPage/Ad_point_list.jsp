@@ -253,7 +253,7 @@ th, tr, td {
 					<h2>포인트 관리</h2>
 					<hr>
 				</header>
-				<form>
+				
 				
 					<div class="container my-4">
 						<div>
@@ -286,7 +286,7 @@ th, tr, td {
 							</div>
 						</div>
 
-</form>
+
 
 						<!--회원등급 리스트-->
 						<div class="table-responsive mt-3">
@@ -353,7 +353,7 @@ th, tr, td {
 							</table>
 						</div>
 					</div>
-				</form>
+				
 
 
 
@@ -414,7 +414,8 @@ th, tr, td {
 //포인트 차감
 
 	 function minusP(){
-	
+	alert("??");
+		 console.log($("#usePoint").val() + ", " + $("#point").val());
 		
 		 if($("#usePoint").val()>$("#point").val()){ 
 		
