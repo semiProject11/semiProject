@@ -64,7 +64,7 @@ public class auctiondetailServlet extends HttpServlet {
 		Service_Service svService = new Service_Service();
 		
 		
-		HttpSession session = request.getSession(); // 세션 객체 호출
+		 // 세션 객체 호출
 		System.out.println("현재 세션에 담긴 객체 값 : " + session.getAttribute(sNo)); // 현재 생성후 세션 객체 값은 null이다.
 		
 		if(session.getAttribute(sNo)==null) { // 처음에 생성된 세션객체는 null값을 가졌기 때문에 if문이 실행이된다.
