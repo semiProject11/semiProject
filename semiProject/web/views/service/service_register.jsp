@@ -222,7 +222,7 @@ h1.b {
             <div class="auction">
                <input type="datetime-local" class="form-control" id="deadline"
                   name="deadline"
-                  style="width: 192px; height: 33px; margin-left: 18px;">
+                  style="width: 203px; height: 33px; margin-left: 9px;">
             </div>
          </div>
          <br> <br>
