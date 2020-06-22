@@ -162,7 +162,7 @@
     
      <div id="layoutSidenav_content">
 
-            <div class="container">
+            <div class="container" <%=infolist %>>
 
                 <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
                    <label style="font-size: 20px;">카테고리 > <%= clpd.getCategoryName() %> </label>
@@ -172,7 +172,7 @@
                     <%for(int j=0; j<flist.size(); j++){
                          Service_SeviceFilesTable_oh sf = flist.get(j);%>
                          <%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
-                        <img style="width: 100%;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName()%>" class="d-block" alt="...">
+                        <img style="width: 100%;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName()%>" class="d-block" alt="...">
                                 <%} %>
                           <%} %>      
 						
