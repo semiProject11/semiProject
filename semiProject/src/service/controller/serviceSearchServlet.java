@@ -42,13 +42,13 @@ public class serviceSearchServlet extends HttpServlet {
 		
 		ArrayList<CategoryListPd> svlist = new Service_Service().searchService(category,word, salemethod);
 		
-		System.out.println("나는 검색한 서비스야" + svlist);
 		ArrayList<Service_SeviceFilesTable_oh> flist =  new Service_Service().selectfList();
 	      
-	      
+
 				request.setAttribute("svlist", svlist);
 				request.setAttribute("flist", flist);
 				request.getRequestDispatcher("views/service/sv_category_list.jsp").forward(request, response);
+
 	}
 
 	/**

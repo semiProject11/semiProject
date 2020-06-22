@@ -76,7 +76,6 @@ public class auctiondetailServlet extends HttpServlet {
       // 이후 해당 서비스 게시물 번호값을 가진 세션객체는 null값이 아니므로 if문을 못들어 가기때문에 조회수 증가가 막힌다.
       
       
-//         CategoryListPd clpd = svService.auctiondetail(sNo);
          ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
          
          ArrayList<Service_info> infolist = svService.selectsvinfo(sNo);
@@ -114,6 +113,7 @@ public class auctiondetailServlet extends HttpServlet {
       }
          
    }
+
 
    /**
     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

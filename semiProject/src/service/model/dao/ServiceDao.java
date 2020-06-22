@@ -766,7 +766,7 @@ public class ServiceDao {
 		int endRow = currentPage * limit;
 		
 		
-		String query = "SELECT SERVICE_NO,TITLE,SERVICE_STATUS FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM, S.* FROM SERVICE_SELL_LIST S WHERE S_USER_NO = ?) WHERE RNUM BETWEEN ? AND ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -777,12 +777,16 @@ public class ServiceDao {
 			rset = pstmt.executeQuery();
 
 			
-while(rset.next()) {
+			while(rset.next()) {
 				
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
 									rset.getString("TITLE"),
-									rset.getString("SERVICE_STATUS"));
+									rset.getString("SERVICE_STATUS"),
+									rset.getString("USER_NAME"),
+									rset.getString("PHONE"),
+									rset.getInt("RATING"),
+									rset.getString("REFUND_YN"));
 					
 					bsList.add(service);
 					
@@ -1754,7 +1758,7 @@ public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

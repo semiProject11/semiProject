@@ -13,19 +13,12 @@ public class ServiceSellList implements Serializable{
 	private String userName;		// 구매자이름
 	private String phone;			// 구매자 연락처
 	private int rating;				// 서비스 평점
+	private String refundYN;		// 환불 여부
 	public ServiceSellList() {
 		super();
 	}
-	
-	public ServiceSellList(int serviceNo, String title, String serviceStatus) {
-		super();
-		this.serviceNo = serviceNo;
-		this.title = title;
-		this.serviceStatus = serviceStatus;
-	}
-
-	public ServiceSellList(int serviceNo, String title, String serviceStatus, String userName, String phone,
-			int rating) {
+	public ServiceSellList(int serviceNo, String title, String serviceStatus, String userName, String phone, int rating,
+			String refundYN) {
 		super();
 		this.serviceNo = serviceNo;
 		this.title = title;
@@ -33,6 +26,7 @@ public class ServiceSellList implements Serializable{
 		this.userName = userName;
 		this.phone = phone;
 		this.rating = rating;
+		this.refundYN = refundYN;
 	}
 	public int getServiceNo() {
 		return serviceNo;
@@ -70,10 +64,19 @@ public class ServiceSellList implements Serializable{
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+	public String getRefundYN() {
+		return refundYN;
+	}
+	public void setRefundYN(String refundYN) {
+		this.refundYN = refundYN;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	@Override
 	public String toString() {
 		return "ServiceSellList [serviceNo=" + serviceNo + ", title=" + title + ", serviceStatus=" + serviceStatus
-				+ ", userName=" + userName + ", phone=" + phone + ", rating=" + rating + "]";
+				+ ", userName=" + userName + ", phone=" + phone + ", rating=" + rating + ", refundYN=" + refundYN + "]";
 	}
 	
 	

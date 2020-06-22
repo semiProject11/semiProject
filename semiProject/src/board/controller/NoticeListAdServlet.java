@@ -62,6 +62,7 @@ public class NoticeListAdServlet extends HttpServlet {
 					startPage=0;
 				}
 				
+				
 				endPage = startPage + limit - 1;
 				
 				if(maxPage < endPage) {

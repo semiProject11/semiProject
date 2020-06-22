@@ -345,7 +345,7 @@
 										type="checkbox" class="common" id="rowCheck" name="rowCheck"
 										style="width: 18px; height: 18px;" value="<%=(bList.get(i)).getBoard_no()%>">
 										</td>
-                                    <td class="inquiary_list" style="width: 8%"><%=(inquiaryList.get(i)).getBoard_id()%></td>
+                                    <td class="inquiary_list" style="width: 8%"><%=(inquiaryList.get(i)).getBoard_no()%></td>
                                     <td class="inquiary_list" style="width: 15%"><%=(inquiaryList.get(i)).getInquiry_name()%></td>
                                     <td class="inquiary_list"><%=(bList.get(i)).getTitle()%></td>
                                     <td class="inquiary_list" style="width: 15%"><%=(bList.get(i)).getWrite_date()%></td>
