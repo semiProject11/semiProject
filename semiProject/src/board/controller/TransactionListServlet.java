@@ -80,7 +80,7 @@ public class TransactionListServlet extends HttpServlet {
 		
 
 		
-		if(!tradeList.isEmpty()&&!serviceList.isEmpty()&&!sellerList.isEmpty()&&!buyerList.isEmpty()) {
+		
 			request.setAttribute("sellerList", sellerList);
 			request.setAttribute("buyerList", buyerList);
 			request.setAttribute("tradeList", tradeList);
@@ -90,7 +90,7 @@ public class TransactionListServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("views/adminPage/Ad_transaction_list.jsp").forward(request, response);
 			
-		}
+	
 		
 	}
 

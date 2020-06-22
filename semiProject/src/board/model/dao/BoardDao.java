@@ -964,7 +964,7 @@ public class BoardDao {
 			
 			
 			
-			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
@@ -998,7 +998,7 @@ public class BoardDao {
 		}else if(type.equals("pol")&&word!=""){
 			
 			
-			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
@@ -1032,7 +1032,7 @@ public class BoardDao {
 		}else if(type.equals("faq")&&word!=""){
 			
 			
-			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC;";
+			String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
 			
 			try {
 				pstmt=conn.prepareStatement(query);
@@ -1118,7 +1118,7 @@ public class BoardDao {
 				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
 				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
 				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='Y'";
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<Board> bList = new ArrayList<>();
 
 		try {
@@ -1344,8 +1344,10 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -1595,8 +1597,9 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 			
 			try {
 				pstmt=conn.prepareStatement(query);
-				pstmt.setInt(1,startRow);
-				pstmt.setInt(2, endRow);
+				pstmt.setString(1,word);
+				pstmt.setInt(2,startRow);
+				pstmt.setInt(3, endRow);
 				
 				rset=pstmt.executeQuery();
 				
@@ -2495,7 +2498,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt = null;
 		ResultSet rset=null;
 		int result=0;
-		String query = "SELECT COUNT(*) FROM MEMBER";
+		String query = "SELECT COUNT(*) FROM MEMBER where status='Y'";
 		try {
 			pstmt = conn.prepareStatement(query);
 			rset = pstmt.executeQuery();
@@ -2703,9 +2706,9 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 	public int deleteReview(Connection conn, int board_no) {
 		int result=0;
 		PreparedStatement pstmt=null;
-		String query="UPDATE BOARD SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		String query="UPDATE BOARD SET BOARD_STATUS='Y' WHERE BOARD_NO=?";
 		try {
-			
+			System.out.println(board_no);
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
 			result = pstmt.executeUpdate();
@@ -2715,7 +2718,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		}finally {
 			close(pstmt);
 		}
-		
+		System.out.println(result);
 		return result;
 
 
@@ -2798,11 +2801,12 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt = null;
 		ResultSet rset=null;
 		int result = 0;
-		String query = "SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=?) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+		String query = "   \r\n" + 
+				"   SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, board_code);
+		
 			rset = pstmt.executeQuery();
 		
 				if(rset.next()) {
@@ -2913,6 +2917,394 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 		return result;
 	}
+
+	public int searchInqCount(Connection conn, String type, String word) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		ResultSet rset=null;
+		
+		
+		if(type.equals("a")&&word=="") {
+	
+		String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y')Q) ORDER BY RNUM DESC";
+		
+
+
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+
+		
+		
+		}else if(type.equals("b")&&word==""){
+
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1')Q) ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("c")&&word==""){
+String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2')Q) ORDER BY RNUM DESC";
+			
+try {
+	pstmt = conn.prepareStatement(query);
+	rset = pstmt.executeQuery();
+	if(rset.next()) {
+		result = rset.getInt(1);
+	}
+} catch (SQLException e) {
+	
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+	close(rset);
+}
+		}else if(type.equals("d")&&word==""){
+String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3')Q)  ORDER BY RNUM DESC";
+			
+try {
+	pstmt = conn.prepareStatement(query);
+	rset = pstmt.executeQuery();
+	if(rset.next()) {
+		result = rset.getInt(1);
+	}
+} catch (SQLException e) {
+	
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+	close(rset);
+}
+		}else if(type.equals("a")&&word!=""){
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%'))Q)  ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("b")&&word!=""){
+String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A1' AND (TITLE LIKE '%'||?||'%'))Q)  ORDER BY RNUM DESC";
+			
+try {
+	pstmt = conn.prepareStatement(query);
+	rset = pstmt.executeQuery();
+	if(rset.next()) {
+		result = rset.getInt(1);
+	}
+} catch (SQLException e) {
+	
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+	close(rset);
+}
+		}else if(type.equals("c")&&word!=""){
+String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A2' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
+			
+try {
+	pstmt = conn.prepareStatement(query);
+	rset = pstmt.executeQuery();
+	if(rset.next()) {
+		result = rset.getInt(1);
+	}
+} catch (SQLException e) {
+	
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+	close(rset);
+}
+		}else if(type.equals("d")&&word!=""){
+String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY I LEFT JOIN INQUIARY_TYPE T ON(I.BOARD_TYPE=T.BOARD_TYPE) LEFT JOIN BOARD B ON (I.BOARD_NO=B.BOARD_NO) LEFT JOIN MEMBER M ON (B.USER_NO=M.USER_NO) WHERE BOARD_STATUS='Y' AND T.BOARD_TYPE='A3' AND (TITLE LIKE '%'||?||'%'))Q) ORDER BY RNUM DESC";
+			
+try {
+	pstmt = conn.prepareStatement(query);
+	rset = pstmt.executeQuery();
+	if(rset.next()) {
+		result = rset.getInt(1);
+	}
+} catch (SQLException e) {
+	
+	e.printStackTrace();
+} finally {
+	close(pstmt);
+	close(rset);
+}
+	}
+		return result;
+
+	}
+
+	public int getInqCount(Connection conn) {
+		
+			PreparedStatement pstmt = null;
+			ResultSet rset=null;
+			int result = 0;
+			String query = "SELECT COUNT(*) FROM inquiary i left join board b on (b.board_no=i.board_no) where board_status='Y'";
+
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+
+			return result;
+		}
+
+	public int getNotCount(Connection conn, String type, String word) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		int result = 0;
+		
+		
+		if(type.equals("stitle")&&word=="") {
+	
+		
+			
+		String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		}else if(type.equals("not")&&word==""){
+
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+			
+			
+		}else if(type.equals("pol")&&word==""){
+			
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("faq")&&word==""){
+
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC)Q)  ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+			
+		}else if(type.equals("stitle")&&word!=""){
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' and (TITLE LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				pstmt.setString(2, word);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("not")&&word!=""){
+			
+
+			
+			
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q)  ORDER BY RNUM DESC;";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("pol")&&word!=""){
+			
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=60) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC;";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+		}else if(type.equals("faq")&&word!=""){
+			
+			
+			String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM (SELECT * FROM BOARD WHERE (BOARD_CODE=50) AND BOARD_STATUS='Y' AND (TITLE LIKE '%'||?||'%' OR CONTENT LIKE '%'||?||'%') ORDER BY BOARD_NO ASC)Q) ORDER BY RNUM DESC;";
+			
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+
+
+	}
+		return result;
+	}
+
+	public int getGradCount(Connection conn, String word) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;
+		int result = 0;
+
+
+		if (word == "") {
+
+			String query = "SELECT count(*) from(select rownum rnum,q.* from(select * FROM MEMBER)q) ORDER BY RNUM DESC";
+
+			try {
+				pstmt = conn.prepareStatement(query);
+				
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+
+
+		} else {
+
+			String query = "SELECT * from(select rownum rnum,q.* from(select * FROM MEMBER WHERE USER_ID LIKE '%'||?||'%')q) ORDER BY RNUM DESC";
+			try {
+				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1, word);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			} finally {
+				close(pstmt);
+				close(rset);
+			}
+
+
+		}
+
+		return result;
+
+	}
+	
 
 	
 	

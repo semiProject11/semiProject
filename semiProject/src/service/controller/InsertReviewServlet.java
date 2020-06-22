@@ -33,12 +33,12 @@ public class InsertReviewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-//		HttpSession session = request.getSession();	
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		
-//		String userNo = loginUser.getUserNo();	
-		String userNo = "1";
+		HttpSession session = request.getSession();	
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String userNo = loginUser.getUserNo();	
+//		String userNo = "1";
 		int rating = Integer.valueOf(request.getParameter("value11"));
 		String content = request.getParameter("content");
 		String title = request.getParameter("sNO")+"_review";
@@ -46,7 +46,7 @@ public class InsertReviewServlet extends HttpServlet {
 		String sUserNo = new BoardService().selectUserNo(serviceNo);
 		//판매자 등금 조회
 		int ratingTot = new MemberService().selectRating(sUserNo)+rating;
-		System.out.println("sk skdhsl!??!>!>!>!>");
+		String grade = "BRONZE";
 		
 		
 		Review re = new Review(title, content, userNo);
@@ -55,8 +55,19 @@ public class InsertReviewServlet extends HttpServlet {
 		int result = new BoardService().insertReviewB(re);
 		// review에 추가
 		int result1 = new BoardService().insertReviewR(re1);
+		
+		if(ratingTot >50) {
+			grade ="SILVER";
+		}else if(ratingTot>100) {
+			grade ="GOLD";
+		}else if(ratingTot>150) {
+			grade ="PLATINUM";
+		}else if(ratingTot>200) {
+			grade ="DIAMOND";
+		}
+		
 		// 판매자 등급포인트에 추가
-		int result2 = new MemberService().memberGradeTot(sUserNo, ratingTot);
+		int result2 = new MemberService().memberGradeTot(sUserNo, ratingTot,grade);
 		
 		if(result>0 && result1>0) {
 			response.sendRedirect("buyList.sv");

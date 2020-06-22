@@ -63,6 +63,7 @@ public class Service implements Serializable{
 		super();
 		this.b_user_no = b_user_no;
 	}
+	
 
 
 

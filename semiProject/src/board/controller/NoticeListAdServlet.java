@@ -44,6 +44,7 @@ public class NoticeListAdServlet extends HttpServlet {
 
 				currentPage = 1;
 				
+				System.out.println("과연!!!!!!!"+listCount);
 				
 				if(request.getParameter("currentPage")!=null)
 				{		
@@ -56,6 +57,10 @@ public class NoticeListAdServlet extends HttpServlet {
 				maxPage = (int)((double)listCount/limit + 0.9);
 				
 				startPage = (((int)((double)currentPage/limit + 0.9))-1)*limit +1;
+				
+				if(startPage<0) {
+					startPage=0;
+				}
 				
 				endPage = startPage + limit - 1;
 				
@@ -76,13 +81,11 @@ public class NoticeListAdServlet extends HttpServlet {
 
 	
 	
-		if(!list.isEmpty()) {
+		
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/adminPage/Ad_notice_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 		
 	}

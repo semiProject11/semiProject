@@ -180,7 +180,7 @@
                     <%for(int j=0; j<flist.size(); j++){
                          Service_SeviceFilesTable_oh sf = flist.get(j);%>
                          <%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
-                        <img style="width: 100%;" src="<%=request.getContextPath()%>/image/<%=sf.getChangeName()%>" class="d-block" alt="...">
+                        <img style="width: 100%;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName()%>" class="d-block" alt="...">
                                 <%} %>
                           <%} %>      
 						
@@ -256,7 +256,7 @@
 
                             <div style=" top: 0; left: 0;" class="text-center">
                                 <img style="width: 50px; height: 50px; border-radius: 50%;"
-                                    src="<%=request.getContextPath()%>/image/<%=infolist.get(0).getChangeName() %>" alt="...">
+                                    src="<%=request.getContextPath()%>/profile_imgFiles/<%=infolist.get(0).getChangeName() %>" alt="...">
                             </div>
                             <h1 style="text-align: center; font-size: 22px; margin: 16px 0 0 0;">판매자 아이디 : <%=clpd.getUserId() %></h1>
                             <hr style=" width: 30px;

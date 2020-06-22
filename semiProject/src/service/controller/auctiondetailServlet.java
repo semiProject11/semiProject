@@ -39,8 +39,20 @@ public class auctiondetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String sNo = request.getParameter("sNo");
-		String suserNo = request.getParameter("suserNo");
-		String loginUserNo = request.getParameter("loginUserNo");
+//		String suserNo = request.getParameter("suserNo");
+//		String loginUserNo = request.getParameter("loginUserNo");
+		
+	
+		// 현제 로그인한 구매자 번호 구해오는 구문
+		HttpSession session = request.getSession();		
+		Member loginUser = (Member)session.getAttribute("loginUser");		
+		String loginUserNo = loginUser.getUserNo();
+		
+		// 서비스 넘버로 판매자 번호 구해오는 구문
+		CategoryListPd clpd = new Service_Service().auctiondetail(sNo);
+		String suserNo = clpd.getsUserNo();
+		
+		
 		
 		
 		String result = "";
@@ -66,7 +78,7 @@ public class auctiondetailServlet extends HttpServlet {
 		// 이후 해당 서비스 게시물 번호값을 가진 세션객체는 null값이 아니므로 if문을 못들어 가기때문에 조회수 증가가 막힌다.
 		
 		
-	      CategoryListPd clpd = svService.auctiondetail(sNo);
+//	      CategoryListPd clpd = svService.auctiondetail(sNo);
 	      ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 	      
 	      ArrayList<Service_info> infolist = svService.selectsvinfo(sNo);

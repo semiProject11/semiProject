@@ -233,6 +233,7 @@
                     <div class="container my-3">
                         <form class="form-group">
                             <div class="row">
+                            <input type="hidden" id="board_no" value=<%=b.getBoard_no() %>>
                                 <div class="col-md-2"><label>카테고리</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:80%"><%=cs.getCategory_name() %></label></div>
                                 <div class="col-md-2"><label>구매자</label></div>
@@ -310,7 +311,7 @@
 		var bool = confirm("해당 리뷰를 삭제하시겠습니까?");
 		
 		if(bool){
-			var board_no = $("#valBoard").text();
+			var board_no = $("#board_no").val();
 			location.href="<%=request.getContextPath()%>/deleteReview.bo?board_no="+board_no
 			
 		}

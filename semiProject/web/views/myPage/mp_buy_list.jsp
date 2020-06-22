@@ -292,7 +292,7 @@ tr.exline td{border-top: 1px solid black;}
 											<td class="clickme"><%=s.getTradeDate()%></td>
 											<td class="clickme"><%=s.getsUserName()%></td>
 											<td class="clickme"><%=s.getsPhone()%></td>
-
+											<input type="hidden" value="<%=s.getServiceNo()%>">		
 											<!-- 리뷰 불러와서 매칭 시키기  -->
 											
 
@@ -385,13 +385,14 @@ tr.exline td{border-top: 1px solid black;}
 											
 											$(function(){
 												$(".clickme").click(function(){
-												alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");						
+												alert("선택한 상품디테일로 넘어가서 상품의 정보를 볼수 있다.");
+												var bid = $(this).parent().children("input").val();
+												location.href="<%=request.getContextPath()%>/auction.detail?sNo=" + bid;
 													
 												})
 												
 											})
 											function close111(){
-												alert("나 나오니?")
 												location.href="<%=request.getContextPath()%>/buyList.sv"
 
 											}
@@ -468,8 +469,8 @@ tr.exline td{border-top: 1px solid black;}
 							}
 						%>
 
-						<li class="page-item-t"><a class="page-link-t"
-							href="<%if (currentPage != endPage) {%>
+						<li class="page-item-t"><a class="page-link-t" 
+						href="<%if (currentPage != endPage) {%>
 					<%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage + 1%>
 						<%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t"

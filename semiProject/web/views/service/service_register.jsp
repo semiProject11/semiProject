@@ -222,7 +222,7 @@ h1.b {
             <div class="auction">
                <input type="datetime-local" class="form-control" id="deadline"
                   name="deadline"
-                  style="width: 192px; height: 33px; margin-left: 18px;">
+                  style="width: 203px; height: 33px; margin-left: 9px;">
             </div>
          </div>
          <br> <br>
@@ -266,7 +266,11 @@ h1.b {
 
 
          <!-- 서비스 설명 파일첨부1 -->
+
+		 
+
          <%if(!loginUser.getUserId().equals("admin")){%> 
+
          <div class="row mt-2" id="file1" class="fileput">
             <div class="text-center" style="margin-left: 320px; width: 115px">
                <label for="find_file01">대표 이미지 첨부</label>
@@ -510,27 +514,31 @@ h1.b {
          /*카테고리 유효성 검사*/
          if ($("#category").val() == "") {
             alert("카테고리를 선택해주세요");
+            $('#category').focus;
 
             return false;
          }//
 
          /*제목 유효성검사*/
          if ($("#title").val().trim().length == 0) {
+        	 
             alert("제목을 입력해주세요");
-
+            $("#title").focus;
             return false;
          }//
          
          /*판매방식 유효성검사 */
          if($(':radio[name="saleMethod"]:checked').length<1){
             alert("판매방식을 선택해주세요");
+            $("#saleMethod").focus;
             return false;
          }//
         
          /*일반판매금액 유효성검사 */
          if($('input:radio[id=choice_general]').is(':checked')){
             if($("#salePrice").val().trim().length == 0){
-               alert("판매 가격을 입력해주세요");
+            	 $("#salePrice").focus;
+            	alert("판매 가격을 입력해주세요");
                return false;    
             }
          }//
@@ -538,6 +546,7 @@ h1.b {
          /*경매 가격 유효성검사 */
          if($('input:radio[id=choice_auction]').is(':checked')){
             if($("#biddingPrice").val().trim().length == 0){
+            	 $("#biddingPrice").focus;
                alert("입찰가격를 입력해주세요");
                return false;    
             }
@@ -546,6 +555,7 @@ h1.b {
          /*경매 마감시간 유효성검사 */
          if($('input:radio[id=choice_auction]').is(':checked')){
             if($("#deadline").val().trim().length == 0){
+            	 $("#deadline").focus;
                alert("입찰 마감시간을 입력해주세요");
                return false;    
             }
@@ -554,6 +564,7 @@ h1.b {
 
          /*관련주제 유효성검사*/
          if ($("#subject").val().trim().length == 0) {
+        	 $("#subject").focus;
             alert("서비스의 주제를 입력해주세요");
 
             return false;
@@ -562,6 +573,7 @@ h1.b {
          /*서비스 설명 유효성 검사*/
 
          if ($("#detailContent").val().trim().length == 0) {
+        	 $("#detailContent").focus;
             alert("제공할 서비스에 대한 설명을 입력해주세오");
             return false;
          }//
@@ -569,23 +581,26 @@ h1.b {
          
          /*이미지 유효성 검사*/
          if (!$("#fileName1").prop("value")) {
+        	 $("#fileName1").focus;
             alert("대표 이미지를 첨부해주세요");
             return false;
          }//
          
-         <%if(loginUser.getUserId().equals("admin")){%> 
+         <%if(loginUser.getUserId().equals("admin")){ %> 
          /*이미지 유효성 검사*/
          if (!$("#fileName2").prop("value")) {
+        	 $("#fileName2").focus;
             alert("이미지를 첨부해주세요");
             return false;
          }//
-         <%}%>
+         <% } %>
          
          
          /*판매자 정보 유효성 검사*/
 
          if ($("#sellerInfo").val().trim().length == 0) {
             alert("판매자님의 정보를 입력해주세요");
+            $("#sellerInfo").focus;
             return false;
          }//
 
@@ -593,12 +608,14 @@ h1.b {
          /*가능지역 유효성 검사*/
 
          if ($("#availableArea").val().trim().length == 0) {
+        	 $("#availableArea").focus;
             alert("만남이 가능한 지역을 입력헤주세요");
             return false;
          }//
          
          /*가능요일 유효성 검사*/
          if($("input:checkbox[name='day']").is(":checked") == false){
+        	 $("#day").focus;
             alert("만남이 가능한 요일을 체크해주세요");
             return false;
             
@@ -606,12 +623,14 @@ h1.b {
    
          /*연락 가능시간 유효성 검사*/
          if ($("#startTime").val() == false) {
+        	 $("#startTime").focus;
             alert("연락 가능한 시간대를 선택하세요");
             return false;
          }//
 
          /*연락 가능시간 유효성 검사*/
          if ($("#finishTime").val() == false) {
+        	 $("#finishTime").focus;
             alert("연락 가능한 시간대를 선택하세요");
             return false;
 
@@ -619,6 +638,7 @@ h1.b {
          
          /*시작 시간이 끝시간보다 적은 경우*/
          if($("#startTime").val() > $("#finishTime").val()){
+        	 $("#startTime").focus;
             alert("연락가능시간대를 정확히 선택해주세요");
             return false;
          }//

@@ -83,12 +83,12 @@ public class ReviewListServlet extends HttpServlet {
 		ArrayList<Service_List> slList=new Service_Service().selectSL_ReivewList();
 		ArrayList<Member> mList=new MemberService().selectM_ReivewList();
 		
-//		System.out.println(bList);
-//		System.out.println(rList);
-//		System.out.println(scList);
-//		System.out.println(sList);
-//		System.out.println(slList);
-//		System.out.println(mList);
+		/*System.out.println("1:"+bList);
+		System.out.println("2:"+rList);
+		System.out.println("3:"+scList);
+		System.out.println("4:"+sList);
+		System.out.println("5:"+slList);
+		System.out.println("6:"+mList);*/
 		
 		RequestDispatcher view=null;
 		

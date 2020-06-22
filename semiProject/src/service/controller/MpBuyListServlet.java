@@ -41,6 +41,7 @@ public class MpBuyListServlet extends HttpServlet {
 		
 		String userNo = loginUser.getUserNo();
 		
+
 		Service_Service sService = new Service_Service();
 		// 구매 리스트 총갯수 구하기
 		int listCount = sService.getBuyListCount(userNo);
