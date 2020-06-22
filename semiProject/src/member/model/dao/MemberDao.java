@@ -1415,7 +1415,7 @@ public class MemberDao {
 		Member seller = null;
 		String query = "SELECT * \r\n" + "FROM REVIEW R\r\n" + "LEFT JOIN BOARD B ON (R.BOARD_NO=B.BOARD_NO)\r\n"
 				+ "LEFT JOIN SERVICE S ON (R.SERVICE_NO=S.SERVICE_NO)\r\n"
-				+ "LEFT JOIN MEMBER M ON (S.S_USER_NO=M.USER_NO)\r\n" + "WHERE B.BOARD_STATUS='Y'";
+				+ "LEFT JOIN MEMBER M ON (S.S_USER_NO=M.USER_NO)\r\n" + "WHERE B.BOARD_STATUS='N'";
 
 		try {
 			pstmt = conn.prepareStatement(query);
