@@ -45,9 +45,12 @@ public class generalbtnServlet extends HttpServlet {
 		
 		Service_Service svService = new Service_Service();
 		int result = svService.salePriceMinusPoint(saleprice, loginUserNo); // 포인트 = 포인트 - 구매가
-		int result2 = svService.changebuser(sNo, loginUserNo); 
-		int result3 = svService.salePricePlusPoint(saleprice, suserNo); // 포인트 = 포인트 - 구매가
+		int result2 = svService.changebuser(sNo, loginUserNo); // 상품 게시물 상태 Y->N 및 구매자 번호 변경
+		int result3 = svService.salePricePlusPoint(saleprice, suserNo); // 포인트 = 포인트 + 구매가
 		int result4 = svService.insertlist(sNo,suserNo,loginUserNo); // list테이블에 상품구매 시 추가하는 메소드
+		int result5 = svService.sellCountPlus(suserNo); // 상품 판매 시 판매자 카운트 1 증가
+		int result6 = svService.buyCountPlus(loginUserNo); // 상품 구매 시 구매자 카운트 1 증가
+		
 		// 상품을 구매하면 구매한 사람 포인트에서 구매가 만큼 포인트가 차감이된다.
 		// 해당 상품게시물에 구매자는 구매를 한사람으로 변경된다.
 		// 해당 상품 판매자의 포인트는 자신이 올린 판매가 만큼 가격이 증가한다.

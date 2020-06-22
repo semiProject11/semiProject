@@ -206,12 +206,21 @@
                             </div>
                             <div class="tab-pane fade" id="nav-ServiceEv" role="tabpanel" aria-labelledby="nav-RefundPolicy-tab">
 								<%if(!rlist.isEmpty()){ %>
-									<%for(int i=0; i<rlist.size();i++){ %>								
-										<%=rlist.get(i).getUserId() %>
-										<%=rlist.get(i).getContent() %>
-										<%=rlist.get(i).getRating() %>
-										<%=rlist.get(i).getwDate() %>
-									<%} %>
+									<%for(int i=0; i<rlist.size();i++){ %>
+								<table style="margin-left: 30px; margin-top: 10px;">
+                                    <tr>
+                                        <td class="cd_id_style" style="width: 150px; padding-bottom: 10px;"><%=rlist.get(i).getwDate() %></td>
+                                        <td class="cd_id_style" style="width: 150px;  padding-bottom: 10px;">평점 : <%=rlist.get(i).getRating() %>점</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="padding-bottom: 10px;"><%=rlist.get(i).getContent() %></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cd_id_style" colspan="2"><%=rlist.get(i).getUserId() %></td>
+                                    </tr>
+                                </table>
+                                <hr>
+                                <%} %>
 								<%}else{ %>
 									<h6>작성된 서비스 리뷰가 없습니다.</h6>
 								<%} %>
@@ -384,10 +393,13 @@
                     </div> <!-- 입찰버튼 div 끝 --> --%>
                     
                         
+                        
                            
             		 		<div style="padding-left: 100px; padding-right: 100px;"> <!-- 구매버튼 div 시작 -->
-                             <%if(loginUser!=null){ %> <!--로그인 시 입찰 가능 -->
-                            <button type="button" id="btn_style" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
+            		 		
+            		 		 <%if(clpd.getsStatus().equalsIgnoreCase("Y")){ %>
+                             	<%if(loginUser!=null){ %> <!--로그인 시 입찰 가능 -->
+                           		 <button type="button" id="btn_style" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                                 		구매하기
                             </button>
                             <%}else { %>
@@ -395,6 +407,11 @@
                                 		구매하기
                             </button>
                             <%} %>
+                             <%}else{ %>
+                             <button type="button" id="btn_style" class="btn" onclick="servicestatus();">
+                                		구매하기
+                            </button>
+                             <%} %>   
                             <!-- Modal -->
                             <form action="<%=request.getContextPath()%>/generalbtn.up" method="get">
                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -477,8 +494,7 @@
 <script>
 
 
- 
- 
+
  
  /*카테고리 별 상품 페이지 이동 함수*/    
  
@@ -542,6 +558,9 @@ function selfbuycheck(){
 	 alert("보유 포인트가 부족합니다. 포인트를 충전해주세요.");
  }
 
+ function servicestatus(){
+	 alert("이미 판매된상품입니다.");
+} 
  
  
  

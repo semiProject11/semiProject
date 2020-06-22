@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.vo.Member;
 import service.model.service.Service_Service;
@@ -41,16 +42,28 @@ public class auctiondetailServlet extends HttpServlet {
 		String suserNo = request.getParameter("suserNo");
 		String loginUserNo = request.getParameter("loginUserNo");
 		
-		int sNo2 = Integer.valueOf(sNo);
+		
+		String result = "";
+
 		
 		System.out.println("판매자 번호 : " + suserNo);
 		System.out.println("구매자 번호 : " + loginUserNo);
 		
-		
 		Service_Service svService = new Service_Service();
-		int result = svService.updateCount(sNo2);
 		
+		
+		HttpSession session = request.getSession(); // 세션 객체 호출
+		System.out.println("현재 세션에 담긴 객체 값 : " + session.getAttribute(sNo)); // 현재 생성후 세션 객체 값은 null이다.
+		
+		if(session.getAttribute(sNo)==null) { // 처음에 생성된 세션객체는 null값을 가졌기 때문에 if문이 실행이된다.
+	    	
+		result = Integer.valueOf(svService.updateCount(sNo)).toString(); // 조회수 카운팅 해주는 메소드
 		 
+		session.setAttribute(sNo, sNo); // sNo(현재 클릭하여 들어간 서비스 게시물의 서비스번호)로 이름을 가진 세션객체에  현재 서비스 게시물 번호 값을 저장한 세션객체로 설정 된다.
+	    	
+		}
+		
+		// 이후 해당 서비스 게시물 번호값을 가진 세션객체는 null값이 아니므로 if문을 못들어 가기때문에 조회수 증가가 막힌다.
 		
 		
 	      CategoryListPd clpd = svService.auctiondetail(sNo);
@@ -65,7 +78,7 @@ public class auctiondetailServlet extends HttpServlet {
 	      
 	      Service sv = svService.selectbuserNo(sNo);
 	      
-	     if(result > 0) {
+	     
 	      
 	      
     	 if(clpd!=null&&!flist.isEmpty()) {
@@ -92,7 +105,6 @@ public class auctiondetailServlet extends HttpServlet {
     		 request.getRequestDispatcher("view/common/errorPage.jsp");
 		}
 	      
-	     }
 	}
 
 	/**

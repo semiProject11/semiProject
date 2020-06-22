@@ -1280,7 +1280,7 @@ public class ServiceDao {
 		return clpd;
 	}
 
-	public int updateCount(Connection conn, int sNo2) {
+	public int updateCount(Connection conn, String sNo) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 
@@ -1288,7 +1288,7 @@ public class ServiceDao {
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, sNo2);
+			pstmt.setString(1, sNo);
 			result = pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -1830,6 +1830,69 @@ public class ServiceDao {
 		
 		return list;
 		
+	}
+
+	public int sellCountPlus(Connection conn, String suserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE SELLER SET SELLCOUNT = SELLCOUNT+1 WHERE S_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, suserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("판매횟수 증가 성공" + result);
+		return result;
+	}
+
+	public int buyCountPlus(Connection conn, String loginUserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BUYER SET BUYCOUNT = BUYCOUNT+1 WHERE B_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, loginUserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("구매횟수 증가 성공" + result);
+		return result;
+	}
+
+	public int buyCountPlusbid(Connection conn, String buserNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "UPDATE BUYER SET BUYCOUNT = BUYCOUNT+1 WHERE B_USER_NO = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, buserNo);
+			result = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		 System.out.println("입찰상품 구매횟수 증가 성공" + result);
+		return result;
 	}
 
 

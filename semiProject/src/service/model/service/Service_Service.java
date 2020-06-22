@@ -386,12 +386,12 @@ public class Service_Service {
 	}
 
 
-	public int updateCount(int sNo2) {
+	public int updateCount(String sNo) {
 		Connection conn = getConnection();
 
 		ServiceDao svDao = new ServiceDao();
 
-		int result = svDao.updateCount(conn, sNo2);
+		int result = svDao.updateCount(conn, sNo);
 
 		if(result > 0) {
 			commit(conn);
@@ -702,6 +702,57 @@ public class Service_Service {
 		return sList;
 		
 
+	}
+
+
+	public int sellCountPlus(String suserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.sellCountPlus(conn, suserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int buyCountPlus(String loginUserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.buyCountPlus(conn, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int buyCountPlusbid(String buserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.buyCountPlusbid(conn, buserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
 	}
 
 

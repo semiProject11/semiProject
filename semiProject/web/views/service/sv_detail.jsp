@@ -214,12 +214,21 @@
                             </div>
                             <div class="tab-pane fade" id="nav-ServiceEv" role="tabpanel" aria-labelledby="nav-RefundPolicy-tab">
 								<%if(!rlist.isEmpty()){ %>
-									<%for(int i=0; i<rlist.size();i++){ %>								
-										<%=rlist.get(i).getUserId() %>
-										<%=rlist.get(i).getContent() %>
-										<%=rlist.get(i).getRating() %>
-										<%=rlist.get(i).getwDate() %>
-									<%} %>
+									<%for(int i=0; i<rlist.size();i++){ %>
+								<table style="margin-left: 30px; margin-top: 10px;">
+                                    <tr>
+                                        <td class="cd_id_style" style="width: 150px; padding-bottom: 10px;"><%=rlist.get(i).getwDate() %></td>
+                                        <td class="cd_id_style" style="width: 150px;  padding-bottom: 10px;">평점 : <%=rlist.get(i).getRating() %>점</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="padding-bottom: 10px;"><%=rlist.get(i).getContent() %></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="cd_id_style" colspan="2"><%=rlist.get(i).getUserId() %></td>
+                                    </tr>
+                                </table>
+                                <hr>
+                                <%} %>
 								<%}else{ %>
 									<h6>작성된 서비스 리뷰가 없습니다.</h6>
 								<%} %>
@@ -328,7 +337,8 @@
                        
                         <div style="padding-left: 100px; padding-right: 100px;"> <!-- 입찰버튼 div 시작 -->
                        
-                       <%if(loginUser!=null){ %> <!--로그인 시 입찰 가능 -->
+                      	<%if(clpd.getsStatus().equalsIgnoreCase("Y")){ %>
+                       		<%if(loginUser!=null){ %> <!--로그인 시 입찰 가능 -->
                             <button type="button" id="btn_style" class="btn" data-toggle="modal" data-target="#exampleModalCenter">
                                 	입찰하기
                             </button>
@@ -336,9 +346,14 @@
                              <button type="button" id="btn_style" class="btn" onclick="logincheckbtn();">
                                 	입찰하기
                             </button>
+                            <%} %>
+                            <%}else{ %>
+                             <button type="button" id="btn_style" class="btn" onclick="servicestatus();">
+                                	입찰하기
+                            </button>
                         <%} %>   
                             <!-- Modal -->
-                            <form action="<%=request.getContextPath()%>/Price.up" method="get" onsubmit="return abc();">
+                            <form action="<%=request.getContextPath()%>/Price.up" method="get" onsubmit="return pricelimit();">
                             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content" style="width: 100%;">
@@ -372,25 +387,9 @@
                                         <h6 style="text-align: center; color: red;font-weight: 400;"> ※주의 - 입찰취소는 불가하오니, 신중히 입찰해주십시오.</h6>
                                     </span>
                                     <div class="modal-footer" style="padding-top: 0; padding-right: 35%; border-top: none;">
-                                        <%if(loginUser!=null){ %>
                                         <div>
-                                       <%if(member.getPoint() > clpd.getPriceBidding()){ %> <!-- 보유 포인트가 입찰 가격보다 많아야한다. -->
-	                                        <%if(!loginUser.getUserNo().equals(clpd.getsUserNo())) {%> <!-- 자신의 상품은 자신이 입찰할 수 없다. -->
-	                                       		 <%if(!loginUser.getUserNo().equals(sv.getB_user_no())){ %> <!-- 입찰은 한번만(다른 유저가 입찰 시 구매번호가 바뀌면 다시 입찰 시도 가능)  -->
-	                                       		 	<button type="submit" class="btn btn-primary">입찰하기</button>
-	                                       		 <%}else{ %>
-	                                        		<button type="button" class="btn btn-primary" onclick="onebidding();">입찰하기</button> <!-- 입찰은 한번만 -->
-                                       		 		<%} %>
-                                       		 		<%}else{ %>
-	                                        		<button type="button" class="btn btn-primary" onclick="selfbuycheck();">입찰하기</button> <!-- 자신의 상품은 자신이 입찰할 수 없다. -->
-                                       		 		<%} %>
-                                        <%} else {%>
-                                        <button type="button" class="btn btn-primary" onclick="insertpricemiss();">입찰하기</button> <!-- 보유 포인트가 부족 시 클릭 되는 버튼 -->
-                                        <%} %>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                        </div>
-                                        <%}%>
-                                        
+                                        <button type="submit" class="btn btn-primary">입찰하기</button>
+                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                                     </div>
                     
                                 </div>
@@ -570,28 +569,32 @@
 	 alert("로그인을 해주세요.");
  }
  
- function insertpricemiss(){
-	 alert("보유 포인트가 부족합니다. 포인트를 충전해주세요.");
+ function servicestatus(){
+	 alert("이미 판매된상품입니다.");
  }
- function onebidding(){
-	 alert("이미 입찰하였습니다.");
- }
- 
- function selfbuycheck(){
-	 alert("자신의 상품은 구매할 수 없습니다.");
- }
+
  // 보유포인트 > 현재 입력금액 , 입력금액이 입찰금액보다 작으면 안된다.(입찰금액 > 입력금액) 
- function abc(){
+ function pricelimit(){
 	 <%if(member!=null){%>
-	 if(<%=member.getPoint()%> >= $("#insertprice").val()){
-		 if(<%=clpd.getPriceBidding()%> < $("#insertprice").val()){
+	 if(<%=member.getPoint()%> >= $("#insertprice").val()){ // 보유포인트가 입력금액보다 적으면 안된다.
+		 if(<%=clpd.getPriceBidding()%> < $("#insertprice").val()){ // 입찰 금액보다 적게 입력 못한다.
+			 <%if(!loginUser.getUserNo().equals(sv.getB_user_no())){ %> // 입찰은 한번만 가능하다.
+			 	<%if(!loginUser.getUserNo().equals(clpd.getsUserNo())) {%> // 자신의 상품은 구매할 수 없다.
 			 return true;
+			 	<% } else { %>
+			 		alert("자신의 상품은 구매할 수 없습니다.")
+			 		return false;
+			 	<% } %>
+			 <%} else {%>
+			 	alert("이미 입찰 하였습니다.");
+			 	return false;
+			 <%}%>
 		 }else{
 			alert("입찰금액보다 적게 입력하셨습니다. 다시 입력해주세요.")
 			return false;
 		 }
 	 }else{
-		 alert("보유 포인트가 입력 금액보다 부족합니다");
+		 alert("보유 포인트가 입력 금액보다 부족합니다. 충전해주세요.");
 		 return false;
 	 }
 	 <%}%>

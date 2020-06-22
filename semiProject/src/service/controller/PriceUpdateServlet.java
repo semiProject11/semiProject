@@ -54,15 +54,6 @@ public class PriceUpdateServlet extends HttpServlet {
 			int result3 = svService.updatePlusPoint(price, buserNo); // 포인트 = 포인트 + 입력 입찰 금액 (다른 사람이 내 입찰금액보다 큰 금액을 입력해서 내가 입력한금액을 반환받음)
 		}
 		
-		// getparmeter로 마감시간 함수의 result값을 받아오고
-		// if(result < 0){
-		//  해당 서비스 상품 판매자에게 최종입찰금액이 매개변수(price, suserNo)갖는 메소드 만들어서 갱신
-		//  해당 서비스 상품 판매 상태 Y -> N으로 갱신 매개변수(sNo)갖는 메소드 만들기
-		// }
-		
-		
-		
-		
 		if(result > 0) {
 			request.getRequestDispatcher("/auction.detail").forward(request, response); // 갱신 완료 후 서블릿을 통해 상세보기 페이지로 잘 갱신됬는지 확인하기.
 		}else {
