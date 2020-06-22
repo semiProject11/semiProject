@@ -785,7 +785,8 @@ public class ServiceDao {
 									rset.getString("SERVICE_STATUS"),
 									rset.getString("USER_NAME"),
 									rset.getString("PHONE"),
-									rset.getInt("RATING"));
+									rset.getInt("RATING"),
+									rset.getString("REFUND_YN"));
 					
 					bsList.add(service);
 					
@@ -1757,7 +1758,7 @@ public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		
-		String query = "UPDATE MEMBER SET ? WHERE USER_NO = ?";
+		String query = "UPDATE MEMBER SET POINT = ? WHERE USER_NO = ?";
 		
 		try {
 			pstmt = conn.prepareStatement(query);

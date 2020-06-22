@@ -252,7 +252,7 @@ th, tr, td {
 										<%
 											for (int i = 0; i < bsList.size(); i++) {
 												ServiceSellList s = bsList.get(i);	
-												if(s.getServiceStatus().equals("N")){
+												if(s.getServiceStatus().equals("N")&&s.getRefundYN().equals("N")){
 										%>
 										<option value="<%=s.getServiceNo() %>"><%=s.getServiceNo() %></option>
 										<%} %>
