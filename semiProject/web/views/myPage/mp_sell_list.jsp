@@ -300,8 +300,8 @@ th, tr, td {
 											for (int i = 0; i < bsList.size(); i++) {
 												ServiceSellList s = bsList.get(i);	
 										%>
-										<tr>
-											<input type="hidden" name="board_no" value="#">
+										<tr id="listArea">
+											<input type="hidden" value="<%=s.getServiceNo()%>">
 											<%if(s.getUserName()!=null){ %>
 											<td class="text-center" style="width: 5%"><input
 												type="checkbox" class="common" id="rowCheck" name="rowCheck"
@@ -314,8 +314,7 @@ th, tr, td {
 												value="<%=s.getServiceNo()%>"></td>
 											<%} %>
 											<td><%=s.getServiceNo()%></td>
-											<td style="width: 300px;"><a href="index.html"
-												style="color: black;"><%=s.getTitle()%></a></td>
+											<td style="width: 300px;"><%=s.getTitle()%></td>
 											<%if(s.getServiceStatus().equals("Y")){ %>
 											<td>-</td>
 											<td>-</td>
@@ -390,6 +389,13 @@ th, tr, td {
 				</div>
 
 				<script>
+					$(function(){
+						$("#listArea td").click(function(){
+							var bid = $(this).parent().children("input").val();
+							location.href="<%=request.getContextPath()%>/auction.detail?sNo=" + bid;
+						})
+					})
+				
 			  		function result1(){
 			  			$("#result").val($("#service").val());
 			  			
@@ -424,7 +430,7 @@ th, tr, td {
 			    	}  
   				
 					function insertService(){
-						
+						location.href="<%=request.getContextPath()%>/views/service/service_register.jsp";
 					}
 					function canclePoint(){
 						
