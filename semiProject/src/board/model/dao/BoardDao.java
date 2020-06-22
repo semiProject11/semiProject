@@ -2708,7 +2708,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt=null;
 		String query="UPDATE BOARD SET BOARD_STATUS='Y' WHERE BOARD_NO=?";
 		try {
-			
+			System.out.println(board_no);
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
 			result = pstmt.executeUpdate();
@@ -2718,7 +2718,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		}finally {
 			close(pstmt);
 		}
-		
+		System.out.println(result);
 		return result;
 
 
