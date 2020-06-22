@@ -304,7 +304,8 @@ public class ServiceDao {
 								rset.getInt("SERVICE_NO"),
 								rset.getString("B_USER_NO"),
 								rset.getString("CONTENT"),
-		                        rset.getInt("RATING"));
+		                        rset.getInt("RATING"),
+		                        rset.getString("PRICE_SALE"));
 				
 				bsList.add(service);
 			}
