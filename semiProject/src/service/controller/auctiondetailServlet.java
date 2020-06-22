@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.vo.Member;
 import service.model.service.Service_Service;
@@ -38,8 +39,20 @@ public class auctiondetailServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		String sNo = request.getParameter("sNo");
-		String suserNo = request.getParameter("suserNo");
-		String loginUserNo = request.getParameter("loginUserNo");
+//		String suserNo = request.getParameter("suserNo");
+//		String loginUserNo = request.getParameter("loginUserNo");
+		
+	
+		// 현제 로그인한 구매자 번호 구해오는 구문
+		HttpSession session = request.getSession();		
+		Member loginUser = (Member)session.getAttribute("loginUser");		
+		String loginUserNo = loginUser.getUserNo();
+		
+		// 서비스 넘버로 판매자 번호 구해오는 구문
+		CategoryListPd clpd = new Service_Service().auctiondetail(sNo);
+		String suserNo = clpd.getsUserNo();
+		
+		
 		
 		int sNo2 = Integer.valueOf(sNo);
 		
@@ -53,7 +66,7 @@ public class auctiondetailServlet extends HttpServlet {
 		 
 		
 		
-	      CategoryListPd clpd = svService.auctiondetail(sNo);
+//	      CategoryListPd clpd = svService.auctiondetail(sNo);
 	      ArrayList<Service_SeviceFilesTable_oh> flist = svService.selectfList();
 	      
 	      ArrayList<Service_info> infolist = svService.selectsvinfo(sNo);

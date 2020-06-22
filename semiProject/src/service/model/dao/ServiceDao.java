@@ -321,6 +321,7 @@ public class ServiceDao {
 	}
 
 
+
    public ArrayList<Review> selectReviewList(Connection conn, String userNo) {
       PreparedStatement pstmt = null;
       ResultSet rset = null;
@@ -558,9 +559,9 @@ public class ServiceDao {
          while (rset.next()) {   
                   
             Service s = new Service(rset.getInt("service_no")
-                           , rset.getInt("s_user_no")
-                           , rset.getString("sale_info")
-                           , rset.getString("available_area")
+            			,rset.getInt("s_user_no")
+            			, rset.getString("sale_info")
+            			, rset.getString("available_area")
                            , rset.getInt("readCount")
                            , rset.getInt("file_count")
                            , rset.getString("file_YN")
@@ -775,7 +776,8 @@ public class ServiceDao {
 			
 			rset = pstmt.executeQuery();
 
-			while(rset.next()) {
+			
+while(rset.next()) {
 				
 					ServiceSellList service = 
 							new ServiceSellList(rset.getInt("SERVICE_NO"),
@@ -1346,7 +1348,8 @@ public class ServiceDao {
 		return list;
 	}
 
-	public ArrayList selectreview(Connection conn, String suserNo) {
+	
+		public ArrayList selectreview(Connection conn, String suserNo) {
 		PreparedStatement pstmt = null;
 		ArrayList list = new ArrayList();
 		ResultSet rs = null;
@@ -1625,9 +1628,8 @@ public class ServiceDao {
 
 		 System.out.println(result);
 		return result;
-	
-	
-	}
+
+		}
 
 	public int snoStatusUpdate(Connection conn, String sNo) {
 		PreparedStatement pstmt = null;
@@ -1697,7 +1699,7 @@ public class ServiceDao {
 	}
 
 
-	public MpSelectBSNo selectBSNo(Connection conn, String sn) {
+public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		MpSelectBSNo bs = null;
@@ -1791,6 +1793,389 @@ public class ServiceDao {
 		return result;
 	}
 
+	public ArrayList<Service_List> searchTradeList(Connection conn, int currentPage, int limit, String type, String word) {
+			PreparedStatement pstmt=null;
+	      ResultSet rset=null;
+	      ArrayList<Service_List> tradeList=new ArrayList<>();
+	      int startRow = (currentPage-1) * limit + 1;
+	      int endRow = currentPage * limit;
+	      
+
+
+	      if(type.equals("a")&&word=="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) )Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+  	    	  
+  	    	  try {
+  	 	         pstmt=conn.prepareStatement(query);
+  	 	  
+  	 	         pstmt.setInt(1,startRow);
+  	 	         pstmt.setInt(2, endRow);
+  	 	         rset=pstmt.executeQuery();
+  	 	         
+  	 	         while(rset.next()) {
+  	 	            
+  	 	            Service_List s=new Service_List(rset.getInt("service_no"),
+  	 	                                    rset.getDate("trade_date"),
+  	 	                                    rset.getString("s_user_no"),
+  	 	                                    rset.getString("b_user_no"),
+  	 	                                    rset.getString("refund_yn"));
+  	 	            tradeList.add(s);
+  	 	            
+  	 	         }
+  	 	         
+  	 	         
+  	 	         
+  	 	         
+  	 	      } catch (SQLException e) {
+  	 	         
+  	 	         e.printStackTrace();
+  	 	      }finally {
+  	 	         close(pstmt);
+  	 	         close(rset);
+  	 	      }
+  	   
+	    	
+	      
+	}else if(type.equals("a")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE ((s.service_no LIKE '%'||?||'%') or (user_id LIKE '%'||?||'%')))Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+  	    	  
+  	    	  try {
+  	 	         pstmt=conn.prepareStatement(query);
+  	 	         pstmt.setString(1,word);
+  	 	         pstmt.setString(2,word);
+  	 	         pstmt.setInt(3,startRow);
+  	 	         pstmt.setInt(4, endRow);
+  	 	         rset=pstmt.executeQuery();
+  	 	         
+  	 	         while(rset.next()) {
+  	 	            
+  	 	            Service_List s=new Service_List(rset.getInt("service_no"),
+  	 	                                    rset.getDate("trade_date"),
+  	 	                                    rset.getString("s_user_no"),
+  	 	                                    rset.getString("b_user_no"),
+  	 	                                    rset.getString("refund_yn"));
+  	 	            tradeList.add(s);
+  	 	            
+  	 	         }
+  	 	         
+  	 	         
+  	 	         
+  	 	         
+  	 	      } catch (SQLException e) {
+  	 	         
+  	 	         e.printStackTrace();
+  	 	      }finally {
+  	 	         close(pstmt);
+  	 	         close(rset);
+  	 	      }
+  	   
+	    	  
+	    	  
+	      }else if(type.equals("b")&&word!="") {
+String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setInt(2,startRow);
+	 	         pstmt.setInt(3, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	            Service_List s=new Service_List(rset.getInt("service_no"),
+	 	                                    rset.getDate("trade_date"),
+	 	                                    rset.getString("s_user_no"),
+	 	                                    rset.getString("b_user_no"),
+	 	                                    rset.getString("refund_yn"));
+	 	            tradeList.add(s);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	      }else if(type.equals("c")&&word!="") {
+	    	  String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (user_id LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  	    	  try {
+	    	  	 	         pstmt=conn.prepareStatement(query);
+	    	  	 	         pstmt.setString(1,word);
+	    	  	 	         pstmt.setInt(2,startRow);
+	    	  	 	         pstmt.setInt(3, endRow);
+	    	  	 	         rset=pstmt.executeQuery();
+	    	  	 	         
+	    	  	 	         while(rset.next()) {
+	    	  	 	            
+	    	  	 	            Service_List s=new Service_List(rset.getInt("service_no"),
+	    	  	 	                                    rset.getDate("trade_date"),
+	    	  	 	                                    rset.getString("s_user_no"),
+	    	  	 	                                    rset.getString("b_user_no"),
+	    	  	 	                                    rset.getString("refund_yn"));
+	    	  	 	            tradeList.add(s);
+	    	  	 	            
+	    	  	 	         }
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	      } catch (SQLException e) {
+	    	  	 	         
+	    	  	 	         e.printStackTrace();
+	    	  	 	      }finally {
+	    	  	 	         close(pstmt);
+	    	  	 	         close(rset);
+	    	  	 	      }
+	    	  	  
+	     
+	      }
+	 
+	      return tradeList;
+	   }
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public ArrayList<Service_ServiceTable_oh> searchServiceList(Connection conn, int currentPage, int limit,
+			String type, String word) {
+		
+		PreparedStatement pstmt=null;
+	      ResultSet rset=null;
+	      ArrayList<Service_ServiceTable_oh> tradeList=new ArrayList<>();
+	      int startRow = (currentPage-1) * limit + 1;
+	      int endRow = currentPage * limit;
+	      
+
+	      if(type.equals("a")&&word=="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) )Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
+  	    	  
+  	    	  try {
+  	 	         pstmt=conn.prepareStatement(query);
+  	 	  
+  	 	         pstmt.setInt(1,startRow);
+  	 	         pstmt.setInt(2, endRow);
+  	 	         rset=pstmt.executeQuery();
+  	 	         
+  	 	         while(rset.next()) {
+  	 	            
+  	 	        	Service_ServiceTable_oh s=new Service_ServiceTable_oh
+	                           (rset.getInt("service_no"),
+	                           rset.getString("s_user_no"),
+	                           rset.getString("category_code"),
+	                           rset.getString("title"),
+	                           rset.getString("salemethod"),
+	                           rset.getInt("price_sale"),
+	                           rset.getInt("price_bidding"), 
+	                           rset.getString("rnum"), //마감시간대신 rnum받아옴
+	                           rset.getString("subject"),
+	                           rset.getString("s_explain"),
+	                           rset.getString("sale_info"),
+	                           rset.getString("available_area"),
+	                           rset.getString("contacttime_start"),
+	                           rset.getString("contacttime_finish"),
+	                           rset.getInt("readcount"),
+	                           rset.getInt("file_count"),
+	                           rset.getString("file_yn"),
+	                           rset.getString("b_user_no"),
+	                           rset.getDate("register_date"));
+	      
+	 	            tradeList.add(s);
+	 	            
+  	 	         }
+  	 	         
+  	 	         
+  	 	      } catch (SQLException e) {
+  	 	         
+  	 	         e.printStackTrace();
+  	 	      }finally {
+  	 	         close(pstmt);
+  	 	         close(rset);
+  	 	      }
+
+	}else if(type.equals("a")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%') or (user_id LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setString(2,word);
+	 	
+	 	         pstmt.setInt(3,startRow);
+	 	         pstmt.setInt(4, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	        	Service_ServiceTable_oh s=new Service_ServiceTable_oh
+	                           (rset.getInt("service_no"),
+	                           rset.getString("s_user_no"),
+	                           rset.getString("category_code"),
+	                           rset.getString("title"),
+	                           rset.getString("salemethod"),
+	                           rset.getInt("price_sale"),
+	                           rset.getInt("price_bidding"), 
+	                           rset.getString("rnum"), //마감시간대신 rnum받아옴
+	                           rset.getString("subject"),
+	                           rset.getString("s_explain"),
+	                           rset.getString("sale_info"),
+	                           rset.getString("available_area"),
+	                           rset.getString("contacttime_start"),
+	                           rset.getString("contacttime_finish"),
+	                           rset.getInt("readcount"),
+	                           rset.getInt("file_count"),
+	                           rset.getString("file_yn"),
+	                           rset.getString("b_user_no"),
+	                           rset.getDate("register_date"));
+	      
+	 	            tradeList.add(s);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	    	  
+	      }else if(type.equals("b")&&word!="") {
+	    	  String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  try {
+	 	         pstmt=conn.prepareStatement(query);
+	 	         pstmt.setString(1,word);
+	 	         pstmt.setInt(2,startRow);
+	 	         pstmt.setInt(3, endRow);
+	 	         rset=pstmt.executeQuery();
+	 	         
+	 	         while(rset.next()) {
+	 	            
+	 	        	Service_ServiceTable_oh s=new Service_ServiceTable_oh
+	                           (rset.getInt("service_no"),
+	                           rset.getString("s_user_no"),
+	                           rset.getString("category_code"),
+	                           rset.getString("title"),
+	                           rset.getString("salemethod"),
+	                           rset.getInt("price_sale"),
+	                           rset.getInt("price_bidding"), 
+	                           rset.getString("rnum"), //마감시간대신 rnum받아옴
+	                           rset.getString("subject"),
+	                           rset.getString("s_explain"),
+	                           rset.getString("sale_info"),
+	                           rset.getString("available_area"),
+	                           rset.getString("contacttime_start"),
+	                           rset.getString("contacttime_finish"),
+	                           rset.getInt("readcount"),
+	                           rset.getInt("file_count"),
+	                           rset.getString("file_yn"),
+	                           rset.getString("b_user_no"),
+	                           rset.getDate("register_date"));
+	      
+	 	            tradeList.add(s);
+	 	            
+	 	         }
+	 	         
+	 	         
+	 	         
+	 	         
+	 	      } catch (SQLException e) {
+	 	         
+	 	         e.printStackTrace();
+	 	      }finally {
+	 	         close(pstmt);
+	 	         close(rset);
+	 	      }
+	   
+	    	  
+	      }else if(type.equals("c")&&word!="") {
+	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))Q  ORDER BY TRADE_DATE DESC) WHERE (user_id LIKE '%'||?||'%') and RNUM BETWEEN ? AND ?";
+	    	  	    	  
+	    	  	    	  try {
+	    	  	 	         pstmt=conn.prepareStatement(query);
+	    	  	 	         pstmt.setString(1,word);
+	    	  	 	         pstmt.setInt(2,startRow);
+	    	  	 	         pstmt.setInt(3, endRow);
+	    	  	 	         rset=pstmt.executeQuery();
+	    	  	 	         
+	    	  	 	         while(rset.next()) {
+	    	  	 	            
+	    	  	 	        	Service_ServiceTable_oh s=new Service_ServiceTable_oh
+	    	                            (rset.getInt("service_no"),
+	    	                            rset.getString("s_user_no"),
+	    	                            rset.getString("category_code"),
+	    	                            rset.getString("title"),
+	    	                            rset.getString("salemethod"),
+	    	                            rset.getInt("price_sale"),
+	    	                            rset.getInt("price_bidding"), 
+	    	                            rset.getString("rnum"), //마감시간대신 rnum받아옴
+	    	                            rset.getString("subject"),
+	    	                            rset.getString("s_explain"),
+	    	                            rset.getString("sale_info"),
+	    	                            rset.getString("available_area"),
+	    	                            rset.getString("contacttime_start"),
+	    	                            rset.getString("contacttime_finish"),
+	    	                            rset.getInt("readcount"),
+	    	                            rset.getInt("file_count"),
+	    	                            rset.getString("file_yn"),
+	    	                            rset.getString("b_user_no"),
+	    	                            rset.getDate("register_date"));
+	    	       
+	            tradeList.add(s);
+	            
+	    	  	 	            
+	    	  	 	         }
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	         
+	    	  	 	      } catch (SQLException e) {
+	    	  	 	         
+	    	  	 	         e.printStackTrace();
+	    	  	 	      }finally {
+	    	  	 	         close(pstmt);
+	    	  	 	         close(rset);
+	    	  	 	      }
+	    	  	  
+	     
+	      }
+	      
+	      return tradeList;
+	 
+	
+	}
+
+	                           
+	                           
+	                 
 	public ArrayList<CategoryListPd> searchService(Connection conn, String category, String word, String salemethod) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1817,6 +2202,7 @@ public class ServiceDao {
 						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
 						rs.getString("SERVICE_STATUS"));
 
+				
 				list.add(clpd);
 			}
 			
@@ -1833,4 +2219,51 @@ public class ServiceDao {
 	}
 
 
-}
+
+	  
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+	
+
+	
+
+	
+
+
+	
+	
+	
+	
+	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+

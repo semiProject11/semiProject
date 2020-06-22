@@ -271,14 +271,16 @@
             <!--contents-->
             <div class="container mt-5">
 
-                <head>
+                <header>
                     <h2>문의 사항 관리</h2>
                     <hr>
-                </head>
+                </header>
 
                 <div class="container my-4">
 
                     <div>
+                    
+                    
                         <!--상단 버튼-->
                         <button type="button" class="btn" id="checkBtn"
 							style="background: black; color: white;">전체 선택</button>
@@ -287,25 +289,26 @@
                        
                        
                         <!--상단 검색창-->
-                        <form method='post' action="<%=request.getContextPath() %>/search.inquiary">
                         <div class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                        <form method='post' action="<%=request.getContextPath() %>/search.inquiary">
                             
                             <div class="input-group">
-                                <select class="form-control" name="search">
+                                <select class="form-control" id="search" name="search">
                                     <option value="a">전체</option>
                                     <option value="c">이용 문의</option>
                                     <option value="b">고객의 소리</option>
                                     <option value="d">제휴</option>
 
                                 </select>
-                                <input class="form-control" type="text"  name="word" value="" placeholder="Search for..." aria-label="Search"
+                                <input class="form-control" type="text"  id="word" name="word" value="" placeholder="Search for..." aria-label="Search"
                                     aria-describedby="basic-addon2" />
                                 <div class="input-group-append"></div>
-                                <button class="btn btn-primary mr-0" type="submit" id="jin">
+                                <button class="btn btn-primary mr-0" id="jin" type="button" onclick="search222();">
                                     <i class="fas fa-search"></i></button>
                             </div>
-                        </form>
+                            </form>
                     </div>
+                      
                     </div>
 
                     <!--유저 리스트-->
@@ -365,8 +368,8 @@
 				<div class="page-center">
 					<ul class="pagination-t">
 
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=1"><<</a></li>
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage-1 %>">Previous</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=1"><<</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != 1) {%><%=request.getContextPath()%><%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage-1 %><%}%>">Previous</a></li>
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
@@ -378,7 +381,7 @@
 			<%} %>
 					
 						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != endPage) {%><%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage+1%><%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=maxPage %>">>></a></li>
 					
 					
@@ -426,8 +429,20 @@
 	
 			}); 
 	
+            //검색
             
-            
+            function search222(){
+
+		var type=$("#search").val();
+		var word=$("#word").val();
+		location.href="<%=request.getContextPath()%>/search.inquiary?type="+type+"&word="+word;
+		
+	
+	}
+    
+        
+        	
+        	
             
           //체크된 항목 확인
 			function checkInquiary(){

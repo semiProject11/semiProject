@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="board.model.vo.Pagination,service.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
+    pageEncoding="UTF-8" import="board.model.vo.Pagination,board.model.vo.*,service.model.vo.*,member.model.vo.*,java.util.ArrayList"%>
 
 <%
 ArrayList<Service_List> tradeList = (ArrayList<Service_List>) request.getAttribute("tradeList");
@@ -237,10 +237,10 @@ th, tr, td {
 
 			<div class="container mt-5">
 
-				<head>
+				<header>
 <h2>거래 내역 관리</h2>
 <hr>
-				</head>
+				</header>
 
 				<div class="container my-3">
 					<div>
@@ -249,21 +249,24 @@ th, tr, td {
 						<!--상단 검색창-->
 						<div
 							class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
+						 <form action="<%=request.getContextPath() %>/search.transaction" method='post' >
 							<div class="input-group">
-								<select class="form-control" id="category">
-									<option selected>전체</option>
-									<option>제목</option>
-									<option>서비스번호</option>
-									<option>판매자</option>
+								<select class="form-control" id="search" name="search">
+									<option value="a">전체</option>
+									<option value="b">서비스 번호</option>
+									<option value="c">판매자</option>
+								
+									
 
-								</select> <input class="form-control" type="text"
+								</select> 
+								<input class="form-control" type="text" id="word" name="word" value=""
 									placeholder="Search for..." aria-label="Search"
 									aria-describedby="basic-addon2" />
 								<div class="input-group-append"></div>
-								<button class="btn btn-primary mr-0" type="button" id="jin">
-									<i class="fas fa-search"></i>
-								</button>
+								<button class="btn btn-primary mr-0" id="jin" type="button" onclick="search111();">
+									<i class="fas fa-search"></i></button>
 							</div>
+							</form>
 						</div>
 					</div>
 
@@ -299,7 +302,7 @@ th, tr, td {
 								<tr>
 
 									<input type="hidden" value="<%=(serviceList.get(i)).getServiceNo()%>">
-									<td><%=(serviceList.get(i)).getDeadline()%></td> <!-- 마감시간 대신 dao에서 게시글 순번넣어옴  -->
+									<td><%=(serviceList.get(i)).getDeadline()%></td> 
 									<td><%=(serviceList.get(i)).getTitle()%></td>
 									<td><%=(serviceList.get(i)).getServiceNo()%></td>
 									<td><%=(serviceList.get(i)).getPriceSale()%></td>
@@ -333,7 +336,7 @@ th, tr, td {
 					<ul class="pagination-t">
 
   						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=1"><<</a></li>
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage-1 %>">Previous</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%if (currentPage != 1) {%><%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage-1 %><%}%>">Previous</a></li>
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
@@ -345,7 +348,7 @@ th, tr, td {
 			<%} %>
 					
 						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != endPage) {%><%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage+1%><%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=maxPage %>">>></a></li>
 					
 					
@@ -377,10 +380,21 @@ th, tr, td {
 	
 	<script>
 	
+	//검색
+	function search111(){
+	 	alert('된당'); 
+		var type=$("#search").val();
+		var word=$("#word").val();
+		location.href="<%=request.getContextPath()%>/search.transaction?type="+type+"&word="+word;
+		
+	
+	}
+	
 	
 	
 	//게시판 상세보기
 		$(function(){
+	
 		$("#listArea td").mouseenter(function(){
 			$(this).parent().css({"cursor":"pointer"});
 
@@ -389,7 +403,7 @@ th, tr, td {
 			location.href="<%=request.getContextPath()%>/detail.transaction?serviceNo=" + serviceNo;
 			
 		});
-	})
+	});
 	
 	</script>
 

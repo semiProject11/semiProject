@@ -77,13 +77,11 @@ public class PointListServlet extends HttpServlet {
 
 
 		System.out.println(list);
-		if(!list.isEmpty()) {
+		
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/adminPage/Ad_point_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 
 
 	}

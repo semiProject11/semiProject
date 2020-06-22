@@ -279,6 +279,8 @@ Member loginUser = (Member)session1.getAttribute("loginUser");
             };
             
            
+            
+            //로그인 후 작성
             $(function(){
                 
             	if(<%=loginUser==null%>){
