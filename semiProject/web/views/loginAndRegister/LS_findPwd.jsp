@@ -129,34 +129,34 @@ font-weight: normal; font-style: normal; }
             // 비밀번호 찾기 함수
             if($("#userName").val().trim().length == 0 && $("#email").val().trim().length == 0&&$("#userId").val().trim().length==0)
             {
-                alert("아이디와 이름 그리고 이메일을 입력해주세요");
-                $("#userName").focus();
-            flag = false;
+            alert("아이디와 이름 그리고 이메일을 입력해주세요");
+            $("#userId").focus();
+            return false;
             }
-            if($("#userId").val().trim().length==0) 
+            else if($("#userId").val().trim().length==0) 
             {
             alert('아이디를 입력하세요');
             $("#userId").focus();
-            flag = false;
+            return false;
             }
 
-            if($("#userName").val() == '')
+            else if($("#userName").val() == '')
             {
             alert("이름을 입력해주세요");
             $("#userName").focus();
-            flag = false;
+            return false;
             }
-            if($("#email").val().trim().length==0)
+            else if($("#email").val().trim().length==0)
             {
             alert('이메일을 입력하세요');
             $("#email").focus();
-            flag = false;
+            return false;
             }
-            if(reg.test($("#email").val()) == false) 
+            else if(reg.test($("#email").val()) == false) 
             {
             alert('이메일 양식을 확인 해주세요');
             $("#email").focus();
-            flag = false;
+            return false;
             }
             else{
             	$.ajax({
