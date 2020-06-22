@@ -50,12 +50,12 @@ public class InquiaryUpdateServlet extends HttpServlet {
 		MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "utf-8",
 				new DefaultFileRenamePolicy());
 
-//		HttpSession session = request.getSession();
-//		
-//		Member loginUser = (Member)session.getAttribute("loginUser");
-//		
-//		int userNo = Integer.valueOf(loginUser.getUserNo());
-		int userNo = 1;
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		int userNo = Integer.valueOf(loginUser.getUserNo());
+//		int userNo = 1;
 		
 		String title = multiRequest.getParameter("inquiaryTitle");
 		String content = multiRequest.getParameter("inquiaryContent");

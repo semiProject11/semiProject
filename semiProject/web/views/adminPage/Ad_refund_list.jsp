@@ -434,6 +434,9 @@ int endPage = pn.getEndPage();
             	
             	var serviceNo=$("#refundNo").val();
             	
+            	
+            	
+            	
             	location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ serviceNo;
             	
             	
