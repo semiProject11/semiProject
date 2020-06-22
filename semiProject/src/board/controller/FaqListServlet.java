@@ -74,14 +74,12 @@ public class FaqListServlet extends HttpServlet {
 		ArrayList<Board> list= new BoardService().selectFaq(board_code,currentPage,limit);
 	System.out.println(maxPage);
 	
-		if(!list.isEmpty()) {
+	
 			
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/customerService/CS_faq_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 		
 	}

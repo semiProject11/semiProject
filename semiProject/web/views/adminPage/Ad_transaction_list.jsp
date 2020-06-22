@@ -336,7 +336,7 @@ th, tr, td {
 					<ul class="pagination-t">
 
   						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=1"><<</a></li>
-  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage-1 %>">Previous</a></li>
+  						<li class="page-item-t disabled-t"><a class="page-link-t" href="<%if (currentPage != 1) {%><%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage-1 %><%}%>">Previous</a></li>
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
@@ -348,7 +348,7 @@ th, tr, td {
 			<%} %>
 					
 						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != endPage) {%><%=request.getContextPath() %>/list.transaction?currentPage=<%=currentPage+1%><%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.transaction?currentPage=<%=maxPage %>">>></a></li>
 					
 					

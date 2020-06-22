@@ -80,7 +80,6 @@ public class RefundListServlet extends HttpServlet {
 		
 
 		
-		if(!tradeList.isEmpty()&&!serviceList.isEmpty()&&!sellerList.isEmpty()&&!buyerList.isEmpty()) {
 			request.setAttribute("sellerList", sellerList);
 			request.setAttribute("buyerList", buyerList);
 			request.setAttribute("tradeList", tradeList);
@@ -90,7 +89,7 @@ public class RefundListServlet extends HttpServlet {
 			
 			request.getRequestDispatcher("views/adminPage/Ad_refund_list.jsp").forward(request, response);
 			
-		}
+	
 		
 	}
 

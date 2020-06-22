@@ -81,13 +81,11 @@ public class NoticeListAdServlet extends HttpServlet {
 
 	
 	
-		if(!list.isEmpty()) {
+		
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/adminPage/Ad_notice_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+		
 		
 		
 	}

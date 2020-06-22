@@ -397,7 +397,7 @@ th, tr, td {
 						<li class="page-item-t"><a class="page-link-t"
 							href="<%=request.getContextPath()%>/list.grade?currentPage=1"><<</a></li>
 						<li class="page-item-t"><a class="page-link-t"
-							href="<%=request.getContextPath()%>/list.grade?currentPage=<%=currentPage - 1%>">Previous</a></li>
+							href="<%if (currentPage != 1) {%><%=request.getContextPath()%><%=request.getContextPath()%>/list.grade?currentPage=<%=currentPage - 1%><%}%>">Previous</a></li>
 						<%
 							for (int p = startPage; p <= endPage; p++) {
 						%>
@@ -421,7 +421,7 @@ th, tr, td {
 
 
 						<li class="page-item-t"><a class="page-link-t"
-							href="<%=request.getContextPath()%>/list.grade?currentPage=<%=currentPage + 1%>">Next</a></li>
+							href="<%if (currentPage != endPage) {%><%=request.getContextPath()%>/list.grade?currentPage=<%=currentPage + 1%><%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t"
 							href="<%=request.getContextPath()%>/list.grade?currentPage=<%=maxPage%>">>></a></li>
 

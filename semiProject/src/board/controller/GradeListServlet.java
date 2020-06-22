@@ -85,16 +85,11 @@ public class GradeListServlet extends HttpServlet {
 	
 		System.out.println(gradeList);
 	
-		if(!gradeList.isEmpty()&&!sellerList.isEmpty()) {
-		
 			request.setAttribute("pn", pn);
 			request.setAttribute("gradeList", gradeList);
 			request.setAttribute("sellerList", sellerList);
 			request.getRequestDispatcher("views/adminPage/Ad_grade_list.jsp").forward(request, response);
 			
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
 		
 		
 	}

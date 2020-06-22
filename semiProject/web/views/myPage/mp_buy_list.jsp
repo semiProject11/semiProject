@@ -468,8 +468,8 @@ tr.exline td{border-top: 1px solid black;}
 							}
 						%>
 
-						<li class="page-item-t"><a class="page-link-t"
-							href="<%if (currentPage != endPage) {%>
+						<li class="page-item-t"><a class="page-link-t" 
+						href="<%if (currentPage != endPage) {%>
 					<%=request.getContextPath()%>/buyList.sv?currentPage=<%=currentPage + 1%>
 						<%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t"

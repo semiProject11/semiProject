@@ -73,14 +73,12 @@ public class NoticeListServlet extends HttpServlet {
 		ArrayList<Board> list= new BoardService().selectBoardNotice(currentPage,limit);
 
 	
-		if(!list.isEmpty()) {
+	
 			
 			request.setAttribute("pn", pn);
 			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/customerService/CS_notice_list.jsp").forward(request, response);
-		}else {
-			request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-		}
+	
 		
 		
 	}

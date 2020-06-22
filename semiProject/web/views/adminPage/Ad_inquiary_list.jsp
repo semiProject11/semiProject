@@ -369,7 +369,7 @@
 					<ul class="pagination-t">
 
   						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=1"><<</a></li>
-  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage-1 %>">Previous</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != 1) {%><%=request.getContextPath()%><%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage-1 %><%}%>">Previous</a></li>
 			<% for(int p = startPage ; p <= endPage ; p ++) {%>
 				<%if(p == currentPage) {%>
 						<!-- disabled: 페이지 비활성화 -->
@@ -381,7 +381,7 @@
 			<%} %>
 					
 						
-						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage+1%>">Next</a></li>
+						<li class="page-item-t"><a class="page-link-t" href="<%if (currentPage != endPage) {%><%=request.getContextPath() %>/list.inquiary?currentPage=<%=currentPage+1%><%}%>">Next</a></li>
 						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.inquiary?currentPage=<%=maxPage %>">>></a></li>
 					
 					
