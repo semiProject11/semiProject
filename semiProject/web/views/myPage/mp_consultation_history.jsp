@@ -268,8 +268,7 @@ th, tr, td {
 												}
 										%>
 										<tr id="111">
-										<input type="hidden" class="b1" value="<%=in.getBoardNo() %>">
-										<%-- <td class="b1" style="display: none;"><%=in.getBoardNo() %></td> --%>							
+										<input type="hidden" class="b1" value="<%=in.getBoardNo() %>">						
 											<td ><%=i+1 %></td>
 											<td><%=yn %></td>
 											<td><%=in.getTitle() %></td>
@@ -282,43 +281,26 @@ th, tr, td {
 									<script>
 										$(function(){
 											$("#inContent td").click(function(){												
-												var bid = $(this).parent().children("input").val();
-												<%-- <% if(loginUser != null) {%> --%>				
+												var bid = $(this).parent().children("input").val();												
 												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid												
-												<%-- <%}else{%>
-													alert("로그인 해야만 상세보기가 가능합니다.");
-												<%}%> --%>
+												
 											})
 										})
+										function inquiaryInsert(){
+											location.href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp"
+										}
 									</script>
 								</table>
 							</div>
 							
-							<button type="button" class="btn float-right mr-3"
+							<button type="button" class="btn float-right mr-3" onclick="inquiaryInsert();";
 								style="background: black; color: white; width: 100px; font-size: small;">1:1문의
 								등록</button>							
 						</div>
 					</div>
 				</div>
 
-				<!------페이징 처리----->
-				<div class="page-center">
-					<ul class="pagination-t">
-
-						<!-- disabled: 페이지 비활성화 -->
-						<li class="page-item-t disabled-t"><a class="page-link-t"
-							href="#">Previous</a></li>
-
-						<li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
-
-						<!-- disabled: 해당 버튼 활성화 -->
-						<li class="page-item-t active-t" aria-current="page-t"><a
-							class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-						<li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-					</ul>
-
-				</div>
+				
 			
 
 
