@@ -654,7 +654,7 @@ public class BoardService {
 	public int deleteReview(int board_no) {
 		
 		Connection conn = getConnection();
-		
+		System.out.println("서비스");
 		int result = new BoardDao().deleteReview(conn,board_no);
 		
 		if (result > 0) {

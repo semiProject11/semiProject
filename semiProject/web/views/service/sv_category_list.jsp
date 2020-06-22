@@ -285,8 +285,6 @@
                             </table>
                         </form>
                     </div>
-                    
-                    
                     <%} %>
                     
                     
@@ -306,52 +304,51 @@
                 	CategoryListPd clpd = svlist.get(i);
                 %>
                     <!-- 첫번째 row 시작 -->
-                    <div class="col-lg-3 col-md-6 mb-4">
-						<div class="card h-100">
-							<div id="sNopd" style="overflow: hidden;">
-								<a>
-									<input id="input1" type="hidden" value="<%=svlist.get(i).getSeviceNo() %>">
-									<input id="input2" type="hidden" value="<%=svlist.get(i).getsUserNo() %>">
-									<%if(loginUser != null){ %>
-									<input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
-									<%} %>
-								 <%for(int j=0; j<flist.size(); j++){
-                            	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
-									<div style="height: 200px;">
-									<img class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
-								<%} %>
-								<%} %>
-							</div>
-							<ul class="list-group list-group-flush">
-								<li class="list-group-item cd_id_style"><%=clpd.getUserId() %></li>
-								<li class="list-group-item cd_title_style"><%=clpd.getsTitle() %></li>
-								<li class="list-group-item cd_timeoutprice_style">
-									<%if(clpd.getDeadLine() != null){ %> 
-									<span id="cd_timeout">경매 마감시간 : 
-									<%=clpd.getDeadLine().substring(5,7) %>월
-									<%=clpd.getDeadLine().substring(8,10) %>일
-									<%=clpd.getDeadLine().substring(11,13) %>시
-									<%=clpd.getDeadLine().substring(14,16) %>분
-									</span>
-									<%}else {%>
-									<br>
-									 <span id="cd_timeout"></span> 
-									 <% } %> 
-									 <%if(clpd.getPriceBidding() != 0){ %>
-									<span id="cd_price">현재 입찰가 : <%=clpd.getPriceBidding() %>원</span>
-									 <%}else {%>
-									<span id="cd_price">구매가 : <%=clpd.getPriceSale() %>원</span> 
-									<%} %>
-								</li>
-								<li class="list-group-item cd_rankviews_style">
-								<span id="cd_rank"><img id="cd_rankimg" src="<%=request.getContextPath()%>/gradeIcon/<%=clpd.getGradeNo()%>.png">&nbsp;<%=clpd.getGradeName()%></span> 
-								<span id="cd_views">조회수 : <%=clpd.getReadCount() %></span>
-								</li>
-							</ul>
-						</div>
-					</div>
+                                  <div class="col-lg-3 col-md-6 mb-4">
+                  <div class="card h-100">
+                     <div id="sNopd" style="overflow: hidden;">
+                        <a>
+                           <input id="input1" type="hidden" value="<%=svlist.get(i).getSeviceNo() %>">
+                           <input id="input2" type="hidden" value="<%=svlist.get(i).getsUserNo() %>">
+                           <%if(loginUser != null){ %>
+                           <input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
+                           <%} %>
+                         <%for(int j=0; j<flist.size(); j++){
+                               Service_SeviceFilesTable_oh sf = flist.get(j);%>
+                           <%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <div style="height: 200px;">
+                           <img class="card-img-top transform1"
+                           src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
+                        <%} %>
+                        <%} %>
+                     </div>
+                     <ul class="list-group list-group-flush">
+                        <li class="list-group-item cd_id_style"><%=clpd.getUserId() %></li>
+                        <li class="list-group-item cd_title_style"><%=clpd.getsTitle() %></li>
+                        <li class="list-group-item cd_timeoutprice_style">
+                           <%if(clpd.getDeadLine() != null){ %> 
+                           <span id="cd_timeout">경매 마감시간 : 
+                           <%=clpd.getDeadLine().substring(5,7) %>월
+                           <%=clpd.getDeadLine().substring(8,10) %>일
+                           <%=clpd.getDeadLine().substring(11,13) %>시
+                           <%=clpd.getDeadLine().substring(14,16) %>분
+                           </span>
+                           <%}else {%>
+                           <br>
+                            <span id="cd_timeout"></span> 
+                            <% } %> 
+                            <%if(clpd.getPriceBidding() != 0){ %>
+                           <span id="cd_price">현재 입찰가 : <%=clpd.getPriceBidding() %>원</span>
+                            <%}else {%>
+                           <span id="cd_price">구매가 : <%=clpd.getPriceSale() %>원</span> 
+                           <%} %>
+                        </li>
+                        <li class="list-group-item cd_rankviews_style">
+                        <span id="cd_rank"><img id="cd_rankimg" src="<%=request.getContextPath()%>/gradeIcon/<%=clpd.getGradeNo()%>.png">&nbsp;<%=clpd.getGradeName()%></span> 
+                        <span id="cd_views">조회수 : <%=clpd.getReadCount() %></span>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
                       <%} %>
                       <%}else{ %>
                       	<h5>검색 결과가 없습니다...</h5>
@@ -521,6 +518,7 @@ function categoryEv(){
  }
 
 <%}%>
+
 </script>
 
 

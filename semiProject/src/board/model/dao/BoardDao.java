@@ -1118,7 +1118,7 @@ public class BoardDao {
 				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
 				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
 				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='Y'";
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<Board> bList = new ArrayList<>();
 
 		try {
@@ -2706,9 +2706,9 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 	public int deleteReview(Connection conn, int board_no) {
 		int result=0;
 		PreparedStatement pstmt=null;
-		String query="UPDATE BOARD SET BOARD_STATUS='N' WHERE BOARD_NO=?";
+		String query="UPDATE BOARD SET BOARD_STATUS='Y' WHERE BOARD_NO=?";
 		try {
-			
+			System.out.println(board_no);
 			pstmt=conn.prepareStatement(query);
 			pstmt.setInt(1, board_no);
 			result = pstmt.executeUpdate();
@@ -2718,7 +2718,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		}finally {
 			close(pstmt);
 		}
-		
+		System.out.println(result);
 		return result;
 
 
