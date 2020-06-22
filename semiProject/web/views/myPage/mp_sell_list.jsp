@@ -313,24 +313,24 @@ th, tr, td {
 												style="width: 18px; height: 18px;"
 												value="<%=s.getServiceNo()%>"></td>
 											<%} %>
-											<td><%=s.getServiceNo()%></td>
-											<td style="width: 300px;"><%=s.getTitle()%></td>
+											<td class="clickme"><%=s.getServiceNo()%></td>
+											<td style="width: 300px;" class="clickme"><%=s.getTitle()%></td>
 											<%if(s.getServiceStatus().equals("Y")){ %>
-											<td>-</td>
-											<td>-</td>
+											<td class="clickme">-</td>
+											<td class="clickme">-</td>
 											<%}else{ %>
-											<td><%=s.getUserName()%></td>
-											<td><%=s.getPhone()%></td>
+											<td class="clickme"><%=s.getUserName()%></td>
+											<td class="clickme"><%=s.getPhone()%></td>
 											<%} %>
 											<%if(s.getServiceStatus().equals("Y")){ %>
-											<td>판매중</td>
+											<td class="clickme">판매중</td>
 											<%}else{ %>
-											<td>판매완료</td>
+											<td class="clickme">판매완료</td>
 											<%} %>
 											<%if(s.getRating()==0){ %>
-											<td>-</td>
+											<td class="clickme">-</td>
 											<%}else{ %>
-											<td><%=s.getRating()%></td>
+											<td class="clickme"><%=s.getRating()%></td>
 											<%} %>
 										</tr>
 										<%} %>
@@ -390,7 +390,7 @@ th, tr, td {
 
 				<script>
 					$(function(){
-						$("#listArea td").click(function(){
+						$("#listArea .clickme").click(function(){
 							var bid = $(this).parent().children("input").val();
 							location.href="<%=request.getContextPath()%>/auction.detail?sNo=" + bid;
 						})
