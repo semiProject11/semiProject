@@ -80,7 +80,7 @@ public class ReportInsertServlet extends HttpServlet {
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
-		b.setUser_name(user_no);
+		b.setUser_id(user_no);
 		b.setBoard_code(board_code);
 
 		Report rep = new Report();

@@ -82,7 +82,7 @@ public class InquiaryListServlet extends HttpServlet {
 			request.setAttribute("inquiaryList", inquiaryList);
 			request.getRequestDispatcher("views/adminPage/Ad_inquiary_list.jsp").forward(request, response);
 			
-		
+		System.out.println("문의타입을?"+inquiaryList);
 	}
 
 	/**

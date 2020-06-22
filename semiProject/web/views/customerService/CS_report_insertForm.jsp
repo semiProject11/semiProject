@@ -192,8 +192,8 @@ label {
 									id="service_no">
 							</div>
 								<div class="col-md-1">
-								<button type="button" class="btn" id="button"
-									style="background: black; color: white" onclick="checkReport();">확인</button>
+								<!-- <button type="button" class="btn" id="button"
+									style="background: black; color: white" onclick="checkReport();">확인</button> -->
 								</div>
 							<div class="col-md-2">
 								<label>신고 대상 아이디</label>
@@ -285,7 +285,7 @@ label {
 	<script>
 		function validate() {
 
-			if ($("#report_type").val().trim().length < 3) {
+			if ($("#report_type").val("select").trim().length < 3) {
 
 				alert('신고 유형을 선택해주세요.');
 				return false;

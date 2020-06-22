@@ -242,7 +242,7 @@ public class MemberDao {
 		int endRow = currentPage * limit;
 		System.out.println("startRow : " + startRow + ", endRow : " + endRow);
 
-		String query = "SELECT * FROM (SELECT ROWNUM RNUM,q.* from(select * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y' order by user_no desc)q ) where (rnum between ? and ?)";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM,q.* from(select * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y')q ) where (rnum between ? and ?)";
 		ArrayList<Member> gradeList = new ArrayList<Member>();
 
 		try {
@@ -281,7 +281,7 @@ public class MemberDao {
 		int startRow = (currentPage - 1) * limit + 1;
 		int endRow = currentPage * limit;
 
-		String query = "SELECT * FROM (SELECT ROWNUM RNUM,q.* from(select * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y' order by user_no desc)q ) where (rnum between ? and ?)";
+		String query = "SELECT * FROM (SELECT ROWNUM RNUM,q.* from(select * FROM MEMBER M LEFT JOIN SELLER S ON(S.S_USER_NO=M.USER_NO) LEFT JOIN BUYER B ON(B.B_USER_NO=M.USER_NO) WHERE STATUS='Y')q ) where (rnum between ? and ?)";
 		ArrayList<Seller> sellerList = new ArrayList<>();
 
 		try {
