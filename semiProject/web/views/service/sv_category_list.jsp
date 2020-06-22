@@ -4,7 +4,6 @@
 <%
 	ArrayList<CategoryListPd> svlist = (ArrayList<CategoryListPd>)request.getAttribute("svlist");
  	ArrayList<Service_SeviceFilesTable_oh> flist = (ArrayList<Service_SeviceFilesTable_oh>)request.getAttribute("flist");
- 	
  	 Member loginUser = (Member)session.getAttribute("loginUser");
 %>    
 <!DOCTYPE html>
@@ -96,12 +95,22 @@
                         <table>
                             <tr>
                                 <td>
+                                <%if(!svlist.isEmpty()){ %>
                                     <label style="font-size: 20px;">카테고리 > <%= svlist.get(0).getCategoryName() %> </label>
+                                    <%}else{ %>
+                                    <label style="font-size: 20px;"></label>
+                                	<%} %>
                                 </td>
                             </tr>
                         </table>
 
                     </div>
+                    
+                    
+                    
+                    
+                    <!-- svlist가 널값이 아닐때  -->
+                    <%if(!svlist.isEmpty()){ %>
                     <div class="col-lg-3">
                         <form action="#">
                             <table style="float: right;">
@@ -198,6 +207,89 @@
                             </table>
                         </form>
                     </div>
+                    <%} else{ %> <!-- svlist가 널값일때 -->
+                     <div class="col-lg-3">
+                        <form action="#">
+                            <table style="float: right;">
+                                <tr>
+                                    <td>
+                                        <input type="radio" id="auction" name="salemethod" value="auction" >
+                                        <label for="auction" style="font-size: 15px;">경매</label> &nbsp;
+                                    </td>
+                                    <td>
+                                        <input type="radio" id="general" name="salemethod" value="general" >
+                                        <label for="general" style="font-size: 15px;">일반</label>
+                                    </td>
+                                   
+                                    <td>
+                                        <div class="dropdown">
+                                            <a class="btn btn-dong btn-sm dropdown-toggle" href="#" role="button"
+                                                id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <label style="font-size: 15px;">정렬</label>
+                                            </a>             
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                 <a class="dropdown-item">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="reset" name="sort"
+                                                            class="custom-control-input" checked>
+                                                        <label class="custom-control-label"
+                                                            for="reset">초기화</label>
+                                                    </div>
+                                                </a>
+                                                
+                                                
+                                                 <a class="dropdown-item">
+                                                  <div class="custom-control custom-radio">
+                                                      <input type="radio" id="highprice" name="sort"
+                                                          class="custom-control-input">
+                                                      <label class="custom-control-label"
+                                                          for="highprice">높은 가격순</label>
+                                                  </div>
+                                              </a>
+                                              
+                                              
+                                              <a class="dropdown-item">
+                                                  <div class="custom-control custom-radio">
+                                                      <input type="radio" id="lowprice" name="sort"
+                                                          class="custom-control-input">
+                                                      <label class="custom-control-label"
+                                                          for="lowprice">낮은 가격순</label>
+                                                  </div>
+                                              </a>
+       
+       
+                                             <a class="dropdown-item">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="views" name="sort"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label"
+                                                            for="views">조회수 순</label>
+                                                    </div>
+                                                </a>
+                                                
+                                                
+                                                 <a class="dropdown-item">
+                                                 
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="newregistration" name="sort"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label"
+                                                            for="newregistration">신규등록 순</label>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    
+                    
+                    <%} %>
+                    
+                    
                 </div>
                 <hr style="margin-top: 0;">
             </div>
@@ -207,6 +299,9 @@
                 <!-- 컨테이너 시작-->
                 
                 <div class="row">
+                
+                
+                <%if(!svlist.isEmpty()){ %>
                 <%for(int i=0; i<svlist.size();i++) {
                 	CategoryListPd clpd = svlist.get(i);
                 %>
@@ -222,9 +317,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -257,6 +353,9 @@
 						</div>
 					</div>
                       <%} %>
+                      <%}else{ %>
+                      	<h5>검색 결과가 없습니다...</h5>
+                      <%} %>
                      </div>
 
                       
@@ -281,7 +380,7 @@
 </body>
 
 <script>
-
+<%if(!svlist.isEmpty()){%>
 function categoryAr(){
     location.href="<%=request.getContextPath()%>/categorypd.service?category=Ar&salemethod=auction";
  }
@@ -371,8 +470,61 @@ $(function(){
 function generaldetail(){
 	location.href="<%=request.getContextPath()%>/general.detail";
  }
-
+ <%}%>
 </script>
+
+<script>
+
+<%if(svlist.isEmpty()){%>
+function categoryAr(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ar&salemethod=auction";
+ }
+ 
+function categoryRe(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Re&salemethod=auction";
+ }
+
+function categoryMe(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Me&salemethod=auction";
+ }
+ 
+function categorySp(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Sp&salemethod=auction";
+ }
+ 
+function categoryFa(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Fa&salemethod=auction";
+ }
+ 
+function categoryIt(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=It&salemethod=auction";
+ }
+ 
+function categoryFi(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Fi&salemethod=auction";
+ }
+ 
+function categoryPu(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Pu&salemethod=auction";
+ }
+ 
+function categoryBu(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Bu&salemethod=auction";
+ }
+ 
+function categoryMa(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ma&salemethod=auction";
+ }
+ 
+function categoryEv(){
+    location.href="<%=request.getContextPath()%>/categorypd.service?category=Ev&salemethod=auction";
+ }
+
+<%}%>
+</script>
+
+
+
 
 
 

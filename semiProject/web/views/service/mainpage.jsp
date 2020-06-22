@@ -182,9 +182,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -247,9 +248,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -313,9 +315,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -380,9 +383,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									 <div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -447,9 +451,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -515,9 +520,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -582,9 +588,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -649,9 +656,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -716,9 +724,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -783,9 +792,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> 
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
@@ -850,9 +860,10 @@
 									<%} %>
 								 <%for(int j=0; j<flist.size(); j++){
                             	Service_SeviceFilesTable_oh sf = flist.get(j);%>
-									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%> <img
-									class="card-img-top transform1"
-									src="<%=request.getContextPath()%>/image/<%=sf.getChangeName() %>"></a>
+									<%if(clpd.getSeviceNo() == sf.getServiceNo()) {%>
+									<div style="height: 200px;">
+									<img class="card-img-top transform1"
+									src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" style="width: 100%; height: 100%;"></div></a>
 								<%} %>
 								<%} %>
 							</div>
