@@ -162,7 +162,7 @@
     
      <div id="layoutSidenav_content">
 
-            <div class="container">
+            <div class="container" <%=infolist %>>
 
                 <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
                    <label style="font-size: 20px;">카테고리 > <%= clpd.getCategoryName() %> </label>
