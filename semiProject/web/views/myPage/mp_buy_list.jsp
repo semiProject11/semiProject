@@ -277,9 +277,13 @@ tr.exline td{border-top: 1px solid black;}
 											} else {
 										%>
 										<%
+											
 											for (int i = 0; i < bsList.size(); i++) {
 													ServiceBuyList s = bsList.get(i);													
 										%>
+										<%
+												if (s.getPrice()!=null) {		
+											%>
 										<tr class="exline">
 											<td><%=s.getServiceNo()%></td>
 											<td class="clickme">
@@ -320,7 +324,9 @@ tr.exline td{border-top: 1px solid black;}
 											<%
 												}
 											%>
-
+										<%
+											}
+										%>
 
 											
 										<%
