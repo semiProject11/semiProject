@@ -270,7 +270,7 @@
                   
                   
                   
-                  
+               <%--    
                   
                     <!--상단 검색창-->
                 <div
@@ -293,9 +293,9 @@
                             </div>
                         </div>
                         </form>
+
+ --%>
                     </div>
-
-
                 <!--신고 리스트-->
                 <div class="table-responsive mt-3">
                     <table class="table table-striped table-bordered table-hover">

@@ -344,7 +344,7 @@ th, tr, td {
 										name="rowCheck" style="width: 18px; height: 18px;"
 										value=<%=(sellerList.get(i)).getUserNo()%>></td>
 									<!-- 게시물번호-->
-									<td val="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td>
+									<td value="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td> <!-- 회원번호대신 rnum넣음 -->
 									<!-- 유저아이디 -->
 									<td><%=(gradeList.get(i)).getUserId()%></td>
 									<!-- 점수  -->

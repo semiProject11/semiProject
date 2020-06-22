@@ -39,6 +39,12 @@ public class NoticeInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
+
+		
+		
+		
+		
+		
 		request.setCharacterEncoding("utf-8");
 		
 		int maxSize=1024*1024*10;
@@ -52,8 +58,8 @@ public class NoticeInsertServlet extends HttpServlet {
 		
 		String title=multiRequest.getParameter("title");
 		String content=multiRequest.getParameter("content");
-//		String user_no = Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_no = "1"; //로그인유저를 쓸 수 없어서 임의로 함
+		String user_no = Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
+		
 		
 		int board_code=Integer.valueOf(multiRequest.getParameter("board_code"));
 		
@@ -80,7 +86,7 @@ public class NoticeInsertServlet extends HttpServlet {
 		
 		b.setTitle(title);
 		b.setContent(content);
-		b.setUser_name(user_no);
+		b.setUser_no(Integer.valueOf(user_no));
 		b.setBoard_code(board_code);
 		
 		ArrayList<Files> fList=new ArrayList<>();

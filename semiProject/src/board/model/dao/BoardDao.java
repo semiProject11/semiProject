@@ -255,7 +255,12 @@ public class BoardDao {
 		ArrayList<Board> list=new ArrayList<Board>();
 		int startRow = (currentPage-1) * limit + 1;
 		int endRow = currentPage * limit;
-		String query="SELECT * FROM (SELECT ROWNUM RNUM,B.* FROM BOARD B WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC) WHERE RNUM BETWEEN ? AND ? ORDER BY RNUM DESC";
+		String query="select * from \r\n" + 
+				"(select rownum r, F.* from\r\n" + 
+				"(SELECT * FROM (\r\n" + 
+				"SELECT ROWNUM RNUM,B.* FROM BOARD B WHERE (BOARD_CODE=20 OR BOARD_CODE=50 OR BOARD_CODE=60) AND BOARD_STATUS='Y' ORDER BY BOARD_NO ASC\r\n" + 
+				")ORDER BY RNUM desc) F)\r\n" + 
+				"where r between ? and ?";
 		
 		try {
 			pstmt=conn.prepareStatement(query);
