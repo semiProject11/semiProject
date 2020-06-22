@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
 	    	session.setAttribute("loginUser", loginUser);
 	    	
 	    	// 로그인 성공하면 메인 페이지로 이동
-	    	response.sendRedirect("index.jsp");
+	    	request.getRequestDispatcher("/main.service").forward(request, response);
 	    	
 	    }else {
 

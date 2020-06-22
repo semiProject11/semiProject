@@ -3,15 +3,15 @@
     
     <%
  
-  /*  	Pagination pn=(Pagination)request.getAttribute("pn"); */
+	Pagination pn=(Pagination)request.getAttribute("pn"); 
     ArrayList<Board> list=(ArrayList<Board>)request.getAttribute("list");
   
     
-/*     int listCount=pn.getListCount();
+    int listCount=pn.getListCount();
     int currentPage=pn.getCurrentPage();
     int maxPage=pn.getMaxPage();
     int startPage=pn.getStartPage();
-    int endPage=pn.getEndPage(); */
+    int endPage=pn.getEndPage(); 
    
     %>
 <!DOCTYPE html>
@@ -162,18 +162,36 @@
                 </svg></div>
               FAQ
             </a>
+            
+            
             <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp">
-              <div class="sb-nav-link-icon"><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
-                  fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <div class="sb-nav-link-icon" ><svg class="bi bi-clipboard" width="1em" height="1em" viewBox="0 0 16 16"
+                  fill="currentColor" xmlns="http://www.w3.org/2000/svg" >
                   <path fill-rule="evenodd"
                     d="M4 1.5H3a2 2 0 00-2 2V14a2 2 0 002 2h10a2 2 0 002-2V3.5a2 2 0 00-2-2h-1v1h1a1 1 0 011 1V14a1 1 0 01-1 1H3a1 1 0 01-1-1V3.5a1 1 0 011-1h1v-1z"
                     clip-rule="evenodd" />
                   <path fill-rule="evenodd"
                     d="M9.5 1h-3a.5.5 0 00-.5.5v1a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-1a.5.5 0 00-.5-.5zm-3-1A1.5 1.5 0 005 1.5v1A1.5 1.5 0 006.5 4h3A1.5 1.5 0 0011 2.5v-1A1.5 1.5 0 009.5 0h-3z"
                     clip-rule="evenodd" />
-                </svg></i></div>
-              1:1 문의
-            </a>
+                </svg></div>
+           1:1문의
+                   <%--   <script>
+             function checkLogin(){
+            	alert("sdfsg")
+            	if(loginUser!=null){
+            		location.href="<%=request.getContextPath()%>/views/customerService/CS_inquiary_insertForm.jsp";
+            		
+            	}else{
+            		alert('로그인 후 작성 가능합니다.');
+            		location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp";
+            	}
+            	
+            	
+            })
+           
+            </script> --%>
+             </a>
+            
             <a class="nav-link" href="<%=request.getContextPath()%>/views/customerService/CS_report_insertForm.jsp">
               <div class="sb-nav-link-icon"><svg class="bi bi-brightness-alt-high-fill" width="1em" height="1em"
                   viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -249,28 +267,38 @@
 
 
 
-          <!--페이징처리-->
-          <div class="page-center">
-            <ul class="pagination-t">
+   	<!------페이징 처리----->
+				<div class="page-center">
+					<ul class="pagination-t">
 
-                <!-- disabled: 페이지 비활성화 -->
-                <li class="page-item-t disabled-t"><a class="page-link-t" href="#">Previous</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.notice?currentPage=1"><<</a></li>
+  						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.notice?currentPage=<%=currentPage-1 %>">Previous</a></li>
+			<% for(int p = startPage ; p <= endPage ; p ++) {%>
+				<%if(p == currentPage) {%>
+						<!-- disabled: 페이지 비활성화 -->
+						<li class="page-item-t disabled-t"><a class="page-link-t"><%=p %></a></li>
+				<%}else{ %>
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.notice?currentPage=<%=p %>"><%=p %></a></li>
 
-                <li class="page-item-t"><a class="page-link-t" href="#">1</a></li>
+			<%} %>
+			<%} %>
+					
+						
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.notice?currentPage=<%=currentPage+1%>">Next</a></li>
+	
+						<li class="page-item-t"><a class="page-link-t" href="<%=request.getContextPath() %>/list.notice?currentPage=<%=maxPage %>">>></a></li>
+					
+					
+					
+					</ul>
 
-                <!-- disabled: 해당 버튼 활성화 -->
-                <li class="page-item-t active-t" aria-current="page-t">
-                    <a class="page-link-t" href="#">2 <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="page-item-t"><a class="page-link-t" href="#">3</a></li>
-                <li class="page-item-t"><a class="page-link-t" href="#">Next</a></li>
-            </ul>
+				</div>
 
-        </div>
+			</div>
 
-
-
-         </div> <!--container end-->
+         
+         
+         <!--container end-->
 
 
 

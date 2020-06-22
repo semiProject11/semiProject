@@ -29,7 +29,7 @@ public class LogoutServlet extends HttpServlet {
 	
 		request.getSession().invalidate(); // session안의 로그인 속성들을 무효화(invalidate) 시킨다
 		
-		response.sendRedirect("index.jsp");
+		request.getRequestDispatcher("/main.service").forward(request, response);
 	}
 
 	/**

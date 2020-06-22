@@ -13,7 +13,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/styles.css" />
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <!--  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"/> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" ></script>
@@ -131,37 +130,51 @@ font-weight: normal; font-style: normal; }
       <i class="fas fa-bars"></i></button><!-- Navbar Search-->
       
     
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    <script>
+      	function serchService(){
+      		if($("#content33").val()==""){
+      			alert("검색어를 입력해주세요")
+      			return false;
+      		}else{
+      			return true;
+      		}
+      	}
+      </script>
+      
+    
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" onsubmit="return serchService();" action="<%=request.getContextPath()%>/search.service">
       <div class="input-group">
 
-        <select class="form-control">
-          <option selected>전체</option>
-          <option>예술</option>
-          <option>요식업</option>
-          <option>의료</option>
-          <option>스포츠</option>
-          <option>패션</option>
-          <option>It</option>
-          <option>금융</option>
-          <option>공무원</option>
-          <option>창업</option>
-          <option>마케팅</option>
-          <option>이벤트</option>
-				</select>
+        <select class="form-control" name="search">
+          <option value="Ar" selected>예술</option>
+          <option value="Re">요식업</option>
+          <option value="Me">의료</option>
+          <option value="Sp">스포츠</option>
+          <option value="Fa">패션</option>
+          <option value="It">It</option>
+          <option value="Fi">금융</option>
+          <option value="Pu">공무원</option>
+          <option value="Bu">창업</option>
+          <option value="Ma">마케팅</option>
+          <option value="Ev">이벤트</option>
+        </select>
+        <select class="form-control" name="salemethod">
+          <option value="auction" selected>경매</option>
+          <option value="general">일반</option>          
+        </select>
       
         <input class="form-control" type="text" placeholder="제목을 입력해주세요." aria-label="Search"
-          aria-describedby="basic-addon2" />
+          aria-describedby="basic-addon2" name="word" id="content33"/>
         <div class="input-group-append"></div>
         <button class="btn btn-primary" type="submit" id="jin">
           <i class="fas fa-search"></i>
         </button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </div>      
+    </form>
         <%if(loginUser == null){ %>  
             <button type="button" class="btn" onclick="loginPage();" style="background:black; color:white; width:95px;">Login</button>
-        <%}else{ %>  
-      </div>
-      </div>
-    </form>
+        <%}else{ %>        
         <ul class="navbar-nav ml-auto ml-md-0">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"

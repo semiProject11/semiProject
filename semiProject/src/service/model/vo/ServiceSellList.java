@@ -1,6 +1,12 @@
 package service.model.vo;
 
-public class ServiceSellList {
+import java.io.Serializable;
+
+public class ServiceSellList implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5194480675466719119L;
 	private int serviceNo;			// 서비스번호
 	private String title;			// 서비스 제목
 	private String serviceStatus;	// 판매상태

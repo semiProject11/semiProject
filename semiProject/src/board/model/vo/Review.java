@@ -1,8 +1,13 @@
 package board.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Review {
+public class Review implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2148345533826945141L;
 	private int boardNo;		// 게시물번호
 	private String title;		// 제목
 	private String content;		// 내용

@@ -9,101 +9,106 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import board.model.dao.BoardDao;
+import board.model.vo.Board;
+import board.model.vo.Inquiary;
 import board.model.vo.Review;
+import member.model.vo.Member;
 import service.model.dao.ServiceDao;
 import service.model.vo.CategoryListPd;
+import service.model.vo.MpSelectBSNo;
 import service.model.vo.Service;
 import service.model.vo.ServiceBuyList;
 import service.model.vo.ServiceSellList;
 import service.model.vo.Service_Category;
 import service.model.vo.Service_List;
+import service.model.vo.Service_Review;
 import service.model.vo.Service_ServiceTable_oh;
 import service.model.vo.Service_SeviceFilesTable_oh;
 
 
 public class Service_Service {
 
-	public ArrayList<Service_List> selectTradeList(int currentPage, int limit) {
-		
-		Connection conn=getConnection();
-		ArrayList<Service_List> tradeList=new ServiceDao().selectTradeList(conn,currentPage, limit);
-		close(conn);
-		System.out.println("서비스단에서:"+tradeList);
-		return tradeList;
-	}
-	
+   public ArrayList<Service_List> selectTradeList(int currentPage, int limit) {
+      
+      Connection conn=getConnection();
+      ArrayList<Service_List> tradeList=new ServiceDao().selectTradeList(conn,currentPage, limit);
+      close(conn);
+      System.out.println("서비스단에서:"+tradeList);
+      return tradeList;
+   }
+   
 
-	public ArrayList<Service_ServiceTable_oh> selectServiceList(int currentPage, int limit) {
-		Connection conn=getConnection();
-		ArrayList<Service_ServiceTable_oh> serviceList=new ServiceDao().selectServiceList(conn,currentPage, limit);
-		close(conn);
-		System.out.println("서비스단에서:"+serviceList);
-		return serviceList;
-		
-		
-	}
-
-
-	public Service_List selectTrade(int service_no) {
-		Connection conn=getConnection();
-		Service_List trade=new ServiceDao().selectTrade(conn,service_no);
-		close(conn);
-		System.out.println("서비스단에서:"+trade);
-		return trade;
-	}
+   public ArrayList<Service_ServiceTable_oh> selectServiceList(int currentPage, int limit) {
+      Connection conn=getConnection();
+      ArrayList<Service_ServiceTable_oh> serviceList=new ServiceDao().selectServiceList(conn,currentPage, limit);
+      close(conn);
+      System.out.println("서비스단에서:"+serviceList);
+      return serviceList;
+      
+      
+   }
 
 
-	public Service_ServiceTable_oh selectTradeServ(int service_no) {
-		Connection conn=getConnection();
-		Service_ServiceTable_oh service=new ServiceDao().selectTradeServ(conn,service_no);
-		close(conn);
-		System.out.println("서비스단에서:"+service);
-		return service;
-	}
+   public Service_List selectTrade(int service_no) {
+      Connection conn=getConnection();
+      Service_List trade=new ServiceDao().selectTrade(conn,service_no);
+      close(conn);
+      System.out.println("서비스단에서:"+trade);
+      return trade;
+   }
 
 
-	public Service_Category selectTradeCategory(int service_no) {
-		Connection conn=getConnection();
-		Service_Category category=new ServiceDao().selectTradeCategory(conn,service_no);
-		close(conn);
-		System.out.println("서비스단에서:"+category);
-		return category;
-	}
+   public Service_ServiceTable_oh selectTradeServ(int service_no) {
+      Connection conn=getConnection();
+      Service_ServiceTable_oh service=new ServiceDao().selectTradeServ(conn,service_no);
+      close(conn);
+      System.out.println("서비스단에서:"+service);
+      return service;
+   }
 
 
-	public int getBuyListCount(String userNo) {
-		Connection conn=getConnection();
-		int result = new ServiceDao().getBuyListCount(conn, userNo);
-		
-		
-		close(conn);
-		return result;
-	}
+   public Service_Category selectTradeCategory(int service_no) {
+      Connection conn=getConnection();
+      Service_Category category=new ServiceDao().selectTradeCategory(conn,service_no);
+      close(conn);
+      System.out.println("서비스단에서:"+category);
+      return category;
+   }
 
 
-	public ArrayList<ServiceBuyList> selectBuyServiceList(int currentPage, int limit, String userNo) {
-		Connection conn=getConnection();
-		
-		ArrayList<ServiceBuyList> bsList = new ServiceDao().selectBuyServiceList(conn, currentPage, limit, userNo);
-		
-		close(conn);
-		
-		
-		
-		return bsList;
-	}
+   public int getBuyListCount(String userNo) {
+      Connection conn=getConnection();
+      int result = new ServiceDao().getBuyListCount(conn, userNo);
+      
+      
+      close(conn);
+      return result;
+   }
 
 
-	public ArrayList<Review> selectReviewList(String userNo) {
-		Connection conn=getConnection();
-		ArrayList<Review> re = new ServiceDao().selectReviewList(conn, userNo);
-		
-		close(conn);
-		return re;
-	}
+   public ArrayList<ServiceBuyList> selectBuyServiceList(int currentPage, int limit, String userNo) {
+      Connection conn=getConnection();
+      
+      ArrayList<ServiceBuyList> bsList = new ServiceDao().selectBuyServiceList(conn, currentPage, limit, userNo);
+      
+      close(conn);
+      
+      
+      
+      return bsList;
+   }
 
 
-	
+   public ArrayList<Review> selectReviewList(String userNo) {
+      Connection conn=getConnection();
+      ArrayList<Review> re = new ServiceDao().selectReviewList(conn, userNo);
+      
+      close(conn);
+      return re;
+   }
+
+
+
 	public int insertService(Service_ServiceTable_oh st, String[] day,
 	         ArrayList<Service_SeviceFilesTable_oh> servicefileList) {
 	      
@@ -123,124 +128,132 @@ public class Service_Service {
 	       
 	      return result1;
 	   }
+
+
+	   
+
 	
-	public Service selectServiceReview(int board_no) {
-		Connection conn = getConnection();
-		
-		Service service = new ServiceDao().selectServiceReview(conn,board_no);
-	
-		close(conn);
-		return service;
-	}
 
 
-	public ArrayList<Service> selectS_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service> sList = new ServiceDao().selectS_ReviewList(conn);
-
-		close(conn);
-		
-		return sList;
-	}
 
 
-	public ArrayList<Service_Category> selectSC_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service_Category> scList = new ServiceDao().selectSC_ReviewList(conn);
-
-		close(conn);
-		
-		return scList;
-
-	}
+   public Service selectServiceReview(int board_no) {
+      Connection conn = getConnection();
+      
+      Service service = new ServiceDao().selectServiceReview(conn,board_no);
+   
+      close(conn);
+      return service;
+   }
 
 
-	public ArrayList<Service_List> selectSL_ReivewList() {
-		Connection conn = getConnection();
-		
-		ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+   public ArrayList<Service> selectS_ReivewList() {
+      Connection conn = getConnection();
+      
+      ArrayList<Service> sList = new ServiceDao().selectS_ReviewList(conn);
 
-		close(conn);
-		
-		return slList;
-	}
-
-
-	public Service_List selectLServiceReview(int board_no) {
-		
-		Connection conn = getConnection();
-		
-		Service_List lService = new ServiceDao().selectLServiceReview(conn, board_no);
-	
-		close(conn);
-		return lService;
-	}
+      close(conn);
+      
+      return sList;
+   }
 
 
-	public Service_Category selectCServiceReview(int board_no) {
-		
-		Connection conn = getConnection();
-		
-		Service_Category cService = new ServiceDao().selectCServiceReview(conn, board_no);
-	
-		close(conn);
-		return cService;
-	}
+   public ArrayList<Service_Category> selectSC_ReivewList() {
+      Connection conn = getConnection();
+      
+      ArrayList<Service_Category> scList = new ServiceDao().selectSC_ReviewList(conn);
+
+      close(conn);
+      
+      return scList;
+
+   }
 
 
-	public ServiceBuyList selectBuyListServiceReview(int board_no) {
-		
-		Connection conn = getConnection();
-		
-		ServiceBuyList sbService = new ServiceDao().selectBuyListServiceReview(conn, board_no);
-	
-		close(conn);
-		return sbService;
-	}
+   public ArrayList<Service_List> selectSL_ReivewList() {
+      Connection conn = getConnection();
+      
+      ArrayList<Service_List> slList = new BoardDao().selectSL_ReviewList(conn);
+
+      close(conn);
+      
+      return slList;
+   }
 
 
-	public int getSellListCount(String userNo) {
-		Connection conn=getConnection();
-		int result = new ServiceDao().getSellListCount(conn, userNo);
-		
-		
-		close(conn);
-		return result;
-	}
+   public Service_List selectLServiceReview(int board_no) {
+      
+      Connection conn = getConnection();
+      
+      Service_List lService = new ServiceDao().selectLServiceReview(conn, board_no);
+   
+      close(conn);
+      return lService;
+   }
 
 
-	public ArrayList<ServiceSellList> selectSellServiceList(int currentPage, int limit, String userNo) {
-		Connection conn=getConnection();
-		
-		ArrayList<ServiceSellList> bsList = new ServiceDao().selectSellServiceList(conn, currentPage, limit, userNo);
-		
-		close(conn);
-		
-		
-		
-		return bsList;
-	}
+   public Service_Category selectCServiceReview(int board_no) {
+      
+      Connection conn = getConnection();
+      
+      Service_Category cService = new ServiceDao().selectCServiceReview(conn, board_no);
+   
+      close(conn);
+      return cService;
+   }
 
 
-	public int deleteService(ArrayList<String> arr) {
-		Connection conn=getConnection();
-		
-		int result2=new ServiceDao().deleteServiceDate(conn,arr);
-		int result1=new ServiceDao().deleteServiceFile(conn,arr);
-		int result=new ServiceDao().deleteService(conn,arr);
+   public ServiceBuyList selectBuyListServiceReview(int board_no) {
+      
+      Connection conn = getConnection();
+      
+      ServiceBuyList sbService = new ServiceDao().selectBuyListServiceReview(conn, board_no);
+   
+      close(conn);
+      return sbService;
+   }
 
-		if (result > 0) {
-			commit(conn);
-		} else {
-			rollback(conn);
-		}
-		close(conn);
-		
-	
-		return result;
-	}
+
+   public int getSellListCount(String userNo) {
+      Connection conn=getConnection();
+      int result = new ServiceDao().getSellListCount(conn, userNo);
+      
+      
+      close(conn);
+      return result;
+   }
+
+
+   public ArrayList<ServiceSellList> selectSellServiceList(int currentPage, int limit, String userNo) {
+      Connection conn=getConnection();
+      
+      ArrayList<ServiceSellList> bsList = new ServiceDao().selectSellServiceList(conn, currentPage, limit, userNo);
+      
+      close(conn);
+      
+      
+      
+      return bsList;
+   }
+
+
+   public int deleteService(ArrayList<String> arr) {
+      Connection conn=getConnection();
+      
+      int result2=new ServiceDao().deleteServiceDate(conn,arr);
+      int result1=new ServiceDao().deleteServiceFile(conn,arr);
+      int result=new ServiceDao().deleteService(conn,arr);
+
+      if (result > 0) {
+         commit(conn);
+      } else {
+         rollback(conn);
+      }
+      close(conn);
+      
+   
+      return result;
+   }
 
 
 
@@ -402,6 +415,297 @@ public class Service_Service {
 	}
 
 
+	public ArrayList selectreview(String suserNo) {
+		
+		Connection conn = getConnection();
+		ArrayList list = null;
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		list = svDao.selectreview(conn, suserNo);
+		
+		return list;
+	}
+
+
+	public Member pointcheck(String loginUserNo) {
+		
+		Connection conn = getConnection();
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		Member member = svDao.pointcheck(conn, loginUserNo);
+		
+		return member;
+	}
+
+
+	public Service selectbuserNo(String sNo) {
+		Connection conn = getConnection();
+		
+		ServiceDao svDao = new ServiceDao();
+		
+		Service sv = svDao.selectbuserNo(conn, sNo);
+		
+		return sv;
+	}
+
+
+	public int updateMinusPoint(String insertprice, String loginUserNo) {
+		
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updateMinusPoint(conn, insertprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int salePriceMinusPoint(String saleprice, String loginUserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.salePriceMinusPoint(conn, saleprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int changebuser(String sNo, String loginUserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.changebuser(conn, sNo, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int salePricePlusPoint(String saleprice, String suserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.salePricePlusPoint(conn, saleprice, suserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int insertlist(String sNo, String suserNo, String loginUserNo) {
+
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.insertlist(conn, sNo, suserNo, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int updatebindding(String sNo, String insertprice, String loginUserNo) {
+		
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updatebindding(conn, sNo, insertprice, loginUserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int updatePlusPoint(String price, String buserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.updatePlusPoint(conn, price, buserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int suserPointPlus(String price, String suserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.suserPointPlus(conn, price, suserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int snoStatusUpdate(String sNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.snoStatusUpdate(conn, sNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int biddingchangeupdate(String sNo, String price) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.biddingchangeupdate(conn, sNo, price);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+
+
+	public int insertbidbuylist(String sNo, String suserNo, String buserNo) {
+		Connection conn = getConnection();
+
+		ServiceDao svDao = new ServiceDao();
+
+		int result = svDao.insertbidbuylist(conn, sNo, suserNo, buserNo);
+
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+
+		return result;
+	}
+	
+	public MpSelectBSNo selectBSNo(String sn) {
+		Connection conn = getConnection();
+		
+		MpSelectBSNo bs = new ServiceDao().selectBSNo(conn,sn);
+		
+		close(conn);
+		return bs;
+	}
+
+
+	public int cancelPointb(String bNo, int price) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().cancelPointb(conn, bNo, price);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int cancelPoints(String sNo, int price) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().cancelPoints(conn, sNo, price);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public int deleteTH(String sn) {
+		Connection conn = getConnection();
+		int result = new ServiceDao().deleteTH(conn, sn);
+		
+		if(result>0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+
+	public ArrayList<CategoryListPd> searchService(String category, String word, String salemethod) {
+		Connection conn = getConnection();
+
+		
+		ArrayList<CategoryListPd> sList = new ServiceDao().searchService(conn,category,word,salemethod);
+
+		close(conn);
+		return sList;
+		
+
+	}
+
+
 
 
 }
+

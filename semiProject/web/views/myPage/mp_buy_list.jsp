@@ -264,7 +264,6 @@ tr.exline td{border-top: 1px solid black;}
 											<th>연락처</th>
 											<th>평점등록</th>
 
-
 										</tr>
 									</thead>
 									<tbody>
@@ -351,7 +350,7 @@ tr.exline td{border-top: 1px solid black;}
 																		<span class="starR">1</span> <span class="starR">2</span>
 																		<span class="starR">3</span> <span class="starR">4</span>
 																		<span class="starR">5</span> <input type="text"
-																			id="title" name="sNO">
+																			id="title" name="sNO" style="display: none;">
 																		<textarea id="value11" name="value11"
 																			style="display: none;"></textarea>
 																	</div>

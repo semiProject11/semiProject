@@ -1,9 +1,14 @@
 package service.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Service_ServiceTable_oh {
+public class Service_ServiceTable_oh implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5683817541023473391L;
 	private int serviceNo;					//서비스번호
 	private String sUserNo;					//판매자번호
 	private String categoryCode;			//카테고리코드

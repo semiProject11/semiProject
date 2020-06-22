@@ -1,9 +1,14 @@
 package service.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Service_SeviceFilesTable_oh {
+public class Service_SeviceFilesTable_oh implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5554610796596677271L;
 	private int fId;				//파일번호
 	private int serviceNo;			//서비스번호
 	private String originName;		//원본이름

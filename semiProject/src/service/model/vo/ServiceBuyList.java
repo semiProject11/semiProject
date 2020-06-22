@@ -1,8 +1,13 @@
 package service.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class ServiceBuyList {
+public class ServiceBuyList implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6170874172627259433L;
 	private String changeName;		// 썸네일이미지 이름
 	private String title;			// 제목
 	private Date tradeDate;			// 거래일자
@@ -14,12 +19,16 @@ public class ServiceBuyList {
 	private int rating;				// 평점
 	public ServiceBuyList() {
 		super();
+		
 	}
+
+
 	
 	public ServiceBuyList(String title) {
 		super();
 		this.title = title;
 	}
+
 
 	public ServiceBuyList(String changeName, String title, Date tradeDate, String sUserName, String sPhone,
 			int serviceNo, String bUserNo, String content, int rating) {

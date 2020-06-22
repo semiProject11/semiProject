@@ -60,12 +60,6 @@
 
         }
 
-        .btn:focus,
-        .btn:hover {
-            background: gold !important;
-            color: black !important;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
