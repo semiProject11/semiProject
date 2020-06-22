@@ -692,6 +692,24 @@ public class Service_Service {
 	}
 
 
+
+	public ArrayList<Service_List> searchTradeList(int currentPage, int limit, String type, String word) {
+		 Connection conn=getConnection();
+	      ArrayList<Service_List> tradeList=new ServiceDao().searchTradeList(conn,currentPage, limit,type,word);
+	      close(conn);
+	      System.out.println("서비스단에서:"+tradeList);
+	      return tradeList;
+	}
+
+
+	public ArrayList<Service_ServiceTable_oh> searchServiceList(int currentPage, int limit, String type, String word) {
+		 Connection conn=getConnection();
+		 ArrayList<Service_ServiceTable_oh> list=new ServiceDao().searchServiceList(conn,currentPage, limit,type,word);
+	      close(conn);
+	     
+	      return list;
+	}
+
 	public ArrayList<CategoryListPd> searchService(String category, String word, String salemethod) {
 		Connection conn = getConnection();
 
@@ -703,6 +721,7 @@ public class Service_Service {
 		
 
 	}
+	
 
 
 

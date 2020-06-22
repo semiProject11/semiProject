@@ -261,7 +261,7 @@ th, tr, td {
 					<hr>
 				</header>
 
-<form action="<%=request.getContextPath() %>/search.member" method="get">
+<form action="<%=request.getContextPath() %>/search.member" method="post">
 
 				<div class="container my-4">
 					<div>
@@ -321,7 +321,7 @@ th, tr, td {
 								</tr>
 							</thead>
 
-							<tbody name="tr" value="bbbb">
+							<tbody>
 
 
 								<%
@@ -334,7 +334,7 @@ th, tr, td {
 									} else {
 								%>
 								<%
-									for (int i = gradeList.size() - 1; i >= 0; i--) {
+									for (int i = 0;i < gradeList.size(); i++) {
 								%>
 
 								<tr id="tr" name="tr" value="trtr">
@@ -394,9 +394,9 @@ th, tr, td {
 					<ul class="pagination-t">
 
 
-						<li class="page-item-t disabled-t"><a class="page-link-t"
+						<li class="page-item-t"><a class="page-link-t"
 							href="<%=request.getContextPath()%>/list.grade?currentPage=1"><<</a></li>
-						<li class="page-item-t disabled-t"><a class="page-link-t"
+						<li class="page-item-t"><a class="page-link-t"
 							href="<%=request.getContextPath()%>/list.grade?currentPage=<%=currentPage - 1%>">Previous</a></li>
 						<%
 							for (int p = startPage; p <= endPage; p++) {

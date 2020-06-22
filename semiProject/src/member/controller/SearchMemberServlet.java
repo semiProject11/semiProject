@@ -35,11 +35,12 @@ public class SearchMemberServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("등급조회 서블릿임, 여기 도착하긴함?");
+		
+		String word=request.getParameter("word");
 		
 		//페이징 처리
 		
-		int listCount=new BoardService().getGradeListCount();
+		int listCount=new BoardService().getGradCount(word);
 		int currentPage;	// 현재 페이지를 표시 할 변수
 		int limit;			// 한 페이지에 게시글이 몇 개가 보여질 것인지
 		int maxPage;		// 전체 페이지에서 가장 마지막 페이지
@@ -71,8 +72,7 @@ public class SearchMemberServlet extends HttpServlet {
 		
 	
 		
-		String word=request.getParameter("word");
-		
+	
 		
 		ArrayList<Member> gradeList= new MemberService().searchMember(word,currentPage,limit);
 		ArrayList<Seller> sellerList=new MemberService().searchSellerList(word,currentPage,limit);

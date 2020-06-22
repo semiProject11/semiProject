@@ -645,6 +645,26 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public ArrayList<Member> searchTradeListS(int currentPage, int limit, String type, String word) {
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchTradeListS(conn,currentPage,limit,word,type);
+	System.out.println("service:"+list);
+		close(conn);
+		return list;
+	}
+
+
+	public ArrayList<Member> searchTradeListB(int currentPage, int limit, String type, String word) {
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchTradeListB(conn,currentPage,limit,word,type);
+	System.out.println("service:"+list);
+		close(conn);
+		return list;
+	}
+
+
+
+
 
 
 
