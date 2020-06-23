@@ -109,7 +109,7 @@ public class SendMailServlet extends HttpServlet {
             
             try { Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() { 
             	protected PasswordAuthentication getPasswordAuthentication() { 
-            	return new PasswordAuthentication("toffg6450@naver.com","s159632s!"); 	// 네이버 메일 ID / PWD 
+            	return new PasswordAuthentication("",""); 	// 네이버 메일 ID / PWD 
             	}
             	 });
  

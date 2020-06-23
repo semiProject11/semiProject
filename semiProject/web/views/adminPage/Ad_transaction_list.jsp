@@ -246,7 +246,7 @@ th, tr, td {
 					<div>
 					
 					
-						<!--상단 검색창-->
+					 	<!--상단 검색창-->
 						<div
 							class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
 						
@@ -382,7 +382,7 @@ th, tr, td {
 	
 	//검색
 	function search111(){
-	 	alert('된당'); 
+
 		var type=$("#search").val();
 		var word=$("#word").val();
 		location.href="<%=request.getContextPath()%>/search.transaction?type="+type+"&word="+word;

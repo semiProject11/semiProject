@@ -401,6 +401,10 @@ font-weight: normal; font-style: normal; }
                 	alert("계좌번호를 조건에 맞게 입력하세요");
                     $("#account").focus();
                     flag = false;
+                }else if($("#noresult").html()=="이미 존재하는 계좌번호 입니다"){
+                   alert("중복된 계좌번호 입니다.");
+                    $("#account").focus();
+                    flag = false;
                 }
                 
                 else{
@@ -553,6 +557,45 @@ font-weight: normal; font-style: normal; }
 		    			});
             	
             	
+    			// 계좌번호 중복 ajax
+                 
+                 var account = $("#registerForm input[name='account']");
+                
+                 $("#account").change(function(){   
+                    if(account.val().length<8){
+                       $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color","red");
+                       flag = false;
+                    }
+                    else{
+                 
+                       $.ajax({
+                          url : "<%=request.getContextPath()%>/checkAc.me",
+                          type : 'post',
+                          data:{account:account.val()},
+                          success : function(data) {
+                             if (data == "fail") {
+                                $("#noresult").html("이미 존재하는 계좌번호 입니다").css("color", "red");
+                                      $("#userId").focus();
+                                flag = false;
+                             }else if(data != "fail" && !regA.test($(account).val())){
+                                $("#noresult").html("다시 입력하세요").css("color","red");
+                                flag = false;
+                             }
+                             else{
+                                $("#noresult").html("사용 가능한 계좌번호 입니다 ").css("color", "green");
+                                flag = true;
+                             
+                             }
+                             
+                          }
+                          , error : function(request,status,error){
+                              alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                              flag = false;
+                          }
+                          });
+                       return flag;
+                       } 
+                       });
             		
 
                     // 아이디 제약조건 : 영어 숫자만
@@ -664,16 +707,6 @@ font-weight: normal; font-style: normal; }
                     }
                     });
 
-                    $("#account").change(function(){
-                    if(!regA.test($(this).val())) {
-                    $("#noresult").html("숫자만으로 8자리 이상 입력하세요.").css("color","red");
-                        $(this).focus();
-                    }else {
-                    $("#noresult").html('');
-                     }
-                    });
-           
-               
                     });
             
             

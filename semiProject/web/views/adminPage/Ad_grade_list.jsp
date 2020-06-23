@@ -457,25 +457,27 @@ th, tr, td {
 	
 
 	//등급변경
+	
 	 function updateGrade(){
 		
-		var check= $("input:checkbox[name=rowCheck]:checked").val();
+		//체크된 체크박스의 값을 변수에 담기
+		var check= $("input:checkbox[name=rowCheck]:checked").val(); 
 		
+		//값이 있으면 유저번호와 변경될 등급을 담을 배열 선언
  		if (check){		
  			
- 		var rowArr=new Array();
-		var tdArr=new Array();
+ 		var rowArr=new Array(); //유저 번호 배열
+		var tdArr=new Array();	//변경될 등급 배열
 		
 		
-		$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
+		//체크된 행의 유저번호와 변경될 등급을 ','추가하여 변수에 담아 서블릿으로 이동
+		$("input:checkbox[name=rowCheck]:checked").each(function(){ 
 		
 			rowArr+=$(this).val()+",";
 			tdArr+=$(this).parent().parent().children().eq(6).children("select").val()+",";
 			
-
 		});
          
-
 			location.href="<%=request.getContextPath()%>/update.grade?rowArr="+rowArr+"&tdArr="+tdArr;
 			
  		}else{

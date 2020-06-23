@@ -2347,7 +2347,57 @@ String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L L
 
 		return list;
 	}
-}
+
+	public ArrayList<Service_List> selectTradeListaaa(Connection conn, int currentPage, int limit) {
+		PreparedStatement pstmt=null;
+	      ResultSet rset=null;
+	      String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) where refund_yn='N')L ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
+	      ArrayList<Service_List> tradeList=new ArrayList<>();
+	      int startRow = (currentPage-1) * limit + 1;
+	      int endRow = currentPage * limit;
+	      
+
+	      
+
+	      try {
+	         pstmt=conn.prepareStatement(query);
+	         pstmt.setInt(1,startRow);
+	         pstmt.setInt(2, endRow);
+	         rset=pstmt.executeQuery();
+	         
+	         while(rset.next()) {
+	            
+	            Service_List s=new Service_List(rset.getInt("service_no"),
+	                                    rset.getDate("trade_date"),
+	                                    rset.getString("s_user_no"),
+	                                    rset.getString("b_user_no"),
+	                                    rset.getString("refund_yn"));
+	            tradeList.add(s);
+	            
+	         }
+	         
+	         
+	         
+	         
+	      } catch (SQLException e) {
+	         
+	         e.printStackTrace();
+	      }finally {
+	         close(pstmt);
+	         close(rset);
+	      }
+	      
+	      
+	      return tradeList;
+	   }
+
+	public ArrayList<Service_ServiceTable_oh> searchServiceListaaa(Connection conn, int currentPage, int limit,
+			String type, String word) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	}
+
 
 
 

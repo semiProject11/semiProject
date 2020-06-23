@@ -182,7 +182,7 @@ font-weight: normal; font-style: normal; }
           <i class="fas fa-user fa-fw" style="color:blacak"></i></a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
           <a class="dropdown-item" onclick="myPageinfo();">마이페이지</a>
-          <a class="dropdown-item" onclick="serviceRegister();">판매 등록</a>
+          <a class="dropdown-item" onclick="serviceRegister();">서비스 등록</a>
           <a class="dropdown-item" onclick="serviceCenter();">고객센터</a>
           <%if(loginUser.getUserId().equals("admin")){ %>
           <a class="dropdown-item" onclick="adminCenter();">관리자센터</a>

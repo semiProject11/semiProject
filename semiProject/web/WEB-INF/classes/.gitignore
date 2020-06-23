@@ -1,2 +1,6 @@
-/service/
+/board/
+/common/
+/filter/
 /member/
+/service/
+/sql/

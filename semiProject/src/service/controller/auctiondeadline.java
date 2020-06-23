@@ -54,7 +54,7 @@ public class auctiondeadline extends HttpServlet {
 				// }
 		
 		if(result > 0) {
-			request.getRequestDispatcher("/auction.detail").forward(request, response); // 갱신 완료 후 서블릿을 통해 상세보기 페이지로 잘 갱신됬는지 확인하기.
+			   request.getRequestDispatcher("/buyList.sv").forward(request, response); // 갱신 완료 후 서블릿을 통해 구매내역 페이지로 잘 갱신됬는지 확인하기.
 		}else {
 			   request.setAttribute("msg", "실패 !");
 			   request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

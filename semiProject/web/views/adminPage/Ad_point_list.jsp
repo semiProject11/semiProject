@@ -414,7 +414,7 @@ th, tr, td {
 //포인트 차감
 
 	 function minusP(){
-	alert("??");
+
 		 console.log($("#usePoint").val() + ", " + $("#point").val());
 		
 		 if($("#usePoint").val()>$("#point").val()){ 
@@ -426,7 +426,7 @@ th, tr, td {
  				var rowArr=new Array();
 				var tdArr=new Array();
 			
-		
+		 	
 				$("input:checkbox[name=rowCheck]:checked").each(function(){ //td단계임
 		
 				rowArr+=$(this).val()+",";

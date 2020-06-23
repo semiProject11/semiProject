@@ -801,6 +801,34 @@ public class Service_Service {
 	}
 
 
+	public ArrayList<Service_List> searchTradeListaaa(int currentPage, int limit, String type, String word) {
+		 Connection conn=getConnection();
+	      ArrayList<Service_List> tradeList=new ServiceDao().selectTradeListaaa(conn,currentPage, limit);
+	      close(conn);
+	      System.out.println("서비스단에서:"+tradeList);
+	      return tradeList;
+	   }
+
+
+	public ArrayList<Service_ServiceTable_oh> searchServiceListaaa(int currentPage, int limit, String type,
+			String word) {
+		Connection conn=getConnection();
+		 ArrayList<Service_ServiceTable_oh> list=new ServiceDao().searchServiceListaaa(conn,currentPage, limit,type,word);
+	      close(conn);
+	     
+	      return list;
+	
+	}
+
+
+	public ArrayList<Service_List> selectTradeListaaa(int currentPage, int limit) {
+		 Connection conn=getConnection();
+	      ArrayList<Service_List> tradeList=new ServiceDao().selectTradeListaaa(conn,currentPage, limit);
+	      close(conn);
+	      System.out.println("서비스단에서:"+tradeList);
+	      return tradeList;
+	   }
+
 
 
 }

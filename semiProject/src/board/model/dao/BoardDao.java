@@ -2765,7 +2765,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 		PreparedStatement pstmt = null;
 		ResultSet rset=null;////
 		int result = 0;
-		String query ="SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+		String query ="SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
