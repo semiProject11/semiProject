@@ -234,7 +234,7 @@
         <div class="card mb-4">
           <div class="card-body">
             <div>
-            <p style="display: inline;">충전 금액을 선택하세요</p><p style="float: right;">1회 최대 충전 금액 200만원</p3>
+            <p style="display: inline;">충전 금액을 선택하세요</p>
               <hr>
             </div>
               <div class="container">

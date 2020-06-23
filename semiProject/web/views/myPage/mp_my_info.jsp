@@ -13,6 +13,7 @@
 	String fileName = (String)request.getAttribute("fileName");
 	String gradeIcon = member.getGrade();
 	String userNo = member.getUserNo();
+	String phone = member.getPhone();
 %>
 
 <!DOCTYPE html>
@@ -274,6 +275,10 @@
                       <tr>
                         <td style="text-align: left;"><label>이메일 : </label></td>
                         <td> <label id="info_email"><%=email%></label></td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left;"><label>전화번호 : </label></td>
+                        <td> <label id="info_phone"><%=phone%></label></td>
                       </tr>
                       <tr>
                         <td><label>구매횟수 : </label></td>
