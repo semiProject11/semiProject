@@ -230,12 +230,9 @@
                                 <div class="col-md-3"><label class="form-control" style="width:100%;"><%=r.getReport_name() %></label>
                                 </div>
                                 <div class="col-md-1"></div>
-                                <div class="col-md-2"><label>신고대상</label></div>
-                                <div class="col-md-3"><label class="form-control"><%=r.getReport_userId() %></label></div>
-                                <div class="col-md-1"><button type="button" class="btn"
-                                        style="background:black; color:white; display:inline;"><a
-                                            href="admin_grade.html" id="wh">검색</a></button>
-                                </div>
+                                <div class="col-md-2"><label>작성자</label></div>
+                                <div class="col-md-4"><label class="form-control"><%=r.getReport_userId() %></label></div>
+                                
 
 
                             </div>
@@ -244,8 +241,7 @@
                                 <div class="col-md-2"><label>서비스번호</label></div>
                                 <div class="col-md-3"><label class="form-control"><%=r.getService_no() %></label></div>
                                 <div class="col-md-1"><button type="button" class="btn"
-                                        style="background:black; color:white; display:inline;"><a
-                                            href="admin_transaction.html" id="wh">검색</a></button>
+                                        style="background:black; color:white; display:inline;" onclick="goSearch();">검색</button>
                                 </div>
                                 <div class="col-md-2"><label>작성일자</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:100%;"><%=r.getWrite_date() %></label>
@@ -253,6 +249,34 @@
 
 
                             </div>
+                            
+                            
+                            <script>
+                            
+                         <%--    function goSearch(){
+                            	alert('검색 뿅');
+                            	var service_no=<%=r.getService_no() %>
+                            	window.open("/search.report", "_blank", 'width=1280, height=650, left=0, top=0, location, menubar, scrollbars, resizable'); 
+                            	form.action = "<%=request.getContextPath()%>/general.service?service_no"+service_no; 
+                            	form.target = "_blank"; 
+                            	form.submit();
+
+                            } --%>
+                            
+                            
+                            function goSearch(){
+                            
+                            	var service_no=<%=r.getService_no() %>
+                            	
+                            	location.href="<%=request.getContextPath()%>/check11.report?service_no="+service_no; 
+                            
+
+                            }
+                             
+
+
+                            
+                            </script>
 
                             <div class="row">
                                 <div class="col-md-2"><label>제목</label></div>
@@ -294,7 +318,7 @@
                                 <%if(r.getRe_yn().equalsIgnoreCase("N")){ %>
 									<div class="col-md-10">
                                     <textarea class="form-control"
-                                        style="width:100%; height:50px; resize:none;" id="content">답변을 등록해주세요.</textarea>
+                                        style="width:100%; height:50px; resize:none;" id="replyWrite" placeholder="답변을 입력하세요."></textarea>
                                     </div>
                                     <%}else{ %>
                                     <div>

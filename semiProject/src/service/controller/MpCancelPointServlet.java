@@ -43,6 +43,8 @@ public class MpCancelPointServlet extends HttpServlet {
 		
 		String sn = request.getParameter("serviceNo");
 		
+		System.out.println("서비스 번호는 잘 왔니"+sn);
+		
 		MpSelectBSNo bs = new Service_Service().selectBSNo(sn);
 		String bNo = bs.getBuyerNo();
 		String sNo = bs.getSellerNo();
@@ -61,15 +63,16 @@ public class MpCancelPointServlet extends HttpServlet {
 			if(userId.equals("admin")) {
 				
 			}
-			view = request.getRequestDispatcher("/sellList.sv");
+			view = request.getRequestDispatcher("list.refund");
 			
 			
 		}else {
+			
 			view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			request.setAttribute("msg", "환불 실패!!");
 		}
-		view.forward(request, response);
 		
+		view.forward(request, response);
 		
 	}
 

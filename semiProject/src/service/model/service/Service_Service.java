@@ -644,7 +644,7 @@ public class Service_Service {
 		Connection conn = getConnection();
 		
 		MpSelectBSNo bs = new ServiceDao().selectBSNo(conn,sn);
-		
+		System.out.println("과연:"+bs);
 		close(conn);
 		return bs;
 	}
@@ -772,6 +772,32 @@ public class Service_Service {
 		}
 
 		return result;
+	}
+
+
+	public ArrayList<CategoryListPd> selectReport(String service_no) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.selectReport(conn, service_no);
+
+		return list;
+	}
+
+
+	public ArrayList<Service_SeviceFilesTable_oh> selectReportfList(String service_no) {
+		Connection conn = getConnection();
+
+		ArrayList list = null;
+
+		ServiceDao svDao = new ServiceDao();
+
+		list = svDao.selectReportFList(conn,service_no);
+
+		return list;
 	}
 
 

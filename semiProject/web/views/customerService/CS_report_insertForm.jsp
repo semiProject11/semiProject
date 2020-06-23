@@ -7,6 +7,7 @@ HttpSession session1 = request.getSession();
 Member loginUser = (Member)session1.getAttribute("loginUser");
 
 
+
 %>
 <!DOCTYPE html>
 <html>
@@ -157,6 +158,75 @@ label {
 			</header>
 
 
+<script>
+		function validate() {
+
+
+			if ($("#report_type > option:selected").val().length >2) {
+
+				alert('신고 유형을 선택해주세요.');
+				return false;
+
+			} else if ($("#service_no").val().trim().length == 0) {
+
+				alert('서비스 번호를 입력해주세요.');
+				$("#service_no").focus();
+				return false;
+
+			} else if ($("#user_id").val().trim().length == 0) {
+
+				alert('신고 대상 아이디를 입력해주세요.');
+				$("#user_id").focus();
+				return false;
+
+			} else if ($("#title").val().trim().length == 0) {
+				alert('제목을 입력해주세요.');
+				$("#title").focus();
+				return false;
+
+			} else if ($("#content").val().text().trim().length == 0) {
+				alert('내용을 입력해주세요.');
+				$("#content").focus();
+				return false;
+ 
+			} else {
+				alert('작성하신 글이 등록되었습니다. 관리자 확인 후 조치할 예정입니다.');
+				return true;
+			}
+
+		}
+		
+		
+		
+		
+		//로그인해야 작성가능
+		
+	      $(function(){
+              
+          	if(<%=loginUser==null%>){
+          		alert("로그인 후 작성 할 수 있습니다.")
+          		location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp"
+          	}
+          	
+          })
+		
+		
+		
+          function onlyNumber(){
+
+              if((event.keyCode<48)||(event.keyCode>57))
+
+                 event.returnValue=false;
+
+	 }
+
+
+
+
+        
+	
+	</script>
+
 			<div class="container my-3">
 				<div class="container my-3">
 					<form class="form-group"
@@ -169,9 +239,9 @@ label {
 								<label>신고 유형</label>
 							</div>
 							<div class="col-md-4">
-								<select class="form-control" style="width: 100%"
-									name="report_type" id="report_type">
-									<option selected>선택</option>
+								<select class="form-control" style="width: 100%" name="report_type" id="report_type">
+									
+									<option value="asdf">--</option>
 									<option value="B1">판매자를 신고합니다</option>
 									<option value="B2">구매자를 신고합니다</option>
 								</select>
@@ -189,22 +259,59 @@ label {
 							</div>
 							<div class="col-md-4">
 								<input type="text" class="form-control" name="service_no"
-									id="service_no">
+									id="service_no" onkeypress="onlyNumber();" placeholder="번호만 입력"/>
 							</div>
-								<div class="col-md-1">
-								<!-- <button type="button" class="btn" id="button"
-									style="background: black; color: white" onclick="checkReport();">확인</button> -->
-								</div>
+								<!-- <div class="col-md-1">
+								 <button type="button" class="btn" id="checkNo"
+									style="background: black; color: white">확인</button>
+								</div> -->
 							<div class="col-md-2">
 								<label>신고 대상 아이디</label>
 							</div>
 							<div class="col-md-3">
 								<input type="text" class="form-control" style="width: 100%;"
-									name="user_no" id="user_no">
+									name="user_id" id="user_id">
 							</div>
 
 
 						</div>
+						
+						
+						
+						
+					
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 
 						<div class="row text-center mt-2">
 							<div class="col-md-2">
@@ -282,93 +389,6 @@ label {
 	</div>
 
 
-	<script>
-		function validate() {
-
-			if ($("#report_type").val("select").trim().length < 3) {
-
-				alert('신고 유형을 선택해주세요.');
-				return false;
-
-			} else if ($("#service_no").val.trim().length == 0) {
-
-				alert('서비스 번호를 입력해주세요.');
-				$("#service_no").focus();
-				return false;
-
-			} else if ($("#user_no").val.trim().length == 0) {
-
-				alert('신고 대상 아이디를 입력해주세요.');
-				$("#service_no").focus();
-				return false;
-
-			} else if ($("#title").val().trim().length == 0) {
-				alert('제목을 입력해주세요.');
-				$("#title").focus();
-				return false;
-
-			} else if ($("#content").val().trim().length == 0) {
-				alert('내용을 입력해주세요.');
-				$("#content").focus();
-				return false;
-
-			} else {
-				alert('작성하신 글이 등록되었습니다.');
-				return true;
-			}
-
-		};
-		
-		
-		
-		
-		//로그인해야 작성가능
-		
-	      $(function(){
-              
-          	if(<%=loginUser==null%>){
-          		alert("로그인 후 작성 할 수 있습니다.")
-          		location.href="<%=request.getContextPath()%>/views/loginAndRegister/LS_login.jsp"
-          	}
-          	
-          })
-		
-		
-		//여기서 유효성 검사 해줘야함
-		
-	<%-- 	function checkReport(){
-			
-			
-				$.ajax({
-					
-					url:"<%=request.getContextPath()%>/check.report",
-					type:"post",
-					data:{service:service_no.val()},
-					sucess:function(data){
-						
-					if(data=="success"){
-						
-						alert("서비스 번호가 확인되었습니다."data);
-						$.each(data,function(){
-					 $("#user_no").val(<%=member.getUserName()%>);
-						
-							
-						})
-						
-					}
-						
-						
-						
-					},
-					
-					error:function(request,status,error){
-		                   alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		                   
-		               }
-					
 	
-			
-		}; --%>
-	</script>
 </body>
 </html>

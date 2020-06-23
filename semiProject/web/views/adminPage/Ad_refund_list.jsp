@@ -267,11 +267,11 @@ int endPage = pn.getEndPage();
 
             
 
-                                 <input class="form-control" type="text" style="width:300px" placeholder="환불할 서비스 번호를 입력해주세요." aria-label="Search"
-                                    aria-describedby="basic-addon2" id="refundNo" name="refundNo" value=""/>
+                                
                                 <div class="input-group-append"></div>
                                  <!--환불 버튼-->
-                        <button type="button" class="btn" style="background:black; color:white; width:95px;" onclick="refund();">환불</button>
+                                
+										<button type="button" class="btn" style="background:black; color:white; width:95px;" onclick="refund();">환불</button>
                             </div>
                         </form>
                     </div>
@@ -284,7 +284,7 @@ int endPage = pn.getEndPage();
 						<table class="table table-striped table-bordered table-hover mt-2" id="listArea">
 							<thead>
 								<tr>
-									<th>No</th>
+									<th></th>
 									<th>제목</th>
 									<th>서비스번호</th>
 									<th>포인트(점)</th>
@@ -293,6 +293,8 @@ int endPage = pn.getEndPage();
 								</tr>
 							</thead>
 							<tbody>
+							
+								
 								<%
 									if (tradeList.isEmpty()) {
 								%>
@@ -310,7 +312,10 @@ int endPage = pn.getEndPage();
 								<tr>
 
 									<input type="hidden" value="<%=(serviceList.get(i)).getServiceNo()%>">
-									<td><%=(serviceList.get(i)).getDeadline()%></td> <!-- 마감시간 대신 dao에서 게시글 순번넣어옴  -->
+                        
+									 <td><input type="checkbox" class="common" id="refundNo"
+										name="refundNo" style="width: 18px; height: 18px;"
+										value="<%=(serviceList.get(i)).getServiceNo()%>"></td>
 									<td><%=(serviceList.get(i)).getTitle()%></td>
 									<td><%=(serviceList.get(i)).getServiceNo()%></td>
 									<td><%=(serviceList.get(i)).getPriceSale()%></td>
@@ -432,17 +437,14 @@ int endPage = pn.getEndPage();
             
             function refund(){
             	
-            	var serviceNo=$("#refundNo").val();
             	
+       			var serviceNo = $("input:checkbox[name=refundNo]:checked").val();
             	
-            	
-            	
-            	location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ serviceNo;
-            	
+				location.href="<%=request.getContextPath()%>/cancel.point?serviceNo="+ serviceNo;	 
             	
             }
             
-            
+         
             </script>
 
 

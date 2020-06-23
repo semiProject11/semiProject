@@ -253,11 +253,7 @@
                                 <div class="col-md-2"><label>포인트(가격)</label></div>
                                 <div class="col-md-4"><label class="form-control" style="width:100%"><%=s.getPrice_sale() %></label></div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2"><label>제목</label></div>
-                                <div class="col-md-10"><label style="width:100%; text-align: left;"><%=sb.getTitle() %>
-                                        </label></div>
-                            </div>
+                          
                             <div class="mt-2">
                                 <textarea class="form-control"
                                     style="width:100%; height:500px; resize:none;"><%=b.getContent() %></textarea>

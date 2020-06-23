@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -17,6 +18,7 @@ import board.model.service.BoardService;
 import board.model.vo.Board;
 import board.model.vo.Files;
 import board.model.vo.Report;
+import member.model.vo.Member;
 
 /**
  * Servlet implementation class ReportInsertServlet
@@ -51,12 +53,19 @@ public class ReportInsertServlet extends HttpServlet {
 
 		String title = multiRequest.getParameter("title");
 		String content = multiRequest.getParameter("content");
-//		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
-		String user_no = "1";
+		String service_no=multiRequest.getParameter("service_no");
+		
+		HttpSession session = request.getSession();
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		String user_no=Integer.valueOf(((Member)request.getSession().getAttribute("loginUser")).getUserNo()).toString();
+		
 		String board_type = multiRequest.getParameter("report_type");
-		int board_code = Integer.valueOf(multiRequest.getParameter("board_code"));
+		int board_code = 30;
 
 
+		System.out.println("dkdhdhdh!!!!:"+user_no);
 	
 		ArrayList<String> saveFiles = new ArrayList<>();
 		ArrayList<String> originFiles = new ArrayList<>();
@@ -72,15 +81,15 @@ public class ReportInsertServlet extends HttpServlet {
 			}
 
 		}
-
-		System.out.println("savefiles:"+saveFiles);
-		System.out.println("originFiles:"+originFiles);
-		
+		/*
+		 * System.out.println("savefiles:"+saveFiles);
+		 * System.out.println("originFiles:"+originFiles);
+		 */
 		
 		Board b = new Board();
 		b.setTitle(title);
 		b.setContent(content);
-		b.setUser_id(user_no);
+		b.setUser_no(Integer.valueOf(user_no));
 		b.setBoard_code(board_code);
 
 		Report rep = new Report();
@@ -100,7 +109,7 @@ public class ReportInsertServlet extends HttpServlet {
 		
 		System.out.println("서블릿에서:"+reportList);
 
-		int result = new BoardService().insertReport(b, reportList, rep);
+		int result = new BoardService().insertReport(b,service_no, reportList, rep);
 
 		if (result > 0) {
 			request.getRequestDispatcher("/list.notice").forward(request, response);

@@ -1,7 +1,6 @@
 package board.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,20 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
+import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class ReportCheckServlet
+ * Servlet implementation class ReportCheckSvServlet
  */
-@WebServlet("/check.report")
-public class ReportCheckServlet extends HttpServlet {
+@WebServlet("/checkSv.report")
+public class ReportCheckSvServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ReportCheckServlet() {
+    public ReportCheckSvServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,46 +31,30 @@ public class ReportCheckServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("여기오나?");
-		String service_no=request.getParameter("service_no");
-		String user_id=request.getParameter("user_id");
-		String report_type=request.getParameter("rType");
-		int result=0;
-		Member member=new Member();
 		
-		System.out.println(service_no);
-		System.out.println(report_type);
+		int service_no=Integer.valueOf(request.getParameter("service_no"));
+		
+	
+		Member m=new MemberService().checkReport(service_no);
 		
 		
-		if(report_type.equals("B1")) {
-			/* result=new BoardService().checkReportS(service_no); */
-			member=new BoardService().checkReportSeller(service_no);
-		}else {
-			/* result=new BoardService().checkReportB(service_no); */
-			member=new BoardService().checkReportBuyer(service_no);
-			
-		}
-		
-		if(user_id.equalsIgnoreCase(member.getUserId())){
-			result=1;
-		}else {
-			result=0;
-		}
 		
 		PrintWriter out = response.getWriter();
+		
+		
+		
 
-		if(result>0) {
+		if(user_id!=null) {
 			out.print("success");
-			request.setAttribute("member", member);
-			request.getRequestDispatcher("views/customerService/CS_report_insertForm.jsp").forward(request, response);
-			
+			System.out.println("성공임다아아앙");
 		}else {
 			out.print("fail");
 		}
-		out.flush(); 
+		
+		out.flush();
 		out.close();
 		
-		out.println("출력테스트");
+		
 	}
 
 	/**

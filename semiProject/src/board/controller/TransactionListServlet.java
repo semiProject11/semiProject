@@ -88,6 +88,11 @@ public class TransactionListServlet extends HttpServlet {
 			request.setAttribute("pn", pn);
 			
 			
+			System.out.println("1"+sellerList);
+			System.out.println("1"+buyerList);
+			System.out.println("1"+tradeList);
+			System.out.println("1"+serviceList);
+			
 			request.getRequestDispatcher("views/adminPage/Ad_transaction_list.jsp").forward(request, response);
 			
 	

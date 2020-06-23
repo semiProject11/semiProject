@@ -343,8 +343,8 @@ th, tr, td {
 									<td><input type="checkbox" class="common" id="rowCheck"
 										name="rowCheck" style="width: 18px; height: 18px;"
 										value=<%=(sellerList.get(i)).getUserNo()%>></td>
-									<!-- 게시물번호-->
-									<td value="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td> <!-- 회원번호대신 rnum넣음 -->
+									<!-- 회원번호-->
+									<td value="<%=(sellerList.get(i)).getUserNo()%>"><%=(gradeList.get(i)).getUserNo()%></td> 
 									<!-- 유저아이디 -->
 									<td><%=(gradeList.get(i)).getUserId()%></td>
 									<!-- 점수  -->

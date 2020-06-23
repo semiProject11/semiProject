@@ -28,7 +28,7 @@ public class ServiceDao {
       
       PreparedStatement pstmt=null;
       ResultSet rset=null;
-      String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
+      String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L WHERE REFUND_YN='N' ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
       ArrayList<Service_List> tradeList=new ArrayList<>();
       int startRow = (currentPage-1) * limit + 1;
       int endRow = currentPage * limit;
@@ -71,7 +71,7 @@ public class ServiceDao {
    public ArrayList<Service_ServiceTable_oh> selectServiceList(Connection conn, int currentPage, int limit) {
       PreparedStatement pstmt=null;
       ResultSet rset=null;
-      String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
+      String query="SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L WHERE REFUND_YN='N' ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
       ArrayList<Service_ServiceTable_oh> serviceList=new ArrayList<>();
       int startRow = (currentPage-1) * limit + 1;
       int endRow = currentPage * limit;
@@ -543,14 +543,13 @@ public class ServiceDao {
    public ArrayList<Service> selectS_ReviewList(Connection conn) {
       PreparedStatement pstmt = null;
       ResultSet rset = null;
-      String query = "SELECT *\r\n" + 
-            "FROM REVIEW F\r\n" + 
-            "LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
-            "LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
-            "LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
-            "LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
-            "LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-            "LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+      String query = "SELECT * FROM REVIEW F \r\n" + 
+      		"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+      		"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
+      		"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+      		"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
+      		"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+      		"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
       ArrayList<Service> sList = new ArrayList<>();
 
       try {
@@ -591,14 +590,13 @@ public class ServiceDao {
    public ArrayList<Service_Category> selectSC_ReviewList(Connection conn) {
       PreparedStatement pstmt = null;
       ResultSet rset = null;
-      String query = "SELECT *\r\n" + 
-            "FROM REVIEW F\r\n" + 
-            "LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
-            "LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
-            "LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
-            "LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
-            "LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-            "LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+      String query = "SELECT * FROM REVIEW F \r\n" + 
+      		"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+      		"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
+      		"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+      		"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
+      		"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+      		"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
       ArrayList<Service_Category> scList = new ArrayList<>();
 
       try {
@@ -1721,7 +1719,7 @@ public MpSelectBSNo selectBSNo(Connection conn, String sn) {
 										rset.getString("S_USER_NO"),
 										rset.getInt("PRICE_SALE"));
 			}
-			
+			System.out.println("dao과연:"+bs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -2286,6 +2284,71 @@ String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L L
 		return result;
 	}
 
+	public ArrayList selectReport(Connection conn, String service_no) {
+		PreparedStatement pstmt = null;
+		ArrayList list = new ArrayList();
+		ResultSet rs = null;
+		String query  = "SELECT * FROM SERVICE_PD WHERE service_no=?";
+
+
+		try {
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, service_no);
+			rs = pstmt.executeQuery();
+			CategoryListPd clpd = null;
+
+			while (rs.next()) {
+				clpd = new CategoryListPd(rs.getInt("SERVICE_NO"), rs.getString("S_USER_NO"),
+						rs.getString("SALEMETHOD"), rs.getString("CATEGORY_CODE"), rs.getString("CATEGORY_NAME"),
+						rs.getString("CHANGE_NAME"), rs.getString("USER_ID"), rs.getString("TITLE"),
+						rs.getInt("PRICE_SALE"), rs.getInt("PRICE_BIDDING"), rs.getString("GRADE_NAME"),
+						rs.getString("GRADE_NO"), rs.getInt("READCOUNT"), rs.getString("DEADLINE"),
+						rs.getString("SERVICE_STATUS"));
+				list.add(clpd);
+			}
+
+			System.out.println("list 잘들어왔나 ? " + list);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rs);
+		}
+
+		return list;
+	}
+
+	public ArrayList selectReportFList(Connection conn, String service_no) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Service_SeviceFilesTable_oh sf = null;
+		ArrayList list = new ArrayList();
+
+		String query = "SELECT * FROM SERVICE_FILES WHERE FILE_LEVEL = 0 and service_no=?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1,service_no);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				sf = new Service_SeviceFilesTable_oh(rs.getInt("fid"), rs.getInt("service_no"),
+						rs.getString("origin_name"), rs.getString("change_name"), rs.getString("file_path"),
+						rs.getDate("upload_date"), rs.getInt("file_level"), rs.getInt("download_count"),
+						rs.getString("status"));
+				list.add(sf);
+			}
+			System.out.println("sf : " + list);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+}
+
 
 
 	  
@@ -2312,7 +2375,7 @@ String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L L
 	
 	
 	
-	}
+	
 	
 	
 	

@@ -290,13 +290,13 @@
                        
                         <!--상단 검색창-->
                         <div class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                        <form method='post' action="<%=request.getContextPath() %>/search.inquiary">
+                        
                             
                             <div class="input-group">
                                 <select class="form-control" id="search" name="search">
                                     <option value="a">전체</option>
-                                    <option value="c">이용 문의</option>
-                                    <option value="b">고객의 소리</option>
+                                    <option value="b">이용 문의</option>
+                                    <option value="c">고객의 소리</option>
                                     <option value="d">제휴</option>
 
                                 </select>
@@ -306,7 +306,7 @@
                                 <button class="btn btn-primary mr-0" id="jin" type="button" onclick="search222();">
                                     <i class="fas fa-search"></i></button>
                             </div>
-                            </form>
+                          
                     </div>
                       
                     </div>

@@ -185,6 +185,7 @@ public class BoardDao {
 		int result = 0;
 		String query = "INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL,?,?,?,SYSDATE,0,?,'Y')";
 
+		System.out.println("dao에서 유저아이디는?"+b.getUser_no());
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, b.getTitle());
@@ -215,7 +216,7 @@ public class BoardDao {
 		
 		System.out.println("flist"+fList);
 		
-		String query = "INSERT INTO FILES VALUES(SEQ_FILE.NEXTVAL,SEQ_BOARD.CURRVAL,?,?,?,SYSDATE,0,0,'Y')";
+		String query = "INSERT INTO FILES VALUES(SEQ_BFID.NEXTVAL,SEQ_BOARD.CURRVAL,?,?,?,SYSDATE,0,0,'Y')";
 		
 		try {
 
@@ -412,14 +413,14 @@ public class BoardDao {
 		return b;
 	}
 
-	public int insertReportType(Connection conn, Report rep) {
+	public int insertReportType(Connection conn, String service_no, Report rep) {
 		PreparedStatement pstmt = null;
 		int result = 0;
 		String query = "INSERT INTO report VALUES(SEQ_BOARD.CURRVAL,'N','N',SYSDATE,?,?)";
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, rep.getService_no());
+			pstmt.setInt(1, Integer.valueOf(service_no));
 			pstmt.setString(2, rep.getReport_type());
 
 			result = pstmt.executeUpdate();
@@ -482,7 +483,8 @@ public class BoardDao {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		Member member=null;
-		String query="SELECT USER_NAME FROM MEMBER WHERE USER_NO=(SELECT S_USER_NO FROM LIST WHERE SERVICE_NO=?);";
+		String query="select * from service s\r\n" + 
+				"left join member m on(s.s_user_no=m.user_no) where service_no=?"; //판매자 아이디찾을때 
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -491,7 +493,12 @@ public class BoardDao {
 			rset=pstmt.executeQuery();
 			
 			if(rset.next()) {
-				member=new Member(service_no,rset.getString("user_name"));
+				member=new Member(rset.getString("USER_NO"), rset.getString("USER_ID"), rset.getString("USER_PWD"),
+						rset.getString("USER_NAME"), rset.getString("BIRTH"), rset.getString("PHONE"),
+						rset.getString("EMAIL"), rset.getInt("POINT"), rset.getDate("ENROLL_DATE"),
+						rset.getDate("DROP_DATE"), rset.getString("STATUS"), rset.getString("GRADE"),
+						rset.getInt("GRADE_TOT"), rset.getString("PROFILE"), rset.getString("SELL_YN"),
+						rset.getString("REVIEW_YN"));
 			}
 			
 			
@@ -510,7 +517,8 @@ public class BoardDao {
 		PreparedStatement pstmt=null;
 		ResultSet rset=null;
 		Member member=null;
-		String query="SELECT USER_NAME FROM MEMBER WHERE USER_NO=(SELECT B_USER_NO FROM LIST WHERE SERVICE_NO=?);";
+		String query="select * from service s\r\n" + 
+				"left join member m on(s.b_user_no=m.user_no) where service_no=?"; //구매자 아이디 찾을때
 		
 		try {
 			pstmt=conn.prepareStatement(query);
@@ -1116,12 +1124,11 @@ public class BoardDao {
 	public ArrayList<Board> selectB_ReviewList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT *\r\n" + 
-				"FROM REVIEW F\r\n" + 
-				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
-				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+		String query = "SELECT * FROM REVIEW F \r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
 				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
-				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
 				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
 				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<Board> bList = new ArrayList<>();
@@ -1153,14 +1160,13 @@ public class BoardDao {
 	public ArrayList<ReviewAd> selectR_ReviewList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT *\r\n" + 
-				"FROM REVIEW F\r\n" + 
-				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
-				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+		String query = "SELECT * FROM REVIEW F \r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
 				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
-				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
 				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<ReviewAd> rList = new ArrayList<>();
 
 		try {
@@ -1873,14 +1879,13 @@ String query="SELECT * FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM INQUIARY 
 	public ArrayList<Service_List> selectSL_ReviewList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT *\r\n" + 
-				"FROM REVIEW F\r\n" + 
-				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n" + 
-				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n" + 
+		String query = "SELECT * FROM REVIEW F \r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
 				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
-				"LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
 				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
-				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<Service_List> slList = new ArrayList<>();
 
 		try {
@@ -2435,53 +2440,7 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 								rset.getString("title"),
 								rset.getString("content"),
 								rset.getDate("write_date"));
-			}
 			
-			if(report.getReport_name().equalsIgnoreCase("구매자 신고")) {
-				String query2="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
-				pstmt=conn.prepareStatement(query2);
-				pstmt.setInt(1, board_no);
-				rset=pstmt.executeQuery();
-				
-				if(rset.next()) {
-					report=new Report(rset.getInt("board_no"),
-									rset.getString("re_content"),
-									rset.getString("re_yn"),
-									rset.getDate("re_date"),
-									rset.getInt("service_no"),
-									rset.getString("report_type"),
-									rset.getString("report_name"),
-									rset.getString("user_id"),
-									rset.getString("title"),
-									rset.getString("content"),
-									rset.getDate("write_date"));
-				}
-				
-				
-				
-			}else {
-				String query3="SELECT * FROM REPORT P LEFT JOIN SERVICE S ON(P.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON (S.B_USER_NO=M.USER_NO) LEFT JOIN REPORT_TYPE R ON(P.REPORT_TYPE=R.REPORT_TYPE)LEFT JOIN BOARD B ON (P.BOARD_NO=B.BOARD_NO) WHERE P.BOARD_NO=?";
-				pstmt=conn.prepareStatement(query3);
-				pstmt.setInt(1, board_no);
-				rset=pstmt.executeQuery();
-				
-				if(rset.next()) {
-					report=new Report(rset.getInt("board_no"),
-									rset.getString("re_content"),
-									rset.getString("re_yn"),
-									rset.getDate("re_date"),
-									rset.getInt("service_no"),
-									rset.getString("report_type"),
-									rset.getString("report_name"),
-									rset.getString("user_id"),
-									rset.getString("title"),
-									rset.getString("content"),
-									rset.getDate("write_date"));
-		
-				}
-				
-				
-				
 				
 			}
 			
@@ -2804,10 +2763,36 @@ String query="SELECT * FROM REPORT P LEFT JOIN REPORT_TYPE R ON (P.REPORT_TYPE=R
 
 	public int getNoticeListCount(Connection conn, int board_code) {
 		PreparedStatement pstmt = null;
-		ResultSet rset=null;
+		ResultSet rset=null;////
 		int result = 0;
-		String query = "   \r\n" + 
-				"   SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+		String query ="SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+		
+			rset = pstmt.executeQuery();
+		
+				if(rset.next()) {
+					result = rset.getInt(1);
+				}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+		
+			return result;
+		
+	
+	}
+	
+	public int getNoticeListAdCount(Connection conn, int board_code) {
+		PreparedStatement pstmt = null;
+		ResultSet rset=null;////
+		int result = 0;
+		String query ="SELECT COUNT(*) FROM BOARD B WHERE (BOARD_CODE=20 or board_code=50 or board_code=60) AND BOARD_STATUS='Y' ORDER BY B.BOARD_NO DESC";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -3006,6 +2991,7 @@ try {
 			
 			try {
 				pstmt = conn.prepareStatement(query);
+				pstmt.setString(1,word);
 				rset = pstmt.executeQuery();
 				if(rset.next()) {
 					result = rset.getInt(1);
@@ -3022,6 +3008,7 @@ String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM IN
 			
 try {
 	pstmt = conn.prepareStatement(query);
+	pstmt.setString(1,word);
 	rset = pstmt.executeQuery();
 	if(rset.next()) {
 		result = rset.getInt(1);
@@ -3038,6 +3025,7 @@ String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM IN
 			
 try {
 	pstmt = conn.prepareStatement(query);
+	pstmt.setString(1,word);
 	rset = pstmt.executeQuery();
 	if(rset.next()) {
 		result = rset.getInt(1);
@@ -3054,6 +3042,7 @@ String query="SELECT count(*) FROM (SELECT ROWNUM RNUM,Q.* FROM(SELECT * FROM IN
 			
 try {
 	pstmt = conn.prepareStatement(query);
+	pstmt.setString(1,word);
 	rset = pstmt.executeQuery();
 	if(rset.next()) {
 		result = rset.getInt(1);

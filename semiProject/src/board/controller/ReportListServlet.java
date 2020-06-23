@@ -73,7 +73,8 @@ public class ReportListServlet extends HttpServlet {
 		ArrayList<Board> bList=new BoardService().selectReportBoard(currentPage,limit);
 		ArrayList<Report> rList=new BoardService().selectReportList(currentPage,limit);
 		
-		
+		System.out.println("신고페이지1:"+bList);
+		System.out.println("신고페이지2:"+rList);
 		
 		RequestDispatcher view=null;
 		

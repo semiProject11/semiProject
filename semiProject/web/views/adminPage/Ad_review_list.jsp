@@ -278,8 +278,9 @@
 
 
                     <div class="container">
-                        <!--상단 검색창-->
-                        <form class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
+                  
+                    <!--상단 검색창-->
+              <!--           <form class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
                             <div class="input-group">
                                 <select class="form-control" id="category">
                                     <option selected>전체</option>
@@ -296,7 +297,9 @@
                                     <i class="fas fa-search"></i></i></button>
                             </div>
                         </form>
-                    </div>
+                   -->
+                    </div> 
+
 
                     <!--게시판-->
                     <div class="table-responsive">
@@ -304,12 +307,12 @@
                         <table class="table table-striped table-bordered table-hover mt-2" id="reviewdetail">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>서비스번호</th>
-                                    <th>제목</th>
-                                    <th>거래일시</th>
-                                    <th>별점</th>
-                                    <th>구매자</th>
+                                    <th style="width:15%">게시글번호</th>
+                                    <th style="width:15%">서비스번호</th>
+                                    <th style="width:35%">리뷰내용</th>
+                                    <th style="width:15%">거래일시</th>
+                                    <th style="width:10%">별점</th>
+                                    <th style="width:10%">구매자</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -323,7 +326,7 @@
                             		<input type="hidden" value=<%= (bList.get(i)).getBoard_no() %>>
 									<td class="review_list"><%=(bList.get(i)).getBoard_no()%></td>
                                     <td class="review_list"><%=(rList.get(i)).getService_no()%></td>
-                                    <td class="review_list"><%=(bList.get(i)).getTitle()%></td>
+                                    <td class="review_list"><%=(bList.get(i)).getContent()%></td>
                                     <td class="review_list"><%=(slList.get(i)).getTrade_date()%></td>
                                     <td class="review_list"><%=(rList.get(i)).getRating()%></td>
                                     <td class="review_list"><%=(mList.get(i)).getUserId()%></td>

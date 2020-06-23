@@ -249,7 +249,7 @@ th, tr, td {
 						<!--상단 검색창-->
 						<div
 							class="d-none d-md-inline-block form-inline float-right ml-auto mr-0 mr-md-3 my-2">
-						 <form action="<%=request.getContextPath() %>/search.transaction" method='post' >
+						
 							<div class="input-group">
 								<select class="form-control" id="search" name="search">
 									<option value="a">전체</option>
@@ -266,7 +266,7 @@ th, tr, td {
 								<button class="btn btn-primary mr-0" id="jin" type="button" onclick="search111();">
 									<i class="fas fa-search"></i></button>
 							</div>
-							</form>
+					
 						</div>
 					</div>
 

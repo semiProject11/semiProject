@@ -253,7 +253,7 @@ public class MemberDao {
 
 			while (rset.next()) {
 
-				Member m = new Member(rset.getString("RNUM"), // 회원번호대신 GRADELIST VIEW의 식별번호를 받아옴
+				Member m = new Member(rset.getString("rnum"), 
 						rset.getString("user_Id"), rset.getString("user_Pwd"), rset.getString("user_Name"),
 						rset.getString("Birth"), rset.getString("phone"), rset.getString("email"), rset.getInt("point"),
 						rset.getDate("enroll_Date"), rset.getDate("drop_Date"), rset.getString("status"),
@@ -638,7 +638,7 @@ public class MemberDao {
 		ArrayList<Member> memberList = new ArrayList<>();
 		int startRow = (currentPage - 1) * limit + 1;
 		int endRow = currentPage * limit;
-		String query = "SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO))L WHERE REFUND_YN='N' ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, startRow);
@@ -677,7 +677,7 @@ public class MemberDao {
 		int startRow = (currentPage - 1) * limit + 1;
 		int endRow = currentPage * limit;
 
-		String query = "SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L  ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
+		String query = "SELECT * FROM(SELECT ROWNUM RNUM,L.* FROM(SELECT * FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.B_USER_NO=M.USER_NO))L WHERE REFUND_YN='N' ORDER BY TRADE_DATE DESC) WHERE RNUM BETWEEN ? AND ?";
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, startRow);
@@ -1317,12 +1317,13 @@ public class MemberDao {
 	public ArrayList<Member> selectM_ReviewList(Connection conn) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String query = "SELECT *\r\n" + "FROM REVIEW F\r\n" + "LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO)\r\n"
-				+ "LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO)\r\n"
-				+ "LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n"
-				+ "LEFT JOIN LIST L ON (BE.B_USER_NO = L.B_USER_NO)\r\n"
-				+ "LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n"
-				+ "LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE)";
+		String query = "SELECT * FROM REVIEW F \r\n" + 
+				"LEFT JOIN BOARD B ON (F.BOARD_NO = B.BOARD_NO) \r\n" + 
+				"LEFT JOIN MEMBER M ON (B.USER_NO = M.USER_NO) \r\n" + 
+				"LEFT JOIN BUYER BE ON (M.USER_NO = BE.B_USER_NO)\r\n" + 
+				"LEFT JOIN LIST L ON (f.service_no = L.service_nO)\r\n" + 
+				"LEFT JOIN SERVICE S ON (L.SERVICE_NO = S.SERVICE_NO)\r\n" + 
+				"LEFT JOIN CATEGORY C ON (S.CATEGORY_CODE = C.CATEGORY_CODE) WHERE B.BOARD_STATUS='N'";
 		ArrayList<Member> mList = new ArrayList<>();
 
 		try {
@@ -1799,6 +1800,7 @@ public class MemberDao {
 	      ArrayList<Member> tradeList=new ArrayList<>();
 	      int startRow = (currentPage-1) * limit + 1;
 	      int endRow = currentPage * limit;
+	      System.out.println("여기까지 왔는데");
 
 	      if(type.equals("a")&&word=="") {
 	    	  String query="SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) )Q  ORDER BY TRADE_DATE DESC)  where RNUM BETWEEN ? AND ?";
@@ -1871,7 +1873,7 @@ public class MemberDao {
 	    	  
 	      }else if(type.equals("b")&&word!="") {
 	    	  String query=" SELECT * FROM(SELECT ROWNUM RNUM,Q.* FROM(SELECT *  FROM LIST L LEFT JOIN SERVICE S ON(L.SERVICE_NO=S.SERVICE_NO) LEFT JOIN MEMBER M ON(S.S_USER_NO=M.USER_NO) WHERE (s.service_no LIKE '%'||?||'%'))Q  ORDER BY TRADE_DATE DESC) where RNUM BETWEEN ? AND ?";
-	    	  	    	  
+	    	  	    	 System.out.println("오잉 여기 와야하는데");
 	    	  try {
 	 	         pstmt=conn.prepareStatement(query);
 	 	         pstmt.setString(1,word);
@@ -1893,7 +1895,7 @@ public class MemberDao {
 	 	         }
 	 	         
 	 	         
-	 	         
+	 	         System.out.println("tradeList:"+tradeList);
 	 	         
 	 	      } catch (SQLException e) {
 	 	         

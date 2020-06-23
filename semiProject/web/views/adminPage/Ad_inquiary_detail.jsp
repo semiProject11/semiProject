@@ -285,8 +285,8 @@
                                 <div class="row" style="width:100%;height:100px; padding:5px 0px;">
                                 <%if(i.getInquiry_yn().equalsIgnoreCase("N")){ %>
 									<div class="col-md-10">
-                                    <textarea class="form-control"
-                                        style="width:100%; height:50px; resize:none;" id="content">답변을 등록해주세요.</textarea>
+                                    <textarea class="form-control" id="replyWrite"
+                                        style="width:100%; height:50px; resize:none;" id="content" placeholder="새로운 답변을 등록해주세요"></textarea>
                                     </div>
                                     <%}else{ %>
                                     <div>

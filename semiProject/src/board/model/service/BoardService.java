@@ -154,15 +154,15 @@ public class BoardService {
 		return b;
 	}
 
-	public int insertReport(Board b, ArrayList<Files> reportList, Report rep) {
+	public int insertReport(Board b, String service_no, ArrayList<Files> reportList, Report rep) {
 
 		System.out.println("서비스에서:" + reportList);
 		Connection conn = getConnection();
 
 		BoardDao bDao = new BoardDao();
 		int result = bDao.insertBoard(conn, b); // 게시물 board에 넣기
-		int result3 = bDao.insertReportType(conn, rep); // 게시물 문의에 넣기
-		int result2 = bDao.insertBoardFiles(conn, reportList); // 게시물 파일에 넣기
+		int result3 = bDao.insertReportType(conn, service_no,rep); //
+		int result2 = bDao.insertBoardFiles(conn, reportList); //
 
 		if (result > 0 && result2 >= 0 && result3 > 0) {
 
@@ -803,6 +803,22 @@ public class BoardService {
 		Connection conn = getConnection();
 
 		int listCount = new BoardDao().getGradCount(conn,word);
+
+		if (listCount > 0) {
+			System.out.println("커밋됨");
+			commit(conn);
+		} else {
+			System.out.println("롤백됨");
+			rollback(conn);
+		}
+		close(conn);
+		return listCount;
+	}
+
+	public int getNoticeAdListCount(int board_code) {
+		Connection conn = getConnection();
+
+		int listCount = new BoardDao().getNoticeListCount(conn,board_code);
 
 		if (listCount > 0) {
 			System.out.println("커밋됨");
