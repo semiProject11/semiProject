@@ -1609,14 +1609,19 @@ public class ServiceDao {
 	
 	}
 
-	public int suserPointPlus(Connection conn, String price, String suserNo) {
+	public int suserPointPlus(Connection conn, String price, String suserNo, String loginUserNo, String buserNo) {
 
 	
 		PreparedStatement pstmt = null;
 		int result = 0;
-
-		String query = "UPDATE MEMBER SET POINT = POINT + ? WHERE USER_NO = ?";
-
+		String query = "";
+		
+		if(loginUserNo.equals(buserNo)) {
+			query = "UPDATE MEMBER SET POINT = POINT + ? WHERE USER_NO = ?";
+		}else {
+			query = "UPDATE MEMBER SET POINT = POINT + '0' WHERE USER_NO = ?";
+		}
+		
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, price);

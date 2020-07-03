@@ -573,12 +573,12 @@ public class Service_Service {
 	}
 
 
-	public int suserPointPlus(String price, String suserNo) {
+	public int suserPointPlus(String price, String suserNo, String loginUserNo, String buserNo) {
 		Connection conn = getConnection();
 
 		ServiceDao svDao = new ServiceDao();
 
-		int result = svDao.suserPointPlus(conn, price, suserNo);
+		int result = svDao.suserPointPlus(conn, price, suserNo, loginUserNo, buserNo);
 
 		if(result > 0) {
 			commit(conn);

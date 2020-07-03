@@ -486,9 +486,9 @@
         	var sNo = <%=clpd.getSeviceNo()%>;
         	var suserNo = <%=clpd.getsUserNo()%>;
         	var buserNo = <%=sv.getB_user_no()%>;
-        	
+        	var loginUserNo = <%=loginUser.getUserNo()%>
        		
-        	location.href="<%=request.getContextPath()%>/deadline.up?price="+price+"&sNo="+sNo+"&suserNo="+suserNo+"&buserNo="+buserNo;
+        	location.href="<%=request.getContextPath()%>/deadline.up?price="+price+"&sNo="+sNo+"&suserNo="+suserNo+"&buserNo="+buserNo+"&loginUserNo="+loginUserNo;
         
         } else {
 

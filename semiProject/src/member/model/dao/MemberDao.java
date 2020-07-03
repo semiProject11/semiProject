@@ -1055,15 +1055,15 @@ public class MemberDao {
 
 			if(Grade.get(i).equals("BRONZE")) {
 				
-				String query = "UPDATE MEMBER SET GRADE=?,grade_tot=0 WHERE USER_NO=?";
 			
+				String query = "UPDATE MEMBER SET GRADE=?,grade_tot=? WHERE USER_NO=?";
+				pstmt = conn.prepareStatement(query);
 				
-					pstmt = conn.prepareStatement(query);
 				
 
 				pstmt.setString(1, Grade.get(i));
 				pstmt.setString(2, userNo.get(i));
-
+				/* result += pstmt.executeUpdate(); */
 			
 	
 
@@ -1077,7 +1077,7 @@ public class MemberDao {
 			pstmt.setString(1, Grade.get(i));
 			pstmt.setString(2, userNo.get(i));
 
-			
+			/* result += pstmt.executeUpdate(); */
 
 			
 			
@@ -1090,8 +1090,9 @@ public class MemberDao {
 
 			pstmt.setString(1, Grade.get(i));
 			pstmt.setString(2, userNo.get(i));
-
-			
+			/*
+			 * result += pstmt.executeUpdate();
+			 */
 
 		}else if(Grade.get(i).equals("PLATINUM")){
 			
@@ -1100,7 +1101,7 @@ public class MemberDao {
 
 			pstmt.setString(1, Grade.get(i));
 			pstmt.setString(2, userNo.get(i));
-
+			/* result += pstmt.executeUpdate(); */
 			
 		
 		}else{
@@ -1115,32 +1116,24 @@ public class MemberDao {
 		
 			
 		}//else끝
-		
-			result = pstmt.executeUpdate();
 			
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-				close(conn);
-				close(pstmt);
-				
-				
-			}
+			result += pstmt.executeUpdate();
 			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			close(conn);
+			close(pstmt);
 			
 		}
-		
+			
+		}
+		return result;
 			
 		
 		
 		
-		
-		
-		
-		
-
-		return result;
 	}
 
 	public int updateBuyer(Connection conn, ArrayList<String> arr) {

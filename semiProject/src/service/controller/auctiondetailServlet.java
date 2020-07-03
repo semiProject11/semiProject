@@ -89,7 +89,7 @@ public class auctiondetailServlet extends HttpServlet {
          Service sv = svService.selectbuserNo(sNo);
          
         if(clpd!=null&&!flist.isEmpty()) {
-           if(clpd.getDeadLine()!=null) {
+           if(clpd.getDeadLine()!=null) { // 마감시간 존재여부로 경매상품인지 일반상품 구분
               request.setAttribute("clpd", clpd);
               request.setAttribute("flist", flist);
               request.setAttribute("infolist", infolist);
