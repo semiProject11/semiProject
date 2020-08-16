@@ -278,10 +278,6 @@
       <!-- onsubmit validate() 함수-->
 
       <script>
-        var flag = true;
-
-        
-
         // 비밀번호 영 대,소문자, 특수문자, 숫자 8~16자        
         
         function validate() {
@@ -290,36 +286,36 @@
         	  if($("#userPwd").val().trim().length == 0){
                   alert("비밀번호를 입력하세요");
                   $("#userPwd").focus();
-                  flag = false;
+                  return false;
               }
               else if($("#userPwd").val() != <%=pwd%>){
                   alert("비밀번호가 틀렸습니다.");
                   $("#userPwd").focus();
-                  flag = false;
+                  return false;
               }
               else if($("#userPwdCheck").val().trim().length == 0){
                   alert("비밀번호 확인을 입력하세요");
                   $("#userPwdCheck").focus();
-                  flag = false;
+                  return false;
               }
               else if($("#userPwd").val() != $("#userPwdCheck").val() ){
                   alert("비밀번호가 같은지 확인해주세요");
                   $("#userPwdCheck").focus();
-                  flag = false;
-              }else{
+                  return false;
+              }
+              else{
             	  
-        	  flag = confirm("회원 탈퇴가 되었습니다.");
+        	  return confirm("회원 탈퇴가 되었습니다.");
               }
                     
           
-          return flag;
         }
 
 
 
         // 제약 조건식
 
-        $(document).ready(function () {         
+        $(document).ready(function(){         
 
 
           // pw 확인 

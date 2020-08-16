@@ -21,12 +21,11 @@ font-weight: normal; font-style: normal; }
 	}
 
 </style>
-<link href="<%=request.getContextPath()%>/css/styles.css" rel="stylesheet" />
- <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
-    crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
-    crossorigin="anonymous"></script>
-     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <link rel="stylesheet" href="<%=request.getContextPath() %>/css/styles.css" />
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!--  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"/> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" ></script>
+   <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
         .btn{

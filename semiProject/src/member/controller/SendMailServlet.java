@@ -87,7 +87,7 @@ public class SendMailServlet extends HttpServlet {
         
         try {
         	// 보내는 사람
-            String mail_from =  "toffg6450@naver.com";
+            String mail_from =  "timesellerad@naver.com";
             String mail_to =    email;
             String title =      "TimeSeller " + userName +" 회원님의 임시비밀번호 안내 메일입니다.";
             String content = 	userName + " 회원님의 임시 비밀번호는 " +"[ " +temp+ " ]" + " 입니다. 로그인 후 꼭 비밀번호를 변경해주세요!!";
@@ -109,7 +109,7 @@ public class SendMailServlet extends HttpServlet {
             
             try { Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() { 
             	protected PasswordAuthentication getPasswordAuthentication() { 
-            	return new PasswordAuthentication("toffg6450@naver.com","s159632s!"); 	// 네이버 메일 ID / PWD 
+            	return new PasswordAuthentication("timesellerad@naver.com","s159632s!"); 	// 네이버 메일 ID / PWD 
             	}
             	 });
  

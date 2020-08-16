@@ -663,6 +663,17 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+	public int checkAc(String account) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().checkAc(conn, account);
+		
+		close(conn);
+		
+		return result;
+	}
+
+
 
 
 

@@ -59,7 +59,7 @@ public class MemberDao {
 
 		int result = 0;
 
-		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ? AND USER_PWD=? ";
+		String query = "SELECT COUNT(*) FROM MEMBER WHERE USER_ID = ? AND USER_PWD=? AND STATUS='Y'";
 
 		try {
 			pstmt = conn.prepareStatement(query);
@@ -1946,6 +1946,34 @@ public class MemberDao {
 	      return tradeList;
 	 
 	   }
+
+	public int checkAc(Connection conn, String account) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+
+		int result = 0;
+
+		String query = "SELECT COUNT(*) FROM ACCOUNT WHERE ACCOUNT = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, account);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				result = rset.getInt(1);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+			close(rset);
+		}
+
+		return result;
+	}
 	
 	
 	
