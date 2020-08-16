@@ -16,6 +16,7 @@ import member.model.service.MemberService;
  */
 @WebServlet("/checkAc.me")
 public class CheckAccountServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -54,4 +55,6 @@ public class CheckAccountServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+
 }
+

@@ -164,14 +164,14 @@ h1.b {
             </select>
          </div>
          
-         <!-- 제목 -->
+           <!-- 제목 -->
          <br> <br>
          <div class="title" style="margin-left: 300px; margin-top: 5px">
             <label for="title1">&nbsp;&nbsp;&nbsp;제목</label>
          </div>
          <div class="title">
             <input type="text" class="form-control" id="title" name="title"
-               style="margin-left: 42px; width: 470px; height: 33px;"
+               style="margin-left: 42px; width: 485px; height: 33px;"
                placeholder="제목을 입력하세요">
          </div>
          <br> <br>
@@ -217,12 +217,12 @@ h1.b {
             </div>
 
             <div class="auction">
-               <label for="deadline" style="margin-left: 33px; margin-top: 5px">마감시간</label>
+               <label for="deadline" style="margin-left: 10px; margin-top: 5px">마감시간</label>
             </div>
             <div class="auction">
                <input type="datetime-local" class="form-control" id="deadline"
                   name="deadline"
-                  style="width: 203px; height: 33px; margin-left: 9px;">
+                  style="width: 240px; height: 33px; margin-left: 9px;">
             </div>
          </div>
          <br> <br>
@@ -234,7 +234,7 @@ h1.b {
          </div>
          <div class="subject">
             <input type="text" class="form-control" id="subject" name="subject"
-               style="width: 470px; height: 33px; margin-left: 30px;"
+               style="width: 485px; height: 33px; margin-left: 30px;"
                placeholder="제공할 서비스의 주제를 입력하세요">
                
          </div>
@@ -291,7 +291,7 @@ h1.b {
 
          <!-- 서비스 설명 파일첨부2 -->
 
-         <div class="row mt-2" id="file2" class="fileput">
+     <!--     <div class="row mt-2" id="file2" class="fileput">
             <div class="text-center" style="margin-left: 320px; width: 115px">
                <label for="find_file02">이미지 첨부</label>
             </div>
@@ -307,7 +307,7 @@ h1.b {
                   onchange="javascript: document.getElementById('fileName2').value = this.value">
 
             </div>
-         </div>
+         </div> -->
 
          
             <br>
@@ -324,45 +324,6 @@ h1.b {
 
       
 
-         <!-- 파일첨부 3-->
-            <div class="row mt-2" id="file1" class="ffileput">
-               <div class="text-center" style="margin-left: 320px; width: 115px">
-                  <label for="find_file01"> 이미지 첨부</label>
-               </div>
-               <div class="col-md-6 form-group form_file"
-                  style="position: relative;">
-
-                  <input type="text" id="fileName3"
-                     class="form-control form_point_color01"
-                     style="position: absolute; width: 80%" readonly
-                     placeholder="첨부할 이미지를 선택하거나 드래그하세요"> <input
-                     type="file" name="fileName3" class="form-control"
-                     id="find_file01" style="position: absolute; opacity: 0;"
-                     onchange="javascript: document.getElementById('fileName3').value = this.value">
-
-               </div>
-            </div>
-           
-               
-            <!-- 파일첨부 3-->
-            <div class="row mt-2" id="file2" class="ffileput">
-               <div class="text-center" style="margin-left: 320px; width: 115px">
-                  <label for="find_file02">이미지 첨부</label>
-               </div>
-               <div class="col-md-6 form-group form_file"
-                  style="position: relative;">
-
-                  <input type="text" id="fileName4"
-                     class="form-control form_point_color02"
-                     style="position: absolute; width: 80%" readonly
-                     placeholder="첨부할 이미지를 클릭하거나 드래그하세요"> <input type="file"
-                     name="fileName4" class="form-control" id="find_file02"
-                     style="position: absolute; opacity: 0;"
-                     onchange="javascript: document.getElementById('fileName4').value = this.value">
-               
-               </div>
-               <hr width="690px" style="margin-left:280px" size="100px">
-            </div>
    
         
          

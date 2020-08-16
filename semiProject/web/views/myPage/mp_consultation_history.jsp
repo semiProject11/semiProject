@@ -280,7 +280,7 @@ th, tr, td {
 									</tbody>
 									<script>
 										$(function(){
-											$("#inContent td").click(function(){												
+											$("#111 td").click(function(){												
 												var bid = $(this).parent().children("input").val();												
 												location.href="<%=request.getContextPath()%>/detail.inquiary?bid=" + bid												
 												

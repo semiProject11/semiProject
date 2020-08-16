@@ -98,7 +98,7 @@
       <div id="layoutSidenav_content">
          <!--main-->
          <br> <br>
-         <div class="container">
+     <div class="container">
             <div id="carouselExampleCaptions" class="carousel slide"
                data-ride="carousel">
                <ol class="carousel-indicators">
@@ -108,88 +108,90 @@
                   <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
                   <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
                </ol>
+               
+
                <div class="carousel-inner" align="center">
                   
                   
                   <div class="carousel-item active" id="sNopd">
                   <a>
-                     <input id="input1" type="hidden" value="<%=svlist.get(40).getSeviceNo() %>">
-                     <input id="input2" type="hidden" value="<%=svlist.get(40).getsUserNo() %>">
+                     <input id="input1" type="hidden" value="<%=svlist.get(svlist.size()-4).getSeviceNo() %>">
+                     <input id="input2" type="hidden" value="<%=svlist.get(svlist.size()-4).getsUserNo() %>">
                      <%if(loginUser != null){ %>
                      <input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
                      <%} %>
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
-                           <%if(svlist.get(40).getSeviceNo() == sf.getServiceNo()) {%> 
+                           <%if(svlist.get(svlist.size()-4).getSeviceNo() == sf.getServiceNo()) {%> 
                      <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
                      <div class="carousel-caption d-none d-md-block">
-                        <h5 id="young"><%=svlist.get(40).getsTitle() %></h5>
+                        <h5 id="young"><%=svlist.get(svlist.size()-4).getsTitle() %></h5>
                      </div>
                   </div>
                   
                   
                   <div class="carousel-item" id="sNopd">
                   <a>
-                     <input id="input1" type="hidden" value="<%=svlist.get(41).getSeviceNo() %>">
-                     <input id="input2" type="hidden" value="<%=svlist.get(41).getsUserNo() %>">
+                     <input id="input1" type="hidden" value="<%=svlist.get(svlist.size()-3).getSeviceNo() %>">
+                     <input id="input2" type="hidden" value="<%=svlist.get(svlist.size()-3).getsUserNo() %>">
                      <%if(loginUser != null){ %>
                      <input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
                      <%} %>
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
-                           <%if(svlist.get(41).getSeviceNo() == sf.getServiceNo()) {%> 
+                           <%if(svlist.get(svlist.size()-3).getSeviceNo() == sf.getServiceNo()) {%> 
                      <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
                      <div class="carousel-caption d-none d-md-block">
-                        <h5 id="young"><%=svlist.get(41).getsTitle() %></h5>
+                        <h5 id="young"><%=svlist.get(svlist.size()-3).getsTitle() %></h5>
                      </div>
                   </div>
                   
                   
                   <div class="carousel-item" id="sNopd">
                   <a>
-                     <input id="input1" type="hidden" value="<%=svlist.get(42).getSeviceNo() %>">
-                     <input id="input2" type="hidden" value="<%=svlist.get(42).getsUserNo() %>">
+                     <input id="input1" type="hidden" value="<%=svlist.get(svlist.size()-2).getSeviceNo() %>">
+                     <input id="input2" type="hidden" value="<%=svlist.get(svlist.size()-2).getsUserNo() %>">
                      <%if(loginUser != null){ %>
                      <input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
                      <%} %>
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
-                           <%if(svlist.get(42).getSeviceNo() == sf.getServiceNo()) {%> 
+                           <%if(svlist.get(svlist.size()-2).getSeviceNo() == sf.getServiceNo()) {%> 
                      <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
                      <div class="carousel-caption d-none d-md-block">
-                        <h5 id="young"><%=svlist.get(42).getsTitle() %></h5>
+                        <h5 id="young"><%=svlist.get(svlist.size()-2).getsTitle() %></h5>
                      </div>
                   </div>
                   
                   
                   <div class="carousel-item" id="sNopd">
                   <a>
-                     <input id="input1" type="hidden" value="<%=svlist.get(43).getSeviceNo() %>">
-                     <input id="input2" type="hidden" value="<%=svlist.get(43).getsUserNo() %>">
+                     <input id="input1" type="hidden" value="<%=svlist.get(svlist.size()-1).getSeviceNo() %>">
+                     <input id="input2" type="hidden" value="<%=svlist.get(svlist.size()-1).getsUserNo() %>">
                      <%if(loginUser != null){ %>
                      <input id="input3" type="hidden" value="<%=loginUser.getUserNo() %>">
                      <%} %>
                      <%for(int j=0; j<flist.size(); j++){
                                Service_SeviceFilesTable_oh sf = flist.get(j);%>
-                           <%if(svlist.get(43).getSeviceNo() == sf.getServiceNo()) {%> 
+                           <%if(svlist.get(svlist.size()-1).getSeviceNo() == sf.getServiceNo()) {%> 
                      <img style="height: 370px;" src="<%=request.getContextPath()%>/service_uploadFiles/<%=sf.getChangeName() %>" class="d-block w-100">
                      <%} %>
                      <%} %>
                   </a>
                      <div class="carousel-caption d-none d-md-block">
-                        <h5 id="young"><%=svlist.get(43).getsTitle() %></h5>
+                        <h5 id="young"><%=svlist.get(svlist.size()-1).getsTitle() %></h5>
                      </div>
                   </div>
-                  
+               
                </div>
                <a class="carousel-control-prev" href="#carouselExampleCaptions"
                   role="button" data-slide="prev"> <span
@@ -201,7 +203,7 @@
                   class="sr-only">Next</span>
                </a>
             </div>
-         </div>
+         </div> --%>
 
          <!--img slide end-->
          <br> <br> <br>
@@ -221,10 +223,10 @@
 
 
             <div class="row">
-               <%for(int i=0; i<4;i++) {
+               <%for(int i=0; i<svlist.size(); i++) {
                       clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ar")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ar")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -287,10 +289,10 @@
 
             <div class="row">
                <!-- 2번째 row 시작 -->
-               <%for(int i=4; i<8;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Re")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Re")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -353,10 +355,10 @@
             </div>
             <div class="row">
                <!-- 3번째 row 시작 -->
-               <%for(int i=8; i<12;i++) {
-                   clpd = svlist.get(i);
+               <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Me")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Me")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -420,10 +422,10 @@
 
          <div class="row">
                <!-- 4번째 row 시작 -->
-               <%for(int i=12; i<16;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Sp")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Sp")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -487,10 +489,10 @@
 
             <div class="row">
                <!-- 5번째 row 시작 -->
-               <%for(int i=16; i<20;i++) {
-                   clpd = svlist.get(i);
+               <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Fa")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Fa")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -555,10 +557,10 @@
             <div class="row">
                <!-- 6번째 row 시작 -->
 
-               <%for(int i=20; i<24;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("It")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("It")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -622,10 +624,10 @@
 
             <div class="row">
                <!-- 7번째 row 시작 -->
-               <%for(int i=24; i<28;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Fi")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Fi")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -689,10 +691,10 @@
 
             <div class="row">
                <!-- 8번째 row 시작 -->
-               <%for(int i=28; i<32;i++) {
-                   clpd = svlist.get(i);
+               <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Pu")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Pu")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -756,10 +758,10 @@
 
             <div class="row">
                <!-- 9번째 row 시작 -->
-               <%for(int i=32; i<36;i++) {
-                   clpd = svlist.get(i);
+               <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Bu")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Bu")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -823,10 +825,10 @@
 
             <div class="row">
                <!-- 10번째 row 시작 -->
-               <%for(int i=36; i<40;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ma")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ma")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -890,10 +892,10 @@
 
          <div class="row">
                <!-- 11번째 row 시작 -->
-               <%for(int i=40; i<44;i++) {
-                   clpd = svlist.get(i);
+                <%for(int i=0; i<svlist.size(); i++) {
+                      clpd = svlist.get(i);
                    %>
-               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ev")) {%>
+               <%if(clpd.getCategoryCode().equalsIgnoreCase("Ev")&&!svlist.isEmpty()) {%>
                <!-- 첫번째 row 시작 -->
                <div class="col-lg-3 col-md-6 mb-4">
                   <div class="card h-100">
@@ -1024,9 +1026,6 @@ $(function(){
    });
 })
 
-function generaldetail(){
-   location.href="<%=request.getContextPath()%>/general.detail";
- }
 
 </script>
 

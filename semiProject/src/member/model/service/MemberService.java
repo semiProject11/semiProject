@@ -663,6 +663,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
+<<<<<<< HEAD
 	public int checkAc(String account) {
 		Connection conn = getConnection();
 		
@@ -671,6 +672,34 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 		close(conn);
 		
 		return result;
+=======
+	public ArrayList<Member> searchTradeListSaaa(int currentPage, int limit, String type, String word) {
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchTradeListSaaa(conn,currentPage,limit,word,type);
+	System.out.println("service:"+list);
+		close(conn);
+		return list;
+	}
+
+
+	public ArrayList<Member> searchTradeListBaaa(int currentPage, int limit, String type, String word) {
+		Connection conn=getConnection();
+		ArrayList<Member> list=new MemberDao().searchTradeListBaaa(conn,currentPage,limit,word,type);
+	System.out.println("serviceB:"+list);
+		close(conn);
+		return list;
+	}
+
+
+	public int checkAc(String account) {
+	      Connection conn = getConnection();
+	      
+	      int result = new MemberDao().checkAc(conn, account);
+	      
+	      close(conn);
+	      
+	      return result;
+>>>>>>> refs/remotes/origin/master
 	}
 
 

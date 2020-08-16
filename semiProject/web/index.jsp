@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 
 
@@ -13,13 +14,13 @@
 </style>
 </head>
 <body>
-	<a onclick="mainpage();">홈으로 가봅시다~(클릭)</a>
+	
 	
 </body>
 
 <script>
-	function mainpage(){
-	    location.href="<%=request.getContextPath()%>/main.service";
-	 }
+   $(function(){
+      location.href="<%=request.getContextPath()%>/main.service";
+   })
 </script>
 </html>

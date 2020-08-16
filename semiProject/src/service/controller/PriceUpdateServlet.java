@@ -55,7 +55,7 @@ public class PriceUpdateServlet extends HttpServlet {
 		}
 		
 		if(result > 0) {
-			request.getRequestDispatcher("/auction.detail").forward(request, response); // 갱신 완료 후 서블릿을 통해 상세보기 페이지로 잘 갱신됬는지 확인하기.
+			   request.getRequestDispatcher("/main.service").forward(request, response); // 갱신 완료 후 서블릿을 통해 상세보기 페이지로 잘 갱신됬는지 확인하기.
 		}else {
 			   request.setAttribute("msg", "실패 !");
 			   request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

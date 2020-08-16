@@ -431,16 +431,17 @@
 	
             //검색
             
-            function search222(){
-
-		var type=$("#search").val();
-		var word=$("#word").val();
+        function search222(){
+     	
+		var type=$("#search").val();	//검색 유형의 값을 담은 변수
+		var word=$("#word").val();		//검색어를 담은 변수
 		location.href="<%=request.getContextPath()%>/search.inquiary?type="+type+"&word="+word;
 		
-	
+
 	}
     
         
+            
         	
         	
             
