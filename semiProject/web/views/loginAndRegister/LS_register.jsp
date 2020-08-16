@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <link rel="stylesheet" href="<%=request.getContextPath() %>/css/styles.css" />
+      <link rel="stylesheet" href="<%=request.getContextPath() %>/css/styles.css" />
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <!--  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"/> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" ></script>
@@ -400,11 +400,7 @@ font-weight: normal; font-style: normal; }
                     $("#account").focus();
                     flag = false;
                 }else if($("#noresult").html()=="이미 존재하는 계좌번호 입니다"){
-<<<<<<< HEAD
                 	alert("중복된 계좌번호 입니다.");
-=======
-                   alert("중복된 계좌번호 입니다.");
->>>>>>> refs/remotes/origin/master
                     $("#account").focus();
                     flag = false;
                 }
@@ -421,6 +417,7 @@ font-weight: normal; font-style: normal; }
             // 제약 조건식
 
             $(document).ready(function(){
+            
     
 				
                 // 아이디 중복확인 ajax
@@ -752,6 +749,7 @@ font-weight: normal; font-style: normal; }
                     }
                     });
 
+            });
 
                     /*  $("#account").change(function(){
                     if(!regA.test($(this).val())) {
@@ -761,7 +759,6 @@ font-weight: normal; font-style: normal; }
                     $("#noresult").html('');
                      }
                     }); */
-           
             
             
             </script> 

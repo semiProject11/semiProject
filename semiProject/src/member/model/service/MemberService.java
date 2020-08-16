@@ -663,16 +663,6 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	}
 
 
-<<<<<<< HEAD
-	public int checkAc(String account) {
-		Connection conn = getConnection();
-		
-		int result = new MemberDao().checkAc(conn, account);
-		
-		close(conn);
-		
-		return result;
-=======
 	public ArrayList<Member> searchTradeListSaaa(int currentPage, int limit, String type, String word) {
 		Connection conn=getConnection();
 		ArrayList<Member> list=new MemberDao().searchTradeListSaaa(conn,currentPage,limit,word,type);
@@ -699,7 +689,7 @@ int result = new MemberDao().findPwdCheck(conn, userId, userName, email);
 	      close(conn);
 	      
 	      return result;
->>>>>>> refs/remotes/origin/master
+
 	}
 
 
